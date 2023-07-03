@@ -6,9 +6,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 
-import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -16,8 +13,6 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 public class MemberDto {
-
-    public static MemberDto.MemberResponse MemberResponse;
 
     @Getter
     @Builder
@@ -70,7 +65,7 @@ public class MemberDto {
         @ApiModelProperty(example = "email@address.com")
         private String email;
 
-        @ApiModelProperty(example = "회원 역할: 일반 / 멘토")
-        private List<String> roles;
+//        @ApiModelProperty(example = "회원 역할: 일반 / 멘토")
+//        private List<String> roles;
     }
 }

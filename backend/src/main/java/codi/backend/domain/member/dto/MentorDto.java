@@ -10,14 +10,12 @@ import javax.validation.constraints.NotBlank;
 
 public class MentorDto {
 
-    public static MentorDto.MentorResponse MentorResponse;
-
     @Getter
     @Builder
     public static class MentorPost {
-        @NotBlank
-        @ApiModelProperty(example = "멘토 아이디")
-        private Long id;
+//        @NotBlank
+//        @ApiModelProperty(example = "멘토 아이디")
+//        private Long id;
 
         @ApiModelProperty(example = "재직증명서 링크")
         private String fileUrl;

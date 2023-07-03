@@ -10,14 +10,12 @@ import javax.validation.constraints.NotBlank;
 
 public class ProfileDto {
 
-    public static ProfileDto.ProfileResponse ProfileResponse;
-
     @Getter
     @Builder
     public static class ProfilePost {
-        @NotBlank
-        @ApiModelProperty(example = "프로필 아이디")
-        private Long id;
+//        @NotBlank
+//        @ApiModelProperty(example = "프로필 아이디")
+//        private Long id;
 
         @ApiModelProperty(example = "프로필 이미지 url")
         private String imgUrl;
