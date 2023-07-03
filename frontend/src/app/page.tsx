@@ -29,6 +29,7 @@ export default function Home() {
         경우가 허다하다. 요컨대 적절한 이론적 체계와 현장 경험이 합쳐져야 논리적
         글쓰기의 전문가가 될 수 있을 것이란 말이다.
       </p>
+      <p>fuck you mother fucker. FUCK YOU MOTER FUCKER.</p>
       <p>
         은 대학 현장에서 글쓰기 특강을 하고 있는 현직 교수의 책이라는 점에서 그
         효용성을 인정할 만하다. 실제 글쓰기 수업을 진행하고 있는 저자는

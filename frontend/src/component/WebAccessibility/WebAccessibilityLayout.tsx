@@ -2,13 +2,11 @@ import {
   selectHighlight,
   selectZoom,
 } from "@/features/webAccessibility/webAccessibliitySlice";
-import { Inter } from "next/font/google";
 import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Highlight from "./Highlight";
+import myFont from "@/ui/font";
 
-const inter = Inter({ subsets: ["latin"] });
 type StyledLayoutProps = {
   zoom: number;
 };
@@ -26,7 +24,7 @@ const WebAccessibilityLayout = ({
   const highlight = useSelector(selectHighlight);
 
   return (
-    <StyledLayout zoom={zoom} className={inter.className}>
+    <StyledLayout zoom={zoom} className={myFont.className}>
       {highlight && <Highlight />}
       {children}
     </StyledLayout>

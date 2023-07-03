@@ -15,7 +15,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="ko">
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
           <WebAccessibilityLayout>{children}</WebAccessibilityLayout>
