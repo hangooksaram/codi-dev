@@ -12,7 +12,6 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
-//commit
 export default function Home() {
   const dispatch = useDispatch();
 
