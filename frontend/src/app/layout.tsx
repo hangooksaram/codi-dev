@@ -1,12 +1,10 @@
 "use client";
-
 import React from "react";
 import "./globals.css";
-import { Inter } from "next/font/google";
 import { Provider } from "react-redux";
-
-const inter = Inter({ subsets: ["latin"] });
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { store } from "@/store/store";
+import WebAccessibilityLayout from "@/component/WebAccessibility/WebAccessibilityLayout";
 
 /**create new client */
 const queryClient = new QueryClient();
@@ -18,11 +16,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <Provider store={store}>
         <QueryClientProvider client={queryClient}>
-          {children}
+          <WebAccessibilityLayout>{children}</WebAccessibilityLayout>
         </QueryClientProvider>
-      </body>
+      </Provider>
     </html>
   );
 }
