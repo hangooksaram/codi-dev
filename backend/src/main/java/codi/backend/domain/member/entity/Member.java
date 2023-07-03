@@ -10,13 +10,10 @@ import java.util.List;
 @Getter
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Member {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, updatable = false, unique = true)
+    @Column(name = "MEMBER_ID", unique = true)
     private String id;
 
     @Column(nullable = false, unique = true)
@@ -55,5 +52,16 @@ public class Member {
 
         @Getter
         private String gender;
+    }
+
+    @Builder
+    public Member(String id, String name, String birth, Gender gender, String email, String password) {
+        this.id = id;
+        this.name = name;
+        this.birth = birth;
+        this.gender = gender;
+        this.email = email;
+        this.password = password;
+//        this.roles = roles;
     }
 }

@@ -1,7 +1,14 @@
 package codi.backend.domain.member.service;
 
-import org.springframework.stereotype.Service;
+import codi.backend.domain.member.entity.Member;
+import codi.backend.domain.member.entity.Mentor;
+import codi.backend.domain.member.entity.Profile;
 
-@Service
-public class MemberService {
+public interface MemberService {
+
+    Member createMember(Member member);
+    Member findMember(String memberId);
+    Profile createProfile(String memberId, Profile profile);
+    Mentor becomeMentor(String memberId, Mentor mentor);
+
 }
