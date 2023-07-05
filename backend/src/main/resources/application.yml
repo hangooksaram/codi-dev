@@ -15,3 +15,6 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher # swagger ??
+admin:
+  email:
+    ggammancj@gmail.com

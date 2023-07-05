@@ -5,17 +5,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 
-import javax.persistence.Column;
-import javax.validation.constraints.NotBlank;
-
 public class ProfileDto {
 
     @Getter
     @Builder
     public static class ProfilePost {
-//        @NotBlank
-//        @ApiModelProperty(example = "프로필 아이디")
-//        private Long id;
 
         @ApiModelProperty(example = "프로필 이미지 url")
         private String imgUrl;
@@ -37,6 +31,9 @@ public class ProfileDto {
 
         @ApiModelProperty(example = "장애 기간")
         private String period;
+
+        @ApiModelProperty(example = "자기소개")
+        private String introduction;
     }
     
     @Schema(description = "프로필 응답 DTO")
@@ -66,5 +63,8 @@ public class ProfileDto {
 
         @ApiModelProperty(example = "장애 기간")
         private String period;
+
+        @ApiModelProperty(example = "자기소개")
+        private String introduction;
     }
 }

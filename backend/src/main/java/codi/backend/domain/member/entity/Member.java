@@ -16,7 +16,7 @@ public class Member {
     @Column(name = "MEMBER_ID", unique = true)
     private String id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String name;
 
     @Column
@@ -52,6 +52,12 @@ public class Member {
 
         @Getter
         private String gender;
+    }
+
+    public enum MemberRole {
+        ADMIN,
+        MENTOR,
+        MENTEE
     }
 
     @Builder

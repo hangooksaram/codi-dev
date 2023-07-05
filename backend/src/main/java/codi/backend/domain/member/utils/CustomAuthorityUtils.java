@@ -1,17 +1,41 @@
 package codi.backend.domain.member.utils;
 
-//@Component
+import codi.backend.domain.member.entity.Member;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+@Component
 public class CustomAuthorityUtils {
-    // TODO Role 부분 추후 추가
-//    @Value("${admin.email}")
-//    private static Set<String> ADMINS_EMAIL;
-//    private final List<GrantedAuthority> ADMIN_ROLES = AuthorityUtils.createAuthorityList("ROLE_ADMIN", "ROLE_MENTOR", "ROLE_MENTEE");
-//    private final List<GrantedAuthority> MENTOR_ROLES = AuthorityUtils.createAuthorityList("ROLE_MENTOR", "ROLE_MENTEE");
-//    private final List<GrantedAuthority> MENTEE_ROLES = AuthorityUtils.createAuthorityList("ROLE_MENTEE");
-//    private final List<String> ADMIN_ROLES_STRING = List.of("ADMIN", "MENTOR", "MENTEE");
-//    private final List<String> MENTOR_ROLES_STRING = List.of("MENTOR", "MENTEE");
-//    private final List<String> MENTEE_ROLES_STRING = List.of("MENTEE");
 
-    // 메모리 상의 Role을 기반으로 권한 정보 생성.
+    private static String ADMIN_EMAIL;
 
+    @Value("${admin.email}")
+    public void setAdminEmail(String value) {
+        ADMIN_EMAIL = value;
+    }
+
+    // DB 저장용(회원가입) - 회원가입 시에는 ADMIN OR MENTEE만 가능
+    public static List<String> createRoles(Member member) {
+        if (member != null && member.getEmail().equals(ADMIN_EMAIL)) {
+            return List.of(Member.MemberRole.ADMIN.name(), Member.MemberRole.MENTOR.name(), Member.MemberRole.MENTEE.name());
+        } else if (member != null && member.getMentor() != null) {
+            return List.of(Member.MemberRole.MENTOR.name(), Member.MemberRole.MENTEE.name());
+        }
+
+        return List.of(Member.MemberRole.MENTEE.name());
+    }
+
+    // DB에 저장된 Role을 기반으로 권한 정보 생성, 추후 UserDetails 구현시 사용
+    public static List<GrantedAuthority> createAuthorities(List<String> roles) {
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                .collect(Collectors.toList());
+    }
 }

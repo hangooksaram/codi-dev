@@ -36,12 +36,15 @@ public class Profile {
     @Column
     private String period;
 
+    @Column
+    private String introduction;
+
     @OneToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
     @Builder
-    public Profile(Long id, String imgUrl, String job, String career, String education, String disability, String severity, String period) {
+    public Profile(Long id, String imgUrl, String job, String career, String education, String disability, String severity, String period, String introduction) {
         this.id = id;
         this.imgUrl = imgUrl;
         this.job = job;
@@ -50,6 +53,7 @@ public class Profile {
         this.disability = disability;
         this.severity = severity;
         this.period = period;
+        this.introduction = introduction;
     }
 
     public void setMember(Member member) {

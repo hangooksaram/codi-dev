@@ -51,6 +51,8 @@ public interface MemberMapper {
                 .disability(profilePostDto.getDisability())
                 .severity(profilePostDto.getSeverity())
                 .period(profilePostDto.getPeriod())
+                .introduction(profilePostDto.getIntroduction())
+
                 .build();
     }
 
@@ -68,6 +70,7 @@ public interface MemberMapper {
                 .disability(profile.getDisability())
                 .severity(profile.getSeverity())
                 .period(profile.getPeriod())
+                .introduction(profile.getIntroduction())
                 .build();
     }
 
