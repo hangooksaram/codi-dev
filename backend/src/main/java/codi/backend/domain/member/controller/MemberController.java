@@ -22,7 +22,7 @@ import javax.validation.Valid;
 
 @Api(tags = { "Member" })
 @RestController
-@RequestMapping("/members")
+@RequestMapping("/api/v1/members")
 @Validated
 @Slf4j
 public class MemberController {
