@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import theme from "../theme";
-import { Button } from "../ui";
+import { Button, ThemeFontSize } from "../ui";
 import { isVariableDeclaration } from "typescript";
 
 const borderRadius = (variant: Button) => {
@@ -29,22 +29,26 @@ const Button = styled.button(
     width,
     color,
     size,
+    fontSize,
   }: {
     variant: Button;
     width?: string;
     color?: string;
     size?: string;
+    fontSize?: ThemeFontSize;
   }) => ({
-    width: width ?? "100%",
+    width: width ?? "fit-content",
     backgroundColor: color ?? theme.colors.primary,
     borderRadius: borderRadius(variant),
-    height: size === "small" ? "30px" : height(variant, width),
+    height: size === "small" ? "41px" : height(variant, width),
     border: "none",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     color: "white",
     cursor: "pointer",
+    padding: variant === "round" ? "0px" : "0px 20px",
+    fontSize: fontSize ? theme.fonts.size[fontSize] : theme.fonts.size.sm,
   })
 );
 
