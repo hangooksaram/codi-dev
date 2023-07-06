@@ -28,6 +28,9 @@ dependencies {
 	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
+	// email
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
 	// h2
 	runtimeOnly 'com.h2database:h2'
 	compileOnly 'org.projectlombok:lombok'

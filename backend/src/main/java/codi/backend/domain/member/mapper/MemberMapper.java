@@ -35,6 +35,47 @@ public interface MemberMapper {
                 .birth(member.getBirth())
                 .gender(member.getGender())
                 .email(member.getEmail())
+                .roles(member.getRoles())
+                .build();
+    }
+
+    default Mentor mentorPostDtoToMentor(MentorDto.MentorPost mentorPostDto) {
+        if (mentorPostDto == null) {
+            return null;
+        }
+
+        return Mentor.builder()
+                .fileUrl(mentorPostDto.getFileUrl())
+                .job(mentorPostDto.getJob())
+                .company(mentorPostDto.getCompany())
+                .introduction(mentorPostDto.getIntroduction())
+                .build();
+    }
+
+    default MentorDto.MentorResponse mentorToMentorResponse(Mentor mentor) {
+        if (mentor == null) {
+            return null;
+        }
+
+        return MentorDto.MentorResponse.builder()
+                .id(mentor.getId())
+                .fileUrl(mentor.getFileUrl())
+                .job(mentor.getJob())
+                .company(mentor.getCompany())
+                .introduction(mentor.getIntroduction())
+                .build();
+    }
+
+    default Mentor mentorPatchDtoToMentor(MentorDto.MentorPatch mentorPatchDto) {
+        if (mentorPatchDto == null) {
+            return null;
+        }
+
+        return Mentor.builder()
+                .fileUrl(mentorPatchDto.getFileUrl())
+                .job(mentorPatchDto.getJob())
+                .company(mentorPatchDto.getCompany())
+                .introduction(mentorPatchDto.getIntroduction())
                 .build();
     }
 
@@ -74,30 +115,20 @@ public interface MemberMapper {
                 .build();
     }
 
-    default Mentor mentorPostDtoToMentor(MentorDto.MentorPost mentorPostDto) {
-        if (mentorPostDto == null) {
+    default Profile profilePatchDtoToProfile(ProfileDto.ProfilePatch profilePatchDto) {
+        if (profilePatchDto == null) {
             return null;
         }
 
-        return Mentor.builder()
-                .fileUrl(mentorPostDto.getFileUrl())
-                .job(mentorPostDto.getJob())
-                .company(mentorPostDto.getCompany())
-                .introduction(mentorPostDto.getIntroduction())
-                .build();
-    }
-
-    default MentorDto.MentorResponse mentorToMentorResponse(Mentor mentor) {
-        if (mentor == null) {
-            return null;
-        }
-
-        return MentorDto.MentorResponse.builder()
-                .id(mentor.getId())
-                .fileUrl(mentor.getFileUrl())
-                .job(mentor.getJob())
-                .company(mentor.getCompany())
-                .introduction(mentor.getIntroduction())
+        return Profile.builder()
+                .imgUrl(profilePatchDto.getImgUrl())
+                .job(profilePatchDto.getJob())
+                .career(profilePatchDto.getCareer())
+                .education(profilePatchDto.getEducation())
+                .disability(profilePatchDto.getDisability())
+                .severity(profilePatchDto.getSeverity())
+                .period(profilePatchDto.getPeriod())
+                .introduction(profilePatchDto.getIntroduction())
                 .build();
     }
 }
