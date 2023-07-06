@@ -13,10 +13,22 @@ public class MentorDto {
     @Getter
     @Builder
     public static class MentorPost {
-//        @NotBlank
-//        @ApiModelProperty(example = "멘토 아이디")
-//        private Long id;
+        @ApiModelProperty(example = "재직증명서 링크")
+        private String fileUrl;
 
+        @ApiModelProperty(example = "직무")
+        private String job;
+
+        @ApiModelProperty(example = "회사 이름")
+        private String company;
+
+        @ApiModelProperty(example = "멘토 소개")
+        private String introduction;
+    }
+
+    @Getter
+    @Builder
+    public static class MentorPatch {
         @ApiModelProperty(example = "재직증명서 링크")
         private String fileUrl;
 

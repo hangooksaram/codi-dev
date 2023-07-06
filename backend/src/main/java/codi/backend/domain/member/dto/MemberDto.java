@@ -40,10 +40,20 @@ public class MemberDto {
         @NotNull
         @Pattern(regexp ="^(?=.*\\d)(?=.*[a-zA-Z])(?=.*[~!@#$%^&*])[\\da-zA-Z~!@#$%^&*]+$",
                 message = "영문자와 숫자로 구성되며 최소 하나 이상의 특수문자(~!@#$%^&*)가 포함되어야합니다. "+
-                        "공백은 포함될 수 없습니다")
+                        "공백은 포함될 수 없습니다.")
         @Size(min = 8, max = 16)
         @ApiModelProperty(example = "비밀번호 입력, 최소 8자 ~ 최대 16자")
         private String password;
+    }
+
+    @Getter
+    @Builder
+    public static class MemberPatch {
+        @ApiModelProperty("현재 비밀번호")
+        private String oldPassword;
+
+        @ApiModelProperty("새 비밀번호")
+        private String newPassword;
     }
 
     @Schema(description = "회원정보 응답 DTO")
@@ -65,7 +75,7 @@ public class MemberDto {
         @ApiModelProperty(example = "email@address.com")
         private String email;
 
-//        @ApiModelProperty(example = "회원 역할: 일반 / 멘토")
-//        private List<String> roles;
+        @ApiModelProperty(example = "역할: 멘티 / 멘토 / 관리자")
+        private List<String> roles;
     }
 }

@@ -13,7 +13,7 @@ import java.util.List;
 public class Member {
 
     @Id
-    @Column(name = "MEMBER_ID", unique = true)
+    @Column(name = "MEMBER_ID", unique = true, updatable = false)
     private String id;
 
     @Column(nullable = false)
@@ -61,13 +61,13 @@ public class Member {
     }
 
     @Builder
-    public Member(String id, String name, String birth, Gender gender, String email, String password) {
+    public Member(String id, String name, String birth, Gender gender, String email, String password, List<String> roles) {
         this.id = id;
         this.name = name;
         this.birth = birth;
         this.gender = gender;
         this.email = email;
         this.password = password;
-//        this.roles = roles;
+        this.roles = roles;
     }
 }

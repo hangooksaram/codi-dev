@@ -1,5 +1,7 @@
 package codi.backend.domain.member.service;
 
+import codi.backend.domain.member.dto.MemberDto;
+import codi.backend.domain.member.dto.MentorDto;
 import codi.backend.domain.member.entity.Member;
 import codi.backend.domain.member.entity.Mentor;
 import codi.backend.domain.member.entity.Profile;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -30,7 +33,6 @@ public class MemberServiceImpl implements MemberService{
         this.passwordEncoder = passwordEncoder;
     }
 
-    // TODO role 추가 필요
     @Override
     public Member createMember(Member member) {
         // 비밀번호 암호화
@@ -40,18 +42,6 @@ public class MemberServiceImpl implements MemberService{
         member.setRoles(CustomAuthorityUtils.createRoles(member));
 
         return memberRepository.save(member);
-    }
-
-    @Override
-    public Profile createProfile(String memberId, Profile profile) {
-        Member member = findMember(memberId);
-        profile.setMember(member);
-
-        // member에 profile 1:1 연결
-        member.setProfile(profile);
-
-        // profile DB 저장
-        return profileRepository.save(profile);
     }
 
     @Override
@@ -70,6 +60,18 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
+    public Profile createProfile(String memberId, Profile profile) {
+        Member member = findMember(memberId);
+        profile.setMember(member);
+
+        // member에 profile 1:1 연결
+        member.setProfile(profile);
+
+        // profile DB 저장
+        return profileRepository.save(profile);
+    }
+
+    @Override
     public Member findMember(String memberId) {
         return verifyMember(memberId);
     }
@@ -77,5 +79,69 @@ public class MemberServiceImpl implements MemberService{
     private Member verifyMember(String memberId) {
         return memberRepository.findById(memberId).orElseThrow(() ->
                 new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+    }
+
+    @Override
+    public void updateMemberInformation(String memberId, String oldPassword, String newPassword) {
+        Member member = findMember(memberId);
+
+        if (!passwordEncoder.matches(oldPassword, member.getPassword())) {
+            throw new BusinessLogicException(ExceptionCode.INVALID_OLD_PASSWORD);
+        } else if (oldPassword.equals(newPassword)) {
+            throw new BusinessLogicException(ExceptionCode.SAME_PASSWORD_ERROR);
+        }
+
+        member.setPassword(passwordEncoder.encode(newPassword));
+        memberRepository.save(member);
+    }
+
+    @Override
+    public Mentor updateMentorInformation(String memberId, Mentor mentor) {
+        Member member = findMember(memberId);
+        Mentor findMentor = member.getMentor();
+
+        if (!member.getRoles().contains("MENTOR")) {
+            throw new BusinessLogicException(ExceptionCode.NOT_MENTOR_ERROR);
+        }
+
+        Optional.ofNullable(mentor.getFileUrl())
+                .ifPresent(findMentor::setFileUrl);
+        Optional.ofNullable(mentor.getJob())
+                .ifPresent(findMentor::setJob);
+        Optional.ofNullable(mentor.getCompany())
+                .ifPresent(findMentor::setCompany);
+        Optional.ofNullable(mentor.getIntroduction())
+                .ifPresent(findMentor::setIntroduction);
+
+        return mentorRepository.save(findMentor);
+    }
+
+    @Override
+    public Profile updateProfileInformation(String memberId, Profile profile) {
+        Member member = findMember(memberId);
+        Profile findProfile = member.getProfile();
+
+        if (member.getProfile() == null) {
+            throw new BusinessLogicException(ExceptionCode.NOT_PROFILE_ERROR);
+        }
+
+        Optional.ofNullable(profile.getImgUrl())
+                .ifPresent(findProfile::setImgUrl);
+        Optional.ofNullable(profile.getJob())
+                .ifPresent(findProfile::setJob);
+        Optional.ofNullable(profile.getCareer())
+                .ifPresent(findProfile::setCareer);
+        Optional.ofNullable(profile.getEducation())
+                .ifPresent(findProfile::setEducation);
+        Optional.ofNullable(profile.getDisability())
+                .ifPresent(findProfile::setDisability);
+        Optional.ofNullable(profile.getSeverity())
+                .ifPresent(findProfile::setSeverity);
+        Optional.ofNullable(profile.getPeriod())
+                .ifPresent(findProfile::setPeriod);
+        Optional.ofNullable(profile.getIntroduction())
+                .ifPresent(findProfile::setIntroduction);
+
+        return profileRepository.save(findProfile);
     }
 }
