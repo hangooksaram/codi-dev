@@ -6,13 +6,14 @@ const Typography = ({
   variant,
   size,
   color,
+  weight,
   children,
   ...restStyles
 }: Typography) => {
   const StyledTypography = styled
     .div(() => ({
-      fontSize: theme.fonts.size[size],
-      color: color,
+      fontSize: size ?? "18px",
+      color: color ?? theme.colors.black,
       ...restStyles,
     }))
     .withComponent(variant);

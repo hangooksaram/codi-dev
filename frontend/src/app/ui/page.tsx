@@ -20,9 +20,21 @@ const UiTest = () => {
 
   return (
     <div>
-      <Typography variant="h2">ddddd</Typography>
+      <Typography variant="h2" size="xl">
+        ddddd
+      </Typography>
       <Chip>안녕</Chip>
-      <ProfileCard></ProfileCard>
+      <ProfileCard
+        width="313px"
+        height="477px"
+        src="https://www.imedialife.co.kr/news/photo/202009/33165_33578_3057.jpg"
+      ></ProfileCard>
+      <ProfileCard
+        width="313px"
+        height="477px"
+        src="https://www.imedialife.co.kr/news/photo/202009/33165_33578_3057.jpg"
+        edit={true}
+      ></ProfileCard>
       <IconInput imgComponent={<Alarm />} />
       <div
         className={css`

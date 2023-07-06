@@ -7,10 +7,10 @@ const Chip = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 41px;
+  height: 31px;
   padding: 0px 20px;
   width: fit-content;
-  font-size: ${theme.fonts.size.sm};
+  font-size: ${theme.fonts.size.xs};
   background-color: ${theme.colors.background};
   color: ${theme.colors.info};
   justify-content: center;
