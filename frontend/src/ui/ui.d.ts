@@ -9,7 +9,7 @@ export interface Flex {
 
 export interface Typography {
   variant: "div" | "span" | "h1" | "h2" | "h3";
-  size?: "xl" | "lg" | "md" | "sm" | "xs";
+  size: "xl" | "lg" | "md" | "sm" | "xs";
   color?: string;
   children: string;
 }

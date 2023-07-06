@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { Typography } from "../ui";
+import theme from "../theme";
 
 const Typography = ({
   variant,
@@ -10,7 +11,7 @@ const Typography = ({
 }: Typography) => {
   const StyledTypography = styled
     .div(() => ({
-      fontSize: size,
+      fontSize: theme.fonts.size[size],
       color: color,
       ...restStyles,
     }))
