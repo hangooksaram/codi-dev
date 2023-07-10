@@ -1,13 +1,14 @@
-import Button from "@/ui/Button/Button";
-import Card from "@/ui/Card/Card";
-import Chip from "@/ui/Chip/Chip";
-import FlexBox from "@/ui/Container/FlexBox";
-import Typography from "@/ui/Typography/Typography";
+import Button from "@/ui/atoms/Button/Button";
 import theme from "@/ui/theme";
 import styled from "@emotion/styled";
 import Star from "../../../public/icons/favorite.svg";
 import Like from "../../../public/icons/filled-like.svg";
 import Edit from "../../../public/icons/edit.svg";
+import Card from "@/ui/atoms/Card/Card";
+import Chip from "@/ui/atoms/Chip/Chip";
+import Typography from "@/ui/atoms/Typography/Typography";
+import FlexBox from "@/ui/atoms/Layout/FlexBox";
+
 const CardContainer = styled(Card)(({ src }: { src: string }) => ({
   backgroundImage: `url(${src})`,
   backgroundSize: "cover",

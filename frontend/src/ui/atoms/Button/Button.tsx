@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
-import theme from "../theme";
-import { Button, ThemeFontSize } from "../ui";
+import theme from "../../theme";
+import { Button, ThemeFontSize } from "../../ui";
 import { isVariableDeclaration } from "typescript";
 
 const borderRadius = (variant: Button) => {
@@ -16,7 +16,8 @@ const borderRadius = (variant: Button) => {
 
 const height = (variant: Button, width?: string) => {
   switch (variant) {
-    case "default" || "square":
+    case "default":
+    case "square":
       return "64px";
     case "round":
       return width;

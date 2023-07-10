@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
-import { Typography } from "../ui";
-import theme from "../theme";
+import { Typography } from "../../ui";
+import theme from "../../theme";
 
 const Typography = ({
   variant,
