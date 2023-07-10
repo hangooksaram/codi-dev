@@ -94,4 +94,31 @@ public class MemberController {
         ProfileDto.ProfileResponse response = memberMapper.profileToProfileResponse(profile);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    // 마이페이지 조회
+    // TODO 추후 로그인 한 사용자의 로그인 정보를 함께 받는 방식으로 변경이 필요
+    @ApiOperation(value = "마이페이지 조회", notes = "회원가입 시 입력한 정보를 조회할 수 있다.")
+    @GetMapping("/{member-id}")
+    public ResponseEntity getMember(@PathVariable("member-id") String memberId) {
+        MemberDto.MemberResponse member = memberMapper.memberToMemberResponse(memberService.findMember(memberId));
+        return new ResponseEntity<>(member, HttpStatus.OK);
+    }
+
+    // 멘토 등록시 멘토 정보 조회
+    // TODO 추후 로그인 한 사용자의 로그인 정보를 함께 받는 방식으로 변경이 필요
+    @ApiOperation(value = "Mentor 개인 페이지 조회", notes = "Mentor를 신청하면서 입력한 정보를 조회할 수 있다.")
+    @GetMapping("/{member-id}/mentor")
+    public ResponseEntity getMentor(@PathVariable("member-id") String memberId) {
+        MentorDto.MentorResponse mentor = memberMapper.mentorToMentorResponse(memberService.findMentor(memberId));
+        return new ResponseEntity<>(mentor, HttpStatus.OK);
+    }
+
+    // 프로필 정보 조회
+    // TODO 추후 로그인 한 사용자의 로그인 정보를 함께 받는 방식으로 변경이 필요
+    @ApiOperation(value = "프로필 페이지 조회", notes = "프로필 페이지에 입력한 정보를 조회할 수 있다.")
+    @GetMapping("/{member-id}/profile")
+    public ResponseEntity getProfile(@PathVariable("member-id") String memberId) {
+        ProfileDto.ProfileResponse profile = memberMapper.profileToProfileResponse(memberService.findProfile(memberId));
+        return new ResponseEntity<>(profile, HttpStatus.OK);
+    }
 }
