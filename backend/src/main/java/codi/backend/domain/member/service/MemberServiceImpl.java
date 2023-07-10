@@ -82,6 +82,32 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
+    public Mentor findMentor(String memberId) {
+        return verifyMentor(memberId);
+    }
+
+    private Mentor verifyMentor(String memberId) {
+        Member member = findMember(memberId);
+        if (!member.getRoles().contains("MENTOR")) {
+            throw new BusinessLogicException(ExceptionCode.NOT_MENTOR_ERROR);
+        }
+        return member.getMentor();
+    }
+
+    @Override
+    public Profile findProfile(String memberId) {
+        return verifyProfile(memberId);
+    }
+
+    private Profile verifyProfile(String memberId) {
+        Member member = findMember(memberId);
+        if (member.getProfile() == null) {
+            throw new BusinessLogicException(ExceptionCode.NOT_PROFILE_ERROR);
+        }
+        return member.getProfile();
+    }
+
+    @Override
     public void updateMemberInformation(String memberId, String oldPassword, String newPassword) {
         Member member = findMember(memberId);
 
@@ -97,12 +123,7 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public Mentor updateMentorInformation(String memberId, Mentor mentor) {
-        Member member = findMember(memberId);
-        Mentor findMentor = member.getMentor();
-
-        if (!member.getRoles().contains("MENTOR")) {
-            throw new BusinessLogicException(ExceptionCode.NOT_MENTOR_ERROR);
-        }
+        Mentor findMentor = findMentor(memberId);
 
         Optional.ofNullable(mentor.getFileUrl())
                 .ifPresent(findMentor::setFileUrl);
@@ -118,12 +139,7 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public Profile updateProfileInformation(String memberId, Profile profile) {
-        Member member = findMember(memberId);
-        Profile findProfile = member.getProfile();
-
-        if (member.getProfile() == null) {
-            throw new BusinessLogicException(ExceptionCode.NOT_PROFILE_ERROR);
-        }
+        Profile findProfile = findProfile(memberId);
 
         Optional.ofNullable(profile.getImgUrl())
                 .ifPresent(findProfile::setImgUrl);
