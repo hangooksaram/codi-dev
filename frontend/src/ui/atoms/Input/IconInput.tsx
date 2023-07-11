@@ -1,11 +1,15 @@
-import { Component, ReactElement } from "react";
+import { Component, ComponentProps, ReactElement, ReactNode } from "react";
 import Input from "./Input";
 import styled from "@emotion/styled";
 import { JsxElement } from "typescript";
 import Image from "next/image";
 
-const IconInputContainer = styled.div`
+const StyledIconInputContainer = styled.div`
+  width: 100%;
   position: relative;
+  input {
+    padding-left: 60px;
+  }
 `;
 
 const IconInputAdornment = styled.div`
@@ -16,16 +20,18 @@ const IconInputAdornment = styled.div`
   height: 24px;
 `;
 
-const StyledIconInput = styled(Input)`
-  padding-left: 60px;
-`;
-
-const IconInput = ({ imgComponent }: { imgComponent: JSX.Element }) => {
+const IconInputContainer = ({
+  iconComponent,
+  children,
+}: {
+  iconComponent: JSX.Element;
+  children: ReactNode;
+}) => {
   return (
-    <IconInputContainer>
-      <StyledIconInput />
-      <IconInputAdornment>{imgComponent}</IconInputAdornment>
-    </IconInputContainer>
+    <StyledIconInputContainer>
+      {children}
+      <IconInputAdornment>{iconComponent}</IconInputAdornment>
+    </StyledIconInputContainer>
   );
 };
-export default IconInput;
+export default IconInputContainer;

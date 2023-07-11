@@ -7,6 +7,7 @@ const Typography = ({
   size,
   color,
   weight,
+  align,
   children,
   ...restStyles
 }: Typography) => {
@@ -14,6 +15,7 @@ const Typography = ({
     .div(() => ({
       fontSize: size ?? "18px",
       color: color ?? theme.colors.black,
+      textAlign: align ?? "left",
       ...restStyles,
     }))
     .withComponent(variant);

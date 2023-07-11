@@ -14,7 +14,10 @@ const borderRadius = (variant: Button) => {
   }
 };
 
-const height = (variant: Button, width?: string) => {
+const height = (variant: Button, width?: string, size?: string) => {
+  if (size === "small") {
+    return "41px";
+  } else if (size === "big") return "70px";
   switch (variant) {
     case "default":
     case "square":
@@ -31,6 +34,7 @@ const Button = styled.button(
     color,
     size,
     fontSize,
+    ...restProps
   }: {
     variant: Button;
     width?: string;
@@ -41,15 +45,16 @@ const Button = styled.button(
     width: width ?? "fit-content",
     backgroundColor: color ?? theme.colors.primary,
     borderRadius: borderRadius(variant),
-    height: size === "small" ? "41px" : height(variant, width),
+    height: height(variant, width, size),
     border: "none",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    color: "white",
+    color: color === theme.colors.white ? theme.colors.gray.dark : "white",
     cursor: "pointer",
     padding: variant === "round" ? "0px" : "0px 20px",
     fontSize: fontSize ? theme.fonts.size[fontSize] : theme.fonts.size.sm,
+    ...restProps,
   })
 );
 

@@ -35,7 +35,7 @@ const UiTest = () => {
         src="https://www.imedialife.co.kr/news/photo/202009/33165_33578_3057.jpg"
         edit={true}
       ></ProfileCard>
-      <IconInput imgComponent={<Alarm />} />
+      <IconInput iconComponent={<Alarm />} />
       <div
         className={css`
           font-size: ${theme.fonts.size.xl};
