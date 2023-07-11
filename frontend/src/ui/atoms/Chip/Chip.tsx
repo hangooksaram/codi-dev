@@ -1,7 +1,5 @@
 import styled from "@emotion/styled";
-import Button from "../Button/Button";
-import { ReactNode } from "react";
-import theme from "../theme";
+import theme from "../../theme";
 
 const Chip = styled.div`
   display: flex;

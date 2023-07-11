@@ -3,17 +3,17 @@ import {
   setZoom,
   setHighlight,
 } from "@/features/webAccessibility/webAccessibliitySlice";
-import Button from "@/ui/Button/Button";
-import Input from "@/ui/Input/Input";
+import Button from "@/ui/atoms/Button/Button";
 import theme from "@/ui/theme";
 import { css } from "@emotion/css";
 import React from "react";
 import { useDispatch } from "react-redux";
 import Alarm from "../../../public/icons/alarm.svg";
-import IconInput from "@/ui/Input/IconInput";
-import Chip from "@/ui/Chip/Chip";
 import ProfileCard from "@/component/Profile/ProfileCard";
-import Typography from "@/ui/Typography/Typography";
+import Input from "@/ui/atoms/Input/Input";
+import IconInput from "@/ui/atoms/Input/IconInput";
+import Chip from "@/ui/atoms/Chip/Chip";
+import Typography from "@/ui/atoms/Typography/Typography";
 
 const UiTest = () => {
   const dispatch = useDispatch();
@@ -35,7 +35,7 @@ const UiTest = () => {
         src="https://www.imedialife.co.kr/news/photo/202009/33165_33578_3057.jpg"
         edit={true}
       ></ProfileCard>
-      <IconInput imgComponent={<Alarm />} />
+      <IconInput iconComponent={<Alarm />} />
       <div
         className={css`
           font-size: ${theme.fonts.size.xl};
