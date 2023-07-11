@@ -33,7 +33,14 @@ export interface FlexBox {
 export interface Typography {
   variant: "div" | "span" | "h1" | "h2" | "h3";
   size?: string;
-  weight?: string;
+  weight?: number;
   color?: string;
+  align?: "left" | "right" | "center";
   children: string;
+}
+
+export interface Dropdown {
+  width?: string;
+  type: string;
+  categories: string[];
 }
