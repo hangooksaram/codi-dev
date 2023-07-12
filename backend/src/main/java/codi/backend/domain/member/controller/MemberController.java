@@ -1,11 +1,7 @@
 package codi.backend.domain.member.controller;
 
 import codi.backend.domain.member.dto.MemberDto;
-import codi.backend.domain.member.dto.MentorDto;
-import codi.backend.domain.member.dto.ProfileDto;
 import codi.backend.domain.member.entity.Member;
-import codi.backend.domain.member.entity.Mentor;
-import codi.backend.domain.member.entity.Profile;
 import codi.backend.domain.member.mapper.MemberMapper;
 import codi.backend.domain.member.service.MemberService;
 import io.swagger.annotations.Api;
@@ -46,26 +42,6 @@ public class MemberController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    // 멘토 등록
-    // TODO 추후 로그인 한 사용자의 로그인 정보를 함께 받는 방식으로 변경이 필요
-    @ApiOperation(value = "멘토 등록", notes = "재직증명서, 직무, 회사 이름, 멘토 소개를 작성해서 멘토가 될 수 있다.")
-    @PostMapping("/{member-id}/mentor")
-    public ResponseEntity createMentor(@PathVariable("member-id") String memberId, @Valid @RequestBody MentorDto.MentorPost mentorPostDto) {
-        Mentor mentor = memberService.becomeMentor(memberId, memberMapper.mentorPostDtoToMentor(mentorPostDto));
-        MentorDto.MentorResponse response = memberMapper.mentorToMentorResponse(mentor);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
-    }
-
-    // 프로필 등록
-    // TODO 추후 로그인 한 사용자의 로그인 정보를 함께 받는 방식으로 변경이 필요
-    @ApiOperation(value = "프로필 등록", notes = "프로필 이미지, 직무, 경력, 학력, 장애 구분, 중증도, 장애 기간을 입력해서 프로필을 작성한다.")
-    @PostMapping("/{member-id}/profile")
-    public ResponseEntity createProfile(@PathVariable("member-id") String memberId, @Valid @RequestBody ProfileDto.ProfilePost profilePostDto) {
-        Profile profile = memberService.createProfile(memberId, memberMapper.profilePostDtoToProfile(profilePostDto));
-        ProfileDto.ProfileResponse response = memberMapper.profileToProfileResponse(profile);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
-    }
-
     // 비밀번호 변경
     // TODO 추후 로그인 한 사용자의 로그인 정보를 함께 받는 방식으로 변경이 필요
     @ApiOperation(value = "회원정보 수정(비밀번호 변경)", notes = "현재 비밀번호와 새 비밀번호를 입력해서 비밀번호를 수정한다. 현재는 변경할 정보가 비밀번호 밖에 없기 때문에 해당 방식으로 구현했다.")
@@ -75,26 +51,6 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    // 멘토 정보 수정
-    // TODO 추후 로그인 한 사용자의 로그인 정보를 함께 받는 방식으로 변경이 필요
-    @ApiOperation(value = "멘토 정보 수정", notes = "직업 증명 파일, 직무, 회사, 소개를 선택해서 수정할 수 있다.")
-    @PatchMapping("/{member-id}/mentor")
-    public ResponseEntity updateMentor(@PathVariable("member-id") String memberId, @Valid @RequestBody MentorDto.MentorPatch mentorPatchDto) {
-        Mentor mentor = memberService.updateMentorInformation(memberId, memberMapper.mentorPatchDtoToMentor(mentorPatchDto));
-        MentorDto.MentorResponse response = memberMapper.mentorToMentorResponse(mentor);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    // 프로필 정보 수정
-    // TODO 추후 로그인 한 사용자의 로그인 정보를 함께 받는 방식으로 변경이 필요
-    @ApiOperation(value = "프로필 정보 수정", notes = "프로필 이미지, 직무, 연차, 학력, 장애구분, 중증도, 장애기간, 소개를 선택해서 수정할 수 있다.")
-    @PatchMapping("/{member-id}/profile")
-    public ResponseEntity updateProfile(@PathVariable("member-id") String memberId, @Valid @RequestBody ProfileDto.ProfilePatch profilePatchDto) {
-        Profile profile = memberService.updateProfileInformation(memberId, memberMapper.profilePatchDtoToProfile(profilePatchDto));
-        ProfileDto.ProfileResponse response = memberMapper.profileToProfileResponse(profile);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
     // 마이페이지 조회
     // TODO 추후 로그인 한 사용자의 로그인 정보를 함께 받는 방식으로 변경이 필요
     @ApiOperation(value = "마이페이지 조회", notes = "회원가입 시 입력한 정보를 조회할 수 있다.")
@@ -102,23 +58,5 @@ public class MemberController {
     public ResponseEntity getMember(@PathVariable("member-id") String memberId) {
         MemberDto.MemberResponse member = memberMapper.memberToMemberResponse(memberService.findMember(memberId));
         return new ResponseEntity<>(member, HttpStatus.OK);
-    }
-
-    // 멘토 등록시 멘토 정보 조회
-    // TODO 추후 로그인 한 사용자의 로그인 정보를 함께 받는 방식으로 변경이 필요
-    @ApiOperation(value = "Mentor 개인 페이지 조회", notes = "Mentor를 신청하면서 입력한 정보를 조회할 수 있다.")
-    @GetMapping("/{member-id}/mentor")
-    public ResponseEntity getMentor(@PathVariable("member-id") String memberId) {
-        MentorDto.MentorResponse mentor = memberMapper.mentorToMentorResponse(memberService.findMentor(memberId));
-        return new ResponseEntity<>(mentor, HttpStatus.OK);
-    }
-
-    // 프로필 정보 조회
-    // TODO 추후 로그인 한 사용자의 로그인 정보를 함께 받는 방식으로 변경이 필요
-    @ApiOperation(value = "프로필 페이지 조회", notes = "프로필 페이지에 입력한 정보를 조회할 수 있다.")
-    @GetMapping("/{member-id}/profile")
-    public ResponseEntity getProfile(@PathVariable("member-id") String memberId) {
-        ProfileDto.ProfileResponse profile = memberMapper.profileToProfileResponse(memberService.findProfile(memberId));
-        return new ResponseEntity<>(profile, HttpStatus.OK);
     }
 }

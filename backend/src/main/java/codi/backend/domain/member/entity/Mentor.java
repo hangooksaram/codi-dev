@@ -19,10 +19,13 @@ public class Mentor {
     private String fileUrl;
 
     @Column
+    private String company;
+
+    @Column
     private String job;
 
     @Column
-    private String company;
+    private Integer career;
 
     @Column
     private String introduction;
@@ -32,11 +35,12 @@ public class Mentor {
     private Member member;
 
     @Builder
-    public Mentor(Long id, String fileUrl, String job, String company, String introduction) {
+    public Mentor(Long id, String fileUrl, String company, String job, Integer career, String introduction) {
         this.id = id;
         this.fileUrl = fileUrl;
-        this.job = job;
         this.company = company;
+        this.job = job;
+        this.career = career;
         this.introduction = introduction;
     }
 

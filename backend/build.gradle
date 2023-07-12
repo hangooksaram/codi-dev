@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.12'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10'
 }
 
 group = 'codi'
@@ -28,6 +29,10 @@ dependencies {
 	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
+	// querydsl
+	implementation 'com.querydsl:querydsl-jpa:5.0.0'
+	annotationProcessor 'com.querydsl:querydsl-apt:5.0.0'
+
 	// email
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 
@@ -47,3 +52,24 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+// querydsl
+def querydslSrcDir = 'src/main/generated'
+
+querydsl {
+	jpa = true
+	querydslSourcesDir = querydslSrcDir
+}
+
+sourceSets {
+	main.java.srcDir querydslSrcDir
+}
+
+configurations {
+	querydsl.extendsFrom compileClasspath
+}
+
+compileQuerydsl {
+	options.annotationProcessorPath = configurations.querydsl
+}
+

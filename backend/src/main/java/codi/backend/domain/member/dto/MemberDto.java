@@ -18,7 +18,7 @@ public class MemberDto {
     @Builder
     public static class MemberPost {
         @NotBlank
-        @ApiModelProperty(example = "회원 아이디")
+        @ApiModelProperty(example = "회원 ID")
         private String id;
 
         @NotBlank
@@ -42,7 +42,7 @@ public class MemberDto {
                 message = "영문자와 숫자로 구성되며 최소 하나 이상의 특수문자(~!@#$%^&*)가 포함되어야합니다. "+
                         "공백은 포함될 수 없습니다.")
         @Size(min = 8, max = 16)
-        @ApiModelProperty(example = "비밀번호 입력, 최소 8자 ~ 최대 16자")
+        @ApiModelProperty(example = "비밀번호 입력, 최소 8자 ~ 최대 16자, 최소 하나 이상의 특수문자가 포함되어야 함")
         private String password;
     }
 
@@ -60,7 +60,7 @@ public class MemberDto {
     @Getter
     @Builder
     public static class MemberResponse {
-        @ApiModelProperty(example = "회원 아이디")
+        @ApiModelProperty(example = "회원 ID")
         private String id;
 
         @ApiModelProperty(example = "이름")

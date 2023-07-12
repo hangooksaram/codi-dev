@@ -2,7 +2,6 @@ package codi.backend.domain.member.controller;
 
 import codi.backend.domain.member.dto.AccountDto;
 import codi.backend.domain.member.service.AccountService;
-import codi.backend.domain.member.service.MemberService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
