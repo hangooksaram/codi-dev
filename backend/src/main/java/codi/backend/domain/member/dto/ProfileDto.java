@@ -13,11 +13,8 @@ public class ProfileDto {
         @ApiModelProperty(example = "프로필 이미지 url")
         private String imgUrl;
 
-        @ApiModelProperty(example = "직무")
-        private String job;
-
-        @ApiModelProperty(example = "경력")
-        private String career;
+        @ApiModelProperty(example = "희망 직무")
+        private String desiredJob;
 
         @ApiModelProperty(example = "학력")
         private String education;
@@ -41,11 +38,8 @@ public class ProfileDto {
         @ApiModelProperty(example = "프로필 이미지 url")
         private String imgUrl;
 
-        @ApiModelProperty(example = "직무")
-        private String job;
-
-        @ApiModelProperty(example = "경력")
-        private String career;
+        @ApiModelProperty(example = "희망 직무")
+        private String desiredJob;
 
         @ApiModelProperty(example = "학력")
         private String education;
@@ -73,11 +67,8 @@ public class ProfileDto {
         @ApiModelProperty(example = "프로필 이미지 url")
         private String imgUrl;
 
-        @ApiModelProperty(example = "직무")
-        private String job;
-
-        @ApiModelProperty(example = "경력")
-        private String career;
+        @ApiModelProperty(example = "희망 직무")
+        private String desiredJob;
 
         @ApiModelProperty(example = "학력")
         private String education;

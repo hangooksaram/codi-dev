@@ -19,10 +19,7 @@ public class Profile {
     private String imgUrl;
 
     @Column
-    private String job;
-
-    @Column
-    private String career;
+    private String desiredJob;
 
     @Column
     private String education;
@@ -44,11 +41,10 @@ public class Profile {
     private Member member;
 
     @Builder
-    public Profile(Long id, String imgUrl, String job, String career, String education, String disability, String severity, String period, String introduction) {
+    public Profile(Long id, String imgUrl, String desiredJob, String education, String disability, String severity, String period, String introduction) {
         this.id = id;
         this.imgUrl = imgUrl;
-        this.job = job;
-        this.career = career;
+        this.desiredJob = desiredJob;
         this.education = education;
         this.disability = disability;
         this.severity = severity;

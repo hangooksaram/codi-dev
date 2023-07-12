@@ -1,35 +1,22 @@
 package codi.backend.domain.member.service;
 
-import codi.backend.domain.member.dto.MemberDto;
-import codi.backend.domain.member.dto.MentorDto;
 import codi.backend.domain.member.entity.Member;
-import codi.backend.domain.member.entity.Mentor;
-import codi.backend.domain.member.entity.Profile;
-import codi.backend.domain.member.repository.JpaMemberRepository;
-import codi.backend.domain.member.repository.JpaMentorRepository;
-import codi.backend.domain.member.repository.JpaProfileRepository;
+import codi.backend.domain.member.repository.MemberRepository;
 import codi.backend.domain.member.utils.CustomAuthorityUtils;
 import codi.backend.global.exception.BusinessLogicException;
 import codi.backend.global.exception.ExceptionCode;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
 public class MemberServiceImpl implements MemberService{
-    private final JpaMemberRepository memberRepository;
-    private final JpaProfileRepository profileRepository;
-    private final JpaMentorRepository mentorRepository;
+    private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public MemberServiceImpl(JpaMemberRepository memberRepository, JpaProfileRepository profileRepository, JpaMentorRepository mentorRepository, PasswordEncoder passwordEncoder) {
+    public MemberServiceImpl(MemberRepository memberRepository, PasswordEncoder passwordEncoder) {
         this.memberRepository = memberRepository;
-        this.profileRepository = profileRepository;
-        this.mentorRepository = mentorRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -45,33 +32,6 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public Mentor becomeMentor(String memberId, Mentor mentor) {
-        Member member = findMember(memberId);
-        mentor.setMember(member);
-
-        // member에 mentor 1:1 연결
-        member.setMentor(mentor);
-
-        // 멘토 권한 추가(반드시 위에서 mentor 객체를 연결한 다음 실행되어야 한다.)
-        member.setRoles(CustomAuthorityUtils.createRoles(member));
-
-        // mentor DB 저장
-        return mentorRepository.save(mentor);
-    }
-
-    @Override
-    public Profile createProfile(String memberId, Profile profile) {
-        Member member = findMember(memberId);
-        profile.setMember(member);
-
-        // member에 profile 1:1 연결
-        member.setProfile(profile);
-
-        // profile DB 저장
-        return profileRepository.save(profile);
-    }
-
-    @Override
     public Member findMember(String memberId) {
         return verifyMember(memberId);
     }
@@ -79,32 +39,6 @@ public class MemberServiceImpl implements MemberService{
     private Member verifyMember(String memberId) {
         return memberRepository.findById(memberId).orElseThrow(() ->
                 new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-    }
-
-    @Override
-    public Mentor findMentor(String memberId) {
-        return verifyMentor(memberId);
-    }
-
-    private Mentor verifyMentor(String memberId) {
-        Member member = findMember(memberId);
-        if (!member.getRoles().contains("MENTOR")) {
-            throw new BusinessLogicException(ExceptionCode.NOT_MENTOR_ERROR);
-        }
-        return member.getMentor();
-    }
-
-    @Override
-    public Profile findProfile(String memberId) {
-        return verifyProfile(memberId);
-    }
-
-    private Profile verifyProfile(String memberId) {
-        Member member = findMember(memberId);
-        if (member.getProfile() == null) {
-            throw new BusinessLogicException(ExceptionCode.NOT_PROFILE_ERROR);
-        }
-        return member.getProfile();
     }
 
     @Override
@@ -119,45 +53,5 @@ public class MemberServiceImpl implements MemberService{
 
         member.setPassword(passwordEncoder.encode(newPassword));
         memberRepository.save(member);
-    }
-
-    @Override
-    public Mentor updateMentorInformation(String memberId, Mentor mentor) {
-        Mentor findMentor = findMentor(memberId);
-
-        Optional.ofNullable(mentor.getFileUrl())
-                .ifPresent(findMentor::setFileUrl);
-        Optional.ofNullable(mentor.getJob())
-                .ifPresent(findMentor::setJob);
-        Optional.ofNullable(mentor.getCompany())
-                .ifPresent(findMentor::setCompany);
-        Optional.ofNullable(mentor.getIntroduction())
-                .ifPresent(findMentor::setIntroduction);
-
-        return mentorRepository.save(findMentor);
-    }
-
-    @Override
-    public Profile updateProfileInformation(String memberId, Profile profile) {
-        Profile findProfile = findProfile(memberId);
-
-        Optional.ofNullable(profile.getImgUrl())
-                .ifPresent(findProfile::setImgUrl);
-        Optional.ofNullable(profile.getJob())
-                .ifPresent(findProfile::setJob);
-        Optional.ofNullable(profile.getCareer())
-                .ifPresent(findProfile::setCareer);
-        Optional.ofNullable(profile.getEducation())
-                .ifPresent(findProfile::setEducation);
-        Optional.ofNullable(profile.getDisability())
-                .ifPresent(findProfile::setDisability);
-        Optional.ofNullable(profile.getSeverity())
-                .ifPresent(findProfile::setSeverity);
-        Optional.ofNullable(profile.getPeriod())
-                .ifPresent(findProfile::setPeriod);
-        Optional.ofNullable(profile.getIntroduction())
-                .ifPresent(findProfile::setIntroduction);
-
-        return profileRepository.save(findProfile);
     }
 }

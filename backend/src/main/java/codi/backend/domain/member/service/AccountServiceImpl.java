@@ -1,23 +1,23 @@
 package codi.backend.domain.member.service;
 
 import codi.backend.domain.member.entity.Member;
-import codi.backend.domain.member.repository.JpaMemberRepository;
+import codi.backend.domain.member.repository.MemberRepository;
+import codi.backend.domain.member.repository.MemberRepositoryCustom;
 import codi.backend.global.email.EmailService;
 import codi.backend.global.exception.BusinessLogicException;
 import codi.backend.global.exception.ExceptionCode;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class AccountServiceImpl implements AccountService{
-    private final JpaMemberRepository memberRepository;
+    private final MemberRepository memberRepository;
     private final EmailService emailService;
     private final PasswordEncoder passwordEncoder;
 
-    public AccountServiceImpl(JpaMemberRepository memberRepository, EmailService emailService, PasswordEncoder passwordEncoder) {
+    public AccountServiceImpl(MemberRepository memberRepository, EmailService emailService, PasswordEncoder passwordEncoder) {
         this.memberRepository = memberRepository;
         this.emailService = emailService;
         this.passwordEncoder = passwordEncoder;
