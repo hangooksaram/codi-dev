@@ -1,8 +1,6 @@
 package codi.backend.domain.member.service;
 
 import codi.backend.domain.member.entity.Member;
-import codi.backend.domain.member.entity.Mentor;
-import codi.backend.domain.member.entity.Profile;
 
 public interface MemberService {
     // Member

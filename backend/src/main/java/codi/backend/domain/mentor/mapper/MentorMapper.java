@@ -1,7 +1,7 @@
-package codi.backend.domain.member.mapper;
+package codi.backend.domain.mentor.mapper;
 
-import codi.backend.domain.member.dto.MentorDto;
-import codi.backend.domain.member.entity.Mentor;
+import codi.backend.domain.mentor.dto.MentorDto;
+import codi.backend.domain.mentor.entity.Mentor;
 import org.mapstruct.Mapper;
 
 import java.util.List;

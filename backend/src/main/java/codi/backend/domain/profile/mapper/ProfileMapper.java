@@ -1,7 +1,7 @@
-package codi.backend.domain.member.mapper;
+package codi.backend.domain.profile.mapper;
 
-import codi.backend.domain.member.dto.ProfileDto;
-import codi.backend.domain.member.entity.Profile;
+import codi.backend.domain.profile.dto.ProfileDto;
+import codi.backend.domain.profile.entity.Profile;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

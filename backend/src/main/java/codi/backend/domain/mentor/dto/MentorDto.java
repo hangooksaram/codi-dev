@@ -1,4 +1,4 @@
-package codi.backend.domain.member.dto;
+package codi.backend.domain.mentor.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;

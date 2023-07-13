@@ -1,6 +1,6 @@
-package codi.backend.domain.member.service;
+package codi.backend.domain.profile.service;
 
-import codi.backend.domain.member.entity.Profile;
+import codi.backend.domain.profile.entity.Profile;
 
 public interface ProfileService {
     // Profile
