@@ -1,9 +1,9 @@
-package codi.backend.domain.member.controller;
+package codi.backend.domain.mentor.controller;
 
-import codi.backend.domain.member.dto.MentorDto;
-import codi.backend.domain.member.entity.Mentor;
-import codi.backend.domain.member.mapper.MentorMapper;
-import codi.backend.domain.member.service.MentorService;
+import codi.backend.domain.mentor.dto.MentorDto;
+import codi.backend.domain.mentor.entity.Mentor;
+import codi.backend.domain.mentor.mapper.MentorMapper;
+import codi.backend.domain.mentor.service.MentorService;
 import codi.backend.global.response.MultiResponseDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -71,7 +71,6 @@ public class MentorController {
             @PageableDefault Pageable pageable) {
         Page<MentorDto.SearchMentorResponse> mentorsPage = mentorService.getFilteredMentors(job, career, disability, keyword, pageable);
         List<MentorDto.SearchMentorResponse> mentorsList = mentorsPage.getContent();
-//        List<MentorDto.MentorResponse> responses = mentorMapper.mentorsToMentorResponses(mentorsList);
         return new ResponseEntity<>(
                 new MultiResponseDto<>(mentorsList, mentorsPage), HttpStatus.OK
         );

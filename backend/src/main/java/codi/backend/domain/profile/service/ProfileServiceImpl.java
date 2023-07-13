@@ -1,9 +1,9 @@
-package codi.backend.domain.member.service;
+package codi.backend.domain.profile.service;
 
 import codi.backend.domain.member.entity.Member;
-import codi.backend.domain.member.entity.Profile;
+import codi.backend.domain.profile.entity.Profile;
 import codi.backend.domain.member.repository.MemberRepository;
-import codi.backend.domain.member.repository.ProfileRepository;
+import codi.backend.domain.profile.repository.ProfileRepository;
 import codi.backend.global.exception.BusinessLogicException;
 import codi.backend.global.exception.ExceptionCode;
 import org.springframework.stereotype.Service;

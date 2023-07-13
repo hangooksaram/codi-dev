@@ -1,7 +1,6 @@
-package codi.backend.domain.member.repository;
+package codi.backend.domain.mentor.repository;
 
-import codi.backend.domain.member.dto.MentorDto;
-import codi.backend.domain.member.entity.Mentor;
+import codi.backend.domain.mentor.dto.MentorDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

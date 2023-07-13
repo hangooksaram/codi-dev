@@ -1,9 +1,9 @@
-package codi.backend.domain.member.controller;
+package codi.backend.domain.profile.controller;
 
-import codi.backend.domain.member.dto.ProfileDto;
-import codi.backend.domain.member.entity.Profile;
-import codi.backend.domain.member.mapper.ProfileMapper;
-import codi.backend.domain.member.service.ProfileService;
+import codi.backend.domain.profile.dto.ProfileDto;
+import codi.backend.domain.profile.entity.Profile;
+import codi.backend.domain.profile.mapper.ProfileMapper;
+import codi.backend.domain.profile.service.ProfileService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -20,8 +20,8 @@ import javax.validation.Valid;
 @Validated
 @Slf4j
 public class ProfileController {
-    private ProfileService profileService;
-    private ProfileMapper profileMapper;
+    private final ProfileService profileService;
+    private final ProfileMapper profileMapper;
 
     public ProfileController(ProfileService profileService, ProfileMapper profileMapper) {
         this.profileService = profileService;

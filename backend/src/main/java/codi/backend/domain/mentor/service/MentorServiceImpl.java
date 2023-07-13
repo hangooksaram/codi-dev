@@ -1,15 +1,14 @@
-package codi.backend.domain.member.service;
+package codi.backend.domain.mentor.service;
 
-import codi.backend.domain.member.dto.MentorDto;
+import codi.backend.domain.mentor.dto.MentorDto;
 import codi.backend.domain.member.entity.Member;
-import codi.backend.domain.member.entity.Mentor;
+import codi.backend.domain.mentor.entity.Mentor;
 import codi.backend.domain.member.repository.MemberRepository;
-import codi.backend.domain.member.repository.MentorRepository;
+import codi.backend.domain.mentor.repository.MentorRepository;
 import codi.backend.domain.member.utils.CustomAuthorityUtils;
 import codi.backend.global.exception.BusinessLogicException;
 import codi.backend.global.exception.ExceptionCode;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -82,24 +81,5 @@ public class MentorServiceImpl implements MentorService{
     @Override
     public Page<MentorDto.SearchMentorResponse> getFilteredMentors(String job, Integer career, String disability, String keyword, Pageable pageable) {
         return mentorRepository.search(job, career, disability, keyword, pageable);
-    }
-
-    // Specification 구현
-//    @Transactional(readOnly = true)
-//    @Override
-//    public Page<Mentor> getFilteredMentors(String job, String career, String disability, String keyword, Pageable pageable) {
-//        Specification<Mentor> spec = Specification
-//                .where(MentorSpecs.hasJob(job))
-//                .and(MentorSpecs.hasCareer(career))
-//                .and(MentorSpecs.hasDisability(disability))
-//                .and(MentorSpecs.containsKeyword(keyword));
-//
-//        return mentorRepository.findAll(spec, PageRequest.of(pageable.getPageNumber() - 1, pageable.getPageSize()));
-//    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public Page<Mentor> getMentors(Pageable pageable) {
-        return mentorRepository.findAll(PageRequest.of(pageable.getPageNumber() - 1, pageable.getPageSize()));
     }
 }

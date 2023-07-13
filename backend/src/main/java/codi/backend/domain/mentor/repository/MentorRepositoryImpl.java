@@ -1,10 +1,10 @@
-package codi.backend.domain.member.repository;
+package codi.backend.domain.mentor.repository;
 
-import codi.backend.domain.member.dto.MentorDto;
-import codi.backend.domain.member.entity.Mentor;
+import codi.backend.domain.mentor.dto.MentorDto;
+import codi.backend.domain.mentor.entity.Mentor;
 import codi.backend.domain.member.entity.QMember;
-import codi.backend.domain.member.entity.QMentor;
-import codi.backend.domain.member.entity.QProfile;
+import codi.backend.domain.mentor.entity.QMentor;
+import codi.backend.domain.profile.entity.QProfile;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Projections;

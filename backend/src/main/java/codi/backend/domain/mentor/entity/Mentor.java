@@ -1,5 +1,6 @@
-package codi.backend.domain.member.entity;
+package codi.backend.domain.mentor.entity;
 
+import codi.backend.domain.member.entity.Member;
 import lombok.*;
 
 import javax.persistence.*;
