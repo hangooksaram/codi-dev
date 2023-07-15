@@ -2,8 +2,8 @@ const theme = {
   colors: {
     black: "#161718",
     secondary: "#F7C863",
-    primary: "#4C9DF8",
-    info: "#334259",
+    primary: "#334259",
+    info: "#4C9DF8",
     error: "#E0291D",
     gray: {
       dark: "#a8a9af",
@@ -18,7 +18,7 @@ const theme = {
       xl: "50px",
       lg: "34px",
       md: "24px",
-      sm: "18px",
+      sm: "16px",
       xs: "16px",
     },
     weight: {

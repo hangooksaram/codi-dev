@@ -3,8 +3,7 @@ import styled from "@emotion/styled";
 const Input = styled.input(({ width }: { width?: string }) => ({
   width: width ?? "100%",
   position: "relative",
-  height: "64px",
-  flexShrink: 0,
+  height: "60px",
   borderRadius: "10px",
   border: "1px solid var(--light-gray, #eeeff2)",
   background: "var(--white, #fcfcfc)",
