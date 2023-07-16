@@ -7,6 +7,7 @@ import { store } from "@/store/store";
 import WebAccessibilityLayout from "@/component/WebAccessibility/WebAccessibilityLayout";
 import { ThemeProvider } from "@emotion/react";
 import theme from "@/ui/theme";
+import AppBar from "@/component/NavBar/AppBar";
 /**create new client */
 const queryClient = new QueryClient();
 
@@ -20,7 +21,10 @@ export default function RootLayout({
       <ThemeProvider theme={theme}>
         <Provider store={store}>
           <QueryClientProvider client={queryClient}>
-            <WebAccessibilityLayout>{children}</WebAccessibilityLayout>
+            <WebAccessibilityLayout>
+              <AppBar />
+              {children}
+            </WebAccessibilityLayout>
           </QueryClientProvider>
         </Provider>
       </ThemeProvider>

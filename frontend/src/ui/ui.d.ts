@@ -41,6 +41,9 @@ export interface Typography {
 
 export interface Dropdown {
   width?: string;
-  type: string;
+  title?: string;
+  type?: "menu" | "form";
   categories: string[];
+  selectedCategory: string;
+  setSelectedCategory: (category: string) => void;
 }

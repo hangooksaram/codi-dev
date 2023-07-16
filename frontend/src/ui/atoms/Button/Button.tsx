@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import theme from "../../theme";
 import { Button, ThemeFontSize } from "../../ui";
-import { isVariableDeclaration } from "typescript";
+import { ReactNode } from "react";
 
 const borderRadius = (variant: Button) => {
   switch (variant) {
@@ -21,7 +21,7 @@ const height = (variant: Button, width?: string, size?: string) => {
   switch (variant) {
     case "default":
     case "square":
-      return "64px";
+      return "50px";
     case "round":
       return width;
   }
@@ -34,19 +34,24 @@ const Button = styled.button(
     color,
     size,
     fontSize,
+    children,
+    outline,
     ...restProps
   }: {
     variant: Button;
     width?: string;
     color?: string;
     size?: string;
+    children?: ReactNode;
     fontSize?: ThemeFontSize;
+    outline?: boolean;
   }) => ({
     width: width ?? "fit-content",
+    minWidth: "fit-content",
     backgroundColor: color ?? theme.colors.primary,
     borderRadius: borderRadius(variant),
     height: height(variant, width, size),
-    border: "none",
+    border: outline ? `1px solid ${theme.colors.gray.main}` : "none",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -54,6 +59,7 @@ const Button = styled.button(
     cursor: "pointer",
     padding: variant === "round" ? "0px" : "0px 20px",
     fontSize: fontSize ? theme.fonts.size[fontSize] : theme.fonts.size.sm,
+    outline: "none",
     ...restProps,
   })
 );

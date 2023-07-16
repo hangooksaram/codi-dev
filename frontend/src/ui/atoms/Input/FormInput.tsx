@@ -29,9 +29,11 @@ export const Form = styled.form`
 export const FormLabel = ({
   text,
   helpText,
+  htmlFor,
 }: {
   text: string;
   helpText?: string;
+  htmlFor?: string;
 }) => {
   return (
     <FlexBox
@@ -40,7 +42,7 @@ export const FormLabel = ({
       {...{ marginBottom: "20px" }}
     >
       <FormLabelAdorement />
-      <FormLabelText>{text}</FormLabelText>
+      <FormLabelText htmlFor={htmlFor}>{text}</FormLabelText>
       <Typography
         variant="div"
         color={theme.colors.gray.main}
@@ -56,14 +58,16 @@ const FormInputContainer = ({
   text,
   helpText,
   children,
+  htmlFor,
 }: {
   text: string;
+  htmlFor?: string;
   helpText?: string;
   children: React.ReactNode;
 }) => {
   return (
     <StyledFormInputContainer>
-      <FormLabel text={text} helpText={helpText} />
+      <FormLabel text={text} helpText={helpText} htmlFor={htmlFor} />
       <FlexBox justifyContent="space-between" {...{ width: "100%" }}>
         {children}
       </FlexBox>

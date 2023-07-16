@@ -7,11 +7,13 @@ import OpenDropdown from "../../../../public/icons/expand-open.svg";
 
 const DropDownListContainer = styled.div(({ width }: { width?: string }) => ({
   width: width,
+  minWidth: "fit-content",
   position: "relative",
 }));
 
 const DropDownList = styled.ul(({ width }: { width?: string }) => ({
   width: width ?? "100%",
+  minWidth: "fit-content",
   position: "absolute",
   zIndex: 1,
   top: "70px",
@@ -19,13 +21,20 @@ const DropDownList = styled.ul(({ width }: { width?: string }) => ({
   backgroundColor: theme.colors.white,
   borderRadius: "10px",
   listStyle: "none",
+  border: `1px solid ${theme.colors.gray.main}`,
 }));
 
 const DropdownItem = styled.li`
-  padding: 21.5px 30px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  padding: 0px 21.5px;
+  min-width: 130px;
   color: ${theme.colors.black};
   font-size: ${theme.fonts.size.sm};
   font-weight: ${theme.fonts.weight.regular};
+  background-color: ${theme.colors.white};
+  cursor: pointer;
 `;
 
 const Divider = styled.div`
@@ -33,9 +42,6 @@ const Divider = styled.div`
   margin: 0 auto;
   height: 2px;
   background-color: ${theme.colors.background};
-  :last-child {
-    display: none;
-  }
 `;
 
 const DropdownButton = styled(Button)`
@@ -43,27 +49,40 @@ const DropdownButton = styled(Button)`
   border: 1px solid ${theme.colors.gray.main};
 `;
 
-const Dropdown = ({ width, type, categories }: Dropdown) => {
+const Dropdown = ({
+  width,
+  title,
+  type,
+  categories,
+  selectedCategory,
+  setSelectedCategory,
+}: Dropdown) => {
   const [open, setOpen] = useState(false);
+  const handleClick = (category: string) => {
+    setOpen(false);
+    setSelectedCategory(category);
+  };
   return (
     <DropDownListContainer width={width}>
       <DropdownButton
-        width={width}
+        width="100%"
         color={theme.colors.white}
         onClick={() => setOpen((prev) => !prev)}
         variant="square"
         type="button"
       >
-        {type}
+        {selectedCategory ? selectedCategory : title}
         <OpenDropdown />
       </DropdownButton>
       {open && (
-        <DropDownList width={width}>
+        <DropDownList width="100%">
           {categories.map((category, index) => (
-            <>
-              <DropdownItem key={index}>{category}</DropdownItem>
-              <Divider />
-            </>
+            <div key={`${index}-${category}`}>
+              <DropdownItem onClick={() => handleClick(category)}>
+                {category}
+              </DropdownItem>
+              {index < categories.length - 1 && <Divider />}
+            </div>
           ))}
         </DropDownList>
       )}
