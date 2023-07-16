@@ -21,14 +21,19 @@ const DropDownList = styled.ul(({ width }: { width?: string }) => ({
   backgroundColor: theme.colors.white,
   borderRadius: "10px",
   listStyle: "none",
+  border: `1px solid ${theme.colors.gray.main}`,
 }));
 
 const DropdownItem = styled.li`
-  padding: 21.5px 30px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  padding: 0px 21.5px;
   min-width: 130px;
   color: ${theme.colors.black};
   font-size: ${theme.fonts.size.sm};
   font-weight: ${theme.fonts.weight.regular};
+  background-color: ${theme.colors.white};
   cursor: pointer;
 `;
 

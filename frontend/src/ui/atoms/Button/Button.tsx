@@ -21,7 +21,7 @@ const height = (variant: Button, width?: string, size?: string) => {
   switch (variant) {
     case "default":
     case "square":
-      return "60px";
+      return "50px";
     case "round":
       return width;
   }

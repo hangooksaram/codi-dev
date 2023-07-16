@@ -1,3 +1,43 @@
+interface Colors {
+  black: string;
+  secondary: string;
+  primary: string;
+  info: string;
+  error: string;
+  gray: Gray;
+  background: string;
+  white: string;
+}
+
+interface Gray {
+  dark: string;
+  main: string;
+  light: string;
+}
+
+interface FontSize {
+  xl: string;
+  lg: string;
+  md: string;
+  sm: string;
+  xs: string;
+}
+
+interface FontWeight {
+  black: number;
+  extraBold: number;
+  bold: number;
+  regular: number;
+}
+
+export interface CustomTheme {
+  colors: Colors;
+  fonts: {
+    size: FontSize;
+    weight: FontWeight;
+  };
+}
+
 const theme = {
   colors: {
     black: "#161718",
