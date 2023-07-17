@@ -23,6 +23,20 @@ public interface MentorMapper {
                 .build();
     }
 
+    default Mentor mentorPatchDtoToMentor(MentorDto.MentorPatch mentorPatchDto) {
+        if (mentorPatchDto == null) {
+            return null;
+        }
+
+        return Mentor.builder()
+                .fileUrl(mentorPatchDto.getFileUrl())
+                .job(mentorPatchDto.getJob())
+                .career(mentorPatchDto.getCareer())
+                .company(mentorPatchDto.getCompany())
+                .introduction(mentorPatchDto.getIntroduction())
+                .build();
+    }
+
     default MentorDto.MentorResponse mentorToMentorResponse(Mentor mentor) {
         if (mentor == null) {
             return null;
@@ -39,18 +53,4 @@ public interface MentorMapper {
     }
 
     List<MentorDto.MentorResponse> mentorsToMentorResponses(List<Mentor> mentors);
-
-    default Mentor mentorPatchDtoToMentor(MentorDto.MentorPatch mentorPatchDto) {
-        if (mentorPatchDto == null) {
-            return null;
-        }
-
-        return Mentor.builder()
-                .fileUrl(mentorPatchDto.getFileUrl())
-                .job(mentorPatchDto.getJob())
-                .career(mentorPatchDto.getCareer())
-                .company(mentorPatchDto.getCompany())
-                .introduction(mentorPatchDto.getIntroduction())
-                .build();
-    }
 }
