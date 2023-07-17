@@ -6,8 +6,10 @@ import codi.backend.domain.member.repository.MemberRepository;
 import codi.backend.domain.profile.repository.ProfileRepository;
 import codi.backend.global.exception.BusinessLogicException;
 import codi.backend.global.exception.ExceptionCode;
+import codi.backend.global.file.S3Service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
@@ -16,16 +18,22 @@ import java.util.Optional;
 public class ProfileServiceImpl implements ProfileService{
     private final ProfileRepository profileRepository;
     private final MemberRepository memberRepository;
+    private final S3Service s3Service;
 
-    public ProfileServiceImpl(ProfileRepository profileRepository, MemberRepository memberRepository) {
+    public ProfileServiceImpl(ProfileRepository profileRepository, MemberRepository memberRepository, S3Service s3Service) {
         this.profileRepository = profileRepository;
         this.memberRepository = memberRepository;
+        this.s3Service = s3Service;
     }
 
     @Override
-    public Profile createProfile(String memberId, Profile profile) {
+    public Profile createProfile(String memberId, Profile profile, MultipartFile file) {
         Member member = findMember(memberId);
         profile.setMember(member);
+
+        Optional.ofNullable(file)
+                .map(f -> s3Service.upload(f, "profile"))
+                .ifPresent(profile::setImgUrl);
 
         // member에 profile 1:1 연결
         member.setProfile(profile);

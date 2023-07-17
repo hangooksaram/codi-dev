@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 
@@ -32,8 +33,10 @@ public class ProfileController {
     // TODO 추후 로그인 한 사용자의 로그인 정보를 함께 받는 방식으로 변경이 필요
     @ApiOperation(value = "프로필 등록", notes = "프로필 이미지, 직무, 경력, 학력, 장애 구분, 중증도, 장애 기간을 입력해서 프로필을 작성한다.")
     @PostMapping("/{member-id}")
-    public ResponseEntity createProfile(@PathVariable("member-id") String memberId, @Valid @RequestBody ProfileDto.ProfilePost profilePostDto) {
-        Profile profile = profileService.createProfile(memberId, profileMapper.profilePostDtoToProfile(profilePostDto));
+    public ResponseEntity createProfile(@PathVariable("member-id") String memberId,
+                                        @Valid @RequestPart(value = "profile") ProfileDto.ProfilePost profilePostDto,
+                                        @RequestPart(value = "file", required = false) MultipartFile file) {
+        Profile profile = profileService.createProfile(memberId, profileMapper.profilePostDtoToProfile(profilePostDto), file);
         ProfileDto.ProfileResponse response = profileMapper.profileToProfileResponse(profile);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }

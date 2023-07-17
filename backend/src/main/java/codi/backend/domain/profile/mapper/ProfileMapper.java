@@ -13,7 +13,6 @@ public interface ProfileMapper {
         }
 
         return Profile.builder()
-                .imgUrl(profilePostDto.getImgUrl())
                 .desiredJob(profilePostDto.getDesiredJob())
                 .education(profilePostDto.getEducation())
                 .disability(profilePostDto.getDisability())
@@ -21,6 +20,21 @@ public interface ProfileMapper {
                 .period(profilePostDto.getPeriod())
                 .introduction(profilePostDto.getIntroduction())
 
+                .build();
+    }
+
+    default Profile profilePatchDtoToProfile(ProfileDto.ProfilePatch profilePatchDto) {
+        if (profilePatchDto == null) {
+            return null;
+        }
+
+        return Profile.builder()
+                .desiredJob(profilePatchDto.getDesiredJob())
+                .education(profilePatchDto.getEducation())
+                .disability(profilePatchDto.getDisability())
+                .severity(profilePatchDto.getSeverity())
+                .period(profilePatchDto.getPeriod())
+                .introduction(profilePatchDto.getIntroduction())
                 .build();
     }
 
@@ -38,22 +52,6 @@ public interface ProfileMapper {
                 .severity(profile.getSeverity())
                 .period(profile.getPeriod())
                 .introduction(profile.getIntroduction())
-                .build();
-    }
-
-    default Profile profilePatchDtoToProfile(ProfileDto.ProfilePatch profilePatchDto) {
-        if (profilePatchDto == null) {
-            return null;
-        }
-
-        return Profile.builder()
-                .imgUrl(profilePatchDto.getImgUrl())
-                .desiredJob(profilePatchDto.getDesiredJob())
-                .education(profilePatchDto.getEducation())
-                .disability(profilePatchDto.getDisability())
-                .severity(profilePatchDto.getSeverity())
-                .period(profilePatchDto.getPeriod())
-                .introduction(profilePatchDto.getIntroduction())
                 .build();
     }
 }

@@ -41,6 +41,9 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
 
+	// aws - 보안 취약점 이슈로 버전 변경
+	implementation 'com.amazonaws:aws-java-sdk-s3:1.12.13'
+
 //	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
