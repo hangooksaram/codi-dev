@@ -45,10 +45,19 @@ public class ProfileController {
     // TODO 추후 로그인 한 사용자의 로그인 정보를 함께 받는 방식으로 변경이 필요
     @ApiOperation(value = "프로필 정보 수정", notes = "프로필 이미지, 직무, 연차, 학력, 장애구분, 중증도, 장애기간, 소개를 선택해서 수정할 수 있다.")
     @PatchMapping("/{member-id}")
-    public ResponseEntity updateProfile(@PathVariable("member-id") String memberId, @Valid @RequestBody ProfileDto.ProfilePatch profilePatchDto) {
-        Profile profile = profileService.updateProfileInformation(memberId, profileMapper.profilePatchDtoToProfile(profilePatchDto));
+    public ResponseEntity updateProfile(@PathVariable("member-id") String memberId,
+                                        @Valid @RequestPart(value = "profile", required = false) ProfileDto.ProfilePatch profilePatchDto,
+                                        @RequestPart(value = "file", required = false) MultipartFile file) {
+        Profile profile = profileService.updateProfileInformation(memberId, profileMapper.profilePatchDtoToProfile(profilePatchDto), file);
         ProfileDto.ProfileResponse response = profileMapper.profileToProfileResponse(profile);
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "프로필 이미지 삭제", notes = "memberId에 해당하는 사용자의 프로필 이미지를 삭제한다.")
+    @DeleteMapping("profile-image/{member-id}")
+    public ResponseEntity deleteProfileImg(@PathVariable("member-id") String memberId) {
+        profileService.deleteProfileImg(memberId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     // 프로필 정보 조회
