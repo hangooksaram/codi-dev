@@ -174,16 +174,10 @@ public class S3Service {
     }
 
     public void delete(String filePath) {
-        String bucket;
         String dirName = filePath.split("/")[3];
-        if (dirName.equals("profile")) {
-            bucket = this.profileBucket;
-        } else if (dirName.equals("mentor")) {
-            bucket = this.mentorBucket;
-        } else {
-            throw new BusinessLogicException(ExceptionCode.INVALID_DIRECTORY_NAME);
-        }
-        String fileName = filePath.split(bucket + "/")[1];
+        String bucket = getBucket(dirName);
+        String fileName = filePath.substring(filePath.indexOf(dirName)); // object key
+
         amazonS3.deleteObject(new DeleteObjectRequest(bucket, fileName));
     }
 }
