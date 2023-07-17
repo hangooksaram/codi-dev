@@ -52,11 +52,7 @@ const SignInPage = () => {
             </Button>
           </FlexBox>
           <FlexBox justifyContent="space-between" {...{ marginBottom: "80px" }}>
-            <FlexBox
-              {...{ width: "60%" }}
-              columnGap="20px"
-              justifyContent="flex-start"
-            >
+            <FlexBox width="60%" columnGap="20px" justifyContent="flex-start">
               <StyledLink color={theme.colors.gray.dark} href="find">
                 아이디 찾기
               </StyledLink>

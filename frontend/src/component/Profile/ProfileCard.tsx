@@ -108,7 +108,7 @@ const ProfileCard = ({
         justifyContent="space-between"
         {...{ height: "100%" }}
       >
-        <FlexBox justifyContent="space-between" {...{ width: "100%" }}>
+        <FlexBox justifyContent="space-between">
           <Chip>
             <Typography variant="span" size="sm">
               6/24 (금) 오후 12:00

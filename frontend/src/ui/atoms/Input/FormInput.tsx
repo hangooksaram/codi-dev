@@ -68,9 +68,7 @@ const FormInputContainer = ({
   return (
     <StyledFormInputContainer>
       <FormLabel text={text} helpText={helpText} htmlFor={htmlFor} />
-      <FlexBox justifyContent="space-between" {...{ width: "100%" }}>
-        {children}
-      </FlexBox>
+      <FlexBox justifyContent="space-between">{children}</FlexBox>
     </StyledFormInputContainer>
   );
 };

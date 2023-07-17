@@ -3,6 +3,7 @@ import { FlexBox } from "../../ui";
 
 const StyledFlexBox = styled.div(
   ({
+    width,
     direction,
     justifyContent,
     alignItems,
@@ -13,7 +14,7 @@ const StyledFlexBox = styled.div(
     ...rest
   }: FlexBox) => ({
     display: "flex",
-    width: "100%",
+    width: width ?? "100%",
     flexDirection: direction ?? "row",
     justifyContent: justifyContent ?? "center",
     alignItems: alignItems ?? "center",
@@ -25,6 +26,7 @@ const StyledFlexBox = styled.div(
 );
 
 const FlexBox = ({
+  width,
   direction,
   justifyContent,
   alignItems,
@@ -36,6 +38,7 @@ const FlexBox = ({
 }: FlexBox) => {
   return (
     <StyledFlexBox
+      width={width}
       direction={direction}
       justifyContent={justifyContent}
       alignItems={alignItems}
