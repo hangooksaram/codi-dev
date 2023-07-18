@@ -36,8 +36,6 @@ public class QProfile extends EntityPathBase<Profile> {
 
     public final codi.backend.domain.member.entity.QMember member;
 
-    public final StringPath period = createString("period");
-
     public final StringPath severity = createString("severity");
 
     public QProfile(String variable) {
