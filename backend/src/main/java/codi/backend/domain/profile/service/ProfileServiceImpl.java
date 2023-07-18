@@ -109,8 +109,6 @@ public class ProfileServiceImpl implements ProfileService{
                 .ifPresent(findProfile::setDisability);
         Optional.ofNullable(inputProfile.getSeverity())
                 .ifPresent(findProfile::setSeverity);
-        Optional.ofNullable(inputProfile.getPeriod())
-                .ifPresent(findProfile::setPeriod);
         Optional.ofNullable(inputProfile.getIntroduction())
                 .ifPresent(findProfile::setIntroduction);
     }

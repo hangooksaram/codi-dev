@@ -15,7 +15,6 @@ public interface MentorMapper {
         }
 
         return Mentor.builder()
-                .fileUrl(mentorPostDto.getFileUrl())
                 .company(mentorPostDto.getCompany())
                 .job(mentorPostDto.getJob())
                 .career(mentorPostDto.getCareer())
@@ -30,7 +29,6 @@ public interface MentorMapper {
         }
 
         return Mentor.builder()
-                .fileUrl(mentorPatchDto.getFileUrl())
                 .company(mentorPatchDto.getCompany())
                 .job(mentorPatchDto.getJob())
                 .career(mentorPatchDto.getCareer())
