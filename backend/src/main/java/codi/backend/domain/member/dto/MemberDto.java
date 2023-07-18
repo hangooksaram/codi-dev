@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.List;
@@ -25,11 +24,11 @@ public class MemberDto {
         @ApiModelProperty(example = "이름")
         private String name;
 
-        @NotNull
+        @NotBlank
         @ApiModelProperty(example = "생년월일(yyyy-mm-dd)")
         private String birth;
 
-        @NotNull
+        @NotBlank
         @ApiModelProperty(example = "남자 또는 여자")
         private Member.Gender gender;
 
@@ -37,7 +36,7 @@ public class MemberDto {
         @ApiModelProperty(example = "email@address.com")
         private String email;
 
-        @NotNull
+        @NotBlank
         @Pattern(regexp ="^(?=.*\\d)(?=.*[a-zA-Z])(?=.*[~!@#$%^&*])[\\da-zA-Z~!@#$%^&*]+$",
                 message = "영문자와 숫자로 구성되며 최소 하나 이상의 특수문자(~!@#$%^&*)가 포함되어야합니다. "+
                         "공백은 포함될 수 없습니다.")
@@ -53,6 +52,10 @@ public class MemberDto {
         private String oldPassword;
 
         @ApiModelProperty("새 비밀번호")
+        @Pattern(regexp ="^(?=.*\\d)(?=.*[a-zA-Z])(?=.*[~!@#$%^&*])[\\da-zA-Z~!@#$%^&*]+$",
+                message = "영문자와 숫자로 구성되며 최소 하나 이상의 특수문자(~!@#$%^&*)가 포함되어야합니다. "+
+                        "공백은 포함될 수 없습니다.")
+        @Size(min = 8, max = 16)
         private String newPassword;
     }
 

@@ -5,5 +5,5 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface MentorRepositoryCustom {
-    Page<MentorDto.SearchMentorResponse> search(String job, Integer career, String disability, String keyword, Pageable pageable);
+    Page<MentorDto.SearchMentorResponse> search(String job, String career, String disability, String keyword, Pageable pageable);
 }

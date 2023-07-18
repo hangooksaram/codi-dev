@@ -26,23 +26,27 @@ public class Mentor {
     private String job;
 
     @Column
-    private Integer career;
+    private String career;
+
+    @Column
+    private Boolean inOffice = false;
 
     @Column
     private String introduction;
 
     @OneToOne
-    @JoinColumn(name = "MEMBER_ID", unique = true)
+    @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
     @Builder
-    public Mentor(Long id, String fileUrl, String company, String job, Integer career, String introduction) {
+    public Mentor(Long id, String fileUrl, String company, String job, String career, Boolean inOffice, String introduction) {
         this.id = id;
         this.fileUrl = fileUrl;
         this.company = company;
         this.job = job;
         this.career = career;
         this.introduction = introduction;
+        this.inOffice = inOffice;
     }
 
     public void setMember(Member member) {

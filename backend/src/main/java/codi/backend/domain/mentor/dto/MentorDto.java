@@ -4,22 +4,29 @@ import io.swagger.annotations.ApiModelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
+import javax.validation.constraints.NotBlank;
+
 public class MentorDto {
 
     @Getter
     @Builder
     public static class MentorPost {
-        @ApiModelProperty(example = "재직증명서 링크")
-        private String fileUrl;
 
+        @NotBlank
+        @ApiModelProperty(example = "회사 이름")
+        private String company;
+
+        @NotBlank
         @ApiModelProperty(example = "직무")
         private String job;
 
+        @NotBlank
         @ApiModelProperty(example = "경력")
-        private Integer career;
+        private String career;
 
-        @ApiModelProperty(example = "회사 이름")
-        private String company;
+        @NotBlank
+        @ApiModelProperty(example = "재직중 여부")
+        private Boolean inOffice;
 
         @ApiModelProperty(example = "멘토 소개")
         private String introduction;
@@ -28,17 +35,18 @@ public class MentorDto {
     @Getter
     @Builder
     public static class MentorPatch {
-        @ApiModelProperty(example = "재직증명서 링크")
-        private String fileUrl;
 
         @ApiModelProperty(example = "직무")
         private String job;
 
         @ApiModelProperty(example = "경력")
-        private Integer career;
+        private String career;
 
         @ApiModelProperty(example = "회사 이름")
         private String company;
+
+        @ApiModelProperty(example = "재직중 여부")
+        private Boolean inOffice;
 
         @ApiModelProperty(example = "멘토 소개")
         private String introduction;
@@ -54,14 +62,17 @@ public class MentorDto {
         @ApiModelProperty(example = "재직증명서 링크")
         private String fileUrl;
 
+        @ApiModelProperty(example = "회사 이름")
+        private String company;
+
         @ApiModelProperty(example = "직무")
         private String job;
 
         @ApiModelProperty(example = "경력")
-        private Integer career;
+        private String career;
 
-        @ApiModelProperty(example = "회사 이름")
-        private String company;
+        @ApiModelProperty(example = "재직중 여부")
+        private Boolean inOffice;
 
         @ApiModelProperty(example = "멘토 소개")
         private String introduction;

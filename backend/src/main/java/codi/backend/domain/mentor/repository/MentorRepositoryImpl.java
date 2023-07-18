@@ -25,7 +25,7 @@ public class MentorRepositoryImpl extends QuerydslRepositorySupport implements M
     }
 
     @Override
-    public Page<MentorDto.SearchMentorResponse> search(String job, Integer career, String disability, String keyword, Pageable pageable) {
+    public Page<MentorDto.SearchMentorResponse> search(String job, String career, String disability, String keyword, Pageable pageable) {
         QMember member = QMember.member;
         QProfile profile = QProfile.profile;
         QMentor mentor = QMentor.mentor;
@@ -37,7 +37,7 @@ public class MentorRepositoryImpl extends QuerydslRepositorySupport implements M
         if (StringUtils.hasText(job)) {
             builder.and(mentor.job.eq(job));
         }
-        if (career != null) {
+        if (StringUtils.hasText(career)) {
             builder.and(mentor.career.eq(career));
         }
         if (StringUtils.hasText(keyword)) {
