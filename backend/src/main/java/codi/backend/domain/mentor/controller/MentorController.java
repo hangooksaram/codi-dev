@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -37,8 +38,10 @@ public class MentorController {
     // TODO 추후 로그인 한 사용자의 로그인 정보를 함께 받는 방식으로 변경이 필요
     @ApiOperation(value = "멘토 등록", notes = "재직증명서, 직무, 회사 이름, 멘토 소개를 작성해서 멘토가 될 수 있다.")
     @PostMapping("/{member-id}")
-    public ResponseEntity createMentor(@PathVariable("member-id") String memberId, @Valid @RequestBody MentorDto.MentorPost mentorPostDto) {
-        Mentor mentor = mentorService.becomeMentor(memberId, mentorMapper.mentorPostDtoToMentor(mentorPostDto));
+    public ResponseEntity createMentor(@PathVariable("member-id") String memberId,
+                                       @Valid @RequestPart(value = "mentor") MentorDto.MentorPost mentorPostDto,
+                                       @RequestPart(value = "file", required = false) MultipartFile file) {
+        Mentor mentor = mentorService.becomeMentor(memberId, mentorMapper.mentorPostDtoToMentor(mentorPostDto), file);
         MentorDto.MentorResponse response = mentorMapper.mentorToMentorResponse(mentor);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
@@ -47,8 +50,10 @@ public class MentorController {
     // TODO 추후 로그인 한 사용자의 로그인 정보를 함께 받는 방식으로 변경이 필요
     @ApiOperation(value = "멘토 정보 수정", notes = "직업 증명 파일, 직무, 회사, 소개를 선택해서 수정할 수 있다.")
     @PatchMapping("/{member-id}")
-    public ResponseEntity updateMentor(@PathVariable("member-id") String memberId, @Valid @RequestBody MentorDto.MentorPatch mentorPatchDto) {
-        Mentor mentor = mentorService.updateMentorInformation(memberId, mentorMapper.mentorPatchDtoToMentor(mentorPatchDto));
+    public ResponseEntity updateMentor(@PathVariable("member-id") String memberId,
+                                       @Valid @RequestPart(value = "mentor") MentorDto.MentorPatch mentorPatchDto,
+                                       @RequestPart(value = "file", required = false) MultipartFile file) {
+        Mentor mentor = mentorService.updateMentorInformation(memberId, mentorMapper.mentorPatchDtoToMentor(mentorPatchDto), file);
         MentorDto.MentorResponse response = mentorMapper.mentorToMentorResponse(mentor);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -62,10 +67,15 @@ public class MentorController {
         return new ResponseEntity<>(mentor, HttpStatus.OK);
     }
 
+    // TODO 추후 RequestParam을 Dto에 넣어서 넘기는 방법 고려중
+    @ApiOperation(value = "Mentor 필터링", notes = "Mentor 정보를 필터링한 결과를 표시한다. \n" +
+            "페이지 당 표시할 contents의 개수, example = \"20\"\n" +
+            "확인하고 싶은 결과 페이지 번호 (0..N), example = \"0\"\n" +
+            "오름차순 및 내림차순 정렬 (asc or desc), example = \"desc\"")
     @GetMapping
     public ResponseEntity getFilteredMentors(
             @RequestParam(name = "job", required = false) String job,
-            @RequestParam(name = "career", required = false) Integer career,
+            @RequestParam(name = "career", required = false) String career,
             @RequestParam(name = "disability", required = false) String disability,
             @RequestParam(name = "keyword", required = false) String keyword,
             @PageableDefault Pageable pageable) {

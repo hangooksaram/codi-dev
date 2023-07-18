@@ -32,9 +32,6 @@ public class Profile {
     private String severity;
 
     @Column
-    private String period;
-
-    @Column
     private String introduction;
 
     @OneToOne
@@ -42,14 +39,13 @@ public class Profile {
     private Member member;
 
     @Builder
-    public Profile(Long id, String imgUrl, String desiredJob, String education, String disability, String severity, String period, String introduction) {
+    public Profile(Long id, String imgUrl, String desiredJob, String education, String disability, String severity, String introduction) {
         this.id = id;
         this.imgUrl = imgUrl;
         this.desiredJob = desiredJob;
         this.education = education;
         this.disability = disability;
         this.severity = severity;
-        this.period = period;
         this.introduction = introduction;
     }
 

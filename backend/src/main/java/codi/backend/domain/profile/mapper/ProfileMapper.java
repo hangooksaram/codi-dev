@@ -17,7 +17,6 @@ public interface ProfileMapper {
                 .education(profilePostDto.getEducation())
                 .disability(profilePostDto.getDisability())
                 .severity(profilePostDto.getSeverity())
-                .period(profilePostDto.getPeriod())
                 .introduction(profilePostDto.getIntroduction())
 
                 .build();
@@ -33,7 +32,6 @@ public interface ProfileMapper {
                 .education(profilePatchDto.getEducation())
                 .disability(profilePatchDto.getDisability())
                 .severity(profilePatchDto.getSeverity())
-                .period(profilePatchDto.getPeriod())
                 .introduction(profilePatchDto.getIntroduction())
                 .build();
     }
@@ -50,7 +48,6 @@ public interface ProfileMapper {
                 .education(profile.getEducation())
                 .disability(profile.getDisability())
                 .severity(profile.getSeverity())
-                .period(profile.getPeriod())
                 .introduction(profile.getIntroduction())
                 .build();
     }

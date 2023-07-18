@@ -16,9 +16,10 @@ public interface MentorMapper {
 
         return Mentor.builder()
                 .fileUrl(mentorPostDto.getFileUrl())
+                .company(mentorPostDto.getCompany())
                 .job(mentorPostDto.getJob())
                 .career(mentorPostDto.getCareer())
-                .company(mentorPostDto.getCompany())
+                .inOffice(mentorPostDto.getInOffice())
                 .introduction(mentorPostDto.getIntroduction())
                 .build();
     }
@@ -30,9 +31,10 @@ public interface MentorMapper {
 
         return Mentor.builder()
                 .fileUrl(mentorPatchDto.getFileUrl())
+                .company(mentorPatchDto.getCompany())
                 .job(mentorPatchDto.getJob())
                 .career(mentorPatchDto.getCareer())
-                .company(mentorPatchDto.getCompany())
+                .inOffice(mentorPatchDto.getInOffice())
                 .introduction(mentorPatchDto.getIntroduction())
                 .build();
     }
@@ -45,9 +47,10 @@ public interface MentorMapper {
         return MentorDto.MentorResponse.builder()
                 .id(mentor.getId())
                 .fileUrl(mentor.getFileUrl())
+                .company(mentor.getCompany())
                 .job(mentor.getJob())
                 .career(mentor.getCareer())
-                .company(mentor.getCompany())
+                .inOffice(mentor.getInOffice())
                 .introduction(mentor.getIntroduction())
                 .build();
     }

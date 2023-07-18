@@ -22,13 +22,15 @@ public class QMentor extends EntityPathBase<Mentor> {
 
     public static final QMentor mentor = new QMentor("mentor");
 
-    public final NumberPath<Integer> career = createNumber("career", Integer.class);
+    public final StringPath career = createString("career");
 
     public final StringPath company = createString("company");
 
     public final StringPath fileUrl = createString("fileUrl");
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
+
+    public final BooleanPath inOffice = createBoolean("inOffice");
 
     public final StringPath introduction = createString("introduction");
 
