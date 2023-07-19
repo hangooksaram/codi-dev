@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.List;
@@ -28,7 +29,7 @@ public class MemberDto {
         @ApiModelProperty(example = "생년월일(yyyy-mm-dd)")
         private String birth;
 
-        @NotBlank
+        @NotNull
         @ApiModelProperty(example = "남자 또는 여자")
         private Member.Gender gender;
 
