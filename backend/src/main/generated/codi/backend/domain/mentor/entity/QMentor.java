@@ -34,9 +34,15 @@ public class QMentor extends EntityPathBase<Mentor> {
 
     public final StringPath introduction = createString("introduction");
 
+    public final BooleanPath isCertificate = createBoolean("isCertificate");
+
     public final StringPath job = createString("job");
 
     public final codi.backend.domain.member.entity.QMember member;
+
+    public final NumberPath<Integer> mentees = createNumber("mentees", Integer.class);
+
+    public final NumberPath<Double> star = createNumber("star", Double.class);
 
     public QMentor(String variable) {
         this(Mentor.class, forVariable(variable), INITS);

@@ -1,10 +1,13 @@
 package codi.backend.domain.mentor.dto;
 
+import codi.backend.domain.mentor.entity.Mentor;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 public class MentorDto {
 
@@ -13,12 +16,12 @@ public class MentorDto {
     public static class MentorPost {
 
         @NotBlank
-        @ApiModelProperty(example = "회사 이름")
-        private String company;
-
-        @NotBlank
         @ApiModelProperty(example = "직무")
         private String job;
+
+        @NotBlank
+        @ApiModelProperty(example = "회사 이름")
+        private String company;
 
         @NotBlank
         @ApiModelProperty(example = "경력")
@@ -62,6 +65,9 @@ public class MentorDto {
         @ApiModelProperty(example = "재직증명서 링크")
         private String fileUrl;
 
+        @ApiModelProperty(example = "재직증명서 제출 여부")
+        private Boolean isCertificate;
+
         @ApiModelProperty(example = "회사 이름")
         private String company;
 
@@ -76,6 +82,12 @@ public class MentorDto {
 
         @ApiModelProperty(example = "멘토 소개")
         private String introduction;
+
+        @ApiModelProperty(example = "별점")
+        private Double star;
+
+        @ApiModelProperty(example = "수강한 멘토 수")
+        private Integer mentees;
     }
 
     @Schema(description = "멘토 검색 결과 응답 DTO")
@@ -91,6 +103,12 @@ public class MentorDto {
         @ApiModelProperty(example = "멘토 ID")
         private Long mentorId;
 
+        @ApiModelProperty(example = "프로필 이미지")
+        private String imgUrl;
+
+        @ApiModelProperty(example = "재직증명서 제출 여부")
+        private Boolean isCertificate;
+
         @ApiModelProperty(example = "이름")
         private String name;
 
@@ -102,5 +120,11 @@ public class MentorDto {
 
         @ApiModelProperty(example = "중증도")
         private String severity;
+
+        @ApiModelProperty(example = "별점")
+        private Double star;
+
+        @ApiModelProperty(example = "수강한 멘토 수")
+        private Integer mentees;
     }
 }

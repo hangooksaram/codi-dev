@@ -4,6 +4,7 @@ import codi.backend.domain.mentor.dto.MentorDto;
 import codi.backend.domain.mentor.entity.Mentor;
 import codi.backend.domain.mentor.mapper.MentorMapper;
 import codi.backend.domain.mentor.service.MentorService;
+import codi.backend.global.response.ExtendedMultiResponseDto;
 import codi.backend.global.response.MultiResponseDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.List;
 
 @Api(tags = { "Mentor" })
@@ -81,8 +83,12 @@ public class MentorController {
             @PageableDefault Pageable pageable) {
         Page<MentorDto.SearchMentorResponse> mentorsPage = mentorService.getFilteredMentors(job, career, disability, keyword, pageable);
         List<MentorDto.SearchMentorResponse> mentorsList = mentorsPage.getContent();
-        return new ResponseEntity<>(
-                new MultiResponseDto<>(mentorsList, mentorsPage), HttpStatus.OK
-        );
+        List<Long> favorites = Arrays.asList(1L, 2L, 3L, 4L, 10L); // 추후 연관관계 매핑을 통해 기능 구현 예정
+        ExtendedMultiResponseDto<MentorDto.SearchMentorResponse> response = new ExtendedMultiResponseDto<>(mentorsList, mentorsPage, favorites);
+
+//        return new ResponseEntity<>(
+//                new MultiResponseDto<>(mentorsList, mentorsPage), HttpStatus.OK
+//        );
+        return ResponseEntity.ok(response);
     }
 }
