@@ -1,7 +1,10 @@
 package codi.backend.domain.profile.entity;
 
 import codi.backend.domain.member.entity.Member;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 

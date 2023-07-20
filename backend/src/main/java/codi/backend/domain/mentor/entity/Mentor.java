@@ -20,6 +20,9 @@ public class Mentor {
     private String fileUrl;
 
     @Column
+    private Boolean isCertificate = false;
+
+    @Column
     private String company;
 
     @Column
@@ -33,6 +36,12 @@ public class Mentor {
 
     @Column
     private String introduction;
+
+    @Column
+    private Double star = 0.0;
+
+    @Column
+    private Integer mentees = 0;
 
     @OneToOne
     @JoinColumn(name = "MEMBER_ID")

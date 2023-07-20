@@ -18,7 +18,6 @@ public interface ProfileMapper {
                 .disability(profilePostDto.getDisability())
                 .severity(profilePostDto.getSeverity())
                 .introduction(profilePostDto.getIntroduction())
-
                 .build();
     }
 

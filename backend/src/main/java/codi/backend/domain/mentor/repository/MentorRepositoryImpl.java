@@ -55,10 +55,14 @@ public class MentorRepositoryImpl extends QuerydslRepositorySupport implements M
                         MentorDto.SearchMentorResponse.class,
                         member.id.as("id"),
                         member.name.as("name"),
+                        profile.imgUrl.as("imgUrl"),
                         profile.disability.as("disability"),
                         profile.severity.as("severity"),
                         mentor.id.as("mentorId"),
-                        mentor.job.as("job")));
+                        mentor.job.as("job"),
+                        mentor.isCertificate.as("isCertificate"),
+                        mentor.star.as("star"),
+                        mentor.mentees.as("mentees")));
 
         JPQLQuery<MentorDto.SearchMentorResponse> pageableQuery = Objects.requireNonNull(getQuerydsl()).applyPagination(pageableDown, query);
         QueryResults<MentorDto.SearchMentorResponse> result = pageableQuery.fetchResults();
