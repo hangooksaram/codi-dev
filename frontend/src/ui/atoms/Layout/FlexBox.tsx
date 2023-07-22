@@ -10,7 +10,7 @@ const StyledFlexBox = styled.div(
     rowGap,
     columnGap,
     children,
-    wrap,
+    isWrap,
     ...rest
   }: FlexBox) => ({
     display: "flex",
@@ -20,7 +20,7 @@ const StyledFlexBox = styled.div(
     alignItems: alignItems ?? "center",
     rowGap: rowGap,
     columnGap: columnGap,
-    flexWrap: wrap ? "wrap" : "nowrap",
+    flexWrap: isWrap ? "wrap" : "nowrap",
     ...rest,
   })
 );
@@ -33,7 +33,7 @@ const FlexBox = ({
   rowGap,
   columnGap,
   children,
-  wrap,
+  isWrap,
   ...rest
 }: FlexBox) => {
   return (
@@ -44,6 +44,7 @@ const FlexBox = ({
       alignItems={alignItems}
       rowGap={rowGap}
       columnGap={columnGap}
+      isWrap={isWrap}
       {...rest}
     >
       {children}

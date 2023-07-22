@@ -7,13 +7,15 @@ export const StyledFormInputContainer = styled.div`
   width: 100%;
 `;
 
-export const FormLabelAdorement = styled.div`
-  width: 5px;
-  height: 21px;
-  border-radius: 2px;
-  margin-right: 15px;
-  background-color: ${theme.colors.primary};
-`;
+export const FormLabelAdorement = styled.div(
+  ({ color }: { color?: string }) => ({
+    width: "5px",
+    height: "21px",
+    borderRadius: "2px",
+    marginRight: "15px",
+    backgroundColor: color ?? theme.colors.primary,
+  })
+);
 
 export const FormLabelText = styled.label`
   font-size: ${theme.fonts.size.md};
@@ -30,10 +32,12 @@ export const FormLabel = ({
   text,
   helpText,
   htmlFor,
+  labelColor,
 }: {
   text: string;
   helpText?: string;
   htmlFor?: string;
+  labelColor?: string;
 }) => {
   return (
     <FlexBox
@@ -41,7 +45,7 @@ export const FormLabel = ({
       alignItems="center"
       {...{ marginBottom: "20px" }}
     >
-      <FormLabelAdorement />
+      <FormLabelAdorement color={labelColor} />
       <FormLabelText htmlFor={htmlFor}>{text}</FormLabelText>
       <Typography
         variant="div"
@@ -59,15 +63,22 @@ const FormInputContainer = ({
   helpText,
   children,
   htmlFor,
+  labelColor,
 }: {
   text: string;
   htmlFor?: string;
   helpText?: string;
   children: React.ReactNode;
+  labelColor?: string;
 }) => {
   return (
     <StyledFormInputContainer>
-      <FormLabel text={text} helpText={helpText} htmlFor={htmlFor} />
+      <FormLabel
+        text={text}
+        helpText={helpText}
+        htmlFor={htmlFor}
+        labelColor={labelColor}
+      />
       <FlexBox justifyContent="space-between">{children}</FlexBox>
     </StyledFormInputContainer>
   );
