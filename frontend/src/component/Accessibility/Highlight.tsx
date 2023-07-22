@@ -1,6 +1,8 @@
+import { setHighlight } from "@/features/webAccessibility/webAccessibliitySlice";
 import styled from "@emotion/styled";
 import React, { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
+import { useDispatch } from "react-redux";
 
 const DarkSection = styled.div(
   {
@@ -29,6 +31,7 @@ const DarkSection = styled.div(
 const Highlight = () => {
   const [cursorPosition, setCursorPosition] = useState(0);
   const [screenHeight, setScreenHeight] = useState(window.innerHeight);
+  const dispatch = useDispatch();
   useEffect(() => {
     document.addEventListener("mousemove", (e) => {
       setCursorPosition(e.clientY);
@@ -49,7 +52,7 @@ const Highlight = () => {
     };
   }, []);
 
-  return createPortal(
+  return (
     <React.Fragment>
       <DarkSection
         cursorPosition={cursorPosition}
@@ -60,9 +63,12 @@ const Highlight = () => {
         cursorPosition={cursorPosition}
         screenHeight={screenHeight}
         position="bottom"
+        onClick={() => {
+          console.log("dd");
+          dispatch(setHighlight());
+        }}
       ></DarkSection>
-    </React.Fragment>,
-    document.body!
+    </React.Fragment>
   );
 };
 
