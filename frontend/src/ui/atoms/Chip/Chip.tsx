@@ -1,20 +1,18 @@
 import styled from "@emotion/styled";
 import theme from "../../theme";
 
-const Chip = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 31px;
-  padding: 0px 20px;
-  width: fit-content;
-  font-size: ${theme.fonts.size.xs};
-  background-color: ${theme.colors.background};
-  color: ${theme.colors.info};
-  justify-content: center;
-  align-items: center;
-  border-radius: 100px;
-  cursor: default;
-`;
+const Chip = styled.div(({ size }: { size?: "small" }) => ({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  height: size === "small" ? "31px" : "39px",
+  padding: "0px 20px",
+  width: "fit-content",
+  fontSize: theme.fonts.size.xs,
+  backgroundColor: theme.colors.background,
+  color: theme.colors.info,
+  borderRadius: "100px",
+  cursor: "default",
+}));
 
 export default Chip;

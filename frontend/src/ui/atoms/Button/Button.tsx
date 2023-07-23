@@ -27,6 +27,17 @@ const height = (variant: Button, width?: string, size?: string) => {
   }
 };
 
+const fontColor = (color?: string) => {
+  switch (color) {
+    case theme.colors.white:
+      return theme.colors.gray.dark;
+    case theme.colors.secondary:
+      return theme.colors.black;
+    default:
+      return theme.colors.white;
+  }
+};
+
 const Button = styled.button(
   ({
     variant,
@@ -47,7 +58,7 @@ const Button = styled.button(
     outline?: boolean;
   }) => ({
     width: width ?? "fit-content",
-    minWidth: "fit-content",
+    minWidth: "48px",
     backgroundColor: color ?? theme.colors.primary,
     borderRadius: borderRadius(variant),
     height: height(variant, width, size),
@@ -55,7 +66,7 @@ const Button = styled.button(
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    color: color === theme.colors.white ? theme.colors.gray.dark : "white",
+    color: fontColor(color),
     cursor: "pointer",
     padding: variant === "round" ? "0px" : "0px 20px",
     fontSize: fontSize ? theme.fonts.size[fontSize] : theme.fonts.size.sm,

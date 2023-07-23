@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
   // output: "export",
 
@@ -10,6 +11,9 @@ const nextConfig = {
       use: ["@svgr/webpack"],
     });
     return config;
+  },
+  compiler: {
+    styledComponents: true,
   },
 };
 

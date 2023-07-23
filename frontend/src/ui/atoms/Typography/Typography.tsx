@@ -13,9 +13,13 @@ const Typography = ({
 }: Typography) => {
   const StyledTypography = styled
     .div(() => ({
+      minWidth: "fit-content",
       fontSize: size ?? "18px",
       color: color ?? theme.colors.black,
       textAlign: align ?? "left",
+      height: "fit-content",
+      fontWeight: weight,
+      wordBreak: "break-word",
       ...restStyles,
     }))
     .withComponent(variant);
