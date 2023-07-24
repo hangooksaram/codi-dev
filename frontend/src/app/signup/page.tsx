@@ -17,16 +17,10 @@ import PasswordIcon from "../../../public/icons/password.svg";
 import TagIcon from "../../../public/icons/tag.svg";
 import { useRouter } from "next/navigation";
 import { checkDuplicateId, signUp } from "@/api/signApi";
-import { setLocal } from "@/utils/tempUser";
+import { DATE } from "@/constants";
+import { SignUpData } from "@/types/sign";
+import { handleApiCallback } from "@/utils/api";
 
-interface SignUpFormValueProps {
-  birth: string;
-  email: string;
-  id: string;
-  gender: string;
-  name: string;
-  password: string;
-}
 const signUpFormValueProps = {
   birth: "",
   email: "",
@@ -69,37 +63,37 @@ const SignUpPage = () => {
   const [isIdDuplicated, setIsIdDuplicated] = useState(false);
 
   const router = useRouter();
+
   const postCheckDuplicateId = async () => {
-    const res = await checkDuplicateId(formik.values.id);
-    setIsIdDuplicated(res!.data);
+    const { data, status, errorMessage } = await checkDuplicateId(
+      formik.values.id
+    );
+    handleApiCallback(
+      status,
+      () => setIsIdDuplicated(data!),
+      () => alert(`호출 실패 : ${errorMessage}`)
+    );
   };
 
-  const postSignUp = async (values: SignUpFormValueProps) => {
-    return await signUp(values);
+  const processedValues = (values: SignUpData) => {
+    const { year, month, day } = birth;
+    const stringFiedBirth = `${year}-${month}-${day}`;
+    return { ...values, gender: gender.key, birth: stringFiedBirth };
+  };
+
+  const handleSubmit = async (values: SignUpData) => {
+    const { status, errorMessage } = await signUp(processedValues(values));
+    handleApiCallback(
+      status,
+      () => router.push("/"),
+      () => alert(`호출 실패 : ${errorMessage}`)
+    );
   };
 
   const formik = useFormik({
     initialValues: signUpFormValueProps,
-    onSubmit: (values: SignUpFormValueProps) => {
-      const { year, month, day } = birth;
-      const stringFiedBirth = `${year}-${month}-${day}`;
-      values = { ...values, gender: gender.key, birth: stringFiedBirth };
-      // const invalid = () => {
-      //   if (Object.values(values.birth).find((el) => el === null)) {
-      //     setRestValidation(false);
-      //     return true;
-      //   }
-      //   return false;
-      // };
-      // if (invalid()) return;
-
-      // setRestValidation(true);
-
-      // router.push("/mentorProfileForm");
-      // const res = postSignUp(values);
-
-      setLocal(values);
-      router.replace("/signup/complete");
+    onSubmit: (values: SignUpData) => {
+      handleSubmit(values);
     },
     validationSchema: SignupSchema,
   });
@@ -209,34 +203,23 @@ const SignUpPage = () => {
             <FlexBox columnGap="10px">
               <Dropdown
                 width="100%"
-                categories={[
-                  1970, 1971, 1972, 1973, 1974, 1975, 1976, 1977, 1978, 1979,
-                  1980, 1981, 1982, 1983, 1984, 1985, 1986, 1987, 1988, 1989,
-                  1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
-                  2000, 2001, 2002, 2003,
-                ]}
+                categories={DATE.YEARS}
                 selectedCategory={birth.year!}
                 setSelectedCategory={(year) => setBirth({ ...birth, year })}
-                // invalid={!restValidation && birth.year === null}
                 title="연도"
               />
               <Dropdown
                 width="100%"
-                categories={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}
+                categories={DATE.MONTHS}
                 selectedCategory={birth.month!}
                 setSelectedCategory={(month) => setBirth({ ...birth, month })}
-                // invalid={!restValidation && birth.month === null}
                 title="월"
               />
               <Dropdown
                 width="100%"
-                categories={[
-                  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
-                  19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
-                ]}
+                categories={DATE.DAYS}
                 selectedCategory={birth.day!}
                 setSelectedCategory={(day) => setBirth({ ...birth, day })}
-                // invalid={!restValidation && birth.day === null}
                 title="일"
               />
             </FlexBox>
@@ -259,7 +242,7 @@ const SignUpPage = () => {
                 setSelectedCategory={setEmailType}
                 width="30%"
                 categories={["gmail.com", "naver.com", "hanmail.net"]}
-                title="gamil.com"
+                title="gmail.com"
                 type="form"
               />
             </FlexBox>
