@@ -11,7 +11,7 @@ import Header from "./Header";
 
 const CardContainer = styled(Card)(({ imgUrl }: { imgUrl: string }) => ({
   background: `url(${imgUrl}) no-repeat center`,
-  backgrounSize: "cover",
+  backgroundSize: "cover",
 }));
 
 // const CardHeader = styled()(() => ({}));

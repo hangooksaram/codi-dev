@@ -68,6 +68,13 @@ const theme = {
       regular: 400,
     },
   },
+  breakpoints: {
+    lgWeb: 1920,
+    smWeb: 1399,
+    mobile: 999,
+  },
 };
 
+export const device = (device: keyof typeof theme.breakpoints) =>
+  `@media (max-width: ${theme.breakpoints[device]}px)`;
 export default theme;

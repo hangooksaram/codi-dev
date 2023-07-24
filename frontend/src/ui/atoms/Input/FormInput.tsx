@@ -18,6 +18,7 @@ export const FormLabelAdorement = styled.div(
 );
 
 export const FormLabelText = styled.label`
+  min-width: fit-content;
   font-size: ${theme.fonts.size.md};
   font-weight: ${theme.fonts.weight.extraBold};
 `;

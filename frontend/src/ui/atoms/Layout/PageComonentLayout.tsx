@@ -13,7 +13,7 @@ const Layout = styled.div`
 export const PageComponentLayout = ({ children }: { children: ReactNode }) => {
   return (
     <Layout>
-      <Container width="90%">{children}</Container>
+      <Container>{children}</Container>
     </Layout>
   );
 };

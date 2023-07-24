@@ -26,7 +26,7 @@ const MainLandingPage = () => {
   const recommendationMentors = mentors?.filter((mentor, index) => index < 4);
   return (
     isSuccess && (
-      <MainContainer>
+      <>
         <FlexBox direction="column" rowGap="20px">
           <MainBanner src={LandingBanner.src}>
             <div
@@ -69,15 +69,10 @@ const MainLandingPage = () => {
             alt="main-landing-bottom"
           />
         </FlexBox>
-      </MainContainer>
+      </>
     )
   );
 };
-
-const MainContainer = styled.main`
-  width: "100%";
-  background-color: ${theme.colors.background};
-`;
 
 const MainBanner = styled.div(({ src }: { src: string }) => ({
   ...backgroundImage(src),
