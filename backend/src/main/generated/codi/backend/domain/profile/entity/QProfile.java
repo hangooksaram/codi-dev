@@ -28,7 +28,7 @@ public class QProfile extends EntityPathBase<Profile> {
 
     public final StringPath education = createString("education");
 
-    public final ListPath<codi.backend.domain.mentor.entity.Mentor, codi.backend.domain.mentor.entity.QMentor> favorites = this.<codi.backend.domain.mentor.entity.Mentor, codi.backend.domain.mentor.entity.QMentor>createList("favorites", codi.backend.domain.mentor.entity.Mentor.class, codi.backend.domain.mentor.entity.QMentor.class, PathInits.DIRECT2);
+    public final SetPath<codi.backend.domain.favorite.entity.Favorite, codi.backend.domain.favorite.entity.QFavorite> favorites = this.<codi.backend.domain.favorite.entity.Favorite, codi.backend.domain.favorite.entity.QFavorite>createSet("favorites", codi.backend.domain.favorite.entity.Favorite.class, codi.backend.domain.favorite.entity.QFavorite.class, PathInits.DIRECT2);
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 

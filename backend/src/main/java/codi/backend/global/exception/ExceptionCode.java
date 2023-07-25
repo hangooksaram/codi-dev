@@ -21,7 +21,14 @@ public enum ExceptionCode {
     FILE_WRITE_ERROR(400, "Failed to write resized image"),
     INVALID_FILE(400, "File cannot be null or empty."),
     FILE_UPDATE_FAILED(500, "File update failed"),
-    FILE_UPLOAD_ERROR(500, "File upload failed");
+    FILE_UPLOAD_ERROR(500, "File upload failed"),
+
+    // Profile
+    ALREADY_EXISTS(409, "This mentor is already in favorites"),
+
+    // Favorite
+    FAVORITE_NOT_FOUND(404, "Favorite not found"),
+    CANNOT_FAVORITE_SELF(422, "You cannot add yourself as a favorite.");
 
     @Getter
     private final int status;

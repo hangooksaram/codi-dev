@@ -1,13 +1,10 @@
 package codi.backend.domain.mentor.dto;
 
-import codi.backend.domain.mentor.entity.Mentor;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
-import java.util.List;
 
 public class MentorDto {
 

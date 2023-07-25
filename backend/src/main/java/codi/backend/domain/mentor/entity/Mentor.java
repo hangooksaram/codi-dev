@@ -1,9 +1,15 @@
 package codi.backend.domain.mentor.entity;
 
+import codi.backend.domain.favorite.entity.Favorite;
 import codi.backend.domain.member.entity.Member;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -46,6 +52,20 @@ public class Mentor {
     @OneToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
+
+    // 현재는 사용하지 않지만 추후 follower에 대한 데이터가 필요하다면 사용 가능하다.
+    @OneToMany(mappedBy = "mentor", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Favorite> followers = new HashSet<>();
+
+    public void addFollower(Favorite favorite) {
+        this.followers.add(favorite);
+        favorite.setMentor(this);
+    }
+
+    public void removeFollower(Favorite favorite) {
+        this.followers.remove(favorite);
+        favorite.setMentor(null);
+    }
 
     @Builder
     public Mentor(Long id, String fileUrl, String company, String job, String career, Boolean inOffice, String introduction) {
