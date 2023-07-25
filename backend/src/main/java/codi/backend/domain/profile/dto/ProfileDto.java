@@ -1,11 +1,13 @@
 package codi.backend.domain.profile.dto;
 
+import codi.backend.domain.favorite.dto.FavoriteResponseDto;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
+import java.util.Set;
 
 public class ProfileDto {
 
@@ -78,5 +80,8 @@ public class ProfileDto {
 
         @ApiModelProperty(example = "자기소개")
         private String introduction;
+
+        @ApiModelProperty(example = "관심 멘토")
+        private Set<FavoriteResponseDto> favorites;
     }
 }

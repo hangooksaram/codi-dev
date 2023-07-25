@@ -1,12 +1,11 @@
 package codi.backend.domain.mentor.service;
 
-import codi.backend.domain.mentor.dto.MentorDto;
 import codi.backend.domain.member.entity.Member;
-import codi.backend.domain.mentor.entity.Mentor;
 import codi.backend.domain.member.repository.MemberRepository;
-import codi.backend.domain.mentor.repository.MentorRepository;
 import codi.backend.domain.member.utils.CustomAuthorityUtils;
-import codi.backend.domain.profile.entity.Profile;
+import codi.backend.domain.mentor.dto.MentorDto;
+import codi.backend.domain.mentor.entity.Mentor;
+import codi.backend.domain.mentor.repository.MentorRepository;
 import codi.backend.global.exception.BusinessLogicException;
 import codi.backend.global.exception.ExceptionCode;
 import codi.backend.global.file.S3Service;
@@ -82,6 +81,7 @@ public class MentorServiceImpl implements MentorService{
 
         return mentorRepository.save(findMentor);
     }
+
     // TODO S3Service에 넣어두고 값만 다르게 넘기면 될 듯 Mentor 부분을 Object로??
     private void updateMentorFile(Mentor findMentor, MultipartFile file) {
         String previousFileUrl = findMentor.getFileUrl();

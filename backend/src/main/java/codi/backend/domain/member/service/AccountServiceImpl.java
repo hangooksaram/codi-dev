@@ -2,7 +2,6 @@ package codi.backend.domain.member.service;
 
 import codi.backend.domain.member.entity.Member;
 import codi.backend.domain.member.repository.MemberRepository;
-import codi.backend.domain.member.repository.MemberRepositoryCustom;
 import codi.backend.global.email.EmailService;
 import codi.backend.global.exception.BusinessLogicException;
 import codi.backend.global.exception.ExceptionCode;
@@ -39,7 +38,7 @@ public class AccountServiceImpl implements AccountService{
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
         String maskedId = maskId(member.getId());
-        String subject = "[Codi] 요청하신 ID 입니다.";
+        String subject = "[Codi] Codi ID 찾기";
         String message = "ID: " + maskedId;
 
         emailService.sendSimpleMessage(email, subject, message);

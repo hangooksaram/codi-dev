@@ -28,6 +28,8 @@ public class QMentor extends EntityPathBase<Mentor> {
 
     public final StringPath fileUrl = createString("fileUrl");
 
+    public final SetPath<codi.backend.domain.favorite.entity.Favorite, codi.backend.domain.favorite.entity.QFavorite> followers = this.<codi.backend.domain.favorite.entity.Favorite, codi.backend.domain.favorite.entity.QFavorite>createSet("followers", codi.backend.domain.favorite.entity.Favorite.class, codi.backend.domain.favorite.entity.QFavorite.class, PathInits.DIRECT2);
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final BooleanPath inOffice = createBoolean("inOffice");

@@ -1,8 +1,12 @@
 package codi.backend.domain.profile.mapper;
 
+import codi.backend.domain.favorite.dto.FavoriteResponseDto;
 import codi.backend.domain.profile.dto.ProfileDto;
 import codi.backend.domain.profile.entity.Profile;
 import org.mapstruct.Mapper;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface ProfileMapper {
@@ -40,6 +44,10 @@ public interface ProfileMapper {
             return null;
         }
 
+        Set<FavoriteResponseDto> favorites = profile.getFavorites().stream()
+                .map(FavoriteResponseDto::of)
+                .collect(Collectors.toSet());
+
         return ProfileDto.ProfileResponse.builder()
                 .id(profile.getId())
                 .imgUrl(profile.getImgUrl())
@@ -48,6 +56,7 @@ public interface ProfileMapper {
                 .disability(profile.getDisability())
                 .severity(profile.getSeverity())
                 .introduction(profile.getIntroduction())
+                .favorites(favorites)
                 .build();
     }
 }

@@ -5,7 +5,6 @@ import codi.backend.domain.mentor.entity.Mentor;
 import codi.backend.domain.mentor.mapper.MentorMapper;
 import codi.backend.domain.mentor.service.MentorService;
 import codi.backend.global.response.ExtendedMultiResponseDto;
-import codi.backend.global.response.MultiResponseDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
