@@ -1,6 +1,6 @@
 import theme from "@/ui/theme";
-import EmptyCheckbox from "../../../../public/icons/empty-checkbox.svg";
-import FileedCheckbox from "../../../../public/icons/filled-checkbox.svg";
+import EmptyCheckbox from "@icons/common/empty-checkbox.svg";
+import FileedCheckbox from "@icons/common/filled-checkbox.svg";
 import FlexBox from "../Layout/FlexBox";
 import Typography from "../Typography/Typography";
 import { useState } from "react";

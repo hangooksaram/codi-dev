@@ -1,5 +1,5 @@
 import Button from "@/ui/atoms/Button/Button";
-import FloatIcon from "../../../public/icons/float.svg";
+import FloatIcon from "@icons/common/float.svg";
 import theme from "@/ui/theme";
 import styled from "@emotion/styled";
 import Card from "@/ui/atoms/Card/Card";

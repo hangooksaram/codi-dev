@@ -3,9 +3,9 @@ import Chip from "@/ui/atoms/Chip/Chip";
 import FlexBox from "@/ui/atoms/Layout/FlexBox";
 import Typography from "@/ui/atoms/Typography/Typography";
 import theme from "@/ui/theme";
-import FilledLike from "../../../public/icons/filled-like.svg";
-import EmptyLike from "../../../public/icons/empty-like.svg";
-import Edit from "../../../public/icons/edit.svg";
+import FilledLike from "@icons/common/filled-like.svg";
+import EmptyLike from "@icons/common/empty-like.svg";
+import Edit from "@icons/common/edit.svg";
 import { useState } from "react";
 
 const Header = ({ edit }: { edit?: boolean }) => {

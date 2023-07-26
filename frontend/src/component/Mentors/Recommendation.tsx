@@ -7,7 +7,7 @@ import Grid from "@/ui/atoms/Layout/Grid";
 import Typography from "@/ui/atoms/Typography/Typography";
 import styled from "@emotion/styled";
 import Button from "@/ui/atoms/Button/Button";
-import Logo from "../../../public/icons/recommend-icon.svg";
+import Logo from "@icons/common/recommend-icon.svg";
 import { isUser } from "@/utils/tempUser";
 import { StyledImage } from "@/ui/atoms/Image/StyledImage";
 import { useRouter } from "next/navigation";

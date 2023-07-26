@@ -1,7 +1,7 @@
 import Dropdown from "@/ui/atoms/Dropdown/Dropdown";
 import IconInputContainer from "@/ui/atoms/Input/IconInput";
 import FlexBox from "@/ui/atoms/Layout/FlexBox";
-import Search from "../../../public/icons/search.svg";
+import Search from "@icons/common/search.svg";
 import { Dispatch, SetStateAction, useState } from "react";
 import Input from "@/ui/atoms/Input/Input";
 import Button from "@/ui/atoms/Button/Button";

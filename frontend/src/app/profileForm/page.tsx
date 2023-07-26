@@ -10,10 +10,10 @@ import FormInputContainer, {
 import IconInputContainer from "@/ui/atoms/Input/IconInput";
 import Input from "@/ui/atoms/Input/Input";
 import Button from "@/ui/atoms/Button/Button";
-import ProfileImage from "../../../public/icons/profile-image.svg";
+import ProfileImage from "@icons/common/profile-image.svg";
 import Dropdown from "@/ui/atoms/Dropdown/Dropdown";
 import FlexBox from "@/ui/atoms/Layout/FlexBox";
-import Search from "../../../public/icons/search.svg";
+import Search from "@icons/common/search.svg";
 import Textarea from "@/ui/atoms/Input/Textarea";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";

@@ -9,7 +9,7 @@ import Typography from "@/ui/atoms/Typography/Typography";
 import theme from "@/ui/theme";
 import { Form, Formik, FormikHelpers, useFormik } from "formik";
 
-import ProfileImage from "../../../public/icons/profile-image.svg";
+import ProfileImage from "@icons/common/profile-image.svg";
 import Button from "@/ui/atoms/Button/Button";
 import Dropdown from "@/ui/atoms/Dropdown/Dropdown";
 import { useRef, useState } from "react";

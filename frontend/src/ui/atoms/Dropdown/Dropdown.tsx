@@ -3,7 +3,7 @@ import Button from "../Button/Button";
 import theme from "@/ui/theme";
 import { Dropdown } from "@/ui/ui";
 import styled from "@emotion/styled";
-import OpenDropdown from "../../../../public/icons/expand-open.svg";
+import OpenDropdown from "@icons/common/expand-open.svg";
 import DropdownListContent from "./DropdownListContent";
 import DropdownGridContent from "./DropdownGridContent";
 

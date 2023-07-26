@@ -8,10 +8,7 @@ import theme from "@/ui/theme";
 import { css } from "@emotion/css";
 import React from "react";
 import { useDispatch } from "react-redux";
-import Alarm from "../../../public/icons/alarm.svg";
-import ProfileCard from "@/component/Profile/ProfileCard";
 import Input from "@/ui/atoms/Input/Input";
-import IconInput from "@/ui/atoms/Input/IconInput";
 import Chip from "@/ui/atoms/Chip/Chip";
 import Typography from "@/ui/atoms/Typography/Typography";
 

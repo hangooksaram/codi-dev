@@ -1,10 +1,10 @@
 "use client";
 
-import SignInImage from "../../../public/icons/signin-image.png";
+import SignInImage from "@icons/signin-image.png";
 import theme from "@/ui/theme";
 import Button from "@/ui/atoms/Button/Button";
-import PrimaryLogo from "../../../public/icons/logo-primary.svg";
-import SecondaryLogo from "../../../public/icons/logo-secondary.svg";
+import PrimaryLogo from "@icons/logo/logo-primary.svg";
+import SecondaryLogo from "@icons/logo/logo-secondary.svg";
 import Link from "next/link";
 import StyledLink from "@/ui/atoms/Button/Link";
 import FlexBox from "@/ui/atoms/Layout/FlexBox";

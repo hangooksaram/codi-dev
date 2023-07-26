@@ -1,8 +1,8 @@
-import LeftIcon from "../../../public/icons/left-arrow.svg";
-import RightIcon from "../../../public/icons/right-arrow.svg";
+import LeftIcon from "@icons/common/left-arrow.svg";
+import RightIcon from "@icons/common/right-arrow.svg";
 import styled from "@emotion/styled";
-import CompletedSelected from "../../../public/icons/calendar-schedule-completed-selected.svg";
-import Schedule from "../../../public/icons/calendar-schedule.svg";
+import CompletedSelected from "@icons/calendar/calendar-schedule-completed-selected.svg";
+import Schedule from "@icons/calendar/calendar-schedule.svg";
 
 import {
   Button,

@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import MentorsBanner from "@/component/Mentors/MentorBanner";
 import { PageComponentLayout } from "@/ui/atoms/Layout/PageComonentLayout";
 import TitleSection from "@/component/Mentors/TitleSection";
-import Logo from "../../../public/icons/recommend-icon.svg";
+import Logo from "@icons/logo/recommend-icon.svg";
 import Mentors from "@/component/Mentors/Mentors";
 
 const MentorsPage = () => {

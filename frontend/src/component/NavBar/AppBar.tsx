@@ -1,16 +1,16 @@
 import theme from "@/ui/theme";
 import styled from "@emotion/styled";
-import Logo from "../../../public/icons/logo-primary.svg";
+import Logo from "@icons/logo/logo-primary.svg";
 import FlexBox from "@/ui/atoms/Layout/FlexBox";
 import Image from "next/image";
 import StyledLink from "@/ui/atoms/Button/Link";
-import Alarm from "../../../public/icons/alarm.svg";
+import Alarm from "@icons/common/alarm.svg";
 import Button from "@/ui/atoms/Button/Button";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { isUser } from "@/utils/tempUser";
 import Typography from "@/ui/atoms/Typography/Typography";
 import Link from "next/link";
-import Profile from "../../../public/icons/profile.svg";
+import Profile from "@icons/common/profile.svg";
 const StyledAppBar = styled.nav`
   width: 100%;
   position: sticky;
