@@ -2,18 +2,22 @@ import Dropdown from "@/ui/atoms/Dropdown/Dropdown";
 import IconInputContainer from "@/ui/atoms/Input/IconInput";
 import FlexBox from "@/ui/atoms/Layout/FlexBox";
 import Search from "../../../public/icons/search.svg";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import Input from "@/ui/atoms/Input/Input";
 import Button from "@/ui/atoms/Button/Button";
 import theme from "@/ui/theme";
 import { CAREERS, DISABILITIES, JOBS } from "@/constants";
+import { GetMentorsParameters } from "@/types/mentor";
 
-const MentorSearch = () => {
-  const [query, setQuery] = useState({
-    disability: "",
-    job: "",
-    career: "",
-  });
+const MentorSearch = ({
+  query,
+  setQuery,
+  refetch,
+}: {
+  query: GetMentorsParameters;
+  setQuery: (query: GetMentorsParameters) => void;
+  refetch: () => void;
+}) => {
   return (
     <FlexBox justifyContent="flex-start" columnGap="10px">
       <FlexBox width="60%" columnGap="10px">
@@ -21,7 +25,7 @@ const MentorSearch = () => {
           width="30%"
           title="장애구분"
           categories={DISABILITIES}
-          selectedCategory={query.disability}
+          selectedCategory={query.disability!}
           setSelectedCategory={(disability) =>
             setQuery({ ...query, disability })
           }
@@ -30,14 +34,14 @@ const MentorSearch = () => {
           width="40%"
           title="직무"
           categories={JOBS}
-          selectedCategory={query.job}
+          selectedCategory={query.job!}
           setSelectedCategory={(job) => setQuery({ ...query, job })}
         />
         <Dropdown
           width="30%"
           title="경력"
           categories={CAREERS}
-          selectedCategory={query.career}
+          selectedCategory={query.career!}
           setSelectedCategory={(career) => setQuery({ ...query, career })}
         />
       </FlexBox>
@@ -45,7 +49,14 @@ const MentorSearch = () => {
         <IconInputContainer iconComponent={<Search />}>
           <Input outline />
         </IconInputContainer>
-        <Button width="40%" color={theme.colors.primary} variant="square">
+        <Button
+          onClick={() => {
+            refetch();
+          }}
+          width="40%"
+          color={theme.colors.primary}
+          variant="square"
+        >
           검색
         </Button>
       </FlexBox>

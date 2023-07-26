@@ -1,13 +1,23 @@
 import ProfileCard from "../Profile/ProfileCard";
 import { Mentor } from "@/types/mentor";
 import Grid from "@/ui/atoms/Layout/Grid";
+import { device } from "@/ui/theme";
+import { css } from "@emotion/css";
 
 const MentorList = ({ mentors }: { mentors: Mentor[] }) => (
   <Grid
-    gridTemplateColumns="repeat(auto-fit, minmax(260px, auto))"
+    gridTemplateColumns="repeat(auto-fill,  minmax(23%, auto))"
     gridAutoRows="477px"
     columnGap="20px"
     rowGap="20px"
+    className={css({
+      [device("smWeb")]: {
+        gridTemplateColumns: "repeat(auto-fill,  minmax(33%, auto))",
+      },
+      [device("mobile")]: {
+        gridTemplateColumns: "repeat(auto-fill,  minmax(47%, auto))",
+      },
+    })}
   >
     {mentors!.map(
       ({
