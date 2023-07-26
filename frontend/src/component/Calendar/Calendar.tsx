@@ -1,22 +1,43 @@
-import React from "react";
-
-import { format } from "date-fns";
+import React, { Dispatch, SetStateAction, useEffect } from "react";
+import { ko } from "date-fns/locale";
 import { DayPicker } from "react-day-picker";
-import "react-day-picker/dist/style.css";
+import {
+  CustomCaption,
+  CustomDay,
+  CustomDayContent,
+  dayPickerContainerStyle,
+} from "./CustomElements";
 
-const Calendar = () => {
-  const [selected, setSelected] = React.useState<Date>();
+const Calendar = ({
+  selected,
+  setSelected,
+}: {
+  selected: Date | undefined;
+  setSelected: React.Dispatch<SetStateAction<Date | undefined>>;
+}) => {
+  useEffect(() => {
+    setSelected(new Date());
+  }, []);
 
-  let footer = <p>Please pick a day.</p>;
-  if (selected) {
-    footer = <p>You picked {format(selected, "PP")}.</p>;
-  }
   return (
     <DayPicker
+      style={dayPickerContainerStyle}
       mode="single"
       selected={selected}
       onSelect={setSelected}
-      footer={footer}
+      components={{
+        Day: CustomDay,
+        DayContent: (props) =>
+          CustomDayContent({
+            ...props,
+            selected,
+          }),
+        Caption: CustomCaption,
+      }}
+      modifiersClassNames={{
+        selected: "calendar-selected",
+      }}
+      locale={ko}
     />
   );
 };
