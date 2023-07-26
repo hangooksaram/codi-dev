@@ -22,6 +22,10 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public Member createMember(Member member) {
+        // 중복 검사
+        validateDuplicateId(member.getId());
+        validateDuplicateEmail(member.getEmail());
+
         // 비밀번호 암호화
         member.setPassword(passwordEncoder.encode(member.getPassword()));
 
@@ -53,5 +57,17 @@ public class MemberServiceImpl implements MemberService{
 
         member.setPassword(passwordEncoder.encode(newPassword));
         memberRepository.save(member);
+    }
+
+    private void validateDuplicateId(String id) {
+        if (memberRepository.existsById(id)) {
+            throw new BusinessLogicException(ExceptionCode.DUPLICATED_ID);
+        }
+    }
+
+    private void validateDuplicateEmail(String email) {
+        if (memberRepository.existsByEmail(email)) {
+            throw new BusinessLogicException(ExceptionCode.DUPLICATE_EMAIL);
+        }
     }
 }

@@ -13,6 +13,8 @@ public enum ExceptionCode {
     NOT_PROFILE_ERROR(400, "This member has no profile"),
     PROFILE_NOT_FOUND(400, "This request does not have profile obj"),
     PROFILE_UPDATE_FAILED(500, "Profile update failed"),
+    DUPLICATED_ID(400, "ID is already in use."),
+    DUPLICATE_EMAIL(400, "Email is already in use."),
 
     // File
     INVALID_DIRECTORY_NAME(400, "This directory name is invalid"),
