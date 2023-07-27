@@ -1,10 +1,6 @@
-import Button from "@/ui/atoms/Button/Button";
-import theme from "@/ui/theme";
 import styled from "@emotion/styled";
-import Card from "@/ui/atoms/Card/Card";
-import Chip from "@/ui/atoms/Chip/Chip";
-import Typography from "@/ui/atoms/Typography/Typography";
-import FlexBox from "@/ui/atoms/Layout/FlexBox";
+import Card from "@/ui/atoms/Card";
+import FlexBox from "@/ui/atoms/FlexBox";
 import Content from "./Content";
 import { MentorProfileCard } from "@/types/mentor";
 import Header from "./Header";

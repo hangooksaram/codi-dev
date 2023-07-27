@@ -1,10 +1,10 @@
-import Button from "@/ui/atoms/Button/Button";
+import Button from "@/ui/atoms/Button";
 import FloatIcon from "@icons/common/float.svg";
 import theme from "@/ui/theme";
 import styled from "@emotion/styled";
-import Card from "@/ui/atoms/Card/Card";
-import Typography from "@/ui/atoms/Typography/Typography";
-import FlexBox from "@/ui/atoms/Layout/FlexBox";
+import Card from "@/ui/atoms/Card";
+import Typography from "@/ui/atoms/Typography";
+import FlexBox from "@/ui/atoms/FlexBox";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useDispatch } from "react-redux";

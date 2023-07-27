@@ -1,5 +1,5 @@
-import FlexBox from "@/ui/atoms/Layout/FlexBox";
-import Typography from "@/ui/atoms/Typography/Typography";
+import FlexBox from "@/ui/atoms/FlexBox";
+import Typography from "@/ui/atoms/Typography";
 import theme from "@/ui/theme";
 
 const TitleSection = ({

@@ -6,7 +6,7 @@ export const StyledImage = ({
   src,
   alt,
   onClick,
-  ...restProps
+  ...rest
 }: {
   width: string;
   height: string;
@@ -16,7 +16,7 @@ export const StyledImage = ({
 }) => (
   <div
     onClick={onClick!}
-    style={{ width: width, height: height, position: "relative", ...restProps }}
+    style={{ width: width, height: height, position: "relative", ...rest }}
   >
     <Image
       src={src}

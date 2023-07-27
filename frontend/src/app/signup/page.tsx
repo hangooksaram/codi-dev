@@ -2,15 +2,15 @@
 
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { FormContainer } from "@/ui/atoms/Layout/Container";
-import Typography from "@/ui/atoms/Typography/Typography";
+import { FormContainer } from "@/ui/atoms/Container";
+import Typography from "@/ui/atoms/Typography";
 import theme from "@/ui/theme";
-import Button from "@/ui/atoms/Button/Button";
-import FormInputContainer from "@/ui/atoms/Input/FormInput";
-import IconInputContainer from "@/ui/atoms/Input/IconInput";
-import Input from "@/ui/atoms/Input/Input";
-import FlexBox from "@/ui/atoms/Layout/FlexBox";
-import Dropdown from "@/ui/atoms/Dropdown/Dropdown";
+import Button from "@/ui/atoms/Button";
+import FormInputContainer from "@/ui/molecules/Input/FormInput";
+import IconInputContainer from "@/ui/molecules/Input/IconInput";
+import Input from "@/ui/atoms/Input";
+import FlexBox from "@/ui/atoms/FlexBox";
+import Dropdown from "@/ui/atoms/Dropdown";
 import { useState } from "react";
 import IdIcon from "@icons/common/id.svg";
 import PasswordIcon from "@icons/common/password.svg";

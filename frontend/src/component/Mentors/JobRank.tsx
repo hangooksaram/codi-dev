@@ -1,6 +1,6 @@
-import FlexBox from "@/ui/atoms/Layout/FlexBox";
-import { PageComponentLayout } from "@/ui/atoms/Layout/PageComonentLayout";
-import Typography from "@/ui/atoms/Typography/Typography";
+import FlexBox from "@/ui/atoms/FlexBox";
+import { PageComponentLayout } from "@/ui/molecules/Layout/PageComonentLayout";
+import Typography from "@/ui/atoms/Typography";
 import theme from "@/ui/theme";
 import styled from "@emotion/styled";
 import Logo from "@icons/logo/recommendation-page-logo.svg";

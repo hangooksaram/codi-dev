@@ -1,9 +1,9 @@
 import theme from "@/ui/theme";
 import EmptyCheckbox from "@icons/common/empty-checkbox.svg";
 import FileedCheckbox from "@icons/common/filled-checkbox.svg";
-import FlexBox from "../Layout/FlexBox";
-import Typography from "../Typography/Typography";
 import { useState } from "react";
+import Typography from "./Typography";
+import FlexBox from "./FlexBox";
 
 const Checkbox = ({
   width,

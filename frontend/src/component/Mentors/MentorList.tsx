@@ -1,6 +1,6 @@
 import ProfileCard from "../Profile/ProfileCard";
 import { Mentor } from "@/types/mentor";
-import Grid from "@/ui/atoms/Layout/Grid";
+import Grid from "@/ui/atoms/Grid";
 import { device } from "@/ui/theme";
 import { css } from "@emotion/css";
 

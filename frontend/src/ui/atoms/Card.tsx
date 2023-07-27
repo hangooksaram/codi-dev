@@ -14,8 +14,8 @@ const Card = styled.div(
   }) => ({
     width: width ?? "100%",
     height: height ?? "100%",
-    borderRadius: "20px",
     backgroundColor: color ?? "white",
+    borderRadius: "20px",
     padding: padding,
   })
 );

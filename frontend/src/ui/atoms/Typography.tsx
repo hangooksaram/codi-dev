@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
-import { Typography } from "../../ui";
-import theme from "../../theme";
+import theme from "../theme";
+import { Typography } from "../ui";
 
 const Typography = ({
   variant,
@@ -9,7 +9,7 @@ const Typography = ({
   weight,
   align,
   children,
-  ...restStyles
+  ...rest
 }: Typography) => {
   const StyledTypography = styled
     .div(() => ({
@@ -20,7 +20,7 @@ const Typography = ({
       height: "fit-content",
       fontWeight: weight,
       wordBreak: "break-word",
-      ...restStyles,
+      ...rest,
     }))
     .withComponent(variant);
   return <StyledTypography>{children}</StyledTypography>;

@@ -1,12 +1,12 @@
 import { useState } from "react";
-import Button from "../Button/Button";
 import theme from "@/ui/theme";
 import { Dropdown } from "@/ui/ui";
 import styled from "@emotion/styled";
 import OpenDropdown from "@icons/common/expand-open.svg";
-import FlexBox from "../Layout/FlexBox";
-import Checkbox from "../Checkbox/Checkbox";
-import Card from "../Card/Card";
+import Card from "./Card";
+import Checkbox from "./Checkbox";
+import Button from "./Button";
+import FlexBox from "./FlexBox";
 
 const Dropdown = ({
   width,

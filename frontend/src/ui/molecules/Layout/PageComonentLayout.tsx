@@ -1,6 +1,6 @@
+import Container from "@/ui/atoms/Container";
 import theme from "@/ui/theme";
 import styled from "@emotion/styled";
-import Container from "./Container";
 import { ReactNode } from "react";
 
 const Layout = styled.div`

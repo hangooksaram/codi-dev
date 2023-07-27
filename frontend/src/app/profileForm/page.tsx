@@ -1,20 +1,20 @@
 "use client";
 
-import { FormContainer } from "@/ui/atoms/Layout/Container";
-import Typography from "@/ui/atoms/Typography/Typography";
+import { FormContainer } from "@/ui/atoms/Container";
+import Typography from "@/ui/atoms/Typography";
 import theme from "@/ui/theme";
 import * as Yup from "yup";
 import FormInputContainer, {
   Form as MentorProfileForm,
-} from "@/ui/atoms/Input/FormInput";
-import IconInputContainer from "@/ui/atoms/Input/IconInput";
-import Input from "@/ui/atoms/Input/Input";
-import Button from "@/ui/atoms/Button/Button";
+} from "@/ui/molecules/Input/FormInput";
+import IconInputContainer from "@/ui/molecules/Input/IconInput";
+import Input from "@/ui/atoms/Input";
+import Button from "@/ui/atoms/Button";
 import ProfileImage from "@icons/common/profile-image.svg";
-import Dropdown from "@/ui/atoms/Dropdown/Dropdown";
-import FlexBox from "@/ui/atoms/Layout/FlexBox";
+import Dropdown from "@/ui/atoms/Dropdown";
+import FlexBox from "@/ui/atoms/FlexBox";
 import Search from "@icons/common/search.svg";
-import Textarea from "@/ui/atoms/Input/Textarea";
+import Textarea from "@/ui/atoms/Textarea";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import { searchUniv } from "@/api/signApi";

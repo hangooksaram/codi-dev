@@ -1,12 +1,12 @@
-import FlexBox from "@/ui/atoms/Layout/FlexBox";
+import FlexBox from "@/ui/atoms/FlexBox";
 import ProfileCard from "../Profile/ProfileCard";
 import theme from "@/ui/theme";
-import { PageComponentLayout } from "@/ui/atoms/Layout/PageComonentLayout";
+import { PageComponentLayout } from "@/ui/molecules/Layout/PageComonentLayout";
 import { Mentor } from "@/types/mentor";
-import Grid from "@/ui/atoms/Layout/Grid";
-import Typography from "@/ui/atoms/Typography/Typography";
+import Grid from "@/ui/atoms/Grid";
+import Typography from "@/ui/atoms/Typography";
 import styled from "@emotion/styled";
-import Button from "@/ui/atoms/Button/Button";
+import Button from "@/ui/atoms";
 import Logo from "@icons/common/recommend-icon.svg";
 import { isUser } from "@/utils/tempUser";
 import { StyledImage } from "@/ui/atoms/Image/StyledImage";

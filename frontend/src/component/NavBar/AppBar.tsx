@@ -1,14 +1,14 @@
 import theme from "@/ui/theme";
 import styled from "@emotion/styled";
 import Logo from "@icons/logo/logo-primary.svg";
-import FlexBox from "@/ui/atoms/Layout/FlexBox";
+import FlexBox from "@/ui/atoms/FlexBox";
 import Image from "next/image";
-import StyledLink from "@/ui/atoms/Button/Link";
+import StyledLink from "@/ui/atoms/Link";
 import Alarm from "@icons/common/alarm.svg";
-import Button from "@/ui/atoms/Button/Button";
+import Button from "@/ui/atoms/Button";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { isUser } from "@/utils/tempUser";
-import Typography from "@/ui/atoms/Typography/Typography";
+import Typography from "@/ui/atoms/Typography";
 import Link from "next/link";
 import Profile from "@icons/common/profile.svg";
 const StyledAppBar = styled.nav`

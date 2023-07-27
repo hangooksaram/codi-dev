@@ -1,7 +1,7 @@
-import FlexBox from "@/ui/atoms/Layout/FlexBox";
+import FlexBox from "@/ui/atoms/FlexBox";
+import Typography from "@/ui/atoms/Typography";
 import theme from "@/ui/theme";
 import styled from "@emotion/styled";
-import Typography from "../Typography/Typography";
 
 export const StyledFormInputContainer = styled.div`
   width: 100%;

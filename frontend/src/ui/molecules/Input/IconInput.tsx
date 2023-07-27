@@ -1,8 +1,5 @@
-import { Component, ComponentProps, ReactElement, ReactNode } from "react";
-import Input from "./Input";
+import { ReactNode } from "react";
 import styled from "@emotion/styled";
-import { JsxElement } from "typescript";
-import Image from "next/image";
 
 const StyledIconInputContainer = styled.div`
   width: 100%;

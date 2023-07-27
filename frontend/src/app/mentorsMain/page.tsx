@@ -1,12 +1,12 @@
 "use client";
 
 import JobRank from "@/component/Mentors/JobRank";
-import FlexBox from "@/ui/atoms/Layout/FlexBox";
+import FlexBox from "@/ui/atoms/FlexBox";
 import theme from "@/ui/theme";
 import { useRef } from "react";
 import { useRouter } from "next/navigation";
 import MentorsBanner from "@/component/Mentors/MentorBanner";
-import { PageComponentLayout } from "@/ui/atoms/Layout/PageComonentLayout";
+import { PageComponentLayout } from "@/ui/molecules/Layout/PageComonentLayout";
 import TitleSection from "@/component/Mentors/TitleSection";
 import Logo from "@icons/logo/recommend-icon.svg";
 import Mentors from "@/component/Mentors/Mentors";
