@@ -11,6 +11,9 @@ import { isUser } from "@/utils/tempUser";
 import Typography from "@/ui/atoms/Typography";
 import Link from "next/link";
 import Profile from "@icons/common/profile.svg";
+import { useEffect, useState } from "react";
+import Dropdown from "@/ui/atoms/Dropdown";
+import { PROFILE_MENU } from "@/constants";
 const StyledAppBar = styled.nav`
   width: 100%;
   position: sticky;
@@ -44,60 +47,84 @@ const AppBarProfile = styled.div`
 const AppBar = () => {
   const path = usePathname();
   const router = useRouter();
+  const [domLoaded, setDomLoaded] = useState(false);
+  const [selected, setSelected] = useState();
+  const [open, setOpen] = useState(false);
+  const hrefs = {
+    [PROFILE_MENU[0]]: "/myCodi",
+    [PROFILE_MENU[1]]: "/myCodi",
+    [PROFILE_MENU[2]]: "/myCodi",
+    [PROFILE_MENU[3]]: "/myCodi",
+  };
+  useEffect(() => {
+    setDomLoaded(true);
+    if (selected) {
+      router.push(hrefs[selected]);
+    }
+  }, [selected]);
 
   if (path === "/signin/") return;
   return (
-    <StyledAppBar>
-      <AppBarContent>
-        <FlexBox justifyContent="flex-start" columnGap="90px">
-          <Link href={"/"}>
-            <Logo width="108px" height="26px" />
-          </Link>
-          <StyledLink href="/mentors">멘토 페이지</StyledLink>
-          <StyledLink href="/">마이코디</StyledLink>
-        </FlexBox>
-        {isUser() ? (
-          <FlexBox justifyContent="flex-end" columnGap="30px">
-            <Alarm />
-            <AppBarProfile>
-              <Profile />
-            </AppBarProfile>
-            <Button
-              size="small"
-              variant="default"
-              color={theme.colors.primary}
-              {...{ height: "39px" }}
-              onClick={() => router.push("/mentorApplyForm")}
-            >
-              멘토 신청
-            </Button>
+    domLoaded && (
+      <StyledAppBar>
+        <AppBarContent>
+          <FlexBox justifyContent="flex-start" columnGap="90px">
+            <Link href={"/"}>
+              <Logo width="108px" height="26px" />
+            </Link>
+            <StyledLink href="/mentors">멘토 페이지</StyledLink>
+            <StyledLink href="/">마이코디</StyledLink>
           </FlexBox>
-        ) : (
-          <FlexBox justifyContent="flex-end" columnGap="30px">
-            <StyledLink href="/signup">
-              아이디가 없으신가요?
-              <Typography
-                variant="span"
-                size={theme.fonts.size.sm}
-                weight={theme.fonts.weight.bold}
-                {...{ marginLeft: "4px" }}
+          {isUser() ? (
+            <FlexBox justifyContent="flex-end" columnGap="30px">
+              <Alarm />
+              <Dropdown
+                type="menu"
+                categories={PROFILE_MENU}
+                selectedCategory={selected!}
+                setSelectedCategory={setSelected}
               >
-                회원가입
-              </Typography>
-            </StyledLink>
-            <Button
-              size="small"
-              variant="default"
-              color={theme.colors.primary}
-              {...{ height: "39px" }}
-              onClick={() => router.push("/signin")}
-            >
-              로그인
-            </Button>
-          </FlexBox>
-        )}
-      </AppBarContent>
-    </StyledAppBar>
+                <AppBarProfile>
+                  <Profile />
+                </AppBarProfile>
+              </Dropdown>
+              <Button
+                size="small"
+                variant="default"
+                color={theme.colors.primary}
+                {...{ height: "39px" }}
+                onClick={() => router.push("/mentorApplyForm")}
+              >
+                멘토 신청
+              </Button>
+            </FlexBox>
+          ) : (
+            <FlexBox justifyContent="flex-end" columnGap="30px">
+              <StyledLink href="/signup">
+                아이디가 없으신가요?
+                <Typography
+                  variant="span"
+                  size={theme.fonts.size.sm}
+                  weight={theme.fonts.weight.bold}
+                  {...{ marginLeft: "4px" }}
+                >
+                  회원가입
+                </Typography>
+              </StyledLink>
+              <Button
+                size="small"
+                variant="default"
+                color={theme.colors.primary}
+                {...{ height: "39px" }}
+                onClick={() => router.push("/signin")}
+              >
+                로그인
+              </Button>
+            </FlexBox>
+          )}
+        </AppBarContent>
+      </StyledAppBar>
+    )
   );
 };
 
