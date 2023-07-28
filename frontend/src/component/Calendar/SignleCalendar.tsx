@@ -1,19 +1,54 @@
+import React, { SetStateAction, useEffect, useRef, useState } from "react";
+import { ko } from "date-fns/locale";
+import {
+  Button,
+  CaptionProps,
+  DayContentProps,
+  DayPicker,
+  DayProps,
+  useDayRender,
+  useNavigation,
+} from "react-day-picker";
+import formattedDate from "@/utils/dateFormat";
 import LeftIcon from "@icons/common/left-arrow.svg";
 import RightIcon from "@icons/common/right-arrow.svg";
 import styled from "@emotion/styled";
 import CompletedSelected from "@icons/calendar/calendar-schedule-completed-selected.svg";
 import Schedule from "@icons/calendar/calendar-schedule.svg";
-
-import {
-  Button,
-  CaptionProps,
-  DayContentProps,
-  DayProps,
-  useDayRender,
-  useNavigation,
-} from "react-day-picker";
 import theme from "@/ui/theme";
-import { useRef } from "react";
+
+const SingleCalendar = ({
+  setSelected,
+}: {
+  selected: string | undefined;
+  setSelected: React.Dispatch<SetStateAction<string | undefined>>;
+}) => {
+  const [date, setDate] = useState<Date>();
+  useEffect(() => {
+    setSelected(formattedDate(date));
+  }, [date]);
+  return (
+    <DayPicker
+      style={dayPickerContainerStyle}
+      mode="single"
+      selected={date}
+      onSelect={(date) => setDate(date)}
+      components={{
+        Day: CustomDay,
+        DayContent: (props) =>
+          CustomDayContent({
+            ...props,
+            selected: date,
+          }),
+        Caption: CustomCaption,
+      }}
+      modifiersClassNames={{
+        selected: "calendar-selected",
+      }}
+      locale={ko}
+    />
+  );
+};
 
 interface CustomDayContentProps extends DayContentProps {
   selected?: Date;
@@ -29,7 +64,6 @@ export const CustomDay = (props: DayProps) => {
     outline: "none",
   };
   const handleClick: React.MouseEventHandler<HTMLButtonElement> = (e) => {
-    console.log(e);
     dayRender.buttonProps?.onClick?.(e);
   };
   if (dayRender.isHidden) {
@@ -47,6 +81,7 @@ export const CustomDay = (props: DayProps) => {
 export const CustomDayContent = ({ date, selected }: CustomDayContentProps) => {
   const today = new Date().getDate();
   const day = date.getDate();
+  console.log(selected);
 
   return (
     <div
@@ -114,3 +149,5 @@ const CustomContentDate = styled.div`
   size: ${theme.fonts.size.md};
   font-weight: ${theme.fonts.weight.regular};
 `;
+
+export default SingleCalendar;
