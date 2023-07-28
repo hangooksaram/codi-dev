@@ -16,6 +16,7 @@ const Dropdown = ({
   categories,
   invalid,
   selectedCategory,
+  children,
   setSelectedCategory,
 }: Dropdown) => {
   const [open, setOpen] = useState(false);
@@ -26,17 +27,22 @@ const Dropdown = ({
 
   return (
     <DropDownListContainer width={width}>
-      <DropdownButton
-        invalid={invalid}
-        width="100%"
-        color={theme.colors.white}
-        onClick={() => setOpen((prev) => !prev)}
-        variant="square"
-        type="button"
-      >
-        {selectedCategory ? selectedCategory : title}
-        <OpenDropdown />
-      </DropdownButton>
+      {type === "menu" ? (
+        <div onClick={() => setOpen((prev) => !prev)}>{children}</div>
+      ) : (
+        <DropdownButton
+          invalid={invalid}
+          width="100%"
+          color={theme.colors.white}
+          onClick={() => setOpen((prev) => !prev)}
+          variant="square"
+          type="button"
+        >
+          {selectedCategory ? selectedCategory : title}
+          <OpenDropdown />
+        </DropdownButton>
+      )}
+
       {open &&
         (contentType === "list" ? (
           <DropdownListContent
@@ -149,7 +155,7 @@ const DropdownItem = styled.li`
   height: 50px;
   display: flex;
   align-items: center;
-  padding: 0px 21.5px;
+  padding: 0px 20px;
   min-width: 130px;
   color: ${theme.colors.black};
   font-size: ${theme.fonts.size.sm};
