@@ -20,33 +20,32 @@ const customAxios = {
     });
   },
   post: (url: string, data?: object, options?: AxiosOptions) => {
-    return instance.post(url, {
+    return instance.post(url, data, {
       ...options,
-      data,
-      headers: {
-        Authorization: `Bearer ${mockToken}`,
-        ...options!.headers,
-      },
+
+      // headers: {
+      //   Authorization: `Bearer ${mockToken}`,
+      //   ...options!.headers,
+      // },
     });
   },
 
   delete: (url: string, data?: object, options?: AxiosOptions) => {
     return instance.post(url, {
       ...options,
-      data,
-      headers: {
-        Authorization: `Bearer ${mockToken}`,
-        ...options!.headers,
-      },
+      // headers: {
+      //   Authorization: `Bearer ${mockToken}`,
+      //   ...options!.headers,
+      // },
     });
   },
-  put: (url: string, options?: AxiosOptions) => {
-    return instance.post(url, {
+  put: (url: string, data?: object, options?: AxiosOptions) => {
+    return instance.post(url, data, {
       ...options,
-      headers: {
-        Authorization: `Bearer ${mockToken}`,
-        ...options!.headers,
-      },
+      // headers: {
+      //   Authorization: `Bearer ${mockToken}`,
+      //   ...options!.headers,
+      // },
     });
   },
 };

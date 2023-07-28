@@ -1,10 +1,10 @@
-import Dropdown from "@/ui/atoms/Dropdown/Dropdown";
-import IconInputContainer from "@/ui/atoms/Input/IconInput";
-import FlexBox from "@/ui/atoms/Layout/FlexBox";
-import Search from "../../../public/icons/search.svg";
+import Dropdown from "@/ui/atoms/Dropdown";
+import IconInputContainer from "@/ui/molecules/Input/IconInput";
+import FlexBox from "@/ui/atoms/FlexBox";
+import Search from "@icons/common/search.svg";
 import { Dispatch, SetStateAction, useState } from "react";
-import Input from "@/ui/atoms/Input/Input";
-import Button from "@/ui/atoms/Button/Button";
+import Input from "@/ui/atoms/Input";
+import Button from "@/ui/atoms/Button";
 import theme from "@/ui/theme";
 import { CAREERS, DISABILITIES, JOBS } from "@/constants";
 import { GetMentorsParameters } from "@/types/mentor";

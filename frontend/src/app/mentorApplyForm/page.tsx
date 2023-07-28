@@ -1,21 +1,21 @@
 "use client";
 
-import FormInputContainer from "@/ui/atoms/Input/FormInput";
-import IconInputContainer from "@/ui/atoms/Input/IconInput";
-import Input from "@/ui/atoms/Input/Input";
-import { FormContainer } from "@/ui/atoms/Layout/Container";
-import FlexBox from "@/ui/atoms/Layout/FlexBox";
-import Typography from "@/ui/atoms/Typography/Typography";
+import FormInputContainer from "@/ui/molecules/Input/FormInput";
+import IconInputContainer from "@/ui/molecules/Input/IconInput";
+import Input from "@/ui/atoms/Input";
+import { FormContainer } from "@/ui/atoms/Container";
+import FlexBox from "@/ui/atoms/FlexBox";
+import Typography from "@/ui/atoms/Typography";
 import theme from "@/ui/theme";
 import { Form, Formik, FormikHelpers, useFormik } from "formik";
 
-import ProfileImage from "../../../public/icons/profile-image.svg";
-import Button from "@/ui/atoms/Button/Button";
-import Dropdown from "@/ui/atoms/Dropdown/Dropdown";
+import ProfileImage from "@icons/common/profile-image.svg";
+import Button from "@/ui/atoms/Button";
+import Dropdown from "@/ui/atoms/Dropdown";
 import { useRef, useState } from "react";
-import Checkbox from "@/ui/atoms/Checkbox/Checkbox";
+import Checkbox from "@/ui/atoms/Checkbox";
 import * as Yup from "yup";
-import Textarea from "@/ui/atoms/Input/Textarea";
+import Textarea from "@/ui/atoms/Textarea";
 import useRestForm from "@/hooks/useRestForm";
 import useUploadFile from "@/hooks/useUploadFile";
 import { JOBS } from "@/constants";

@@ -21,21 +21,27 @@ export interface GetMentorsReponse {
   pageInfo: PageInfo;
 }
 
-export interface Mentor {
+export interface Mentee {
   id?: string;
+  imgUrl?: string;
+  desiredJob?: string;
+  education?: string;
+  disability?: string;
+  severity?: string;
+  introduction?: string;
+}
+
+export interface Mentor extends Mentee {
   mentorId?: number;
   name?: string;
   job?: string;
-  disability?: string;
-  severity?: string;
   isCertificate?: boolean;
   favorite?: string;
   star?: number;
   mentees?: number;
-  imgUrl?: string;
 }
 
-export interface MentorProfileCard extends Mentor {
+export interface ProfileCard extends Mentor {
   width?: string;
   height?: string;
   edit?: boolean;

@@ -1,27 +1,22 @@
 "use client";
 
-import SignInImage from "../../../public/icons/signin-image.png";
 import theme from "@/ui/theme";
-import Button from "@/ui/atoms/Button/Button";
-import PrimaryLogo from "../../../public/icons/logo-primary.svg";
-import SecondaryLogo from "../../../public/icons/logo-secondary.svg";
+import Button from "@/ui/atoms/Button";
+import PrimaryLogo from "@icons/logo/logo-primary.svg";
+import SecondaryLogo from "@icons/logo/logo-secondary.svg";
 import Link from "next/link";
-import StyledLink from "@/ui/atoms/Button/Link";
-import FlexBox from "@/ui/atoms/Layout/FlexBox";
-import Typography from "@/ui/atoms/Typography/Typography";
-import Container from "@/ui/atoms/Layout/Container";
-import {
-  SignInImageCard,
-  SignInInput,
-  SignInRightArea,
-  SignInTextButton,
-  StyledSignInImage,
-  SignInTitle,
-} from "@/ui/pages/SignIn/signIn";
+import StyledLink from "@/ui/atoms/Link";
+import FlexBox from "@/ui/atoms/FlexBox";
+import Typography from "@/ui/atoms/Typography";
+import Container from "@/ui/atoms/Container";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { checkUser, isUser, setLocal } from "@/utils/tempUser";
-import { StyledImage } from "@/ui/atoms/Image/StyledImage";
+import { checkUser } from "@/utils/tempUser";
+import { StyledImage } from "@/ui/atoms/StyledImage";
+import styled from "@emotion/styled";
+import Image from "next/image";
+import Card from "@/ui/atoms/Card";
+import Input from "@/ui/atoms/Input";
 
 const SignInPage = () => {
   const router = useRouter();
@@ -115,5 +110,48 @@ const SignInPage = () => {
     </FlexBox>
   );
 };
+
+const SignInImageCard = styled(Card)`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 0;
+  border-bottom-right-radius: 20px;
+  position: relative;
+  padding: 60px;
+`;
+
+const SignInTitle = styled("div")`
+  position: absolute;
+  top: 40%;
+  z-index: 2;
+  word-break: break-word;
+  max-width: 310px;
+`;
+
+const SignInRightArea = styled.div`
+  width: 60%;
+`;
+
+const SignInInput = styled(Input)`
+  height: 70px;
+  background-color: ${theme.colors.gray.light};
+  font-size: ${theme.fonts.size.md};
+`;
+
+const SignInTextButton = styled(Button)`
+  height: fit-content;
+  color: ${theme.colors.gray.dark};
+  background-color: transparent;
+`;
+
+const StyledSignInImage = styled(Image)(() => ({
+  maxWidth: "90%",
+  height: "auto",
+  objectFit: "contain",
+  position: "absolute",
+  right: 0,
+  zIndex: 1,
+}));
 
 export default SignInPage;

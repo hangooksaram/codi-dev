@@ -1,12 +1,12 @@
-import Button from "@/ui/atoms/Button/Button";
-import Chip from "@/ui/atoms/Chip/Chip";
-import FlexBox from "@/ui/atoms/Layout/FlexBox";
-import Typography from "@/ui/atoms/Typography/Typography";
+import Button from "@/ui/atoms/Button";
+import Chip from "@/ui/atoms/Chip";
+import FlexBox from "@/ui/atoms/FlexBox";
+import Typography from "@/ui/atoms/Typography";
 import theme from "@/ui/theme";
-import Certificate from "../../../public/icons/is-certificate.svg";
+import Certificate from "@icons/common/is-certificate.svg";
 import styled from "@emotion/styled";
-import Star from "../../../public/icons/favorite.svg";
-import { MentorProfileCard } from "@/types/mentor";
+import Star from "@icons/common/favorite.svg";
+import { ProfileCard } from "@/types/mentor";
 
 const CardContent = styled.div`
   text-align: center;
@@ -24,7 +24,7 @@ const Content = ({
   star,
   mentees,
   isCertificate,
-}: MentorProfileCard) => {
+}: ProfileCard) => {
   return (
     <CardContent>
       {isCertificate && <Certificate />}

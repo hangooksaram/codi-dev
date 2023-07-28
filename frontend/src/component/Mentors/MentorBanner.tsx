@@ -1,11 +1,11 @@
-import Button from "@/ui/atoms/Button/Button";
-import Card from "@/ui/atoms/Card/Card";
-import { StyledImage } from "@/ui/atoms/Image/StyledImage";
-import FlexBox from "@/ui/atoms/Layout/FlexBox";
-import { PageComponentLayout } from "@/ui/atoms/Layout/PageComonentLayout";
-import Typography from "@/ui/atoms/Typography/Typography";
+import Button from "@/ui/atoms/Button";
+import Card from "@/ui/atoms/Card";
+import FlexBox from "@/ui/atoms/FlexBox";
+import { PageComponentLayout } from "@/ui/molecules/Layout/PageComonentLayout";
+import Typography from "@/ui/atoms/Typography";
 import theme from "@/ui/theme";
 import styled from "@emotion/styled";
+import { StyledImage } from "@/ui/atoms/StyledImage";
 
 const MentorBanner = ({
   scrollToMentorList,

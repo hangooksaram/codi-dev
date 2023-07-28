@@ -1,14 +1,14 @@
 "use client";
 
-import { PageComponentLayout } from "@/ui/atoms/Layout/PageComonentLayout";
-import Container from "@/ui/atoms/Layout/Container";
-import Typography from "@/ui/atoms/Typography/Typography";
-import Button from "@/ui/atoms/Button/Button";
-import StyledLink from "@/ui/atoms/Button/Link";
+import { PageComponentLayout } from "@/ui/molecules/Layout/PageComonentLayout";
+import Container from "@/ui/atoms/Container";
+import Typography from "@/ui/atoms/Typography";
+import Button from "@/ui/atoms/Button";
+import StyledLink from "@/ui/atoms/Link";
 import theme from "@/ui/theme";
-import FlexBox from "@/ui/atoms/Layout/FlexBox";
+import FlexBox from "@/ui/atoms/FlexBox";
 import { useRouter } from "next/navigation";
-import { StyledImage } from "@/ui/atoms/Image/StyledImage";
+import { StyledImage } from "@/ui/atoms/StyledImage";
 
 const CompletePage = () => {
   const router = useRouter();
