@@ -1,7 +1,7 @@
 import theme from "@/ui/theme";
 import styled from "@emotion/styled";
 import { borderStyle } from "./Input";
-import { Textarea } from "@/ui/ui";
+import { Textarea } from "@/types/ui";
 
 export const textareaStyle = `
 width: 100%;

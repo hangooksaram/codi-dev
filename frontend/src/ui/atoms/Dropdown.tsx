@@ -1,6 +1,6 @@
 import { useState } from "react";
 import theme from "@/ui/theme";
-import { Dropdown } from "@/ui/ui";
+import { Dropdown } from "@/types/ui";
 import styled from "@emotion/styled";
 import OpenDropdown from "@icons/common/expand-open.svg";
 import Card from "./Card";

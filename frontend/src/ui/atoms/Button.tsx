@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import theme from "../theme";
-import { Button, ThemeFontSize } from "../ui";
+import { Button, ThemeFontSize } from "../../types/ui";
 import { ReactNode } from "react";
 
 const Button = styled.button(

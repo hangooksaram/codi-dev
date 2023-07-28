@@ -6,7 +6,7 @@ import theme from "@/ui/theme";
 import Certificate from "@icons/common/is-certificate.svg";
 import styled from "@emotion/styled";
 import Star from "@icons/common/favorite.svg";
-import { MentorProfileCard } from "@/types/mentor";
+import { ProfileCard } from "@/types/mentor";
 
 const CardContent = styled.div`
   text-align: center;
@@ -24,7 +24,7 @@ const Content = ({
   star,
   mentees,
   isCertificate,
-}: MentorProfileCard) => {
+}: ProfileCard) => {
   return (
     <CardContent>
       {isCertificate && <Certificate />}

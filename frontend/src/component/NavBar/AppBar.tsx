@@ -13,36 +13,7 @@ import Link from "next/link";
 import Profile from "@icons/common/profile.svg";
 import { useEffect, useState } from "react";
 import Dropdown from "@/ui/atoms/Dropdown";
-import { PROFILE_MENU } from "@/constants";
-const StyledAppBar = styled.nav`
-  width: 100%;
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  height: 59px;
-  background-color: ${theme.colors.white};
-  border-bottom: 1px solid ${theme.colors.gray.main};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const AppBarContent = styled(FlexBox)`
-  width: 90%;
-  align-items: center;
-
-  justify-content: space-between;
-`;
-
-const AppBarProfile = styled.div`
-  width: 42px;
-  height: 42px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: ${theme.colors.gray.light};
-  border-radius: 100%;
-`;
+import { PROFILE_MENU, PROFILE_MENU_HREFS } from "@/constants";
 
 const AppBar = () => {
   const path = usePathname();
@@ -50,16 +21,11 @@ const AppBar = () => {
   const [domLoaded, setDomLoaded] = useState(false);
   const [selected, setSelected] = useState();
   const [open, setOpen] = useState(false);
-  const hrefs = {
-    [PROFILE_MENU[0]]: "/myCodi",
-    [PROFILE_MENU[1]]: "/myCodi",
-    [PROFILE_MENU[2]]: "/myCodi",
-    [PROFILE_MENU[3]]: "/myCodi",
-  };
+
   useEffect(() => {
     setDomLoaded(true);
     if (selected) {
-      router.push(hrefs[selected]);
+      router.push(PROFILE_MENU_HREFS[selected]);
     }
   }, [selected]);
 
@@ -72,7 +38,7 @@ const AppBar = () => {
             <Link href={"/"}>
               <Logo width="108px" height="26px" />
             </Link>
-            <StyledLink href="/mentors">멘토 페이지</StyledLink>
+            <StyledLink href="/mentorsMain">멘토 페이지</StyledLink>
             <StyledLink href="/">마이코디</StyledLink>
           </FlexBox>
           {isUser() ? (
@@ -127,5 +93,35 @@ const AppBar = () => {
     )
   );
 };
+
+const StyledAppBar = styled.nav`
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  height: 59px;
+  background-color: ${theme.colors.white};
+  border-bottom: 1px solid ${theme.colors.gray.main};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const AppBarContent = styled(FlexBox)`
+  width: 90%;
+  align-items: center;
+
+  justify-content: space-between;
+`;
+
+const AppBarProfile = styled.div`
+  width: 42px;
+  height: 42px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${theme.colors.gray.light};
+  border-radius: 100%;
+`;
 
 export default AppBar;

@@ -1,5 +1,5 @@
 import theme from "@/ui/theme";
-import { Input } from "@/ui/ui";
+import { Input } from "@/types/ui";
 import styled from "@emotion/styled";
 
 export const borderStyle = (

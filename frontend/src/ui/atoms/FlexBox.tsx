@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { FlexBox } from "../ui";
+import { FlexBox } from "../../types/ui";
 
 const StyledFlexBox = styled.div(
   ({
