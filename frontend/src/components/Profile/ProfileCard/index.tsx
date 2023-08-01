@@ -5,17 +5,11 @@ import Content from "./Content";
 import { ProfileCard } from "@/types/mentor";
 import Header from "./Header";
 
-const CardContainer = styled(Card)(({ imgUrl }: { imgUrl: string }) => ({
-  background: `url(${imgUrl}) no-repeat center`,
-  backgroundSize: "cover",
-}));
-
-// const CardHeader = styled()(() => ({}));
-
 const ProfileCard = ({
   width,
   height,
   edit,
+  mentor,
   name,
   job,
   disability,
@@ -38,7 +32,7 @@ const ProfileCard = ({
         justifyContent="space-between"
         {...{ height: "100%" }}
       >
-        <Header edit={edit} />
+        <Header edit={edit} mentor={mentor} />
         <Content
           name={name}
           job={job}
@@ -46,6 +40,7 @@ const ProfileCard = ({
           severity={severity}
           edit={edit}
           star={star}
+          mentor={mentor}
           mentees={mentees}
           isCertificate={isCertificate}
         />
@@ -53,4 +48,10 @@ const ProfileCard = ({
     </CardContainer>
   );
 };
+
+const CardContainer = styled(Card)(({ imgUrl }: { imgUrl: string }) => ({
+  background: `url(${imgUrl}) no-repeat center`,
+  backgroundSize: "cover",
+}));
+
 export default ProfileCard;

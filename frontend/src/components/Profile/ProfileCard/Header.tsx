@@ -8,7 +8,7 @@ import EmptyLike from "@icons/common/empty-like.svg";
 import Edit from "@icons/common/edit.svg";
 import { useState } from "react";
 
-const Header = ({ edit }: { edit?: boolean }) => {
+const Header = ({ edit, mentor }: { edit?: boolean; mentor?: boolean }) => {
   const today = false;
   const [liked, setLiked] = useState(false);
   const likeMentor = () => {
@@ -26,8 +26,8 @@ const Header = ({ edit }: { edit?: boolean }) => {
         )}
       </div>
 
-      {edit ? (
-        <Button variant="round" width="48px">
+      {edit || mentor ? (
+        <Button variant="round" width="48px" color={theme.colors.info}>
           <Edit />
         </Button>
       ) : (

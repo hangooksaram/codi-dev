@@ -64,7 +64,6 @@ const Highlight = () => {
         screenHeight={screenHeight}
         position="bottom"
         onClick={() => {
-          console.log("dd");
           dispatch(setHighlight());
         }}
       ></DarkSection>

@@ -1,15 +1,15 @@
 "use client";
 
-import JobRank from "@/component/Mentors/JobRank";
+import JobRank from "@/components/Job/JobRank";
 import FlexBox from "@/ui/atoms/FlexBox";
 import theme from "@/ui/theme";
 import { useRef } from "react";
 import { useRouter } from "next/navigation";
-import MentorsBanner from "@/component/Mentors/MentorBanner";
+import MentorsBanner from "@/components/pages/mentorsMain/MentorBanner";
 import { PageComponentLayout } from "@/ui/molecules/Layout/PageComonentLayout";
-import TitleSection from "@/component/Mentors/TitleSection";
+import TitleSection from "@/components/pages/mentorsMain/TitleSection";
 import Logo from "@icons/logo/recommend-icon.svg";
-import Mentors from "@/component/Mentors/Mentors";
+import Mentors from "@/components/Mentors";
 
 const MentorsPage = () => {
   const router = useRouter();
