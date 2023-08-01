@@ -127,9 +127,7 @@ const TabContent = ({
 const Container = styled(Card)`
   max-width: 790px;
   min-height: 467px;
-  border-radius: 20px;
   padding: 30px;
-  border: 1px solid ${theme.colors.gray.main};
 `;
 
 const TabButton = styled(Button)(({}) => ({

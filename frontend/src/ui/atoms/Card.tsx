@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import theme from "../theme";
 
 const Card = styled.div(
   ({
@@ -14,8 +15,9 @@ const Card = styled.div(
   }) => ({
     width: width ?? "100%",
     height: height ?? "100%",
-    backgroundColor: color ?? "white",
+    backgroundColor: color ?? theme.colors.white,
     borderRadius: "20px",
+    border: `1px solid ${theme.colors.gray.main}`,
     padding: padding,
   })
 );
