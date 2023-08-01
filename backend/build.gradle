@@ -56,6 +56,9 @@ dependencies {
 	implementation 'io.springfox:springfox-boot-starter:3.0.0'
 	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0'
 	implementation 'com.fasterxml:classmate:1.5.1'
+
+	// csv
+	implementation 'com.opencsv:opencsv:5.5.2'
 }
 
 tasks.named('test') {
