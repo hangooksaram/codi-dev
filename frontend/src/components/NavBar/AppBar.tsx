@@ -24,9 +24,11 @@ const AppBar = () => {
 
   useEffect(() => {
     setDomLoaded(true);
+    console.log(selected);
     if (selected) {
       router.push(PROFILE_MENU_HREFS[selected]);
     }
+    return () => setSelected(undefined);
   }, [selected]);
 
   if (path === "/signin/") return;
@@ -39,7 +41,7 @@ const AppBar = () => {
               <Logo width="108px" height="26px" />
             </Link>
             <StyledLink href="/mentorsMain">멘토 페이지</StyledLink>
-            <StyledLink href="/">마이코디</StyledLink>
+            <StyledLink href="/myCodi">마이코디</StyledLink>
           </FlexBox>
           {isUser() ? (
             <FlexBox justifyContent="flex-end" columnGap="30px">

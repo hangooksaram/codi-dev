@@ -53,7 +53,7 @@ const Content = ({
             color={theme.colors.white}
             {...{ margin: "0px 10px 0px 5px" }}
           >
-            {`(${star!.toString()}/5)`}
+            {`(${star?.toString()}/5)`}
           </Typography>
 
           <Typography
@@ -61,23 +61,25 @@ const Content = ({
             size={theme.fonts.size.sm}
             color={theme.colors.white}
           >
-            {`(${mentees!.toString()}명의 멘티)`}
+            {`(${mentees?.toString()}명의 멘티)`}
           </Typography>
         </FlexBox>
       )}
+      {!edit && (
+        <FlexBox
+          isWrap
+          rowGap="5px"
+          columnGap="5px"
+          {...{ marginBottom: "20px" }}
+        >
+          <Chip color="yellow">{disability!}</Chip>
+          <Chip>{severity}</Chip>
+        </FlexBox>
+      )}
 
-      <FlexBox
-        isWrap
-        rowGap="5px"
-        columnGap="5px"
-        {...{ marginBottom: "20px" }}
-      >
-        <Chip color="yellow">{disability!}</Chip>
-        <Chip>{severity}</Chip>
-      </FlexBox>
       {edit ? (
-        <Button size="small" variant="default">
-          개인정보 수정하기
+        <Button size="small" variant="default" color={theme.colors.secondary}>
+          프로필 수정하기
         </Button>
       ) : (
         <Button size="small" variant="default" color={theme.colors.secondary}>

@@ -4,7 +4,7 @@ import Typography from "@/ui/atoms/Typography";
 import theme from "@/ui/theme";
 import styled from "@emotion/styled";
 import Logo from "@icons/logo/recommendation-page-logo.svg";
-import TitleSection from "./TitleSection";
+import TitleSection from "../pages/mentorsMain/TitleSection";
 
 const JobRank = ({ ranks }: { ranks: string[] }) => (
   <PageComponentLayout>
