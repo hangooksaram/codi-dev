@@ -20,7 +20,6 @@ spring:
     properties: # 예쁘게 보기
       hibernate:
         format_sql: true
-        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher # swagger ??
