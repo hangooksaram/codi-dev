@@ -1,4 +1,4 @@
-import theme from "@/ui/theme";
+import theme, { device } from "@/ui/theme";
 import styled from "@emotion/styled";
 import Logo from "@icons/logo/logo-primary.svg";
 import FlexBox from "@/ui/atoms/FlexBox";
@@ -96,25 +96,27 @@ const AppBar = () => {
   );
 };
 
-const StyledAppBar = styled.nav`
-  width: 100%;
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  height: 59px;
-  background-color: ${theme.colors.white};
-  border-bottom: 1px solid ${theme.colors.gray.main};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+const StyledAppBar = styled.nav({
+  width: "100%",
+  position: "sticky",
+  top: "0",
+  zIndex: "1",
+  height: "59px",
+  backgroundColor: theme.colors.white,
+  borderBottom: `1px solid ${theme.colors.gray.main}`,
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+});
 
-const AppBarContent = styled(FlexBox)`
-  width: 90%;
-  align-items: center;
-
-  justify-content: space-between;
-`;
+const AppBarContent = styled(FlexBox)({
+  width: "90%",
+  alignItems: "center",
+  justifyContent: "space-between",
+  [device("tablet")]: {
+    display: "none",
+  },
+});
 
 const AppBarProfile = styled.div`
   width: 42px;
