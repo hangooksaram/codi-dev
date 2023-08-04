@@ -7,6 +7,7 @@ import Card from "./Card";
 import Checkbox from "./Checkbox";
 import Button from "./Button";
 import FlexBox from "./FlexBox";
+import Overlay from "./BackgroundOverlay";
 
 const Dropdown = ({
   width,
@@ -26,36 +27,39 @@ const Dropdown = ({
   };
 
   return (
-    <DropDownListContainer width={width}>
-      {type === "menu" ? (
-        <div onClick={() => setOpen((prev) => !prev)}>{children}</div>
-      ) : (
-        <DropdownButton
-          invalid={invalid}
-          width="100%"
-          color={theme.colors.white}
-          onClick={() => setOpen((prev) => !prev)}
-          variant="square"
-          type="button"
-        >
-          {selectedCategory ? selectedCategory : title}
-          <OpenDropdown />
-        </DropdownButton>
-      )}
-
-      {open &&
-        (contentType === "list" ? (
-          <DropdownListContent
-            categories={categories}
-            handleClick={handleClick}
-          />
+    <>
+      {open && <Overlay onClick={() => setOpen(false)}></Overlay>}
+      <DropDownListContainer width={width}>
+        {type === "menu" ? (
+          <div onClick={() => setOpen((prev) => !prev)}>{children}</div>
         ) : (
-          <DropdownGridContent
-            categories={categories}
-            handleClick={handleClick}
-          />
-        ))}
-    </DropDownListContainer>
+          <DropdownButton
+            invalid={invalid}
+            width="100%"
+            color={theme.colors.white}
+            onClick={() => setOpen((prev) => !prev)}
+            variant="square"
+            type="button"
+          >
+            {selectedCategory ? selectedCategory : title}
+            <OpenDropdown />
+          </DropdownButton>
+        )}
+
+        {open &&
+          (contentType === "list" ? (
+            <DropdownListContent
+              categories={categories}
+              handleClick={handleClick}
+            />
+          ) : (
+            <DropdownGridContent
+              categories={categories}
+              handleClick={handleClick}
+            />
+          ))}
+      </DropDownListContainer>
+    </>
   );
 };
 
