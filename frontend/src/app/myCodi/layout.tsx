@@ -7,6 +7,7 @@ import Link from "@icons/common/link.svg";
 import theme from "@/ui/theme";
 import FlexBox from "@/ui/atoms/FlexBox";
 import styled from "@emotion/styled";
+import LayoutWithSideBar from "@/components/Layout/LayoutWithSideBar";
 
 export default function MyCodiLayout({
   children,
@@ -16,16 +17,10 @@ export default function MyCodiLayout({
   return (
     <FlexBox justifyContent="flex-start" alignItems="flex-start">
       <SideBar navigators={navigators} />
-      <StyledMyCodiLayout>{children}</StyledMyCodiLayout>
+      <LayoutWithSideBar>{children}</LayoutWithSideBar>
     </FlexBox>
   );
 }
-
-const StyledMyCodiLayout = styled.main`
-  width: 100%;
-  max-width: 1312px;
-  margin: 50px 0px 0px 60px;
-`;
 
 const navigators = [
   {

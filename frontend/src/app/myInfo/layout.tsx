@@ -7,6 +7,7 @@ import Link from "@icons/common/link.svg";
 import theme, { device } from "@/ui/theme";
 import FlexBox from "@/ui/atoms/FlexBox";
 import styled from "@emotion/styled";
+import LayoutWithSideBar from "@/components/Layout/LayoutWithSideBar";
 
 export default function MyInfoLayout({
   children,
@@ -16,20 +17,10 @@ export default function MyInfoLayout({
   return (
     <FlexBox justifyContent="flex-start" alignItems="flex-start">
       <SideBar navigators={navigators} />
-      <StyledMyInfoLayout>{children}</StyledMyInfoLayout>
+      <LayoutWithSideBar>{children}</LayoutWithSideBar>
     </FlexBox>
   );
 }
-
-const StyledMyInfoLayout = styled.main({
-  width: "100%",
-  maxWidth: "1312px",
-  margin: "50px 0px 0px 60px",
-  [device("tablet")]: {
-    margin: "0 auto",
-    width: "90%",
-  },
-});
 
 const navigators = [
   {
