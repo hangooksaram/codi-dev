@@ -24,6 +24,7 @@ const Content = ({
   star,
   mentees,
   isCertificate,
+  apply,
 }: ProfileCard) => {
   return (
     <CardContent>
@@ -44,27 +45,28 @@ const Content = ({
       >
         {job!}
       </Typography>
-      {!edit && (
-        <FlexBox {...{ marginBottom: "20px" }}>
-          <Star />
-          <Typography
-            variant="span"
-            size={theme.fonts.size.sm}
-            color={theme.colors.white}
-            {...{ margin: "0px 10px 0px 5px" }}
-          >
-            {`(${star?.toString()}/5)`}
-          </Typography>
+      {!edit ||
+        (!apply && (
+          <FlexBox {...{ marginBottom: "20px" }}>
+            <Star />
+            <Typography
+              variant="span"
+              size={theme.fonts.size.sm}
+              color={theme.colors.white}
+              {...{ margin: "0px 10px 0px 5px" }}
+            >
+              {`(${star?.toString()}/5)`}
+            </Typography>
 
-          <Typography
-            variant="span"
-            size={theme.fonts.size.sm}
-            color={theme.colors.white}
-          >
-            {`(${mentees?.toString()}명의 멘티)`}
-          </Typography>
-        </FlexBox>
-      )}
+            <Typography
+              variant="span"
+              size={theme.fonts.size.sm}
+              color={theme.colors.white}
+            >
+              {`(${mentees?.toString()}명의 멘티)`}
+            </Typography>
+          </FlexBox>
+        ))}
       {!edit && (
         <FlexBox
           isWrap
@@ -77,15 +79,16 @@ const Content = ({
         </FlexBox>
       )}
 
-      {edit ? (
-        <Button size="small" variant="default" color={theme.colors.secondary}>
-          프로필 수정하기
-        </Button>
-      ) : (
-        <Button size="small" variant="default" color={theme.colors.secondary}>
-          멘토링 시작하기
-        </Button>
-      )}
+      {!apply &&
+        (edit ? (
+          <Button size="small" variant="default" color={theme.colors.secondary}>
+            프로필 수정하기
+          </Button>
+        ) : (
+          <Button size="small" variant="default" color={theme.colors.secondary}>
+            멘토링 시작하기
+          </Button>
+        ))}
     </CardContent>
   );
 };

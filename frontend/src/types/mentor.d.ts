@@ -1,3 +1,5 @@
+import { Mentee } from "./mentee";
+
 export type RegisterMentorData = {
   company: string;
   fileUrl: string;
@@ -21,16 +23,6 @@ export interface GetMentorsReponse {
   pageInfo: PageInfo;
 }
 
-export interface Mentee {
-  id?: string;
-  imgUrl?: string;
-  desiredJob?: string;
-  education?: string;
-  disability?: string;
-  severity?: string;
-  introduction?: string;
-}
-
 export interface Mentor extends Mentee {
   mentorId?: number;
   name?: string;
@@ -45,6 +37,8 @@ export interface ProfileCard extends Mentor {
   width?: string;
   height?: string;
   edit?: boolean;
+  mentor?: boolean;
+  apply?: boolean;
 }
 
 export interface PageInfo {

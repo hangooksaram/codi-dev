@@ -18,6 +18,7 @@ const ProfileCard = ({
   imgUrl,
   star,
   mentees,
+  apply,
 }: ProfileCard) => {
   const today = false;
   return (
@@ -32,7 +33,7 @@ const ProfileCard = ({
         justifyContent="space-between"
         {...{ height: "100%" }}
       >
-        <Header edit={edit} mentor={mentor} />
+        <Header edit={edit} mentor={mentor} apply={apply} />
         <Content
           name={name}
           job={job}
@@ -41,6 +42,7 @@ const ProfileCard = ({
           edit={edit}
           star={star}
           mentor={mentor}
+          apply={apply}
           mentees={mentees}
           isCertificate={isCertificate}
         />
