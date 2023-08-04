@@ -18,9 +18,10 @@ import {
 import formattedDate from "@/utils/dateFormat";
 import LeftIcon from "@icons/common/left-arrow.svg";
 import RightIcon from "@icons/common/right-arrow.svg";
-import styled from "@emotion/styled";
-import CompletedSelected from "@icons/calendar/calendar-schedule-completed-selected.svg";
+import SelectedSchedule from "@icons/calendar/calendar-schedule-selected.svg";
 import Schedule from "@icons/calendar/calendar-schedule.svg";
+import CompletedSchedule from "@icons/calendar/calendar-schedule-completed.svg";
+import styled from "@emotion/styled";
 import theme from "@/ui/theme";
 import {
   CustomCaptionNavigation,
@@ -28,6 +29,7 @@ import {
   dayPickerContainerStyle,
 } from "./style";
 
+/**기능 변경으로 인해 사용되지않음. 추후에 다시 사용될 수 있음. */
 const MultipleCalendar = ({
   selecteds,
   setSelecteds,
@@ -118,7 +120,7 @@ const CustomDayContent = ({ date, selected }: CustomDayContentProps) => {
       <div style={{ marginBottom: "5px" }}>{day}</div>
       {today === day &&
         (selecteDay?.getDate() === date.getDate() ? (
-          <CompletedSelected />
+          <SelectedSchedule />
         ) : (
           <Schedule />
         ))}

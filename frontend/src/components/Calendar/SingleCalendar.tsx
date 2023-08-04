@@ -13,14 +13,19 @@ import formattedDate from "@/utils/dateFormat";
 import LeftIcon from "@icons/common/left-arrow.svg";
 import RightIcon from "@icons/common/right-arrow.svg";
 import styled from "@emotion/styled";
-import CompletedSelected from "@icons/calendar/calendar-schedule-completed-selected.svg";
+import SelectedSchedule from "@icons/calendar/calendar-schedule-selected.svg";
 import Schedule from "@icons/calendar/calendar-schedule.svg";
+import CompletedSchedule from "@icons/calendar/calendar-schedule-completed.svg";
 import theme from "@/ui/theme";
 import {
   CustomCaptionNavigation,
   CustomContentdates,
   dayPickerContainerStyle,
 } from "./style";
+
+interface CustomDayContentProps extends DayContentProps {
+  selected?: Date;
+}
 
 const SingleCalendar = ({
   setSelected,
@@ -32,7 +37,8 @@ const SingleCalendar = ({
   const [date, setDate] = useState<Date>();
   useEffect(() => {
     setSelected(formattedDate(date));
-  }, [date]);
+    console.log("excuted when date is selected");
+  }, [date, setSelected]);
   return (
     <DayPicker
       style={dayPickerContainerStyle}
@@ -55,10 +61,6 @@ const SingleCalendar = ({
     />
   );
 };
-
-interface CustomDayContentProps extends DayContentProps {
-  selected?: Date;
-}
 
 export const CustomDay = (props: DayProps) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -96,7 +98,7 @@ export const CustomDayContent = ({ date, selected }: CustomDayContentProps) => {
       <div style={{ marginBottom: "5px" }}>{day}</div>
       {today === day &&
         (selected?.getDate() === date.getDate() ? (
-          <CompletedSelected />
+          <SelectedSchedule />
         ) : (
           <Schedule />
         ))}
@@ -106,6 +108,7 @@ export const CustomDayContent = ({ date, selected }: CustomDayContentProps) => {
 
 export const CustomCaption = (props: CaptionProps) => {
   const { goToMonth, nextMonth, previousMonth } = useNavigation();
+
   return (
     <CustomContentdates>
       <CustomCaptionNavigation
