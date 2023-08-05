@@ -28,8 +28,19 @@ a {
   }
 }
 
+.calendar-today {
+  border-radius: 50px;
+  background: #ecf1f6 !important;
+}
+
 .calendar-selected {
   border-radius: 50px;
   background: #334259 !important;
+  color: white;
+}
+
+.mentor-calendar-selected {
+  border-radius: 50px;
+  background: #4c9df8 !important;
   color: white;
 }
