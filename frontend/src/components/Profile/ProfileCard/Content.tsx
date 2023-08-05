@@ -7,6 +7,7 @@ import Certificate from "@icons/common/is-certificate.svg";
 import styled from "@emotion/styled";
 import Star from "@icons/common/favorite.svg";
 import { ProfileCard } from "@/types/profile";
+import { useRouter } from "next/navigation";
 
 const CardContent = styled.div`
   text-align: center;
@@ -25,7 +26,9 @@ const Content = ({
   mentees,
   isCertificate,
   apply,
+  mentorId,
 }: ProfileCard) => {
+  const router = useRouter();
   return (
     <CardContent>
       {isCertificate && <Certificate />}
@@ -74,7 +77,7 @@ const Content = ({
           columnGap="5px"
           {...{ marginBottom: "20px" }}
         >
-          <Chip color="yellow">{disability!}</Chip>
+          <Chip>{disability!}</Chip>
           <Chip>{severity}</Chip>
         </FlexBox>
       )}
@@ -85,7 +88,12 @@ const Content = ({
             프로필 수정하기
           </Button>
         ) : (
-          <Button size="small" variant="default" color={theme.colors.secondary}>
+          <Button
+            onClick={() => router.push(`/mentoringApplyForm/${mentorId}`)}
+            size="small"
+            variant="default"
+            color={theme.colors.secondary}
+          >
             멘토링 시작하기
           </Button>
         ))}
