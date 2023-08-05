@@ -1,22 +1,31 @@
 "use client";
 
-import MultipleCalendar from "@/components/Calendar/MultipleCalendar";
-import SingleCalendar from "@/components/Calendar/SingleCalendar";
-import Schedules from "@/components/Schedule/Schedules";
-
+import MentoringsWithSingleCalendar from "@/components/Mentoring/MentoringsWithSingleCalendar";
+import useGetMentoringsQuery from "@/queries/mentoringQuery";
 import FlexBox from "@/ui/atoms/FlexBox";
+import LabelBox from "@/ui/molecules/LabelBox";
+import formattedDate from "@/utils/dateFormat";
 import { useEffect, useState } from "react";
 
 const MyCodiPage = () => {
-  const [selected, setSelected] = useState<string>();
-  const [selecteds, setSelecteds] = useState<string[]>([]);
+  const [date, setDate] = useState<Date>();
+  const { mentorings, refetch } = useGetMentoringsQuery(formattedDate(date));
+
   useEffect(() => {
-    console.log(selecteds);
-  }, [selecteds]);
+    if (date) {
+      refetch();
+    }
+  }, [date]);
   return (
     <FlexBox>
-      <SingleCalendar type="mentee" setSelected={setSelected} />
-      {/* <Schedules schedules={[selected]} /> */}
+      <LabelBox text="멘토링 일정 관리">
+        <MentoringsWithSingleCalendar
+          type="mentee"
+          date={date}
+          setDate={setDate}
+          mentorings={mentorings}
+        />
+      </LabelBox>
     </FlexBox>
   );
 };

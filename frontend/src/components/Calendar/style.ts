@@ -2,15 +2,16 @@ import theme from "@/ui/theme";
 import styled from "@emotion/styled";
 
 export const dayPickerContainerStyle = {
+  width: "100%",
   maxWidth: "482px",
-  maxHeight: "590px",
+  height: "590px",
   display: "flex",
   justifyContent: "center",
-  alignItems: "center",
+  alignItems: "flex-start",
   borderRadius: "20px",
   border: `1px solid ${theme.colors.gray.main}`,
   background: theme.colors.white,
-  padding: "30px 43px",
+  padding: "30px 20px",
 };
 
 export const CustomCaptionNavigation = styled.button`

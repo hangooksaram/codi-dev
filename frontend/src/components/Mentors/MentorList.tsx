@@ -1,5 +1,6 @@
-import ProfileCard from "../Profile/ProfileCard";
 import { Mentor } from "@/types/mentor";
+import ProfileCard from "../Profile/ProfileCard";
+
 import Grid from "@/ui/atoms/Grid";
 import { device } from "@/ui/theme";
 import { css } from "@emotion/css";
@@ -14,7 +15,7 @@ const MentorList = ({ mentors }: { mentors: Mentor[] }) => (
       [device("smWeb")]: {
         gridTemplateColumns: "repeat(auto-fill,  minmax(33%, auto))",
       },
-      [device("mobile")]: {
+      [device("tablet")]: {
         gridTemplateColumns: "repeat(auto-fill,  minmax(47%, auto))",
       },
     })}
@@ -43,6 +44,7 @@ const MentorList = ({ mentors }: { mentors: Mentor[] }) => (
           isCertificate={isCertificate}
           mentees={mentees}
           imgUrl={imgUrl}
+          mentorId={mentorId}
         ></ProfileCard>
       )
     )}
