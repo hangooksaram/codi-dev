@@ -6,7 +6,7 @@ import theme from "@/ui/theme";
 import Certificate from "@icons/common/is-certificate.svg";
 import styled from "@emotion/styled";
 import Star from "@icons/common/favorite.svg";
-import { ProfileCard } from "@/types/api/payload/mentor";
+import { ProfileCard } from "@/types/profile";
 
 const CardContent = styled.div`
   text-align: center;

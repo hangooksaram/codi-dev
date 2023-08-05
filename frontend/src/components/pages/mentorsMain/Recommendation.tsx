@@ -1,10 +1,6 @@
 import FlexBox from "@/ui/atoms/FlexBox";
-import ProfileCard from "../../Profile/ProfileCard";
 import theme from "@/ui/theme";
 import { PageComponentLayout } from "@/ui/molecules/Layout/PageComonentLayout";
-import { Mentor } from "@/types/api/payload/mentor";
-import Grid from "@/ui/atoms/Grid";
-import Typography from "@/ui/atoms/Typography";
 import styled from "@emotion/styled";
 import Logo from "@icons/common/recommend-icon.svg";
 import { isUser } from "@/utils/tempUser";
@@ -13,6 +9,7 @@ import TitleSection from "./TitleSection";
 import MentorList from "../../Mentors/MentorList";
 import { StyledImage } from "@/ui/atoms/StyledImage";
 import Button from "@/ui/atoms/Button";
+import { Mentor } from "@/types/mentor";
 
 const Recommendation = ({ mentors }: { mentors: Mentor[] }) => {
   const router = useRouter();
