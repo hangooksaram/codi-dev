@@ -23,6 +23,8 @@ import { FileType } from "@/index";
 import useUploadFile from "@/hooks/useUploadFile";
 import { useRouter } from "next/navigation";
 import { DISABILITIES } from "@/constants";
+import { registerProfile } from "@/api/profileApi";
+import { handleApiCallback } from "@/utils/api";
 
 interface ProfileFormValues {
   disability: string;
@@ -65,19 +67,28 @@ const ProfileFormPage = () => {
   const { file, onUploadFile } = useUploadFile();
   const [bigEducationCategory, setBigEducationCategory] = useState("");
   const router = useRouter();
-  const handleSignUpSubmit = (values: ProfileFormValues) => {
+  const handleSignUpSubmit = async (values: ProfileFormValues) => {
     if (bigEducationCategory !== "대학교") {
       restForm.education = bigEducationCategory;
     }
 
     values = { ...values, ...restForm };
-    console.log(values);
-    formData.append("profile", JSON.stringify(values));
+    const blob = new Blob([JSON.stringify(values)], {
+      type: "application/json",
+    });
+    formData.append("profile", blob);
     formData.append("file", file.data!);
+    const imageFormData = new FormData();
+    imageFormData.append("file", file.data!);
 
+    const { status, errorMessage } = await registerProfile(formData);
     console.log(formData.get("profile"));
     console.log(formData.get("file"));
-    router.push("/");
+    handleApiCallback(
+      status,
+      () => router.push("/"),
+      () => alert(`호출 실패 : ${errorMessage}`)
+    );
   };
 
   const formData = new FormData();
