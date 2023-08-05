@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { FlexBox } from "../../types/ui";
 
-const StyledFlexBox = styled.div(
+const FlexBox = styled.div(
   ({
     width,
     direction,
@@ -24,32 +24,5 @@ const StyledFlexBox = styled.div(
     ...rest,
   })
 );
-
-const FlexBox = ({
-  width,
-  direction,
-  justifyContent,
-  alignItems,
-  rowGap,
-  columnGap,
-  children,
-  isWrap,
-  ...rest
-}: FlexBox) => {
-  return (
-    <StyledFlexBox
-      width={width}
-      direction={direction}
-      justifyContent={justifyContent}
-      alignItems={alignItems}
-      rowGap={rowGap}
-      columnGap={columnGap}
-      isWrap={isWrap}
-      {...rest}
-    >
-      {children}
-    </StyledFlexBox>
-  );
-};
 
 export default FlexBox;

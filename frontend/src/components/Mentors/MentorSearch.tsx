@@ -7,7 +7,7 @@ import Input from "@/ui/atoms/Input";
 import Button from "@/ui/atoms/Button";
 import theme from "@/ui/theme";
 import { CAREERS, DISABILITIES, JOBS } from "@/constants";
-import { GetMentorsParameters } from "@/types/mentor";
+import { GetMentorsParameters } from "@/types/api/payload/mentor";
 
 const MentorSearch = ({
   query,

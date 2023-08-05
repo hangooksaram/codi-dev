@@ -18,8 +18,9 @@ import TagIcon from "@icons/common/tag.svg";
 import { useRouter } from "next/navigation";
 import { checkDuplicateId, signUp } from "@/api/signApi";
 import { DATE } from "@/constants";
-import { SignUpData } from "@/types/sign";
+import { SignUpBody } from "@/types/api/sign";
 import { handleApiCallback } from "@/utils/api";
+import { setLocal } from "@/utils/tempUser";
 
 const signUpFormValueProps = {
   birth: "",
@@ -75,24 +76,26 @@ const SignUpPage = () => {
     );
   };
 
-  const processedValues = (values: SignUpData) => {
+  const processedValues = (values: SignUpBody) => {
     const { year, month, day } = birth;
     const stringFiedBirth = `${year}-${month}-${day}`;
     return { ...values, gender: gender.key, birth: stringFiedBirth };
   };
 
-  const handleSubmit = async (values: SignUpData) => {
+  const handleSubmit = async (values: SignUpBody) => {
     const { status, errorMessage } = await signUp(processedValues(values));
-    handleApiCallback(
-      status,
-      () => router.push("/"),
-      () => alert(`호출 실패 : ${errorMessage}`)
-    );
+
+    // handleApiCallback(
+    //   status,
+    //   () => router.push("/"),
+    //   () => alert(`호출 실패 : ${errorMessage}`)
+    // );
+    // setLocal(values);
   };
 
   const formik = useFormik({
     initialValues: signUpFormValueProps,
-    onSubmit: (values: SignUpData) => {
+    onSubmit: (values: SignUpBody) => {
       handleSubmit(values);
     },
     validationSchema: SignupSchema,

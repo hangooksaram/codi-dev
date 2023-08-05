@@ -5,6 +5,7 @@ import {
   CaptionProps,
   DayContentProps,
   DayPicker,
+  DateFormatter,
   DayProps,
   useDayRender,
   useNavigation,
@@ -13,32 +14,36 @@ import formattedDate from "@/utils/dateFormat";
 import LeftIcon from "@icons/common/left-arrow.svg";
 import RightIcon from "@icons/common/right-arrow.svg";
 import styled from "@emotion/styled";
-import CompletedSelected from "@icons/calendar/calendar-schedule-completed-selected.svg";
+import SelectedSchedule from "@icons/calendar/calendar-schedule-selected.svg";
 import Schedule from "@icons/calendar/calendar-schedule.svg";
-import theme from "@/ui/theme";
+import CompletedSchedule from "@icons/calendar/calendar-schedule-completed.svg";
+import theme, { device } from "@/ui/theme";
 import {
   CustomCaptionNavigation,
   CustomContentdates,
   dayPickerContainerStyle,
 } from "./style";
+import { format } from "date-fns";
+
+interface CustomDayContentProps extends DayContentProps {
+  selected?: Date;
+}
 
 const SingleCalendar = ({
-  setSelected,
+  date,
+  setDate,
   type,
 }: {
-  setSelected: React.Dispatch<SetStateAction<string | undefined>>;
+  date: Date | undefined;
+  setDate: React.Dispatch<SetStateAction<Date | undefined>>;
   type: "mentor" | "mentee";
 }) => {
-  const [date, setDate] = useState<Date>();
-  useEffect(() => {
-    setSelected(formattedDate(date));
-  }, [date]);
   return (
     <DayPicker
       style={dayPickerContainerStyle}
       mode="single"
       selected={date}
-      onSelect={(date) => setDate(date)}
+      onSelect={setDate}
       components={{
         Day: CustomDay,
         DayContent: (props) =>
@@ -49,16 +54,14 @@ const SingleCalendar = ({
         Caption: CustomCaption,
       }}
       modifiersClassNames={{
-        selected: "calendar-selected",
+        selected:
+          type === "mentor" ? "mentor-calendar-selected" : "calendar-selected",
+        today: "calendar-today",
       }}
       locale={ko}
     />
   );
 };
-
-interface CustomDayContentProps extends DayContentProps {
-  selected?: Date;
-}
 
 export const CustomDay = (props: DayProps) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -85,27 +88,25 @@ export const CustomDay = (props: DayProps) => {
 };
 
 export const CustomDayContent = ({ date, selected }: CustomDayContentProps) => {
-  const today = new Date().getDate();
+  const today = new Date("2023-07-07").getDate();
   const day = date.getDate();
 
   return (
-    <div
-      id={day.toString()}
-      style={{ width: "50px", height: "64px", paddingTop: "14px" }}
-    >
+    <CustomCell id={day.toString()}>
       <div style={{ marginBottom: "5px" }}>{day}</div>
       {today === day &&
         (selected?.getDate() === date.getDate() ? (
-          <CompletedSelected />
+          <SelectedSchedule />
         ) : (
           <Schedule />
         ))}
-    </div>
+    </CustomCell>
   );
 };
 
 export const CustomCaption = (props: CaptionProps) => {
   const { goToMonth, nextMonth, previousMonth } = useNavigation();
+
   return (
     <CustomContentdates>
       <CustomCaptionNavigation
@@ -128,5 +129,15 @@ export const CustomCaption = (props: CaptionProps) => {
     </CustomContentdates>
   );
 };
+const CustomCell = styled.div({
+  width: "50px",
+  height: "64px",
+  marginTop: "8px",
+  paddingTop: "14px",
+  [device("mobile")]: {
+    width: "40px",
+    height: "54px",
+  },
+});
 
 export default SingleCalendar;

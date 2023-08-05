@@ -71,7 +71,8 @@ const theme = {
   breakpoints: {
     lgWeb: 1920,
     smWeb: 1399,
-    mobile: 999,
+    tablet: 999,
+    mobile: 450,
   },
 };
 

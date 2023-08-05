@@ -1,6 +1,8 @@
+import Overlay from "@/ui/atoms/BackgroundOverlay";
 import Button from "@/ui/atoms/Button";
 import FlexBox from "@/ui/atoms/FlexBox";
-import theme from "@/ui/theme";
+import theme, { device } from "@/ui/theme";
+import { css } from "@emotion/css";
 import styled from "@emotion/styled";
 import { useQuery } from "@tanstack/react-query";
 import { useParams, usePathname } from "next/navigation";
@@ -22,7 +24,7 @@ interface SideBarNavigators extends SideBarNavigator {
 const SideBar = ({ navigators }: { navigators: SideBarNavigators[] }) => {
   const [current, setCurrent] = useState<string>();
   const [nestedParent, setNestedParent] = useState<string>();
-
+  const [open, setOpen] = useState(true);
   const router = useRouter();
   const path = usePathname();
 
@@ -36,82 +38,102 @@ const SideBar = ({ navigators }: { navigators: SideBarNavigators[] }) => {
     });
     setCurrent(path);
 
+    if (window.innerWidth < 1000) {
+      setOpen(false);
+    }
+
     return () => setNestedParent("");
   }, [path]);
   return (
-    <Container>
-      <FlexBox direction="column">
-        {navigators.map(
-          (
-            {
-              name,
-              href,
-              iconComponent,
-              currentIconComponent,
-              nestedParentIconComponent,
-              nested,
-            },
-            index
-          ) => {
-            return (
-              <>
-                <ListItem
-                  onClick={() => {
-                    setNestedParent(nested ? href : "");
-                    setCurrent(href);
-                    router.push(href);
-                  }}
-                  current={current === href && nestedParent !== href}
-                  nestedParent={nestedParent === href}
-                  key={index}
-                >
-                  <FlexBox justifyContent="flex-start" columnGap="10px">
-                    {nestedParent === href && nestedParentIconComponent}
-                    {nestedParent !== href &&
-                      (current === href ? currentIconComponent : iconComponent)}
+    <>
+      <SideBarOverlay open={open} onClick={() => setOpen(false)} />
+      <MobileSidebarToggleButton
+        onClick={() => setOpen((prev) => !prev)}
+        variant="default"
+      >
+        Menu
+      </MobileSidebarToggleButton>
+      <Container open={open}>
+        <FlexBox direction="column">
+          {navigators.map(
+            (
+              {
+                name,
+                href,
+                iconComponent,
+                currentIconComponent,
+                nestedParentIconComponent,
+                nested,
+              },
+              index
+            ) => {
+              return (
+                <>
+                  <ListItem
+                    onClick={() => {
+                      setNestedParent(nested ? href : "");
+                      setCurrent(href);
+                      router.push(href);
+                    }}
+                    current={current === href && nestedParent !== href}
+                    nestedParent={nestedParent === href}
+                    key={index}
+                  >
+                    <FlexBox justifyContent="flex-start" columnGap="10px">
+                      {nestedParent === href && nestedParentIconComponent}
+                      {nestedParent !== href &&
+                        (current === href
+                          ? currentIconComponent
+                          : iconComponent)}
 
-                    {name}
-                  </FlexBox>
-                </ListItem>
-                {nested?.map(
-                  ({ name: nestedName, href: nestedHref }, index) => {
-                    return (
-                      <ListItem
-                        onClick={() => {
-                          if (!nestedParent) {
-                            setNestedParent(href);
-                          }
-                          setCurrent(nestedHref);
-                          router.push(nestedHref);
-                        }}
-                        current={path === nestedHref}
-                        nested={2}
-                        key={index}
-                      >
-                        {nestedName}
-                      </ListItem>
-                    );
-                  }
-                )}
-              </>
-            );
-          }
-        )}
-      </FlexBox>
-    </Container>
+                      {name}
+                    </FlexBox>
+                  </ListItem>
+                  {nested?.map(
+                    ({ name: nestedName, href: nestedHref }, index) => {
+                      return (
+                        <ListItem
+                          onClick={() => {
+                            if (!nestedParent) {
+                              setNestedParent(href);
+                            }
+                            setCurrent(nestedHref);
+                            router.push(nestedHref);
+                          }}
+                          current={path === nestedHref}
+                          nested={2}
+                          key={index}
+                        >
+                          {nestedName}
+                        </ListItem>
+                      );
+                    }
+                  )}
+                </>
+              );
+            }
+          )}
+        </FlexBox>
+      </Container>
+    </>
   );
 };
 
-const Container = styled.nav`
-  width: 244px;
-  height: calc(100vh - 59px);
-  position: sticky;
-  align-self: flex-start;
-  left: 0px;
-  top: 59px;
-  background: ${theme.colors.white};
-  box-shadow: 0px 2px 4px 0px rgba(22, 23, 24, 0.08);
-`;
+const Container = styled.nav(({ open }: { open: boolean }) => ({
+  display: open ? "block" : "none",
+  width: "244px",
+  height: "calc(100vh - 59px)",
+  position: "sticky",
+  alignSelf: "flex-start",
+  left: "0px",
+  top: "59px",
+  background: theme.colors.white,
+  boxShadow: "0px 2px 4px 0px rgba(22, 23, 24, 0.08)",
+  [device("tablet")]: {
+    position: "fixed",
+    zIndex: "3",
+  },
+}));
 
 const ListItem = styled.div(
   ({
@@ -139,5 +161,22 @@ const ListItem = styled.div(
       : theme.colors.gray.main,
   })
 );
+
+const SideBarOverlay = styled(Overlay)(({ open }: { open: boolean }) => ({
+  backgroundColor: "rgba(0, 0, 0, 0.20)",
+  display: "none",
+  [device("tablet")]: {
+    display: open ? "block" : "none",
+  },
+}));
+
+const MobileSidebarToggleButton = styled(Button)({
+  position: "fixed",
+  top: "59px",
+  display: "none",
+  [device("tablet")]: {
+    display: "block",
+  },
+});
 
 export default SideBar;

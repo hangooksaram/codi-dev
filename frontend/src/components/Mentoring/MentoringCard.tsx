@@ -10,15 +10,13 @@ import { StyledImage } from "@/ui/atoms/StyledImage";
 
 const mocks = [];
 
-const Schedules = (schedules: string[] | undefined) => (
-  <ScheduleContainer>
-    {schedules?.map((schedule, index) => (
-      <ScheduleCard key={index} date={schedule} />
-    ))}
-  </ScheduleContainer>
-);
-
-const ScheduleCard = ({ date }: { date: string | undefined }) => {
+const MentoringCard = ({
+  date,
+  time,
+}: {
+  date: string | undefined;
+  time: string;
+}) => {
   return (
     <StyledCard>
       <Header completed={true}>{date}</Header>
@@ -101,4 +99,4 @@ const ScheduleContainer = styled(Card)(({}) => ({
   boxShadow: `0px 2px 6px 0px rgba(0, 0, 0, 0.04)`,
 }));
 
-export default Schedules;
+export default MentoringCard;

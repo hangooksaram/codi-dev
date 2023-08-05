@@ -2,8 +2,8 @@ import styled from "@emotion/styled";
 import Card from "@/ui/atoms/Card";
 import FlexBox from "@/ui/atoms/FlexBox";
 import Content from "./Content";
-import { ProfileCard } from "@/types/mentor";
 import Header from "./Header";
+import { ProfileCard } from "@/types/profile";
 
 const ProfileCard = ({
   width,
@@ -18,6 +18,8 @@ const ProfileCard = ({
   imgUrl,
   star,
   mentees,
+  apply,
+  mentorId,
 }: ProfileCard) => {
   const today = false;
   return (
@@ -32,7 +34,7 @@ const ProfileCard = ({
         justifyContent="space-between"
         {...{ height: "100%" }}
       >
-        <Header edit={edit} mentor={mentor} />
+        <Header edit={edit} mentor={mentor} apply={apply} />
         <Content
           name={name}
           job={job}
@@ -41,8 +43,10 @@ const ProfileCard = ({
           edit={edit}
           star={star}
           mentor={mentor}
+          apply={apply}
           mentees={mentees}
           isCertificate={isCertificate}
+          mentorId={mentorId}
         />
       </FlexBox>
     </CardContainer>

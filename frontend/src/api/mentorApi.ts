@@ -1,7 +1,10 @@
-import { GetMentorsParameters, RegisterMentorData } from "@/types/mentor";
+import {
+  GetMentorsParameters,
+  RegisterMentorBody,
+} from "@/types/api/payload/mentor";
 import customAxios from "./customAxios";
 
-const registerMentor = async (mentorData: RegisterMentorData) =>
+const registerMentor = async (mentorData: RegisterMentorBody) =>
   (await customAxios.post("", mentorData)).data;
 
 const getMentors = async (mentorsParams: GetMentorsParameters) => {
@@ -12,4 +15,5 @@ const getMentors = async (mentorsParams: GetMentorsParameters) => {
     )
   ).data;
 };
+
 export { registerMentor, getMentors };

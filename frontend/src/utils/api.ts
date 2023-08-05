@@ -1,4 +1,4 @@
-import { CommonApiResponse } from "@/types/apiCommon";
+import { CommonApiResponse } from "@/types/api/common";
 import { AxiosError } from "axios";
 
 export const handleApiError = (e: unknown): CommonApiResponse<undefined> => {

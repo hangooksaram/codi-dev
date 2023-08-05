@@ -8,7 +8,15 @@ import EmptyLike from "@icons/common/empty-like.svg";
 import Edit from "@icons/common/edit.svg";
 import { useState } from "react";
 
-const Header = ({ edit, mentor }: { edit?: boolean; mentor?: boolean }) => {
+const Header = ({
+  edit,
+  mentor,
+  apply,
+}: {
+  edit?: boolean;
+  mentor?: boolean;
+  apply?: boolean;
+}) => {
   const today = false;
   const [liked, setLiked] = useState(false);
   const likeMentor = () => {
@@ -26,20 +34,21 @@ const Header = ({ edit, mentor }: { edit?: boolean; mentor?: boolean }) => {
         )}
       </div>
 
-      {edit || mentor ? (
-        <Button variant="round" width="48px" color={theme.colors.info}>
-          <Edit />
-        </Button>
-      ) : (
-        <Button
-          onClick={likeMentor}
-          variant="round"
-          width="48px"
-          color={liked ? theme.colors.info : theme.colors.white}
-        >
-          {liked ? <FilledLike /> : <EmptyLike />}
-        </Button>
-      )}
+      {!apply &&
+        (edit || mentor ? (
+          <Button variant="round" width="48px" color={theme.colors.info}>
+            <Edit />
+          </Button>
+        ) : (
+          <Button
+            onClick={likeMentor}
+            variant="round"
+            width="48px"
+            color={liked ? theme.colors.info : theme.colors.white}
+          >
+            {liked ? <FilledLike /> : <EmptyLike />}
+          </Button>
+        ))}
     </FlexBox>
   );
 };
