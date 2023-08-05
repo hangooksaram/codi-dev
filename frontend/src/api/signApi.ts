@@ -1,19 +1,19 @@
 import axios from "axios";
-import { SignUpData, SignInData } from "@/types/sign";
+import { SignUpBody, SignInBody } from "@/types/api/sign";
 import customAxios from "./customAxios";
 import { handleApiError } from "@/utils/api";
-import { CommonApiResponse } from "@/types/apiCommon";
+import { CommonApiResponse } from "@/types/api/common";
 
-const signUp = async (signUpData: SignUpData): Promise<CommonApiResponse> => {
+const signUp = async (SignUpBody: SignUpBody): Promise<CommonApiResponse> => {
   try {
-    const { status } = await customAxios.post(`/members/signup`, signUpData);
+    const { status } = await customAxios.post(`/members/signup`, SignUpBody);
     return { status };
   } catch (e: unknown) {
     return handleApiError(e);
   }
 };
 
-const signIn = async (signInData: SignInData) => {
+const signIn = async (SignInBody: SignInBody) => {
   try {
   } catch (e: unknown) {}
 };

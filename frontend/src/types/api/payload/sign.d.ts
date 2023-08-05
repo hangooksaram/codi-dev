@@ -1,4 +1,4 @@
-export type SignUpData = {
+export type SignUpBody = {
   birth: string;
   email: string;
   gender: string;
@@ -7,7 +7,7 @@ export type SignUpData = {
   password: string;
 };
 
-export type SignInData = {
+export type SignInBody = {
   id: string;
   password: string;
 };

@@ -2,7 +2,7 @@ import FlexBox from "@/ui/atoms/FlexBox";
 import ProfileCard from "../../Profile/ProfileCard";
 import theme from "@/ui/theme";
 import { PageComponentLayout } from "@/ui/molecules/Layout/PageComonentLayout";
-import { Mentor } from "@/types/mentor";
+import { Mentor } from "@/types/api/payload/mentor";
 import Grid from "@/ui/atoms/Grid";
 import Typography from "@/ui/atoms/Typography";
 import styled from "@emotion/styled";

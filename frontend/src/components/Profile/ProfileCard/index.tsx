@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import Card from "@/ui/atoms/Card";
 import FlexBox from "@/ui/atoms/FlexBox";
 import Content from "./Content";
-import { ProfileCard } from "@/types/mentor";
+import { ProfileCard } from "@/types/api/payload/mentor";
 import Header from "./Header";
 
 const ProfileCard = ({

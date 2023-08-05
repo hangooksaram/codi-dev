@@ -1,6 +1,6 @@
 import { handleApiError } from "@/utils/api";
 import customAxios from "./customAxios";
-import { CommonApiResponse } from "@/types/apiCommon";
+import { CommonApiResponse } from "@/types/api/common";
 
 const registerProfile = async (
   profile: FormData
