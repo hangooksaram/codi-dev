@@ -7,3 +7,5 @@ export interface MentorMentoring {
   platform: string;
   status: string;
 }
+
+export type Status = "APPLICATION" | "ACCEPTED" | "REJECTED" | "COMPLETED";
