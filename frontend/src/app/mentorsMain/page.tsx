@@ -6,7 +6,7 @@ import theme from "@/ui/theme";
 import { useRef } from "react";
 import { useRouter } from "next/navigation";
 import MentorsBanner from "@/components/pages/mentorsMain/MentorBanner";
-import { PageComponentLayout } from "@/ui/molecules/Layout/PageComonentLayout";
+import { PageComponentLayout } from "@/components/pages/mentorsMain/PageComonentLayout";
 import TitleSection from "@/components/pages/mentorsMain/TitleSection";
 import Logo from "@icons/logo/recommend-icon.svg";
 import Mentors from "@/components/Mentors";

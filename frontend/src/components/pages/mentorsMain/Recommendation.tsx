@@ -1,6 +1,6 @@
 import FlexBox from "@/ui/atoms/FlexBox";
 import theme from "@/ui/theme";
-import { PageComponentLayout } from "@/ui/molecules/Layout/PageComonentLayout";
+import { PageComponentLayout } from "@/components/pages/mentorsMain/PageComonentLayout";
 import styled from "@emotion/styled";
 import Logo from "@icons/common/recommend-icon.svg";
 import { isUser } from "@/utils/tempUser";
