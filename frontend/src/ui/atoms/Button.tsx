@@ -37,6 +37,11 @@ const Button = styled.button(
     cursor: "pointer",
     outline: "none",
     ...rest,
+    ":disabled": {
+      backgroundColor: theme.colors.gray.dark,
+      color: theme.colors.white,
+      cursor: "default",
+    },
   })
 );
 
@@ -70,6 +75,8 @@ const fontColor = (color?: string) => {
       return theme.colors.gray.dark;
     case theme.colors.secondary:
       return theme.colors.black;
+    case theme.colors.background:
+      return theme.colors.primary;
     default:
       return theme.colors.white;
   }
