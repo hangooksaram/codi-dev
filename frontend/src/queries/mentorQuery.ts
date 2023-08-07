@@ -21,8 +21,6 @@ const useGetMentorsQuery = () => {
   );
   const mentors = data?.data as Mentor[];
 
-  console.log("hook is excuted");
-
   return { query, setQuery, mentors, isSuccess, refetch };
 };
 

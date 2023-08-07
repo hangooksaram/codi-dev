@@ -55,7 +55,6 @@ const ProfileCard = ({
 
 const CardContainer = styled(Card)(({ imgUrl }: { imgUrl: string }) => ({
   background: `url(${imgUrl}) no-repeat center`,
-  backgroundSize: "cover",
 }));
 
 export default ProfileCard;
