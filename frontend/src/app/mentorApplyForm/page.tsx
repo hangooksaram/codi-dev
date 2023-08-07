@@ -7,12 +7,11 @@ import { FormContainer } from "@/ui/atoms/Container";
 import FlexBox from "@/ui/atoms/FlexBox";
 import Typography from "@/ui/atoms/Typography";
 import theme from "@/ui/theme";
-import { Form, Formik, FormikHelpers, useFormik } from "formik";
+import { useFormik } from "formik";
 
 import ProfileImage from "@icons/common/profile-image.svg";
 import Button from "@/ui/atoms/Button";
 import Dropdown from "@/ui/atoms/Dropdown";
-import { useRef, useState } from "react";
 import Checkbox from "@/ui/atoms/Checkbox";
 import * as Yup from "yup";
 import Textarea from "@/ui/atoms/Textarea";
@@ -20,6 +19,9 @@ import useRestForm from "@/hooks/useRestForm";
 import useUploadFile from "@/hooks/useUploadFile";
 import { JOBS } from "@/constants";
 import { useRouter } from "next/navigation";
+
+import { useState } from "react";
+import MentorCategories from "@/components/Mentor/MentorCategories";
 
 interface MentorApplyFormValues {
   career: string;
@@ -82,6 +84,10 @@ const MentorApplyFormPage = () => {
     onSubmit: (values: MentorApplyFormValues) => handleSignUpSubmit(values),
     validationSchema: MentorApplyFormSchema,
   });
+
+  const [mentorCategories, setMentorCategories] = useState<string[]>([
+    "면접대비",
+  ]);
 
   return (
     <FormContainer>
@@ -196,6 +202,12 @@ const MentorApplyFormPage = () => {
             >
               등록하기
             </Button>
+          </FormInputContainer>
+          <FormInputContainer text="멘토링분야" helpText="(최대 4개)">
+            <MentorCategories
+              mentorCategories={mentorCategories}
+              setMentorCategories={setMentorCategories}
+            />
           </FormInputContainer>
           <FormInputContainer
             text="자기 소개"

@@ -6,7 +6,7 @@ import Logo from "@icons/logo/recommend-icon.svg";
 import { isUser } from "@/utils/tempUser";
 import { useRouter } from "next/navigation";
 import TitleSection from "./TitleSection";
-import MentorList from "../../Mentors/MentorList";
+import MentorList from "../../Mentor/MentorList";
 import { StyledImage } from "@/ui/atoms/StyledImage";
 import Button from "@/ui/atoms/Button";
 import { Mentor } from "@/types/mentor";

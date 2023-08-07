@@ -9,7 +9,7 @@ import MentorsBanner from "@/components/pages/mentorsMain/MentorBanner";
 import { PageComponentLayout } from "@/components/pages/mentorsMain/PageComonentLayout";
 import TitleSection from "@/components/pages/mentorsMain/TitleSection";
 import Logo from "@icons/logo/recommend-icon.svg";
-import Mentors from "@/components/Mentors";
+import Mentors from "@/components/Mentor/Mentors";
 
 const MentorsPage = () => {
   const router = useRouter();

@@ -1,5 +1,4 @@
 import { Mentor } from "@/types/mentor";
-import ProfileCard from "../Profile/ProfileCard";
 
 import Grid from "@/ui/atoms/Grid";
 import theme, { device } from "@/ui/theme";
@@ -8,6 +7,7 @@ import Card from "@/ui/atoms/Card";
 import Typography from "@/ui/atoms/Typography";
 import styled from "@emotion/styled";
 import FlexBox from "@/ui/atoms/FlexBox";
+import ProfileCard from "@/components/Profile/ProfileCard";
 
 const MentorList = ({ mentors }: { mentors: Mentor[] }) => {
   if (mentors.length === 0)

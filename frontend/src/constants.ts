@@ -131,3 +131,10 @@ export const SCHEDULE_TIME_TABLE = [
   "22:00 - 22:50",
   "23:00 - 23:50",
 ];
+
+export const EMPLOYMENT_STATUSES = [
+  "학생",
+  "취업 준비생",
+  "이직 준비중",
+  "표시하지 않음(멘티로 표시)",
+];
