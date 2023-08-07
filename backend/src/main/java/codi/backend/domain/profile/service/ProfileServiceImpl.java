@@ -102,7 +102,10 @@ public class ProfileServiceImpl implements ProfileService{
         if (inputProfile == null) {
             throw new BusinessLogicException(ExceptionCode.PROFILE_NOT_FOUND);
         }
-
+        Optional.ofNullable(inputProfile.getJob())
+                .ifPresent(findProfile::setJob);
+        Optional.ofNullable(inputProfile.getDesiredJob())
+                .ifPresent(findProfile::setDesiredJob);
         Optional.ofNullable(inputProfile.getEducation())
                 .ifPresent(findProfile::setEducation);
         Optional.ofNullable(inputProfile.getDisability())
@@ -111,6 +114,8 @@ public class ProfileServiceImpl implements ProfileService{
                 .ifPresent(findProfile::setSeverity);
         Optional.ofNullable(inputProfile.getIntroduction())
                 .ifPresent(findProfile::setIntroduction);
+        Optional.ofNullable(inputProfile.getEmploymentStatus())
+                .ifPresent(findProfile::setEmploymentStatus);
     }
 
     @Override

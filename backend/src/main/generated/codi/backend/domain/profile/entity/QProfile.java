@@ -28,6 +28,8 @@ public class QProfile extends EntityPathBase<Profile> {
 
     public final StringPath education = createString("education");
 
+    public final EnumPath<Profile.EmploymentStatus> employmentStatus = createEnum("employmentStatus", Profile.EmploymentStatus.class);
+
     public final SetPath<codi.backend.domain.favorite.entity.Favorite, codi.backend.domain.favorite.entity.QFavorite> favorites = this.<codi.backend.domain.favorite.entity.Favorite, codi.backend.domain.favorite.entity.QFavorite>createSet("favorites", codi.backend.domain.favorite.entity.Favorite.class, codi.backend.domain.favorite.entity.QFavorite.class, PathInits.DIRECT2);
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
@@ -36,7 +38,11 @@ public class QProfile extends EntityPathBase<Profile> {
 
     public final StringPath introduction = createString("introduction");
 
+    public final StringPath job = createString("job");
+
     public final codi.backend.domain.member.entity.QMember member;
+
+    public final ListPath<codi.backend.domain.mentoring.entity.Mentoring, codi.backend.domain.mentoring.entity.QMentoring> mentoringList = this.<codi.backend.domain.mentoring.entity.Mentoring, codi.backend.domain.mentoring.entity.QMentoring>createList("mentoringList", codi.backend.domain.mentoring.entity.Mentoring.class, codi.backend.domain.mentoring.entity.QMentoring.class, PathInits.DIRECT2);
 
     public final StringPath severity = createString("severity");
 

@@ -6,7 +6,6 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface MemberMapper {
-    // Member
     default Member memberPostDtoToMember(MemberDto.MemberPost memberPostDto) {
         if (memberPostDto == null) {
             return null;

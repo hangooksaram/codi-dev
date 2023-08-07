@@ -30,7 +30,13 @@ public enum ExceptionCode {
 
     // Favorite
     FAVORITE_NOT_FOUND(404, "Favorite not found"),
-    CANNOT_FAVORITE_SELF(422, "You cannot add yourself as a favorite.");
+    CANNOT_FAVORITE_SELF(422, "You cannot add yourself as a favorite."),
+
+    // schdule
+    SCHEDULE_NOT_FOUND(404, "Schedule not found"),
+    MENTORING_ALREADY_EXIST(400, "Schedule's mentoring is already exist"),
+    START_TIME_AFTER_END_TIME_ERROR(400, "The start time must be earlier than the end time. "),
+    SCHEDULE_ALREADY_EXISTS_ERROR(400, "A schedule already exists for that time slot.");
 
     @Getter
     private final int status;

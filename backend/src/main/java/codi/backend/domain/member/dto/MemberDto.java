@@ -13,7 +13,6 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 public class MemberDto {
-
     @Getter
     @Builder
     public static class MemberPost {

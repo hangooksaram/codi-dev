@@ -1,17 +1,21 @@
 package codi.backend.domain.mentor.dto;
 
+import codi.backend.domain.mentor.entity.Mentor;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.List;
 
 public class MentorDto {
 
     @Getter
     @Builder
     public static class MentorPost {
-
         @NotBlank
         @ApiModelProperty(example = "직무")
         private String job;
@@ -25,8 +29,18 @@ public class MentorDto {
         private String career;
 
         @NotBlank
+        @ApiModelProperty(example = "프로필에 표시될 직무명")
+        private String jobName;
+
+        @NotNull
         @ApiModelProperty(example = "재직중 여부")
         private Boolean inOffice;
+
+        @NotNull
+        @NotEmpty
+        @Size(min = 1, max = 4)
+        @ApiModelProperty(example = "멘토링 분야")
+        private List<Mentor.MentoringCategory> mentoringCategories;
 
         @ApiModelProperty(example = "멘토 소개")
         private String introduction;
@@ -35,12 +49,14 @@ public class MentorDto {
     @Getter
     @Builder
     public static class MentorPatch {
-
         @ApiModelProperty(example = "직무")
         private String job;
 
         @ApiModelProperty(example = "경력")
         private String career;
+
+        @ApiModelProperty(example = "프로필에 표시될 직무명")
+        private String jobName;
 
         @ApiModelProperty(example = "회사 이름")
         private String company;
@@ -50,6 +66,9 @@ public class MentorDto {
 
         @ApiModelProperty(example = "멘토 소개")
         private String introduction;
+
+        @ApiModelProperty(example = "멘토링 분야")
+        private List<Mentor.MentoringCategory> mentoringCategories;
     }
 
     @Schema(description = "멘토 정보 응답 DTO")
@@ -74,6 +93,9 @@ public class MentorDto {
         @ApiModelProperty(example = "경력")
         private String career;
 
+        @ApiModelProperty(example = "프로필에 표시될 직무명")
+        private String jobName;
+
         @ApiModelProperty(example = "재직중 여부")
         private Boolean inOffice;
 
@@ -85,6 +107,9 @@ public class MentorDto {
 
         @ApiModelProperty(example = "수강한 멘토 수")
         private Integer mentees;
+
+        @ApiModelProperty(example = "멘토링 분야")
+        private List<Mentor.MentoringCategory> mentoringCategories;
     }
 
     @Schema(description = "멘토 검색 결과 응답 DTO")
