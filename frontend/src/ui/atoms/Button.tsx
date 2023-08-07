@@ -53,7 +53,7 @@ const borderRadius = (variant: Button) => {
 
 const height = (variant: Button, width?: string, size?: string) => {
   if (size === "small") {
-    return "41px";
+    return "39px";
   } else if (size === "big") return "70px";
   switch (variant) {
     case "default":
