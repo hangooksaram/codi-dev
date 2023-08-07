@@ -7,7 +7,6 @@ import Share from "@icons/mentorCategories/share.svg";
 import Social from "@icons/mentorCategories/social.svg";
 import Tech from "@icons/mentorCategories/tech.svg";
 import { Dispatch, SetStateAction } from "react";
-
 import theme from "@/ui/theme";
 import MentorCategoryButton from "./MentoringCategoryButton";
 import FlexBox from "@/ui/atoms/FlexBox";
