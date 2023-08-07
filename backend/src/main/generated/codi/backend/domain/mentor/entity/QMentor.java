@@ -40,9 +40,17 @@ public class QMentor extends EntityPathBase<Mentor> {
 
     public final StringPath job = createString("job");
 
+    public final StringPath jobName = createString("jobName");
+
     public final codi.backend.domain.member.entity.QMember member;
 
     public final NumberPath<Integer> mentees = createNumber("mentees", Integer.class);
+
+    public final ListPath<Mentor.MentoringCategory, EnumPath<Mentor.MentoringCategory>> mentoringCategories = this.<Mentor.MentoringCategory, EnumPath<Mentor.MentoringCategory>>createList("mentoringCategories", Mentor.MentoringCategory.class, EnumPath.class, PathInits.DIRECT2);
+
+    public final ListPath<codi.backend.domain.mentoring.entity.Mentoring, codi.backend.domain.mentoring.entity.QMentoring> mentoringList = this.<codi.backend.domain.mentoring.entity.Mentoring, codi.backend.domain.mentoring.entity.QMentoring>createList("mentoringList", codi.backend.domain.mentoring.entity.Mentoring.class, codi.backend.domain.mentoring.entity.QMentoring.class, PathInits.DIRECT2);
+
+    public final ListPath<codi.backend.domain.mentoring.entity.Schedule, codi.backend.domain.mentoring.entity.QSchedule> schedules = this.<codi.backend.domain.mentoring.entity.Schedule, codi.backend.domain.mentoring.entity.QSchedule>createList("schedules", codi.backend.domain.mentoring.entity.Schedule.class, codi.backend.domain.mentoring.entity.QSchedule.class, PathInits.DIRECT2);
 
     public final NumberPath<Double> star = createNumber("star", Double.class);
 

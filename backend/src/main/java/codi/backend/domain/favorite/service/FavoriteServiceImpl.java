@@ -13,14 +13,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class FavoriteServiceImpl implements FavoriteService{
+    private final FavoriteRepository favoriteRepository;
     private final ProfileRepository profileRepository;
     private final MentorRepository mentorRepository;
-    private final FavoriteRepository favoriteRepository;
 
-    public FavoriteServiceImpl(ProfileRepository profileRepository, MentorRepository mentorRepository, FavoriteRepository favoriteRepository) {
+    public FavoriteServiceImpl(FavoriteRepository favoriteRepository, ProfileRepository profileRepository, MentorRepository mentorRepository) {
+        this.favoriteRepository = favoriteRepository;
         this.profileRepository = profileRepository;
         this.mentorRepository = mentorRepository;
-        this.favoriteRepository = favoriteRepository;
     }
 
     @Transactional

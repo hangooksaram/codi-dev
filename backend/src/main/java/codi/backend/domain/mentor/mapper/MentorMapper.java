@@ -4,6 +4,7 @@ import codi.backend.domain.mentor.dto.MentorDto;
 import codi.backend.domain.mentor.entity.Mentor;
 import org.mapstruct.Mapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
@@ -18,8 +19,13 @@ public interface MentorMapper {
                 .company(mentorPostDto.getCompany())
                 .job(mentorPostDto.getJob())
                 .career(mentorPostDto.getCareer())
-                .inOffice(mentorPostDto.getInOffice())
+                .jobName(mentorPostDto.getJobName())
+                .inOffice(mentorPostDto.getInOffice() != null ? mentorPostDto.getInOffice() : false)
                 .introduction(mentorPostDto.getIntroduction())
+                .mentoringCategories(mentorPostDto.getMentoringCategories() != null ? mentorPostDto.getMentoringCategories() : new ArrayList<>(4))
+                .isCertificate(false)
+                .star(0.0)
+                .mentees(0)
                 .build();
     }
 
@@ -32,8 +38,10 @@ public interface MentorMapper {
                 .company(mentorPatchDto.getCompany())
                 .job(mentorPatchDto.getJob())
                 .career(mentorPatchDto.getCareer())
+                .jobName(mentorPatchDto.getJobName())
                 .inOffice(mentorPatchDto.getInOffice())
                 .introduction(mentorPatchDto.getIntroduction())
+                .mentoringCategories(mentorPatchDto.getMentoringCategories())
                 .build();
     }
 
@@ -45,11 +53,16 @@ public interface MentorMapper {
         return MentorDto.MentorResponse.builder()
                 .id(mentor.getId())
                 .fileUrl(mentor.getFileUrl())
+                .isCertificate(mentor.getIsCertificate())
                 .company(mentor.getCompany())
                 .job(mentor.getJob())
                 .career(mentor.getCareer())
+                .jobName(mentor.getJobName())
                 .inOffice(mentor.getInOffice())
                 .introduction(mentor.getIntroduction())
+                .star(mentor.getStar())
+                .mentees(mentor.getMentees())
+                .mentoringCategories(mentor.getMentoringCategories())
                 .build();
     }
 

@@ -39,6 +39,9 @@ public class MentorServiceImpl implements MentorService{
                 .map(f -> s3Service.upload(f, "mentor"))
                 .ifPresentOrElse(mentor::setFileUrl, () -> mentor.setFileUrl(null));
 
+        // 파일이 null이 아닌 경우에만 isCertificate를 true로 설정
+        mentor.setIsCertificate(Optional.ofNullable(file).isPresent());
+
         // member에 mentor 1:1 연결
         member.setMentor(mentor);
 

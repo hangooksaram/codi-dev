@@ -15,6 +15,7 @@ public class JobRecommendationRepositoryImpl implements JobRecommendationReposit
         this.queryFactory = queryFactory;
     }
 
+    // TODO 멘토링, 스케줄 기능 개발 완료 후 순위, 퍼센트 표시 추가
     @Override
     public List<String> findTop3JobCategories(String disability, String severity, int age) {
         int ageStart = (age / 10) * 10;

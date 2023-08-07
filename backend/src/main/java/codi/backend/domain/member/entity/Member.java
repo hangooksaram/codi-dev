@@ -15,9 +15,8 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 public class Member {
-
     @Id
-    @Column(name = "MEMBER_ID", unique = true, updatable = false)
+    @Column(name = "member_id", unique = true, updatable = false)
     private String id;
 
     @Column(nullable = false)
@@ -43,12 +42,12 @@ public class Member {
     private Mentor mentor;
 
     // TODO 추후 서비스 로직에서 member 객체의 mentor 또는 profile의 처리를 한 번에 가능하도록 한다.
-    public Mentor getMentor() {
-        if (mentor == null) {
-            throw new BusinessLogicException(ExceptionCode.NOT_MENTOR_ERROR);
-        }
-        return mentor;
-    }
+//    public Mentor getMentor() {
+//        if (mentor == null) {
+//            throw new BusinessLogicException(ExceptionCode.NOT_MENTOR_ERROR);
+//        }
+//        return mentor;
+//    }
 
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     private Profile profile;
@@ -65,12 +64,12 @@ public class Member {
         NOT_CHECKED("선택안함"),
         WOMAN("여자");
 
+        @Getter
+        private final String gender;
+
         Gender(String gender) {
             this.gender = gender;
         }
-
-        @Getter
-        private String gender;
     }
 
     public enum MemberRole {

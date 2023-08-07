@@ -10,18 +10,19 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface ProfileMapper {
-    // Profile
     default Profile profilePostDtoToProfile(ProfileDto.ProfilePost profilePostDto) {
         if (profilePostDto == null) {
             return null;
         }
 
         return Profile.builder()
+                .job(profilePostDto.getJob())
                 .desiredJob(profilePostDto.getDesiredJob())
                 .education(profilePostDto.getEducation())
                 .disability(profilePostDto.getDisability())
                 .severity(profilePostDto.getSeverity())
                 .introduction(profilePostDto.getIntroduction())
+                .employmentStatus(profilePostDto.getEmploymentStatus())
                 .build();
     }
 
@@ -31,11 +32,13 @@ public interface ProfileMapper {
         }
 
         return Profile.builder()
+                .job(profilePatchDto.getJob())
                 .desiredJob(profilePatchDto.getDesiredJob())
                 .education(profilePatchDto.getEducation())
                 .disability(profilePatchDto.getDisability())
                 .severity(profilePatchDto.getSeverity())
                 .introduction(profilePatchDto.getIntroduction())
+                .employmentStatus(profilePatchDto.getEmploymentStatus())
                 .build();
     }
 
@@ -51,11 +54,13 @@ public interface ProfileMapper {
         return ProfileDto.ProfileResponse.builder()
                 .id(profile.getId())
                 .imgUrl(profile.getImgUrl())
+                .job(profile.getJob())
                 .desiredJob(profile.getDesiredJob())
                 .education(profile.getEducation())
                 .disability(profile.getDisability())
                 .severity(profile.getSeverity())
                 .introduction(profile.getIntroduction())
+                .employmentStatus(profile.getEmploymentStatus())
                 .favorites(favorites)
                 .build();
     }
