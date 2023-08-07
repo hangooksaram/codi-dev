@@ -1,5 +1,5 @@
 import Container from "@/ui/atoms/Container";
-import theme from "@/ui/theme";
+import theme, { device } from "@/ui/theme";
 import styled from "@emotion/styled";
 import { ReactNode } from "react";
 
@@ -15,7 +15,12 @@ const Background = styled.div({
 
 const StyledContainer = styled(Container)({
   backgroundColor: theme.colors.white,
+  width: "78%",
   padding: "80px 60px",
+  [device("tablet")]: {
+    width: "100%",
+    padding: "80px 20px",
+  },
 });
 
 export default ContainerWithBackground;

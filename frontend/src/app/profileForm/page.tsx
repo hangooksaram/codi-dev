@@ -4,9 +4,7 @@ import { FormContainer } from "@/ui/atoms/Container";
 import Typography from "@/ui/atoms/Typography";
 import theme from "@/ui/theme";
 import * as Yup from "yup";
-import FormInputContainer, {
-  Form as MentorProfileForm,
-} from "@/ui/molecules/Input/FormInput";
+import FormInputContainer from "@/ui/molecules/Input/FormInput";
 import IconInputContainer from "@/ui/molecules/Input/IconInput";
 import Input from "@/ui/atoms/Input";
 import Button from "@/ui/atoms/Button";

@@ -5,6 +5,7 @@ import SingleCalendar from "../Calendar/SingleCalendar";
 import { ReactNode, SetStateAction } from "react";
 
 import Card from "@/ui/atoms/Card";
+import styled from "@emotion/styled";
 
 interface CalendarContainerProps {
   date: Date | undefined;
@@ -20,20 +21,20 @@ const CalendarContainer = ({
   children,
 }: CalendarContainerProps) => {
   return (
-    <FlexBox
-      columnGap="20px"
-      className={css({
-        [device("tablet")]: {
-          flexDirection: "column",
-          columnGap: "0px",
-          rowGap: "20px",
-        },
-      })}
-    >
+    <StyledCalendarContainer columnGap="20px">
       <SingleCalendar type={type} date={date} setDate={setDate} />
       <Card padding="40px">{children}</Card>
-    </FlexBox>
+    </StyledCalendarContainer>
   );
 };
+
+const StyledCalendarContainer = styled(FlexBox)({
+  height: "590px",
+  [device("tablet")]: {
+    flexDirection: "column",
+    columnGap: "0px",
+    rowGap: "20px",
+  },
+});
 
 export default CalendarContainer;
