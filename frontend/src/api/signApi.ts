@@ -1,8 +1,9 @@
-import axios from "axios";
-import { SignUpBody, SignInBody } from "@/types/api/sign";
+import axios, { AxiosResponse } from "axios";
+
 import customAxios from "./customAxios";
 import { handleApiError } from "@/utils/api";
 import { CommonApiResponse } from "@/types/api/common";
+import { SignInBody, SignUpBody } from "@/types/api/payload/sign";
 
 const signUp = async (SignUpBody: SignUpBody): Promise<CommonApiResponse> => {
   try {
@@ -17,9 +18,11 @@ const signIn = async (SignInBody: SignInBody) => {
   try {
   } catch (e: unknown) {}
 };
-const checkDuplicateId = async (id: string): Promise<CommonApiResponse> => {
+const checkDuplicateId = async <T>(
+  id: string
+): Promise<CommonApiResponse<T>> => {
   try {
-    const { data, status } = await customAxios.get(
+    const { data, status }: AxiosResponse<T> = await customAxios.get(
       `/account/validate-id?id=${id}`
     );
     return { data, status };

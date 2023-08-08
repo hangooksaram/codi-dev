@@ -2,9 +2,9 @@ import { handleApiError } from "@/utils/api";
 import customAxios from "./customAxios";
 import { CommonApiResponse } from "@/types/api/common";
 
-const registerProfile = async (
+const registerProfile = async <T>(
   profile: FormData
-): Promise<CommonApiResponse> => {
+): Promise<CommonApiResponse<T>> => {
   try {
     const { status } = await customAxios.post(`/profiles/dhguswo555`, profile, {
       headers: {
@@ -18,7 +18,7 @@ const registerProfile = async (
   }
 };
 
-const getProfile = async (id: string): Promise<CommonApiResponse> => {
+const getProfile = async <T>(id: string): Promise<CommonApiResponse<T>> => {
   try {
     const { status } = await customAxios.post(`/profiles/dhguswo555`);
 
