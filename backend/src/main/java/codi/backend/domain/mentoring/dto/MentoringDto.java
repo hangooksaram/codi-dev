@@ -1,6 +1,7 @@
 package codi.backend.domain.mentoring.dto;
 
 import codi.backend.domain.mentoring.entity.Mentoring;
+import codi.backend.domain.schedule.dto.ScheduleDto;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;

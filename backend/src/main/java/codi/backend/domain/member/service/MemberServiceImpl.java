@@ -1,5 +1,6 @@
 package codi.backend.domain.member.service;
 
+import codi.backend.domain.member.dto.GaraDto;
 import codi.backend.domain.member.entity.Member;
 import codi.backend.domain.member.repository.MemberRepository;
 import codi.backend.domain.member.utils.CustomAuthorityUtils;
@@ -59,6 +60,19 @@ public class MemberServiceImpl implements MemberService{
         memberRepository.save(member);
     }
 
+    @Override
+    public GaraDto.LoginResponse loginMember(GaraDto.LoginDto loginDto) {
+        Member findMember = findMember(loginDto.getId());
+        isValidPassword(findMember, loginDto.getPassword());
+
+        return GaraDto.LoginResponse.builder()
+                .id(findMember.getId())
+                .profileId(findMember.getProfile() != null ? findMember.getProfile().getId() : null)
+                .mentorId(findMember.getMentor() != null ? findMember.getMentor().getId() : null)
+                .imgUrl(findMember.getProfile() != null && findMember.getProfile().getImgUrl() != null ? findMember.getProfile().getImgUrl() : null)
+                .build();
+    }
+
     private void validateDuplicateId(String id) {
         if (memberRepository.existsById(id)) {
             throw new BusinessLogicException(ExceptionCode.DUPLICATED_ID);
@@ -68,6 +82,12 @@ public class MemberServiceImpl implements MemberService{
     private void validateDuplicateEmail(String email) {
         if (memberRepository.existsByEmail(email)) {
             throw new BusinessLogicException(ExceptionCode.DUPLICATE_EMAIL);
+        }
+    }
+
+    private void isValidPassword(Member member, String password) {
+        if (!passwordEncoder.matches(password, member.getPassword())) {
+            throw new BusinessLogicException(ExceptionCode.INVALID_PASSWORD);
         }
     }
 }

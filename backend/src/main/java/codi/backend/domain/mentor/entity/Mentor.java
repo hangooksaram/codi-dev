@@ -3,12 +3,11 @@ package codi.backend.domain.mentor.entity;
 import codi.backend.domain.favorite.entity.Favorite;
 import codi.backend.domain.member.entity.Member;
 import codi.backend.domain.mentoring.entity.Mentoring;
-import codi.backend.domain.mentoring.entity.Schedule;
+import codi.backend.domain.schedule.entity.Schedule;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.ArrayList;

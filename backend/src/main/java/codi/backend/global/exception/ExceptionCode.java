@@ -15,6 +15,7 @@ public enum ExceptionCode {
     PROFILE_UPDATE_FAILED(500, "Profile update failed"),
     DUPLICATED_ID(400, "ID is already in use."),
     DUPLICATE_EMAIL(400, "Email is already in use."),
+    INVALID_PASSWORD(400, "Password is not valid."),
 
     // File
     INVALID_DIRECTORY_NAME(400, "This directory name is invalid"),

@@ -1,7 +1,7 @@
-package codi.backend.domain.mentoring.repository;
+package codi.backend.domain.schedule.repository;
 
 import codi.backend.domain.mentor.entity.Mentor;
-import codi.backend.domain.mentoring.entity.Schedule;
+import codi.backend.domain.schedule.entity.Schedule;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;

@@ -44,28 +44,28 @@ public class ProfileController {
     // 프로필 정보 수정
     // TODO 추후 로그인 한 사용자의 로그인 정보를 함께 받는 방식으로 변경이 필요
     @ApiOperation(value = "프로필 정보 수정", notes = "프로필 이미지, 직무, 연차, 학력, 장애구분, 중증도, 장애기간, 소개를 선택해서 수정할 수 있다.")
-    @PatchMapping("/{member-id}")
-    public ResponseEntity updateProfile(@PathVariable("member-id") String memberId,
+    @PatchMapping("/{profile-id}")
+    public ResponseEntity updateProfile(@PathVariable("profile-id") Long profileId,
                                         @Valid @RequestPart(value = "profile", required = false) ProfileDto.ProfilePatch profilePatchDto,
                                         @RequestPart(value = "file", required = false) MultipartFile file) {
-        Profile profile = profileService.updateProfileInformation(memberId, profileMapper.profilePatchDtoToProfile(profilePatchDto), file);
+        Profile profile = profileService.updateProfileInformation(profileId, profileMapper.profilePatchDtoToProfile(profilePatchDto), file);
         ProfileDto.ProfileResponse response = profileMapper.profileToProfileResponse(profile);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @ApiOperation(value = "프로필 이미지 삭제", notes = "memberId에 해당하는 사용자의 프로필 이미지를 삭제한다.")
-    @DeleteMapping("profile-image/{member-id}")
-    public ResponseEntity deleteProfileImg(@PathVariable("member-id") String memberId) {
-        profileService.deleteProfileImg(memberId);
+    @DeleteMapping("profile-image/{profile-id}")
+    public ResponseEntity deleteProfileImg(@PathVariable("profile-id") Long profileId) {
+        profileService.deleteProfileImg(profileId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     // 프로필 정보 조회
     // TODO 추후 로그인 한 사용자의 로그인 정보를 함께 받는 방식으로 변경이 필요
     @ApiOperation(value = "프로필 페이지 조회", notes = "프로필 페이지에 입력한 정보를 조회할 수 있다.")
-    @GetMapping("/{member-id}")
-    public ResponseEntity getProfile(@PathVariable("member-id") String memberId) {
-        ProfileDto.ProfileResponse profile = profileMapper.profileToProfileResponse(profileService.findProfile(memberId));
+    @GetMapping("/{profile-id}")
+    public ResponseEntity getProfile(@PathVariable(value = "profile-id") Long profileId) {
+        ProfileDto.ProfileResponse profile = profileMapper.profileToProfileResponse(profileService.findProfile(profileId));
         return new ResponseEntity<>(profile, HttpStatus.OK);
     }
 }
