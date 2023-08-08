@@ -9,14 +9,15 @@ import StyledLink from "@/ui/atoms/Link";
 import FlexBox from "@/ui/atoms/FlexBox";
 import Typography from "@/ui/atoms/Typography";
 import Container from "@/ui/atoms/Container";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { checkUser } from "@/utils/tempUser";
 import { StyledImage } from "@/ui/atoms/StyledImage";
 import styled from "@emotion/styled";
 import Image from "next/image";
 import Card from "@/ui/atoms/Card";
 import Input from "@/ui/atoms/Input";
+import { signIn } from "@/api/signApi";
+import { setUser } from "@/utils/tempUser";
 
 const SignInPage = () => {
   const router = useRouter();
@@ -24,13 +25,16 @@ const SignInPage = () => {
     id: "",
     password: "",
   });
-  const login = () => {
-    if (!checkUser(loginInfo)) {
-      alert("가입된 회원이 없습니다. 회원가입을 먼저 해주세요");
-      return;
+  const login = async () => {
+    const { data, status } = await signIn(loginInfo);
+    if (status === 200) {
+      setUser(data);
+      router.replace("/");
+    } else {
+      alert("로그인이 실패했습니다.");
     }
-    router.replace("/");
   };
+
   return (
     <FlexBox {...{ height: "100%" }}>
       <SignInImageCard width="40%" color={theme.colors.primary}>
@@ -76,6 +80,7 @@ const SignInPage = () => {
               onChange={(e) =>
                 setLoginInfo({ ...loginInfo, password: e.target.value })
               }
+              type="password"
               placeholder="비밀번호를 입력해주세요"
             />
             <Button onClick={login} width="100%" variant="square" size="big">
@@ -88,12 +93,11 @@ const SignInPage = () => {
                 아이디 찾기
               </StyledLink>
               <div style={{ color: theme.colors.gray.dark }}>|</div>
-
               <StyledLink color={theme.colors.gray.dark} href="">
                 비밀번호 찾기
               </StyledLink>
             </FlexBox>
-            <SignInTextButton variant="default">로그인 유지</SignInTextButton>
+            {/* <SignInTextButton variant="default">로그인 유지</SignInTextButton> */}
           </FlexBox>
           <FlexBox justifyContent="center">
             <Typography

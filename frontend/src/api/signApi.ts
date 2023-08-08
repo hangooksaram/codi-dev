@@ -16,7 +16,11 @@ const signUp = async (SignUpBody: SignUpBody): Promise<CommonApiResponse> => {
 
 const signIn = async (SignInBody: SignInBody) => {
   try {
-  } catch (e: unknown) {}
+    const { data, status } = await customAxios.post(`/login`, SignInBody);
+    return { data, status };
+  } catch (e: unknown) {
+    return handleApiError(e);
+  }
 };
 const checkDuplicateId = async <T>(
   id: string
