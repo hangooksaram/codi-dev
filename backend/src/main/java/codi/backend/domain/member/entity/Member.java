@@ -41,23 +41,8 @@ public class Member {
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     private Mentor mentor;
 
-    // TODO 추후 서비스 로직에서 member 객체의 mentor 또는 profile의 처리를 한 번에 가능하도록 한다.
-//    public Mentor getMentor() {
-//        if (mentor == null) {
-//            throw new BusinessLogicException(ExceptionCode.NOT_MENTOR_ERROR);
-//        }
-//        return mentor;
-//    }
-
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     private Profile profile;
-
-    public Profile getProfile() {
-        if (profile == null) {
-            throw new BusinessLogicException(ExceptionCode.PROFILE_NOT_FOUND);
-        }
-        return profile;
-    }
 
     public enum Gender {
         MAN("남자"),

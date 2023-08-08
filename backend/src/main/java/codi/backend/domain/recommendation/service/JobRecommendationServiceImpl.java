@@ -32,7 +32,7 @@ public class JobRecommendationServiceImpl implements JobRecommendationService {
     @Override
     public List<String> recommendJobs(String memberId) {
         Member member = getMember(memberId);
-        Profile profile = member.getProfile();
+        Profile profile = getProfile(member.getProfile().getId());
 
         int age = calculateAge(member.getBirth(), LocalDate.now());
 
@@ -48,5 +48,10 @@ public class JobRecommendationServiceImpl implements JobRecommendationService {
     private Member getMember(String memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+    }
+
+    private Profile getProfile(Long profileId) {
+        return profileRepository.findById(profileId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.PROFILE_NOT_FOUND));
     }
 }

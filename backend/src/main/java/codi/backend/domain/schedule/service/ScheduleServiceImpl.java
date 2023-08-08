@@ -1,17 +1,16 @@
-package codi.backend.domain.mentoring.service;
+package codi.backend.domain.schedule.service;
 
 import codi.backend.domain.member.repository.MemberRepository;
 import codi.backend.domain.mentor.entity.Mentor;
 import codi.backend.domain.mentor.repository.MentorRepository;
-import codi.backend.domain.mentoring.dto.ScheduleDto;
-import codi.backend.domain.mentoring.entity.Schedule;
-import codi.backend.domain.mentoring.repository.ScheduleRepository;
+import codi.backend.domain.schedule.dto.ScheduleDto;
+import codi.backend.domain.schedule.entity.Schedule;
+import codi.backend.domain.schedule.repository.ScheduleRepository;
 import codi.backend.global.exception.BusinessLogicException;
 import codi.backend.global.exception.ExceptionCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;

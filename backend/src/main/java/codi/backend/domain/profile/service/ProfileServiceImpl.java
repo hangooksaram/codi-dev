@@ -44,26 +44,23 @@ public class ProfileServiceImpl implements ProfileService{
     }
 
     @Override
-    public Profile findProfile(String memberId) {
-        return verifyProfile(memberId);
+    public Profile findProfile(Long profileId) {
+        return verifyProfile(profileId);
     }
 
-    private Profile verifyProfile(String memberId) {
-        Member member = findMember(memberId);
-        if (member.getProfile() == null) {
-            throw new BusinessLogicException(ExceptionCode.NOT_PROFILE_ERROR);
-        }
-        return member.getProfile();
+    private Profile verifyProfile(Long profileId) {
+        return profileRepository.findById(profileId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.PROFILE_NOT_FOUND));
     }
 
     private Member findMember(String memberId) {
-        return memberRepository.findById(memberId).orElseThrow(() ->
-                new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
     }
 
     @Override
-    public Profile updateProfileInformation(String memberId, Profile profile, MultipartFile file) {
-        Profile findProfile = findProfile(memberId);
+    public Profile updateProfileInformation(Long profileId, Profile profile, MultipartFile file) {
+        Profile findProfile = findProfile(profileId);
 
         // Profile image 수정
         updateProfileImage(findProfile, file);
@@ -119,8 +116,8 @@ public class ProfileServiceImpl implements ProfileService{
     }
 
     @Override
-    public void deleteProfileImg(String memberId) {
-        Profile findProfile = findProfile(memberId);
+    public void deleteProfileImg(Long profileId) {
+        Profile findProfile = findProfile(profileId);
         try {
             s3Service.delete(findProfile.getImgUrl());
             findProfile.setImgUrl(null);

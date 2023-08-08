@@ -1,6 +1,7 @@
-package codi.backend.domain.mentoring.entity;
+package codi.backend.domain.schedule.entity;
 
 import codi.backend.domain.mentor.entity.Mentor;
+import codi.backend.domain.mentoring.entity.Mentoring;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

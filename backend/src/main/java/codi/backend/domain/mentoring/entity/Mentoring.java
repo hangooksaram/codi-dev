@@ -2,6 +2,7 @@ package codi.backend.domain.mentoring.entity;
 
 import codi.backend.domain.mentor.entity.Mentor;
 import codi.backend.domain.profile.entity.Profile;
+import codi.backend.domain.schedule.entity.Schedule;
 import lombok.*;
 
 import javax.persistence.*;
@@ -16,9 +17,18 @@ public class Mentoring {
     private Long id;
 
     @Enumerated(EnumType.STRING)
+    @Column
     private MentoringStatus status;
 
+    @Column
     private String applicationReason;
+
+    @Enumerated(EnumType.STRING)
+    @Column
+    private MentoringPlatform mentoringPlatform;
+
+    @Column
+    private String link;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mentor_id")
@@ -44,6 +54,13 @@ public class Mentoring {
         MentoringStatus(String value) {
             this.value = value;
         }
+    }
+
+    public enum MentoringPlatform {
+        GOOGLE,
+        KAKAO,
+        DISCORD,
+        ZOOM
     }
 
     @Builder

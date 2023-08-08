@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 public interface ProfileService {
     // Profile
     Profile createProfile(String memberId, Profile profile, MultipartFile file);
-    Profile updateProfileInformation(String memberId, Profile profile, MultipartFile file);
-    Profile findProfile(String memberId);
-    void deleteProfileImg(String memberId);
+    Profile updateProfileInformation(Long profileId, Profile profile, MultipartFile file);
+    Profile findProfile(Long profileId);
+    void deleteProfileImg(Long profileId);
 }

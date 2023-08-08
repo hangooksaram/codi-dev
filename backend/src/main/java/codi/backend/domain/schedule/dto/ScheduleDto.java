@@ -1,4 +1,4 @@
-package codi.backend.domain.mentoring.dto;
+package codi.backend.domain.schedule.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;

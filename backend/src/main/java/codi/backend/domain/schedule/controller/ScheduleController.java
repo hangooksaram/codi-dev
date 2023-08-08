@@ -1,7 +1,7 @@
-package codi.backend.domain.mentoring.controller;
+package codi.backend.domain.schedule.controller;
 
-import codi.backend.domain.mentoring.dto.ScheduleDto;
-import codi.backend.domain.mentoring.service.ScheduleService;
+import codi.backend.domain.schedule.dto.ScheduleDto;
+import codi.backend.domain.schedule.service.ScheduleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
