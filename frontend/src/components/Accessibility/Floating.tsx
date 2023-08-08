@@ -1,6 +1,6 @@
 import Button from "@/ui/atoms/Button";
 import FloatIcon from "@icons/common/float.svg";
-import theme from "@/ui/theme";
+import theme, { device } from "@/ui/theme";
 import styled from "@emotion/styled";
 import Card from "@/ui/atoms/Card";
 import Typography from "@/ui/atoms/Typography";
@@ -215,6 +215,9 @@ const StyledFloating = {
     letterSpacing: "initial !important",
     lineHeight: "1 !important",
     zoom: "1 !important",
+    [device("tablet")]: {
+      bottom: "150px",
+    },
   }),
   Container: styled.div({
     position: "relative",
