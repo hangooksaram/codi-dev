@@ -62,24 +62,17 @@ const MentorCenterApplyCard = ({
           alignItems="flex-start"
           {...{ height: "100%" }}
         >
-          <Grid gridTemplateColumns="1fr 1fr">
+          <FlexBox direction="column" alignItems="flex-start" rowGap="40px">
             <LabelBox text="신청일자" width="50%">
               <Chip title={date} />
             </LabelBox>
 
-            <LabelBox text="카테고리" width="50%">
-              <FlexBox justifyContent="flex-start">
-                {categories.map((category, index) => (
-                  <Chip key={index} title={category} />
-                ))}
-              </FlexBox>
-            </LabelBox>
             <div className={css({ gridColumnEnd: 2 })}>
               <LabelBox text="하고 싶은 말">
                 <p>{introduction}</p>
               </LabelBox>
             </div>
-          </Grid>
+          </FlexBox>
 
           <FlexBox justifyContent="space-between">
             <Button

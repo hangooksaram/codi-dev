@@ -41,6 +41,9 @@ const SingleCalendar = ({
   type: "mentor" | "mentee";
   mentoringDates?: string[];
 }) => {
+  const maxDay = new Date();
+  const endDay = new Date(9999, 9, 9);
+  maxDay.setDate(new Date().getDate() + 30);
   return (
     <DayPicker
       style={dayPickerContainerStyle}
@@ -63,6 +66,10 @@ const SingleCalendar = ({
         today: "calendar-today",
       }}
       locale={ko}
+      disabled={{
+        from: maxDay,
+        to: endDay,
+      }}
     />
   );
 };
