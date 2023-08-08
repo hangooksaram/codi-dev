@@ -7,6 +7,9 @@ import Typography from "@/ui/atoms/Typography";
 import Link from "@icons/common/link.svg";
 import { backgroundImage } from "@/ui/atoms/BackgroundImage";
 import { StyledImage } from "@/ui/atoms/StyledImage";
+import { useState } from "react";
+import Modal from "@/ui/molecules/Modal";
+import MentoringToolModal from "./MentoringToolModal";
 
 const mocks = [];
 
@@ -17,6 +20,7 @@ const MentoringCard = ({
   date: string | undefined;
   time: string;
 }) => {
+  const [openModal, setOpenModal] = useState(false);
   return (
     <StyledCard>
       <Header completed={true}>{date}</Header>
@@ -50,9 +54,15 @@ const MentoringCard = ({
             마라토너
           </Typography>
         </div>
-        <LinkButton width="42px" variant="round" completed={true}>
-          <Link />
+        <LinkButton
+          onClick={() => setOpenModal(true)}
+          width="42px"
+          variant="round"
+          completed={true}
+        >
+          <Link fill={theme.colors.white} />
         </LinkButton>
+        <MentoringToolModal open={openModal} setOpen={setOpenModal} />
       </FlexBox>
     </StyledCard>
   );
