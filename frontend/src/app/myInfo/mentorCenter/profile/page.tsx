@@ -1,6 +1,6 @@
 "use client";
 
-import MentorCategoryButton from "@/components/Mentor/MentoringCategoryButton";
+import MentorCategoryButton from "@/components/Mentoring/MentoringCategory/MentoringCategoryButton";
 import ProfileCard from "@/components/Profile/ProfileCard";
 import ProfileLabelText from "@/components/Profile/ProfileLabelText";
 import { selectUser } from "@/features/user/userSlice";

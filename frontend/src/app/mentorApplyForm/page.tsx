@@ -19,7 +19,7 @@ import useUploadFile from "@/hooks/useUploadFile";
 import { useEffect, useState } from "react";
 import MentorCategoriesSelector, {
   MENTOR_CATEGORIES,
-} from "@/components/Mentor/MentorCategoriesSelector";
+} from "@/components/Mentoring/MentoringCategory/MentoringCategoriesSelector";
 import { applyMentor } from "@/api/mentorApi";
 import { useSelector } from "react-redux";
 import { selectUser, setUser } from "@/features/user/userSlice";
