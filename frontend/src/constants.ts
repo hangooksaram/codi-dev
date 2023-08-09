@@ -14,6 +14,7 @@ export const DISABILITIES = [
   "심장장애",
   "뇌전증장애",
 ];
+export const SEVERITIES = ["중증", "경증"];
 
 export const CATEGORIZED_JOBS = [
   {

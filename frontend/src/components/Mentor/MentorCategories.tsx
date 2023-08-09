@@ -11,15 +11,15 @@ import theme from "@/ui/theme";
 import MentorCategoryButton from "./MentoringCategoryButton";
 import FlexBox from "@/ui/atoms/FlexBox";
 
-const MENTOR_CATEGORIES = [
-  { iconComponent: Prepare, text: "면접대비" },
-  { iconComponent: Direction, text: "커리어방향" },
-  { iconComponent: Info, text: "일자리정보" },
-  { iconComponent: JobPrepare, text: "취업준비" },
-  { iconComponent: Power, text: "업무역량" },
-  { iconComponent: Share, text: "경험공유" },
-  { iconComponent: Social, text: "사회생활" },
-  { iconComponent: Tech, text: "실무/기술" },
+export const MENTOR_CATEGORIES = [
+  { iconComponent: Prepare, text: "면접대비", value: "PREPARINGINTERVIEW" },
+  { iconComponent: Direction, text: "커리어방향", value: "CAREERDIRECTION" },
+  { iconComponent: Info, text: "일자리정보", value: "JOBINFORMATION" },
+  { iconComponent: JobPrepare, text: "취업준비", value: "PREPARATIONEMPLOY" },
+  { iconComponent: Power, text: "업무역량", value: "WORKCOMPETENCY" },
+  { iconComponent: Share, text: "경험공유", value: "SHARINGEXPERIENCE" },
+  { iconComponent: Social, text: "사회생활", value: "SOCIALSKILL" },
+  { iconComponent: Tech, text: "실무/기술", value: "PRACTICALSKILL" },
 ];
 
 const MentorCategories = ({

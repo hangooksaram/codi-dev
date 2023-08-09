@@ -20,40 +20,17 @@ import useUploadFile from "@/hooks/useUploadFile";
 import { JOBS } from "@/constants";
 import { useRouter } from "next/navigation";
 
-import { useState } from "react";
-import MentorCategories from "@/components/Mentor/MentorCategories";
-
-interface MentorApplyFormValues {
-  career: string;
-  company: string;
-  introduction: string;
-  job: string;
-  customJob: string;
-}
-
-interface RestFormValues {
-  job: string;
-  career: string;
-}
-
-const mentorApplyFormValues = {
-  career: "",
-  company: "",
-  introduction: "",
-  job: "",
-  customJob: "",
-};
-
-const initialRestForm: RestFormValues = {
-  job: "",
-  career: "",
-};
-
-const MentorApplyFormSchema = Yup.object().shape({
-  company: Yup.string().required("Required"),
-  introduction: Yup.string().required("Required"),
-  customJob: Yup.string().required("Required"),
-});
+import { useEffect, useState } from "react";
+import MentorCategories, {
+  MENTOR_CATEGORIES,
+} from "@/components/Mentor/MentorCategories";
+import { applyMentor } from "@/api/mentorApi";
+import { useSelector } from "react-redux";
+import { selectUser, setUser } from "@/features/user/userSlice";
+import JobSelector from "@/components/Job/JopSelector";
+import { ApplyMnetorResponse } from "@/types/api/mentor";
+import { localUser, setLocalUser } from "@/utils/tempUser";
+import { useDispatch } from "react-redux";
 
 const MentorApplyFormPage = () => {
   const {
@@ -66,17 +43,33 @@ const MentorApplyFormPage = () => {
     setIsSubmitted,
   } = useRestForm<RestFormValues>(initialRestForm);
   const router = useRouter();
+  const memberId = useSelector(selectUser).id;
+  const dispatch = useDispatch();
   const { file, onUploadFile } = useUploadFile();
+  const [job, setJob] = useState("");
+  const [openJobSelector, setOpenJobSelector] = useState(false);
   const formData = new FormData();
-  const handleSignUpSubmit = (values: MentorApplyFormValues) => {
+  useEffect(() => {
+    setRestForm({ ...restForm, job });
+  }, [job]);
+  const handleSignUpSubmit = async (values: MentorApplyFormValues) => {
+    restForm.mentoringCategories = MENTOR_CATEGORIES.filter((category) =>
+      mentorCategories.includes(category.text)
+    ).map((category) => category.value);
     values = { ...values, ...restForm };
-
-    formData.append("apply", JSON.stringify(values));
+    const blob = new Blob([JSON.stringify(values)], {
+      type: "application/json",
+    });
+    console.log(values);
+    formData.append("mentor", blob);
     formData.append("file", file.data!);
-
-    console.log(formData.get("apply"));
-    console.log(formData.get("file"));
-    router.push("/");
+    const { data, status } = await applyMentor<ApplyMnetorResponse>(
+      memberId,
+      formData
+    );
+    setLocalUser({ mentorId: data.id });
+    dispatch(setUser(localUser()));
+    // router.push("/");
   };
 
   const formik = useFormik({
@@ -126,15 +119,12 @@ const MentorApplyFormPage = () => {
                   width="80%"
                   columnGap="10px"
                 >
-                  <Dropdown
-                    width="50%"
-                    title="직무"
-                    categories={JOBS}
-                    selectedCategory={restForm.job}
-                    setSelectedCategory={(job) => {
-                      setRestForm({ ...restForm, job });
-                    }}
+                  <JobSelector
                     invalid={invalid("job")}
+                    selected={job}
+                    setSelected={setJob}
+                    open={openJobSelector}
+                    setOpen={setOpenJobSelector}
                   />
                   <Dropdown
                     width="50%"
@@ -155,7 +145,15 @@ const MentorApplyFormPage = () => {
                 </FlexBox>
 
                 <div>
-                  <Checkbox label="재직중" handleClick={() => {}} />
+                  <Checkbox
+                    label="재직중"
+                    handleClick={() => {
+                      setRestForm({
+                        ...restForm,
+                        inOffice: !restForm.inOffice,
+                      });
+                    }}
+                  />
                 </div>
               </FlexBox>
             </FlexBox>
@@ -163,19 +161,18 @@ const MentorApplyFormPage = () => {
 
           <FormInputContainer
             text="직무명 입력"
-            htmlFor="customJob"
+            htmlFor="jobName"
             labelColor={theme.colors.secondary}
           >
             <Input
-              id="customJob"
-              name="customJob"
+              id="jobName"
+              name="jobName"
               placeholder="프로필에 표시 될 직무명을 입력해주세요."
               outline
               onChange={formik.handleChange}
-              value={formik.values.customJob}
+              value={formik.values.jobName}
               invalid={
-                formik.errors.customJob !== undefined &&
-                formik.touched.customJob
+                formik.errors.jobName !== undefined && formik.touched.jobName
               }
             />
           </FormInputContainer>
@@ -241,5 +238,37 @@ const MentorApplyFormPage = () => {
     </FormContainer>
   );
 };
+
+interface MentorApplyFormValues {
+  company: string;
+  introduction: string;
+  jobName: string;
+}
+
+interface RestFormValues {
+  job: string;
+  career: string;
+  inOffice: boolean;
+  mentoringCategories: string[];
+}
+
+const mentorApplyFormValues = {
+  company: "",
+  introduction: "",
+  jobName: "",
+};
+
+const initialRestForm: RestFormValues = {
+  job: "",
+  career: "",
+  inOffice: false,
+  mentoringCategories: [],
+};
+
+const MentorApplyFormSchema = Yup.object().shape({
+  company: Yup.string().required("Required"),
+  introduction: Yup.string().required("Required"),
+  jobName: Yup.string().required("Required"),
+});
 
 export default MentorApplyFormPage;

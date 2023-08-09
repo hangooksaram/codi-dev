@@ -17,7 +17,9 @@ import Image from "next/image";
 import Card from "@/ui/atoms/Card";
 import Input from "@/ui/atoms/Input";
 import { signIn } from "@/api/signApi";
-import { setLocalUser } from "@/utils/tempUser";
+import { localUser, setLocalUser } from "@/utils/tempUser";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/features/user/userSlice";
 
 const SignInPage = () => {
   const router = useRouter();
@@ -25,11 +27,13 @@ const SignInPage = () => {
     id: "",
     password: "",
   });
+  const dispatch = useDispatch();
   const login = async () => {
     const { data, status } = await signIn(loginInfo);
     if (status === 200) {
       setLocalUser(data);
-      router.replace("/");
+      dispatch(setUser(localUser()));
+      router.push("/");
     } else {
       alert("로그인이 실패했습니다.");
     }
