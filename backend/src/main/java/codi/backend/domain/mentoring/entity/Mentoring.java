@@ -30,6 +30,9 @@ public class Mentoring {
     @Column
     private String link;
 
+    @Column
+    private Double rating;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mentor_id")
     private Mentor mentor;
@@ -49,10 +52,10 @@ public class Mentoring {
         COMPLETED("완료");
 
         @Getter
-        private final String value;
+        private final String status;
 
-        MentoringStatus(String value) {
-            this.value = value;
+        MentoringStatus(String status) {
+            this.status = status;
         }
     }
 

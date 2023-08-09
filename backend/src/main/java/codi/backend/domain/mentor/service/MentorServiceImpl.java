@@ -2,6 +2,7 @@ package codi.backend.domain.mentor.service;
 
 import codi.backend.domain.member.entity.Member;
 import codi.backend.domain.member.repository.MemberRepository;
+import codi.backend.domain.member.service.MemberService;
 import codi.backend.domain.member.utils.CustomAuthorityUtils;
 import codi.backend.domain.mentor.dto.MentorDto;
 import codi.backend.domain.mentor.entity.Mentor;
@@ -21,17 +22,17 @@ import java.util.Optional;
 @Service
 public class MentorServiceImpl implements MentorService{
     private final MentorRepository mentorRepository;
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
     private final S3Service s3Service;
 
-    public MentorServiceImpl(MentorRepository mentorRepository, MemberRepository memberRepository, S3Service s3Service) {
+    public MentorServiceImpl(MentorRepository mentorRepository, MemberService memberService, S3Service s3Service) {
         this.mentorRepository = mentorRepository;
-        this.memberRepository = memberRepository;
+        this.memberService = memberService;
         this.s3Service = s3Service;
     }
     @Override
     public Mentor becomeMentor(String memberId, Mentor mentor, MultipartFile file) {
-        Member member = findMember(memberId);
+        Member member = memberService.findMember(memberId);
         mentor.setMember(member);
 
         Optional.ofNullable(file)
@@ -53,26 +54,18 @@ public class MentorServiceImpl implements MentorService{
     }
 
     @Override
-    public Mentor findMentor(String memberId) {
-        return verifyMentor(memberId);
+    public Mentor findMentor(Long mentorId) {
+        return verifyMentor(mentorId);
     }
 
-    private Mentor verifyMentor(String memberId) {
-        Member member = findMember(memberId);
-        if (!member.getRoles().contains("MENTOR")) {
-            throw new BusinessLogicException(ExceptionCode.NOT_MENTOR_ERROR);
-        }
-        return member.getMentor();
-    }
-
-    private Member findMember(String memberId) {
-        return memberRepository.findById(memberId).orElseThrow(() ->
-                new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+    private Mentor verifyMentor(Long mentorId) {
+        return mentorRepository.findById(mentorId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_MENTOR_ERROR));
     }
 
     @Override
-    public Mentor updateMentorInformation(String memberId, Mentor mentor, MultipartFile file) {
-        Mentor findMentor = findMentor(memberId);
+    public Mentor updateMentorInformation(Long mentorId, Mentor mentor, MultipartFile file) {
+        Mentor findMentor = findMentor(mentorId);
 
         // Mentor file 수정
         updateMentorFile(findMentor, file);

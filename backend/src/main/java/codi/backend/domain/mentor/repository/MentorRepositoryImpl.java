@@ -60,6 +60,7 @@ public class MentorRepositoryImpl extends QuerydslRepositorySupport implements M
                         profile.severity.as("severity"),
                         mentor.id.as("mentorId"),
                         mentor.job.as("job"),
+                        mentor.career.as("career"),
                         mentor.isCertificate.as("isCertificate"),
                         mentor.star.as("star"),
                         mentor.mentees.as("mentees")));

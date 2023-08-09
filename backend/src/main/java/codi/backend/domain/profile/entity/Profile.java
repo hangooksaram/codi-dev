@@ -74,6 +74,11 @@ public class Profile {
         mentoring.setProfile(this);
     }
 
+    public void removeMentoring(Mentoring mentoring) {
+        this.mentoringList.remove(mentoring);
+        mentoring.setProfile(null);
+    }
+
     public enum EmploymentStatus {
         JOBSEEKER("취업 준비생"),
         STUDENT("학생"),

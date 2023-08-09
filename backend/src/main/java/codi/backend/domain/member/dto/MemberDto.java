@@ -73,7 +73,7 @@ public class MemberDto {
         private String birth;
 
         @ApiModelProperty(example = "남자 또는 여자")
-        private Member.Gender gender;
+        private String gender;
 
         @ApiModelProperty(example = "email@address.com")
         private String email;

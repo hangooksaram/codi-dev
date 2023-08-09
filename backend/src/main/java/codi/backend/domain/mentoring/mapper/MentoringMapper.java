@@ -20,8 +20,9 @@ public interface MentoringMapper {
 
         return MentoringDto.MentoringResponse.builder()
                 .id(mentoring.getId())
-                .status(mentoring.getStatus())
+                .status(mentoring.getStatus().getStatus())
                 .applicationReason(mentoring.getApplicationReason())
+                .rating(mentoring.getRating())
                 .scheduleResponse(scheduleResponse)
                 .build();
     }

@@ -17,10 +17,10 @@ import javax.validation.Valid;
 @RequestMapping("/api/v1/schedule")
 @Validated
 @Slf4j
-public class ScheduleController {
+public class MentorScheduleController {
     private final ScheduleService scheduleService;
 
-    public ScheduleController(ScheduleService scheduleService) {
+    public MentorScheduleController(ScheduleService scheduleService) {
         this.scheduleService = scheduleService;
     }
 

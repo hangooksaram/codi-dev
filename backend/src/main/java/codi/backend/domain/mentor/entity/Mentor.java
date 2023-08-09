@@ -90,6 +90,11 @@ public class Mentor {
         mentoring.setMentor(this);
     }
 
+    public void removeMentoring(Mentoring mentoring) {
+        this.mentoringList.remove(mentoring);
+        mentoring.setMentor(null);
+    }
+
     public enum MentoringCategory {
         SHARINGEXPERIENCE("경험공유"),
         PREPARINGINTERVIEW("면접대비"),

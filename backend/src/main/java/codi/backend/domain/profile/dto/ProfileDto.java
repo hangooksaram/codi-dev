@@ -75,6 +75,12 @@ public class ProfileDto {
         @ApiModelProperty(example = "프로필 아이디")
         private Long id;
 
+        @ApiModelProperty(example = "이름")
+        private String name;
+
+        @ApiModelProperty(example = "나이")
+        private Integer age;
+
         @ApiModelProperty(example = "프로필 이미지 url")
         private String imgUrl;
 
@@ -97,7 +103,7 @@ public class ProfileDto {
         private String introduction;
 
         @ApiModelProperty(example = "멘티의 현재 상태")
-        private Profile.EmploymentStatus employmentStatus;
+        private String employmentStatus;
 
         @ApiModelProperty(example = "관심 멘토")
         private Set<FavoriteResponseDto> favorites;
