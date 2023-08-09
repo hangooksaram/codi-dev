@@ -4,9 +4,7 @@ import { FormContainer } from "@/ui/atoms/Container";
 import Typography from "@/ui/atoms/Typography";
 import theme from "@/ui/theme";
 import * as Yup from "yup";
-import FormInputContainer, {
-  Form as MentorProfileForm,
-} from "@/ui/molecules/Input/FormInput";
+import FormInputContainer from "@/ui/molecules/Input/FormInput";
 import IconInputContainer from "@/ui/molecules/Input/IconInput";
 import Input from "@/ui/atoms/Input";
 import Button from "@/ui/atoms/Button";
@@ -19,88 +17,85 @@ import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import { searchUniv } from "@/api/signApi";
 import useRestForm from "@/hooks/useRestForm";
-import { FileType } from "@/index";
 import useUploadFile from "@/hooks/useUploadFile";
 import { useRouter } from "next/navigation";
-import { DISABILITIES } from "@/constants";
+import {
+  DISABILITIES,
+  EMPLOYMENT_STATUSES,
+  EMPLOYMENT_STATUSES_VALUE,
+  SEVERITIES,
+} from "@/constants";
 import { registerProfile } from "@/api/profileApi";
 import { handleApiCallback } from "@/utils/api";
-
-interface ProfileFormValues {
-  disability: string;
-  education: string;
-  introduction: string;
-  desiredJob: string;
-  severity: string;
-}
-
-const profileFormValues = {
-  disability: "",
-  education: "",
-  introduction: "",
-  desiredJob: "",
-  severity: "",
-};
-
-interface RestFormValues {
-  severity: string;
-  education: string;
-  disability: string;
-}
-
-const SEVERITIES = ["중증", "경증"];
-
-const MenteeSchema = Yup.object().shape({
-  desiredJob: Yup.string().required("Required"),
-  introduction: Yup.string().required("Required"),
-});
-
-const initialRestForm: RestFormValues = {
-  severity: "중증",
-  education: "",
-  disability: "",
-};
+import JobSelector from "@/components/Job/JopSelector";
+import { useSelector } from "react-redux";
+import { selectUser, setUser } from "@/features/user/userSlice";
+import { setLocalUser, localUser } from "@/utils/tempUser";
+import { RegisterProfileResponse } from "@/types/api/profile";
+import { useDispatch } from "react-redux";
 
 const ProfileFormPage = () => {
+  const memberId = useSelector(selectUser)!.id;
   const { restForm, setRestForm, validateRestForm, invalid } =
     useRestForm<RestFormValues>(initialRestForm);
   const { file, onUploadFile } = useUploadFile();
   const [bigEducationCategory, setBigEducationCategory] = useState("");
+  const [job, setJob] = useState("");
+  const [openJobSelector, setOpenJobSelector] = useState(false);
+  const [submitType, setSubmitType] = useState<string>("");
+  const dispatch = useDispatch();
   const router = useRouter();
-  const handleSignUpSubmit = async (values: ProfileFormValues) => {
+  const handleProfileSubmit = async (values: ProfileFormValues) => {
     if (bigEducationCategory !== "대학교") {
       restForm.education = bigEducationCategory;
     }
+    restForm.employmentStatus = EMPLOYMENT_STATUSES_VALUE.get(
+      restForm.employmentStatus
+    );
 
     values = { ...values, ...restForm };
     const blob = new Blob([JSON.stringify(values)], {
       type: "application/json",
     });
+
     formData.append("profile", blob);
     formData.append("file", file.data!);
     const imageFormData = new FormData();
     imageFormData.append("file", file.data!);
 
-    const { status, errorMessage } = await registerProfile(formData);
-    console.log(formData.get("profile"));
-    console.log(formData.get("file"));
-    handleApiCallback(
-      status,
-      () => router.push("/"),
-      () => alert(`호출 실패 : ${errorMessage}`)
+    const { data, status, errorMessage } =
+      await registerProfile<RegisterProfileResponse>(memberId, formData);
+
+    const signInSuccessCallback = () => {
+      const { id, imgUrl } = data!;
+      setLocalUser({ profileId: id, imgUrl });
+      dispatch(setUser(localUser()));
+      if (submitType === "complete") {
+        router.push("/");
+      } else router.push("/mentorApplyForm");
+    };
+
+    handleApiCallback(status!, signInSuccessCallback, () =>
+      alert(
+        `프로필 등록이 실패하였습니다. 다시 시도해주세요. error message : ${errorMessage}`
+      )
     );
   };
 
   const formData = new FormData();
   const formik = useFormik({
     initialValues: profileFormValues,
-    onSubmit: (values: ProfileFormValues) => handleSignUpSubmit(values),
-    validationSchema: MenteeSchema,
+    onSubmit: (values: ProfileFormValues) => handleProfileSubmit(values),
+    validationSchema: ProfileSchema,
   });
 
   useEffect(() => {
     searchUniv();
   }, []);
+
+  useEffect(() => {
+    setRestForm({ ...restForm, job });
+  }, [job]);
 
   return (
     <FormContainer>
@@ -157,12 +152,13 @@ const ProfileFormPage = () => {
             </FlexBox>
           </FormInputContainer>
           <FormInputContainer text="중증도">
-            {SEVERITIES.map((serverity) => (
+            {SEVERITIES.map((severity) => (
               <Button
-                key={serverity}
+                key={severity}
                 width="50%"
+                type="button"
                 color={
-                  restForm.severity === serverity
+                  restForm.severity === severity
                     ? theme.colors.primary
                     : theme.colors.white
                 }
@@ -173,8 +169,9 @@ const ProfileFormPage = () => {
                     marginRight: "10px",
                   },
                 }}
+                onClick={() => setRestForm({ ...restForm, severity })}
               >
-                {serverity}
+                {severity}
               </Button>
             ))}
           </FormInputContainer>
@@ -206,18 +203,42 @@ const ProfileFormPage = () => {
             </FlexBox>
           </FormInputContainer>
           <FormInputContainer text="희망 직무" htmlFor="desiredJob">
-            <Input
-              id="desiredJob"
-              name="desiredJob"
-              outline={true}
-              placeholder="희망직무를 입력해주세요"
-              value={formik.values.desiredJob}
-              onChange={formik.handleChange}
-              invalid={
-                formik.errors.desiredJob !== undefined &&
-                formik.touched.desiredJob
+            <FlexBox columnGap="10px">
+              <JobSelector
+                invalid={invalid("job")}
+                selected={job}
+                setSelected={setJob}
+                open={openJobSelector}
+                setOpen={setOpenJobSelector}
+              />
+              <Input
+                id="desiredJob"
+                name="desiredJob"
+                outline={true}
+                maxLength={10}
+                width="60%"
+                placeholder="정확한 직무를 입력해주세요. 10자 내외."
+                value={formik.values.desiredJob}
+                onChange={formik.handleChange}
+                invalid={
+                  formik.errors.desiredJob !== undefined &&
+                  formik.touched.desiredJob
+                }
+              />
+            </FlexBox>
+          </FormInputContainer>
+          <FormInputContainer text="취업 상태" htmlFor="employmentStatus">
+            <Dropdown
+              width="40%"
+              type="form"
+              title="선택"
+              selectedCategory={restForm.employmentStatus}
+              setSelectedCategory={(employmentStatus) =>
+                setRestForm({ ...restForm, employmentStatus })
               }
-            />
+              invalid={invalid("employmentStatus")}
+              categories={EMPLOYMENT_STATUSES}
+            ></Dropdown>
           </FormInputContainer>
           <FormInputContainer text="자기 소개" htmlFor="introduction">
             <Textarea
@@ -239,12 +260,27 @@ const ProfileFormPage = () => {
         <FormInputContainer text="직무 경력"></FormInputContainer>
         */}
           <Button
-            onClick={validateRestForm}
+            onClick={() => {
+              setSubmitType("complete");
+              validateRestForm();
+            }}
+            width="100%"
+            type="submit"
+            variant="square"
+            color={theme.colors.white}
+          >
+            작성완료
+          </Button>
+          <Button
+            onClick={() => {
+              setSubmitType("complete-apply");
+              validateRestForm();
+            }}
             width="100%"
             type="submit"
             variant="square"
           >
-            작성완료
+            작성하고 멘토 신청하러 가기
           </Button>
         </FlexBox>
       </form>
@@ -252,6 +288,35 @@ const ProfileFormPage = () => {
   );
 };
 
-// const Textarea = styled;
+interface ProfileFormValues {
+  introduction: string;
+  desiredJob: string;
+}
+
+interface RestFormValues {
+  job: string;
+  education: string;
+  employmentStatus: string;
+  disability: string;
+  severity: string;
+}
+
+const ProfileSchema = Yup.object().shape({
+  desiredJob: Yup.string().required("Required"),
+  introduction: Yup.string().required("Required"),
+});
+
+const profileFormValues = {
+  introduction: "",
+  desiredJob: "",
+};
+
+const initialRestForm: RestFormValues = {
+  job: "",
+  education: "",
+  disability: "",
+  employmentStatus: "",
+  severity: "중증",
+};
 
 export default ProfileFormPage;

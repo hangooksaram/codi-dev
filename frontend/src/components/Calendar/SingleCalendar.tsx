@@ -27,17 +27,23 @@ import { format } from "date-fns";
 
 interface CustomDayContentProps extends DayContentProps {
   selected?: Date;
+  mentoringDates?: string[];
 }
 
 const SingleCalendar = ({
   date,
   setDate,
   type,
+  mentoringDates,
 }: {
   date: Date | undefined;
   setDate: React.Dispatch<SetStateAction<Date | undefined>>;
   type: "mentor" | "mentee";
+  mentoringDates?: string[];
 }) => {
+  const maxDay = new Date();
+  const endDay = new Date(9999, 9, 9);
+  maxDay.setDate(new Date().getDate() + 30);
   return (
     <DayPicker
       style={dayPickerContainerStyle}
@@ -50,6 +56,7 @@ const SingleCalendar = ({
           CustomDayContent({
             ...props,
             selected: date,
+            mentoringDates,
           }),
         Caption: CustomCaption,
       }}
@@ -59,6 +66,10 @@ const SingleCalendar = ({
         today: "calendar-today",
       }}
       locale={ko}
+      disabled={{
+        from: maxDay,
+        to: endDay,
+      }}
     />
   );
 };
@@ -87,14 +98,17 @@ export const CustomDay = (props: DayProps) => {
   );
 };
 
-export const CustomDayContent = ({ date, selected }: CustomDayContentProps) => {
-  const today = new Date("2023-07-07").getDate();
+export const CustomDayContent = ({
+  date,
+  selected,
+  mentoringDates,
+}: CustomDayContentProps) => {
   const day = date.getDate();
 
   return (
     <CustomCell id={day.toString()}>
       <div style={{ marginBottom: "5px" }}>{day}</div>
-      {today === day &&
+      {mentoringDates?.includes(formattedDate(date)) &&
         (selected?.getDate() === date.getDate() ? (
           <SelectedSchedule />
         ) : (

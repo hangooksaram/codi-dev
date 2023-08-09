@@ -1,7 +1,5 @@
 import Button from "@/ui/atoms/Button";
-import Card from "@/ui/atoms/Card";
 import FlexBox from "@/ui/atoms/FlexBox";
-import { PageComponentLayout } from "@/ui/molecules/Layout/PageComonentLayout";
 import Typography from "@/ui/atoms/Typography";
 import theme from "@/ui/theme";
 import styled from "@emotion/styled";

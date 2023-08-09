@@ -16,11 +16,14 @@ import IdIcon from "@icons/common/id.svg";
 import PasswordIcon from "@icons/common/password.svg";
 import TagIcon from "@icons/common/tag.svg";
 import { useRouter } from "next/navigation";
-import { checkDuplicateId, signUp } from "@/api/signApi";
+import { checkDuplicateId, signIn, signUp } from "@/api/signApi";
 import { DATE } from "@/constants";
-import { SignUpBody } from "@/types/api/sign";
+
 import { handleApiCallback } from "@/utils/api";
-import { setLocal } from "@/utils/tempUser";
+import { SignUpBody } from "@/types/api/sign";
+import { setLocalUser } from "@/utils/tempUser";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/features/user/userSlice";
 
 const signUpFormValueProps = {
   birth: "",
@@ -36,7 +39,7 @@ const SignupSchema = Yup.object({
   password: Yup.string()
     .required("Required")
     .matches(
-      /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-7]).{8,15}$/,
+      /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/,
       "확인 요망"
     ),
   name: Yup.string().required("Required"),
@@ -56,41 +59,52 @@ const SignUpPage = () => {
     key: "NOT_CHECKED",
   });
   const [birth, setBirth] = useState({
-    year: null,
-    month: null,
-    day: null,
+    year: 1990,
+    month: 1,
+    day: 1,
   });
 
-  const [isIdDuplicated, setIsIdDuplicated] = useState(false);
+  const [isIdDuplicated, setIsIdDuplicated] = useState("initial");
 
   const router = useRouter();
 
   const postCheckDuplicateId = async () => {
-    const { data, status, errorMessage } = await checkDuplicateId(
+    const { data, status, errorMessage } = await checkDuplicateId<boolean>(
       formik.values.id
     );
     handleApiCallback(
-      status,
-      () => setIsIdDuplicated(data!),
+      status!,
+      () => setIsIdDuplicated(data === true ? "duplicated" : "not duplicated"),
       () => alert(`호출 실패 : ${errorMessage}`)
     );
   };
 
+  const dispatch = useDispatch();
   const processedValues = (values: SignUpBody) => {
     const { year, month, day } = birth;
-    const stringFiedBirth = `${year}-${month}-${day}`;
+    const stringFiedBirth = `${year}/${month < 10 ? "0" : null}${month}/${
+      day < 10 ? "0" : null
+    }${day}`;
     return { ...values, gender: gender.key, birth: stringFiedBirth };
   };
 
   const handleSubmit = async (values: SignUpBody) => {
     const { status, errorMessage } = await signUp(processedValues(values));
 
-    // handleApiCallback(
-    //   status,
-    //   () => router.push("/"),
-    //   () => alert(`호출 실패 : ${errorMessage}`)
-    // );
-    // setLocal(values);
+    handleApiCallback(
+      status!,
+      async () => {
+        const { data } = await signIn({
+          id: values.id,
+          password: values.password,
+        });
+        setLocalUser(data);
+        dispatch(setUser(data));
+
+        router.push("complete");
+      },
+      () => alert(`호출 실패 : ${errorMessage}`)
+    );
   };
 
   const formik = useFormik({
@@ -140,15 +154,17 @@ const SignUpPage = () => {
                 </Button>
               </FlexBox>
               <div>
-                {isIdDuplicated &&
+                {isIdDuplicated === "duplicated" &&
                   "아이디가 중복되었습니다. 다른 아이디를 입력해주세요."}
+                {isIdDuplicated === "not duplicated" &&
+                  "사용할 수 있는 아이디 입니다."}
               </div>
             </FlexBox>
           </FormInputContainer>
 
           <FormInputContainer
             text="비밀번호"
-            helpText="영어, 숫자, 특수기호가 포함된 6자리 이상 비밀번호를 입력해주세요."
+            helpText="영어, 숫자, 특수기호가 포함된 8자리 이상 비밀번호를 입력해주세요."
             htmlFor="password"
           >
             <IconInputContainer iconComponent={<PasswordIcon />}>
@@ -161,6 +177,7 @@ const SignUpPage = () => {
                   formik.errors.password !== undefined &&
                   formik.touched.password
                 }
+                type="password"
                 outline
               />
             </IconInputContainer>

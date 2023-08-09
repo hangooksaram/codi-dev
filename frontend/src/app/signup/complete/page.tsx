@@ -1,6 +1,5 @@
 "use client";
 
-import { PageComponentLayout } from "@/ui/molecules/Layout/PageComonentLayout";
 import Container from "@/ui/atoms/Container";
 import Typography from "@/ui/atoms/Typography";
 import Button from "@/ui/atoms/Button";

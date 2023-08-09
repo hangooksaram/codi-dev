@@ -1,12 +1,12 @@
 import FlexBox from "@/ui/atoms/FlexBox";
 import theme from "@/ui/theme";
-import { PageComponentLayout } from "@/ui/molecules/Layout/PageComonentLayout";
+import { PageComponentLayout } from "@/components/pages/mentorsMain/PageComonentLayout";
 import styled from "@emotion/styled";
-import Logo from "@icons/common/recommend-icon.svg";
+import Logo from "@icons/logo/recommend-icon.svg";
 import { isUser } from "@/utils/tempUser";
 import { useRouter } from "next/navigation";
 import TitleSection from "./TitleSection";
-import MentorList from "../../Mentors/MentorList";
+import MentorList from "../../Mentor/MentorList";
 import { StyledImage } from "@/ui/atoms/StyledImage";
 import Button from "@/ui/atoms/Button";
 import { Mentor } from "@/types/mentor";

@@ -55,17 +55,16 @@ const MentorScheduleEdit = ({
           justifyContent="flex-start"
         >
           {SCHEDULE_TIME_TABLE.map((time, index) => (
-            <Chip
+            <Button
               onClick={() => handleClickTime(time)}
               color={selected(time) ? theme.colors.primary : theme.colors.white}
-              fontColor={
-                selected(time) ? theme.colors.white : theme.colors.gray.main
-              }
+              variant="default"
+              size="small"
               outline
               key={index}
             >
               {time}
-            </Chip>
+            </Button>
           ))}
         </FlexBox>
         <Button onClick={patchMentorSchedule} size="small" variant="default">

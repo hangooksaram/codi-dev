@@ -14,6 +14,7 @@ export const DISABILITIES = [
   "심장장애",
   "뇌전증장애",
 ];
+export const SEVERITIES = ["중증", "경증"];
 
 export const CATEGORIZED_JOBS = [
   {
@@ -131,3 +132,16 @@ export const SCHEDULE_TIME_TABLE = [
   "22:00 - 22:50",
   "23:00 - 23:50",
 ];
+
+export const EMPLOYMENT_STATUSES = [
+  "학생",
+  "취업 준비생",
+  "이직 준비중",
+  "표시하지 않음(멘티로 표시)",
+];
+
+export const EMPLOYMENT_STATUSES_VALUE = new Map();
+EMPLOYMENT_STATUSES_VALUE.set("학생", "STUDENT");
+EMPLOYMENT_STATUSES_VALUE.set("취업 준비생", "JOBSEEKER");
+EMPLOYMENT_STATUSES_VALUE.set("이직 준비중", "PREPARINGCHANGEJOB");
+EMPLOYMENT_STATUSES_VALUE.set("표시하지 않음(멘티로 표시)", "MENTEE");

@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams, usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import Menu from "@icons/mobile/mobile-menu.svg";
 
 interface SideBarNavigator {
   iconComponent?: React.JSX.Element;
@@ -47,12 +48,14 @@ const SideBar = ({ navigators }: { navigators: SideBarNavigators[] }) => {
   return (
     <>
       <SideBarOverlay open={open} onClick={() => setOpen(false)} />
-      <MobileSidebarToggleButton
+      <MobileMenuButton
+        variant="square"
         onClick={() => setOpen((prev) => !prev)}
-        variant="default"
+        color={theme.colors.gray.main}
       >
-        Menu
-      </MobileSidebarToggleButton>
+        <Menu />
+      </MobileMenuButton>
+
       <Container open={open}>
         <FlexBox direction="column">
           {navigators.map(
@@ -132,6 +135,7 @@ const Container = styled.nav(({ open }: { open: boolean }) => ({
   [device("tablet")]: {
     position: "fixed",
     zIndex: "3",
+    top: "0px",
   },
 }));
 
@@ -170,13 +174,14 @@ const SideBarOverlay = styled(Overlay)(({ open }: { open: boolean }) => ({
   },
 }));
 
-const MobileSidebarToggleButton = styled(Button)({
+const MobileMenuButton = styled(Button)({
   position: "fixed",
-  top: "59px",
-  display: "none",
-  [device("tablet")]: {
-    display: "block",
-  },
+  top: "20px",
+  left: "20px",
+  width: "40px",
+  height: "40px",
+  color: theme.colors.white,
+  padding: "0px",
 });
 
 export default SideBar;

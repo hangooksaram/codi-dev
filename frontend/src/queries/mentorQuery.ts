@@ -1,11 +1,13 @@
 // quires/useTodosQuery.ts
-import { getMentors } from "@/api/mentorApi";
-import { GetMentorsParameters } from "@/types/api/payload/mentor";
-import { Mentor } from "@/types/mentor";
+import { getMentor, getMentors } from "@/api/mentorApi";
+import { GetMentorsParameters } from "@/types/api/mentor";
+import { Mentor } from "@/types/profile";
+
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
 export const GET_MENTORS_KEY = ["mentors"];
+export const GET_MENTOR_KEY = ["mentor"];
 
 const useGetMentorsQuery = () => {
   const [query, setQuery] = useState<GetMentorsParameters>({
@@ -21,9 +23,17 @@ const useGetMentorsQuery = () => {
   );
   const mentors = data?.data as Mentor[];
 
-  console.log("hook is excuted");
-
   return { query, setQuery, mentors, isSuccess, refetch };
+};
+
+export const useGetMentorQuery = (mentorId: number) => {
+  const { data, isLoading, isSuccess } = useQuery<Mentor>(
+    GET_MENTOR_KEY,
+    () => getMentor(mentorId),
+    { enabled: mentorId !== null && mentorId !== 0 }
+  );
+
+  return { data, isLoading, isSuccess };
 };
 
 export default useGetMentorsQuery;

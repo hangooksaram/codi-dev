@@ -9,6 +9,7 @@ import { ThemeProvider } from "@emotion/react";
 import theme from "@/ui/theme";
 import AppBar from "@/components/NavBar/AppBar";
 import Floating from "@/components/Accessibility/Floating";
+import AuthContainer from "@/components/Container/AuthContainer";
 /**create new client */
 const queryClient = new QueryClient();
 
@@ -22,13 +23,15 @@ export default function RootLayout({
       <body suppressHydrationWarning={true}>
         <ThemeProvider theme={theme}>
           <Provider store={store}>
-            <QueryClientProvider client={queryClient}>
-              <AccessibilityLayout>
-                <AppBar />
-                {children}
-                <Floating />
-              </AccessibilityLayout>
-            </QueryClientProvider>
+            <AuthContainer>
+              <QueryClientProvider client={queryClient}>
+                <AccessibilityLayout>
+                  <AppBar />
+                  {children}
+                  <Floating />
+                </AccessibilityLayout>
+              </QueryClientProvider>
+            </AuthContainer>
           </Provider>
         </ThemeProvider>
       </body>
