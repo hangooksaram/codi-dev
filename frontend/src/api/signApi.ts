@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from "axios";
 import customAxios from "./customAxios";
 import { handleApiError } from "@/utils/api";
 import { CommonApiResponse } from "@/types/api/common";
-import { SignInBody, SignUpBody } from "@/types/api/payload/sign";
+import { SignInBody, SignUpBody } from "@/types/api/sign";
 
 const signUp = async (SignUpBody: SignUpBody): Promise<CommonApiResponse> => {
   try {

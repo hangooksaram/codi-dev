@@ -1,7 +1,4 @@
-import {
-  GetMentorsParameters,
-  RegisterMentorBody,
-} from "@/types/api/payload/mentor";
+import { GetMentorsParameters, RegisterMentorBody } from "@/types/api/mentor";
 import customAxios from "./customAxios";
 
 const registerMentor = async (mentorData: RegisterMentorBody) =>

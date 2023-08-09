@@ -2,12 +2,18 @@
 
 import { User } from "@/types/user";
 
-const setUser = (obj: object) => {
-  if (typeof window !== "undefined")
-    window.localStorage.setItem("user", JSON.stringify(obj));
+const setLocalUser = (obj: object) => {
+  if (typeof window !== "undefined") {
+    if (localUser() !== null) {
+      window.localStorage.setItem(
+        "user",
+        JSON.stringify(Object.assign(localUser()!, obj))
+      );
+    } else window.localStorage.setItem("user", JSON.stringify(obj));
+  }
 };
 
-const isUser = () => {
+const isLocalUser = () => {
   if (typeof window !== "undefined") {
     const user = window.localStorage.getItem("user");
     if (!user) return false;
@@ -15,10 +21,10 @@ const isUser = () => {
   }
 };
 
-const user = () => {
+const localUser = () => {
   if (typeof window !== "undefined" && window.localStorage.getItem("user"))
     return JSON.parse(window.localStorage.getItem("user")!) as User;
   return null;
 };
 
-export { setUser, isUser, user };
+export { setLocalUser, isLocalUser, localUser };

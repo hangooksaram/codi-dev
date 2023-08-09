@@ -1,6 +1,6 @@
 // quires/useTodosQuery.ts
 import { getMentors } from "@/api/mentorApi";
-import { GetMentorsParameters } from "@/types/api/payload/mentor";
+import { GetMentorsParameters } from "@/types/api/mentor";
 import { Mentor } from "@/types/mentor";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";

@@ -17,7 +17,7 @@ import Image from "next/image";
 import Card from "@/ui/atoms/Card";
 import Input from "@/ui/atoms/Input";
 import { signIn } from "@/api/signApi";
-import { setUser } from "@/utils/tempUser";
+import { setLocalUser } from "@/utils/tempUser";
 
 const SignInPage = () => {
   const router = useRouter();
@@ -28,7 +28,7 @@ const SignInPage = () => {
   const login = async () => {
     const { data, status } = await signIn(loginInfo);
     if (status === 200) {
-      setUser(data);
+      setLocalUser(data);
       router.replace("/");
     } else {
       alert("로그인이 실패했습니다.");
