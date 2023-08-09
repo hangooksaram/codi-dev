@@ -26,7 +26,9 @@ const Content = ({
   mentees,
   isCertificate,
   apply,
+  mentor,
   mentorId,
+  employmentStatus,
 }: ProfileCard) => {
   const router = useRouter();
   return (
@@ -40,6 +42,17 @@ const Content = ({
       >
         {name!}
       </Typography>
+      {!mentor && (
+        <Typography
+          variant="div"
+          size={theme.fonts.size.lg}
+          color={theme.colors.white}
+          {...{ marginBottom: "4px" }}
+        >
+          {employmentStatus!}
+        </Typography>
+      )}
+
       <Typography
         variant="div"
         size={theme.fonts.size.xs}
@@ -48,28 +61,27 @@ const Content = ({
       >
         {job!}
       </Typography>
-      {!edit ||
-        (!apply && (
-          <FlexBox {...{ marginBottom: "20px" }}>
-            <Star />
-            <Typography
-              variant="span"
-              size={theme.fonts.size.sm}
-              color={theme.colors.white}
-              {...{ margin: "0px 10px 0px 5px" }}
-            >
-              {`(${star?.toString()}/5)`}
-            </Typography>
+      {mentor && (
+        <FlexBox {...{ marginBottom: "20px" }}>
+          <Star />
+          <Typography
+            variant="span"
+            size={theme.fonts.size.sm}
+            color={theme.colors.white}
+            {...{ margin: "0px 10px 0px 5px" }}
+          >
+            {`(${star?.toString()}/5)`}
+          </Typography>
 
-            <Typography
-              variant="span"
-              size={theme.fonts.size.sm}
-              color={theme.colors.white}
-            >
-              {`(${mentees?.toString()}명의 멘티)`}
-            </Typography>
-          </FlexBox>
-        ))}
+          <Typography
+            variant="span"
+            size={theme.fonts.size.sm}
+            color={theme.colors.white}
+          >
+            {`(${mentees?.toString()}명의 멘티)`}
+          </Typography>
+        </FlexBox>
+      )}
       {!edit && (
         <FlexBox
           isWrap

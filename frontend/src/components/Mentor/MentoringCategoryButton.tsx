@@ -2,7 +2,7 @@ import Button from "@/ui/atoms/Button";
 import theme from "@/ui/theme";
 import styled from "@emotion/styled";
 const MentorCategoryButton = styled(Button)(
-  ({ selected }: { selected: boolean }) => ({
+  ({ selected }: { selected?: boolean }) => ({
     width: "100px",
     height: "100px",
     display: "inline-flex",

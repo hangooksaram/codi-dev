@@ -1,5 +1,3 @@
-import { Mentor } from "./mentor";
-
 export interface MenteeProfile {
   id?: number;
   imgUrl?: string;
@@ -10,27 +8,22 @@ export interface MenteeProfile {
   severity?: string;
   introduction?: string;
   employmentStatus?: string;
+  name?: string;
   favorites?: [];
 }
-
-export interface MentorProfile {
-  id?: string;
-  imgUrl?: string;
-  desiredJob?: string;
-  education?: string;
-  disability?: string;
-  severity?: string;
-  introduction?: string;
-  job?: string;
-  employmentStatus?: string;
-  favorites?: any[];
-  mentorId?: number;
-  name?: string;
+export interface Mentor extends MenteeProfile {
+  fileUrl?: null;
+  isCertificate?: boolean;
+  company?: string;
+  career?: string;
+  jobName?: string;
+  inOffice?: boolean;
   star?: number;
   mentees?: number;
+  mentoringCategories?: string[];
 }
 
-export interface ProfileCard extends MentorProfile {
+export interface ProfileCard extends Mentor {
   width?: string;
   height?: string;
   edit?: boolean;

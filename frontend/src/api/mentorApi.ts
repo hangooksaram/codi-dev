@@ -29,4 +29,8 @@ const getMentors = async (mentorsParams: GetMentorsParameters) => {
   ).data;
 };
 
-export { applyMentor, getMentors };
+const getMentor = async (mentorId: number) => {
+  return (await customAxios.get(`/mentors/${mentorId}`)).data!;
+};
+
+export { applyMentor, getMentors, getMentor };

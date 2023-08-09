@@ -16,7 +16,7 @@ const signUp = async (SignUpBody: SignUpBody): Promise<CommonApiResponse> => {
 
 const signIn = async (SignInBody: SignInBody) => {
   try {
-    const { data, status } = await customAxios.post(`/login`, SignInBody);
+    const { data, status } = await customAxios.post(`/signin`, SignInBody);
     return { data, status };
   } catch (e: unknown) {
     return handleApiError(e);

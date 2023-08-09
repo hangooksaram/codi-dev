@@ -22,7 +22,7 @@ export const MENTOR_CATEGORIES = [
   { iconComponent: Tech, text: "실무/기술", value: "PRACTICALSKILL" },
 ];
 
-const MentorCategories = ({
+const MentorCategoriesSelector = ({
   mentorCategories,
   setMentorCategories,
 }: {
@@ -63,4 +63,4 @@ const MentorCategories = ({
   </FlexBox>
 );
 
-export default MentorCategories;
+export default MentorCategoriesSelector;

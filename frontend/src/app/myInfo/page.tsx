@@ -51,9 +51,8 @@ const MyInfoPage = () => {
         <ProfileCard
           edit
           name="이름"
-          education={profile?.education}
-          desiredJob={profile?.desiredJob}
           imgUrl={profile?.imgUrl}
+          employmentStatus={profile?.employmentStatus}
           width="313px"
           height="477px"
         />

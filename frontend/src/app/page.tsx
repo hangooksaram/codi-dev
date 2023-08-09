@@ -2,7 +2,6 @@
 
 import Recommendation from "@/components/pages/mentorsMain/Recommendation";
 import useGetMentorsQuery, { GET_MENTORS_KEY } from "@/queries/mentorQuery";
-import { Mentor } from "@/types/api/payload/mentor";
 import styled from "@emotion/styled";
 import { backgroundImage } from "@/ui/atoms/BackgroundImage";
 import Typography from "@/ui/atoms/Typography";
@@ -13,10 +12,17 @@ import { css } from "@emotion/css";
 import { useRouter } from "next/navigation";
 import { StyledImage } from "@/ui/atoms/StyledImage";
 import FlexBox from "@/ui/atoms/FlexBox";
-import { isUser } from "@/utils/tempUser";
+import { selectUser } from "@/features/user/userSlice";
+import { useSelector } from "react-redux";
 
 const MainLandingPage = () => {
   const router = useRouter();
+  const user = useSelector(selectUser);
+  const goToApply = () => {
+    if (!user.id) router.push("/signin");
+    else if (user.profileId) router.push("/mentorApplyForm");
+    else router.push("/profileForm");
+  };
   return (
     <>
       <FlexBox direction="column" rowGap="20px">
@@ -35,18 +41,16 @@ const MainLandingPage = () => {
           <Typography variant="div" {...{ marginBottom: "40px" }}>
             나와 같은 어려움을 겪고 있는 멘티의 멘토가 되어주세요.
           </Typography>
-          <Button
-            onClick={() => {
-              if (isUser()) {
+          {!user.mentorId ? (
+            <Button
+              onClick={() => {
                 router.push("/mentorApplyForm");
-                return;
-              }
-              router.push("/signup");
-            }}
-            variant="default"
-          >
-            멘토 신청하러 가기
-          </Button>
+              }}
+              variant="default"
+            >
+              멘토 신청하러 가기
+            </Button>
+          ) : null}
         </MainBanner>
         {/* <Recommendation mentors={recommendationMentors} /> */}
         <StyledImage

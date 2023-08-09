@@ -8,7 +8,6 @@ import FlexBox from "@/ui/atoms/FlexBox";
 import Typography from "@/ui/atoms/Typography";
 import theme from "@/ui/theme";
 import { useFormik } from "formik";
-
 import ProfileImage from "@icons/common/profile-image.svg";
 import Button from "@/ui/atoms/Button";
 import Dropdown from "@/ui/atoms/Dropdown";
@@ -17,13 +16,10 @@ import * as Yup from "yup";
 import Textarea from "@/ui/atoms/Textarea";
 import useRestForm from "@/hooks/useRestForm";
 import useUploadFile from "@/hooks/useUploadFile";
-import { JOBS } from "@/constants";
-import { useRouter } from "next/navigation";
-
 import { useEffect, useState } from "react";
-import MentorCategories, {
+import MentorCategoriesSelector, {
   MENTOR_CATEGORIES,
-} from "@/components/Mentor/MentorCategories";
+} from "@/components/Mentor/MentorCategoriesSelector";
 import { applyMentor } from "@/api/mentorApi";
 import { useSelector } from "react-redux";
 import { selectUser, setUser } from "@/features/user/userSlice";
@@ -195,7 +191,7 @@ const MentorApplyFormPage = () => {
             </Button>
           </FormInputContainer>
           <FormInputContainer text="멘토링분야" helpText="(최대 4개)">
-            <MentorCategories
+            <MentorCategoriesSelector
               mentorCategories={mentorCategories}
               setMentorCategories={setMentorCategories}
             />

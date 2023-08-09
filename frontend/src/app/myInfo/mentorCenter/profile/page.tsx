@@ -1,26 +1,33 @@
 "use client";
 
+import MentorCategoryButton from "@/components/Mentor/MentoringCategoryButton";
 import ProfileCard from "@/components/Profile/ProfileCard";
+import ProfileLabelText from "@/components/Profile/ProfileLabelText";
+import { selectUser } from "@/features/user/userSlice";
+import { useGetMentorQuery } from "@/queries/mentorQuery";
 import Card from "@/ui/atoms/Card";
 import Chip from "@/ui/atoms/Chip";
 import FlexBox from "@/ui/atoms/FlexBox";
 import Grid from "@/ui/atoms/Grid";
-import { FormLabel } from "@/ui/atoms/Label";
 import Typography from "@/ui/atoms/Typography";
 import LabelBox from "@/ui/molecules/LabelBox";
 import theme from "@/ui/theme";
 import { css } from "@emotion/css";
 import styled from "@emotion/styled";
+import { useSelector } from "react-redux";
 
 const MentorProfilePage = () => {
+  const { mentorId } = useSelector(selectUser);
+  const { data: mentor, isLoading } = useGetMentorQuery(mentorId!);
+  console.log(mentor);
   return (
     <Card color={theme.colors.background} padding="30px" height="auto">
       <FlexBox alignItems="flex-start" columnGap="20px" rowGap="20px">
         <ProfileCard
-          name={name}
+          name={mentor?.name}
           mentor={true}
-          desiredJob={desiredJob}
-          imgUrl={imgUrl}
+          desiredJob={mentor?.desiredJob}
+          imgUrl={mentor?.imgUrl}
           width="313px"
           height="477px"
         />
@@ -32,27 +39,27 @@ const MentorProfilePage = () => {
         >
           <LabelBox text="멘토정보">
             <Grid gridTemplateColumns="1fr 1fr" rowGap="10px">
-              {data.map(({ name, value }, index) => (
-                <FlexBox key={index} justifyContent="flex-start">
-                  <Typography
-                    variant="div"
-                    color={theme.colors.gray.main}
-                    {...{ minWidth: "96px" }}
-                  >
-                    {name}
-                  </Typography>
-                  <Typography variant="div">{value}</Typography>
-                </FlexBox>
-              ))}
+              <ProfileLabelText name="이름" value="오현재" />
+              <ProfileLabelText name="최종학력" value={mentor?.education} />
+              <ProfileLabelText name="나이" value="25세" />
+              <ProfileLabelText name="직무" value={mentor?.job} />
+              <ProfileLabelText name="장애구분" value={mentor?.disability} />
+              <ProfileLabelText name="회사명" value={mentor?.company} />
+              <ProfileLabelText name="중증도" value={mentor?.severity} />
+              <ProfileLabelText name="경력" value={mentor?.career} />
             </Grid>
           </LabelBox>
 
           <FlexBox justifyContent="flex-start" {...{ marginTop: "60px" }}>
             <LabelBox text="멘토링도구">
-              <Chip>{desiredJob}</Chip>
+              <Chip>{mentor?.desiredJob}</Chip>
             </LabelBox>
             <LabelBox text="멘토링분야">
-              <Chip>{disability}</Chip>
+              {mentor?.mentoringCategories?.map((category, index) => (
+                <MentorCategoryButton variant="default">
+                  {category}
+                </MentorCategoryButton>
+              ))}
             </LabelBox>
           </FlexBox>
         </Card>
@@ -88,7 +95,7 @@ const MentorProfilePage = () => {
           `}
         >
           <LabelBox text="자기소개">
-            <p>{introduction}</p>
+            <p>{mentor?.introduction}</p>
           </LabelBox>
         </Card>
       </FlexBox>
@@ -103,65 +110,4 @@ const Divider = styled.div`
   background: ${theme.colors.background};
 `;
 
-const mock = {
-  imgUrl:
-    "https://codi-image-s3-bucket.s3.ap-northeast-2.amazonaws.com/profile/test1.png",
-  name: "오현재",
-  desiredJob: "오오오",
-  age: "23",
-  education: "ff",
-  disability: "ff",
-  serverity: "ff",
-  introduction: "fff",
-  company: "sss",
-  career: "fff",
-};
-
-const {
-  imgUrl,
-  name,
-  desiredJob,
-  age,
-  education,
-  disability,
-  serverity,
-  introduction,
-  career,
-  company,
-} = mock;
-
-const data = [
-  {
-    name: "이름",
-    value: name,
-  },
-  {
-    name: "최종학력",
-    value: education,
-  },
-  {
-    name: "나이",
-    value: age,
-  },
-  {
-    name: "희망직무",
-    value: desiredJob,
-  },
-  {
-    name: "장애구분",
-    value: disability,
-  },
-  {
-    name: "중증도",
-    value: serverity,
-  },
-  {
-    name: "회사",
-    value: company,
-  },
-  {
-    name: "경력",
-    value: career,
-  },
-];
 export default MentorProfilePage;
