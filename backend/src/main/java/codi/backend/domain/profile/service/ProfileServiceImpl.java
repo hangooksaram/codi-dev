@@ -2,6 +2,8 @@ package codi.backend.domain.profile.service;
 
 import codi.backend.domain.member.entity.Member;
 import codi.backend.domain.member.repository.MemberRepository;
+import codi.backend.domain.member.service.MemberService;
+import codi.backend.domain.member.service.MemberServiceImpl;
 import codi.backend.domain.profile.entity.Profile;
 import codi.backend.domain.profile.repository.ProfileRepository;
 import codi.backend.global.exception.BusinessLogicException;
@@ -17,18 +19,18 @@ import java.util.Optional;
 @Service
 public class ProfileServiceImpl implements ProfileService{
     private final ProfileRepository profileRepository;
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
     private final S3Service s3Service;
 
-    public ProfileServiceImpl(ProfileRepository profileRepository, MemberRepository memberRepository, S3Service s3Service) {
+    public ProfileServiceImpl(ProfileRepository profileRepository, MemberService memberService, S3Service s3Service) {
         this.profileRepository = profileRepository;
-        this.memberRepository = memberRepository;
+        this.memberService = memberService;
         this.s3Service = s3Service;
     }
 
     @Override
     public Profile createProfile(String memberId, Profile profile, MultipartFile file) {
-        Member member = findMember(memberId);
+        Member member = memberService.findMember(memberId);
         profile.setMember(member);
 
         Optional.ofNullable(file)
@@ -51,11 +53,6 @@ public class ProfileServiceImpl implements ProfileService{
     private Profile verifyProfile(Long profileId) {
         return profileRepository.findById(profileId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.PROFILE_NOT_FOUND));
-    }
-
-    private Member findMember(String memberId) {
-        return memberRepository.findById(memberId)
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
     }
 
     @Override

@@ -50,11 +50,11 @@ public class MentorController {
     // 멘토 정보 수정
     // TODO 추후 로그인 한 사용자의 로그인 정보를 함께 받는 방식으로 변경이 필요
     @ApiOperation(value = "멘토 정보 수정", notes = "직업 증명 파일, 직무, 회사, 소개를 선택해서 수정할 수 있다.")
-    @PatchMapping("/{member-id}")
-    public ResponseEntity updateMentor(@PathVariable("member-id") String memberId,
+    @PatchMapping("/{mentor-id}")
+    public ResponseEntity updateMentor(@PathVariable("mentor-id") Long mentorId,
                                        @Valid @RequestPart(value = "mentor") MentorDto.MentorPatch mentorPatchDto,
                                        @RequestPart(value = "file", required = false) MultipartFile file) {
-        Mentor mentor = mentorService.updateMentorInformation(memberId, mentorMapper.mentorPatchDtoToMentor(mentorPatchDto), file);
+        Mentor mentor = mentorService.updateMentorInformation(mentorId, mentorMapper.mentorPatchDtoToMentor(mentorPatchDto), file);
         MentorDto.MentorResponse response = mentorMapper.mentorToMentorResponse(mentor);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -62,9 +62,9 @@ public class MentorController {
     // 멘토 등록시 멘토 정보 조회
     // TODO 추후 로그인 한 사용자의 로그인 정보를 함께 받는 방식으로 변경이 필요
     @ApiOperation(value = "Mentor 개인 페이지 조회", notes = "Mentor를 신청하면서 입력한 정보를 조회할 수 있다.")
-    @GetMapping("/{member-id}")
-    public ResponseEntity getMentor(@PathVariable("member-id") String memberId) {
-        MentorDto.MentorResponse mentor = mentorMapper.mentorToMentorResponse(mentorService.findMentor(memberId));
+    @GetMapping("/{mentor-id}")
+    public ResponseEntity getMentor(@PathVariable("mentor-id") Long mentorId) {
+        MentorDto.MentorResponse mentor = mentorMapper.mentorToMentorResponse(mentorService.findMentor(mentorId));
         return new ResponseEntity<>(mentor, HttpStatus.OK);
     }
 
@@ -82,7 +82,7 @@ public class MentorController {
             @PageableDefault Pageable pageable) {
         Page<MentorDto.SearchMentorResponse> mentorsPage = mentorService.getFilteredMentors(job, career, disability, keyword, pageable);
         List<MentorDto.SearchMentorResponse> mentorsList = mentorsPage.getContent();
-        List<Long> favorites = Arrays.asList(1L, 2L, 3L, 4L, 10L); // 추후 연관관계 매핑을 통해 기능 구현 예정
+        List<Long> favorites = Arrays.asList(1L, 2L, 3L, 4L, 10L); // TODO 추후 연관관계 매핑을 통해 기능 구현 예정
         ExtendedMultiResponseDto<MentorDto.SearchMentorResponse> response = new ExtendedMultiResponseDto<>(mentorsList, mentorsPage, favorites);
 
 //        return new ResponseEntity<>(

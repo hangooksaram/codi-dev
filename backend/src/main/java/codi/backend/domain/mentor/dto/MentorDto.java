@@ -5,14 +5,10 @@ import io.swagger.annotations.ApiModelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.List;
 
 public class MentorDto {
-
     @Getter
     @Builder
     public static class MentorPost {
@@ -78,6 +74,9 @@ public class MentorDto {
         @ApiModelProperty(example = "멘토 아이디")
         private Long id;
 
+        @ApiModelProperty(example = "프로필 이미지")
+        private String imgUrl;
+
         @ApiModelProperty(example = "재직증명서 링크")
         private String fileUrl;
 
@@ -109,7 +108,7 @@ public class MentorDto {
         private Integer mentees;
 
         @ApiModelProperty(example = "멘토링 분야")
-        private List<Mentor.MentoringCategory> mentoringCategories;
+        private List<String> mentoringCategories;
     }
 
     @Schema(description = "멘토 검색 결과 응답 DTO")
@@ -136,6 +135,9 @@ public class MentorDto {
 
         @ApiModelProperty(example = "직무")
         private String job;
+
+        @ApiModelProperty(example = "경력")
+        private String career;
 
         @ApiModelProperty(example = "장애 구분")
         private String disability;

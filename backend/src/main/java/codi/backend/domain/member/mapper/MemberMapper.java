@@ -29,7 +29,7 @@ public interface MemberMapper {
                 .id(member.getId())
                 .name(member.getName())
                 .birth(member.getBirth())
-                .gender(member.getGender())
+                .gender(member.getGender().getGender())
                 .email(member.getEmail())
                 .roles(member.getRoles())
                 .build();

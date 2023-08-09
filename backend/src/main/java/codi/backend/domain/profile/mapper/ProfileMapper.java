@@ -1,10 +1,14 @@
 package codi.backend.domain.profile.mapper;
 
 import codi.backend.domain.favorite.dto.FavoriteResponseDto;
+import codi.backend.domain.member.entity.Member;
 import codi.backend.domain.profile.dto.ProfileDto;
 import codi.backend.domain.profile.entity.Profile;
 import org.mapstruct.Mapper;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -47,12 +51,20 @@ public interface ProfileMapper {
             return null;
         }
 
+        // 이름, 나이
+        String name = profile.getMember().getName();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        LocalDate birthDate = LocalDate.parse(profile.getMember().getBirth(), formatter);
+        Integer age = Period.between(birthDate, LocalDate.now()).getYears();
+
         Set<FavoriteResponseDto> favorites = profile.getFavorites().stream()
                 .map(FavoriteResponseDto::of)
                 .collect(Collectors.toSet());
 
         return ProfileDto.ProfileResponse.builder()
                 .id(profile.getId())
+                .name(name)
+                .age(age)
                 .imgUrl(profile.getImgUrl())
                 .job(profile.getJob())
                 .desiredJob(profile.getDesiredJob())
@@ -60,7 +72,7 @@ public interface ProfileMapper {
                 .disability(profile.getDisability())
                 .severity(profile.getSeverity())
                 .introduction(profile.getIntroduction())
-                .employmentStatus(profile.getEmploymentStatus())
+                .employmentStatus(profile.getEmploymentStatus().getEmploymentStatus())
                 .favorites(favorites)
                 .build();
     }

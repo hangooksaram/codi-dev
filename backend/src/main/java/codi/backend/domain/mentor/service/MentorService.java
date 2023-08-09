@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 public interface MentorService {
     // Mentor
     Mentor becomeMentor(String memberId, Mentor mentor, MultipartFile file);
-    Mentor updateMentorInformation(String memberId, Mentor mentor, MultipartFile file);
-    Mentor findMentor(String memberId);
+    Mentor updateMentorInformation(Long mentorId, Mentor mentor, MultipartFile file);
+    Mentor findMentor(Long mentorId);
     Page<MentorDto.SearchMentorResponse> getFilteredMentors(String job, String career, String disability, String keyword, Pageable pageable);
 }

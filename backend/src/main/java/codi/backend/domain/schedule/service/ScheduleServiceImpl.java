@@ -91,7 +91,8 @@ public class ScheduleServiceImpl implements ScheduleService {
         }
     }
 
-    private LocalDateTime[] convertToStartAndEndTime(String date, String time) {
+    // TODO Util로 분리 계획
+    public LocalDateTime[] convertToStartAndEndTime(String date, String time) {
         String[] divisionTime = time.split(" - ");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
         return new LocalDateTime[]{
@@ -108,5 +109,19 @@ public class ScheduleServiceImpl implements ScheduleService {
         return schedules.stream()
                 .filter(this::isScheduleDeletable)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Schedule findSchedule(Mentor mentor, LocalDateTime startTime, LocalDateTime endTime) {
+        return scheduleRepository
+                .findByMentorAndStartDateTimeAndEndDateTime(mentor, startTime, endTime)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.SCHEDULE_NOT_FOUND));
+    }
+
+    @Override
+    public void checkScheduleMentoring(Schedule schedule) {
+        if (schedule.getMentoring() != null) {
+            throw new BusinessLogicException(ExceptionCode.MENTORING_ALREADY_EXIST);
+        }
     }
 }

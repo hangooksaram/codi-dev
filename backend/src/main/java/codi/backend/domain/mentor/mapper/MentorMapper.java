@@ -2,6 +2,7 @@ package codi.backend.domain.mentor.mapper;
 
 import codi.backend.domain.mentor.dto.MentorDto;
 import codi.backend.domain.mentor.entity.Mentor;
+import codi.backend.domain.profile.entity.Profile;
 import org.mapstruct.Mapper;
 
 import java.util.ArrayList;
@@ -50,8 +51,16 @@ public interface MentorMapper {
             return null;
         }
 
+        String imgUrl = mentor.getMember().getProfile().getImgUrl();
+
+        List<String> mentoringCategories = new ArrayList<>(4);
+        for (Mentor.MentoringCategory mentoringCategory : mentor.getMentoringCategories()) {
+            mentoringCategories.add(mentoringCategory.getMentoringCategory());
+        }
+
         return MentorDto.MentorResponse.builder()
                 .id(mentor.getId())
+                .imgUrl(imgUrl)
                 .fileUrl(mentor.getFileUrl())
                 .isCertificate(mentor.getIsCertificate())
                 .company(mentor.getCompany())
@@ -62,7 +71,7 @@ public interface MentorMapper {
                 .introduction(mentor.getIntroduction())
                 .star(mentor.getStar())
                 .mentees(mentor.getMentees())
-                .mentoringCategories(mentor.getMentoringCategories())
+                .mentoringCategories(mentoringCategories)
                 .build();
     }
 

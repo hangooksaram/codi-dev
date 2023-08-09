@@ -34,6 +34,8 @@ public class QMentoring extends EntityPathBase<Mentoring> {
 
     public final codi.backend.domain.profile.entity.QProfile profile;
 
+    public final NumberPath<Double> rating = createNumber("rating", Double.class);
+
     public final codi.backend.domain.schedule.entity.QSchedule schedule;
 
     public final EnumPath<Mentoring.MentoringStatus> status = createEnum("status", Mentoring.MentoringStatus.class);
