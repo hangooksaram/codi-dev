@@ -31,18 +31,12 @@ import JobSelector from "@/components/Job/JopSelector";
 import { ApplyMnetorResponse } from "@/types/api/mentor";
 import { localUser, setLocalUser } from "@/utils/tempUser";
 import { useDispatch } from "react-redux";
+import useRedirectMentorApplyForm from "@/hooks/useRedirectMentorApplyForm";
 
 const MentorApplyFormPage = () => {
-  const {
-    invalidValues,
-    restForm,
-    setRestForm,
-    validateRestForm,
-    invalid,
-    isSubmitted,
-    setIsSubmitted,
-  } = useRestForm<RestFormValues>(initialRestForm);
-  const router = useRouter();
+  const { restForm, setRestForm, validateRestForm, invalid } =
+    useRestForm<RestFormValues>(initialRestForm);
+  useRedirectMentorApplyForm();
   const memberId = useSelector(selectUser).id;
   const dispatch = useDispatch();
   const { file, onUploadFile } = useUploadFile();
