@@ -23,14 +23,8 @@ const registerProfile = async <T>(
   }
 };
 
-const getProfile = async <T>(id: string): Promise<CommonApiResponse<T>> => {
-  try {
-    const { status } = await customAxios.post(`/profiles/dhguswo555`);
-
-    return { status };
-  } catch (e) {
-    return handleApiError(e);
-  }
+const getProfile = async (profileId: number) => {
+  return (await customAxios.get(`/profiles/${profileId}`)).data!;
 };
 
 export { registerProfile, getProfile };
