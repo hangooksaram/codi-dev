@@ -2,7 +2,7 @@
 
 import { User } from "@/types/user";
 
-const setLocalUser = (obj: object) => {
+export const setLocalUser = (obj: object) => {
   if (typeof window !== "undefined") {
     if (localUser() !== null) {
       window.localStorage.setItem(
@@ -13,7 +13,7 @@ const setLocalUser = (obj: object) => {
   }
 };
 
-const isLocalUser = () => {
+export const isLocalUser = () => {
   if (typeof window !== "undefined") {
     const user = window.localStorage.getItem("user");
     if (!user) return false;
@@ -21,10 +21,8 @@ const isLocalUser = () => {
   }
 };
 
-const localUser = () => {
+export const localUser = () => {
   if (typeof window !== "undefined" && window.localStorage.getItem("user"))
     return JSON.parse(window.localStorage.getItem("user")!) as User;
   return null;
 };
-
-export { setLocalUser, isLocalUser, localUser };

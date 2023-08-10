@@ -3,7 +3,7 @@ import customAxios from "./customAxios";
 import { CommonApiResponse } from "@/types/api/common";
 import { AxiosResponse } from "axios";
 
-const registerProfile = async <T>(
+export const registerProfile = async <T>(
   memberId: string,
   profile: FormData
 ): Promise<CommonApiResponse<T>> => {
@@ -23,7 +23,7 @@ const registerProfile = async <T>(
   }
 };
 
-const editProfile = async <T>(
+export const editProfile = async <T>(
   profileId: number,
   profile: FormData
 ): Promise<CommonApiResponse<T>> => {
@@ -43,8 +43,6 @@ const editProfile = async <T>(
   }
 };
 
-const getProfile = async (profileId: number) => {
+export const getProfile = async (profileId: number) => {
   return (await customAxios.get(`/profiles/${profileId}`)).data!;
 };
-
-export { registerProfile, getProfile, editProfile };

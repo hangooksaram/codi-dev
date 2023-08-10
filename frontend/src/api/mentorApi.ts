@@ -3,7 +3,7 @@ import customAxios from "./customAxios";
 import { AxiosResponse } from "axios";
 import { handleApiError } from "@/utils/api";
 
-const applyMentor = async <T>(memberId: string, mentor: FormData) => {
+export const applyMentor = async <T>(memberId: string, mentor: FormData) => {
   try {
     const { data, status }: AxiosResponse<T> = await customAxios.post(
       `/mentors/${memberId}`,
@@ -20,7 +20,7 @@ const applyMentor = async <T>(memberId: string, mentor: FormData) => {
   }
 };
 
-const getMentors = async (mentorsParams: GetMentorsParameters) => {
+export const getMentors = async (mentorsParams: GetMentorsParameters) => {
   const { page, size, job, career, disability, keyword } = mentorsParams;
   return (
     await customAxios.get(
@@ -29,11 +29,11 @@ const getMentors = async (mentorsParams: GetMentorsParameters) => {
   ).data;
 };
 
-const getMentor = async (mentorId: number) => {
+export const getMentor = async (mentorId: number) => {
   return (await customAxios.get(`/mentors/${mentorId}`)).data!;
 };
 
-const likeMentor = async (profileId: number, mentorId: number) => {
+export const likeMentor = async (profileId: number, mentorId: number) => {
   try {
     const { data, status }: AxiosResponse = await customAxios.post(
       `/profiles/${profileId}/favorites/${mentorId}`
@@ -44,7 +44,7 @@ const likeMentor = async (profileId: number, mentorId: number) => {
   }
 };
 
-const unLikeMentor = async (profileId: number, mentorId: number) => {
+export const unLikeMentor = async (profileId: number, mentorId: number) => {
   try {
     const { data, status }: AxiosResponse = await customAxios.delete(
       `/profiles/${profileId}/favorites/${mentorId}`
@@ -54,5 +54,3 @@ const unLikeMentor = async (profileId: number, mentorId: number) => {
     return handleApiError(e);
   }
 };
-
-export { applyMentor, getMentors, getMentor, likeMentor, unLikeMentor };

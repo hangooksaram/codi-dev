@@ -10,12 +10,10 @@ const useScheduleQuery = (mentorId: number, date: string) => {
   );
 };
 
-const useScheduleMutation = (mentorId: number) => {
+export const useScheduleMutation = (mentorId: number) => {
   return useMutation(ADD_SCHEDULES_KEY, (schedule: Schedule) =>
     addSchedule(mentorId, schedule)
   );
 };
 
 export default useScheduleQuery;
-
-export { useScheduleMutation };

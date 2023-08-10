@@ -3,16 +3,18 @@ import theme from "@/ui/theme";
 import { PageComponentLayout } from "@/components/pages/mentorsMain/PageComonentLayout";
 import styled from "@emotion/styled";
 import Logo from "@icons/logo/recommend-icon.svg";
-import { isUser } from "@/utils/tempUser";
 import { useRouter } from "next/navigation";
 import TitleSection from "./TitleSection";
-import MentorList from "../../Mentor/MentorList";
 import { StyledImage } from "@/ui/atoms/StyledImage";
 import Button from "@/ui/atoms/Button";
-import { Mentor } from "@/types/mentor";
+import { Mentor } from "@/types/profile";
+import MentorList from "@/components/Mentor/Mentors/MentorList";
+import { useSelector } from "react-redux";
+import { selectUser } from "@/features/user/userSlice";
 
 const Recommendation = ({ mentors }: { mentors: Mentor[] }) => {
   const router = useRouter();
+  const user = useSelector(selectUser).id;
   return (
     <PageComponentLayout>
       <TitleSection
@@ -33,7 +35,7 @@ const Recommendation = ({ mentors }: { mentors: Mentor[] }) => {
           멘토전체보기
         </MoreMentorsButton>
       </div>
-      {!isUser() && (
+      {!user && (
         <FlexBox>
           <StyledImage
             width="651px"

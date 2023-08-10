@@ -5,7 +5,9 @@ import { handleApiError } from "@/utils/api";
 import { CommonApiResponse } from "@/types/api/common";
 import { SignInBody, SignUpBody } from "@/types/api/sign";
 
-const signUp = async (SignUpBody: SignUpBody): Promise<CommonApiResponse> => {
+export const signUp = async (
+  SignUpBody: SignUpBody
+): Promise<CommonApiResponse> => {
   try {
     const { status } = await customAxios.post(`/members/signup`, SignUpBody);
     return { status };
@@ -14,7 +16,7 @@ const signUp = async (SignUpBody: SignUpBody): Promise<CommonApiResponse> => {
   }
 };
 
-const signIn = async (SignInBody: SignInBody) => {
+export const signIn = async (SignInBody: SignInBody) => {
   try {
     const { data, status } = await customAxios.post(`/signin`, SignInBody);
     return { data, status };
@@ -22,7 +24,7 @@ const signIn = async (SignInBody: SignInBody) => {
     return handleApiError(e);
   }
 };
-const checkDuplicateId = async <T>(
+export const checkDuplicateId = async <T>(
   id: string
 ): Promise<CommonApiResponse<T>> => {
   try {
@@ -34,11 +36,9 @@ const checkDuplicateId = async <T>(
     return handleApiError(e);
   }
 };
-const searchUniv = async () => {
+export const searchUniv = async () => {
   const URL =
     "https://career.go.kr/cnet/openapi/getOpenApi?apiKey=5ae9204a5c24d7c8d88317b2e1135255&svcType=api&svcCode=SCHOOL&contentType=json&gubun=elem_list";
 
   return await customAxios.get(URL);
 };
-
-export { signIn, signUp, checkDuplicateId, searchUniv };
