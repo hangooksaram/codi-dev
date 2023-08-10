@@ -8,4 +8,9 @@ export interface MentorMentoring {
   status: string;
 }
 
-export type Status = "APPLICATION" | "ACCEPTED" | "REJECTED" | "COMPLETED";
+export type MentoringStatus =
+  | "APPLICATION"
+  | "ACCEPTED"
+  | "REJECTED"
+  | "COMPLETED"
+  | "INITIAL";

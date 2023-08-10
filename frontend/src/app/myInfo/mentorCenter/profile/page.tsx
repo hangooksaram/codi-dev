@@ -21,13 +21,14 @@ import { useSelector } from "react-redux";
 const MentorProfilePage = () => {
   const { mentorId, profileId } = useSelector(selectUser);
   const { data: mentor, isLoading } = useGetMentorQuery(mentorId!);
-
+  console.log(mentor);
   return (
     <Card color={theme.colors.background} padding="30px" height="auto">
       <FlexBox alignItems="flex-start" columnGap="20px" rowGap="20px">
         <ProfileCard
           name={mentor?.name}
           mentor={true}
+          edit={true}
           star={mentor?.star}
           mentees={mentor?.mentees}
           disability={mentor?.disability}
@@ -35,6 +36,13 @@ const MentorProfilePage = () => {
           imgUrl={mentor?.imgUrl}
           width="313px"
           height="477px"
+          link={`/mentorRegisterForm?edit=${true}&company=${
+            mentor?.company
+          }&introduction=${mentor?.introduction}&jobName=${
+            mentor?.jobName
+          }&job=${mentor?.job}&career=${mentor?.career}&inOffice=${
+            mentor?.inOffice
+          }&mentoringCategories=${mentor?.mentoringCategories}`}
         />
         <Card
           padding="45px 0px 0px 45px"

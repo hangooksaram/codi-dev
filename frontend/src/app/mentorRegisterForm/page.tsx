@@ -17,39 +17,74 @@ import Textarea from "@/ui/atoms/Textarea";
 import useRestForm from "@/hooks/useRestForm";
 import useUploadFile from "@/hooks/useUploadFile";
 import { useEffect, useState } from "react";
-import MentorCategoriesSelector, {
+import MentoringCategoriesSelector, {
   MENTOR_CATEGORIES,
 } from "@/components/Mentoring/MentoringCategory/MentoringCategoriesSelector";
-import { registerMentor } from "@/api/mentorApi";
+import {
+  registerMentor as postRegisterMentor,
+  editMentor as patchEditMentor,
+} from "@/api/mentorApi";
 import { useSelector } from "react-redux";
 import { selectUser, setUser } from "@/features/user/userSlice";
 import JobSelector from "@/components/Job/JopSelector";
-import { RegisterMentorResponse } from "@/types/api/mentor";
-import { localUser, setLocalUser } from "@/utils/tempUser";
 import { useDispatch } from "react-redux";
 import useRedirectMentorRegisterForm from "@/hooks/useRedirectMentorApplyForm";
+import { localUser, setLocalUser } from "@/utils/tempUser";
+import { handleApiCallback } from "@/utils/api";
+import { useRouter } from "next/navigation";
+import useInitiallizeFormValues from "@/hooks/useInitiallizeFormValues";
 
 const MentorRegisterForm = () => {
-  const { restForm, setRestForm, validateRestForm, invalid } =
-    useRestForm<RestFormValues>(initialRestForm);
   useRedirectMentorRegisterForm();
-  const memberId = useSelector(selectUser).id;
+  const router = useRouter();
   const dispatch = useDispatch();
+
+  const initialFormikValues: MentorRegisterFormValues = {
+    company: "",
+    introduction: "",
+    jobName: "",
+  };
+  const initialRestFormValues: RestFormValues = {
+    job: "",
+    career: "",
+    inOffice: false,
+    mentoringCategories: [],
+  };
+  const { formikValues, restFormValues, isEdit, pathParams } =
+    useInitiallizeFormValues<MentorRegisterFormValues, RestFormValues>(
+      initialFormikValues,
+      initialRestFormValues
+    );
+
+  const { restForm, setRestForm, validateRestForm, invalid } =
+    useRestForm<RestFormValues>(restFormValues);
+
+  const { id: memberId, mentorId } = useSelector(selectUser);
   const { file, onUploadFile } = useUploadFile();
-  const [job, setJob] = useState("");
+
+  const [job, setJob] = useState(isEdit ? pathParams.get("job")! : "");
   const [openJobSelector, setOpenJobSelector] = useState(false);
+  const [mentoringCategories, setMentoringCategories] = useState<string[]>(
+    isEdit ? pathParams.get("mentoringCategories")?.split(",")! : ["면접대비"]
+  );
+
   const formData = new FormData();
+
   useEffect(() => {
     setRestForm({ ...restForm, job });
   }, [job]);
   const handleSignUpSubmit = async (values: MentorRegisterFormValues) => {
-    restForm.mentoringCategories = MENTOR_CATEGORIES.filter((category) =>
-      mentorCategories.includes(category.text)
-    ).map((category) => category.value);
-
+    processData();
     createFormData(values, restForm);
 
-    // router.push("/");
+    if (isEdit) editMentor();
+    else registerMentor();
+  };
+
+  const processData = () => {
+    restForm.mentoringCategories = MENTOR_CATEGORIES.filter((category) =>
+      mentoringCategories.includes(category.text)
+    ).map((category) => category.value);
   };
 
   const createFormData = (
@@ -57,32 +92,48 @@ const MentorRegisterForm = () => {
     restForm: RestFormValues
   ) => {
     const formValues = { ...values, ...restForm };
+
+    console.log(formValues);
     const blob = new Blob([JSON.stringify(formValues)], {
       type: "application/json",
     });
-    console.log(formValues);
     formData.append("mentor", blob);
     formData.append("file", file.data!);
   };
 
-  // const registerMentor = async () => {
-  //   const { data, status } = await applyMentor<RegisterMentorResponse>(
-  //     memberId,
-  //     formData
-  //   );
-  //   setLocalUser({ mentorId: data.id });
-  //   dispatch(setUser(localUser()));
-  // };
+  const registerMentor = async () => {
+    const { data, status } = await postRegisterMentor(memberId, formData);
+    setLocalUser({ mentorId: data.id! });
+    dispatch(setUser(localUser()));
+    handleApiCallback(
+      status!,
+      () => {
+        router.push("/");
+      },
+      () => {
+        alert(`멘토 등록이 실패하였습니다. 다시 시도해주세요.`);
+      }
+    );
+  };
+
+  const editMentor = async () => {
+    const { status } = await patchEditMentor(mentorId!, formData);
+    handleApiCallback(
+      status!,
+      () => {
+        router.back();
+      },
+      () => {
+        alert(`멘토 수정이 실패하였습니다. 다시 시도해주세요.`);
+      }
+    );
+  };
 
   const formik = useFormik({
-    initialValues: MentorRegisterFormValues,
+    initialValues: formikValues,
     onSubmit: (values: MentorRegisterFormValues) => handleSignUpSubmit(values),
     validationSchema: MentorRegisterFormSchema,
   });
-
-  const [mentorCategories, setMentorCategories] = useState<string[]>([
-    "면접대비",
-  ]);
 
   return (
     <FormContainer>
@@ -93,7 +144,7 @@ const MentorRegisterForm = () => {
         align="center"
         {...{ margin: "80px 0px 80px 0px" }}
       >
-        멘토 신청하기
+        {isEdit ? "멘토 프로필 수정하기" : "멘토 신청하기"}
       </Typography>
 
       <form onSubmit={formik.handleSubmit}>
@@ -198,14 +249,16 @@ const MentorRegisterForm = () => {
               onClick={() => document.getElementById("certificate")?.click()}
               type="button"
               variant="square"
+              {...{ minWidth: "fit-content" }}
+              disabled={isEdit}
             >
               등록하기
             </Button>
           </FormInputContainer>
           <FormInputContainer text="멘토링분야" helpText="(최대 4개)">
-            <MentorCategoriesSelector
-              mentorCategories={mentorCategories}
-              setMentorCategories={setMentorCategories}
+            <MentoringCategoriesSelector
+              mentoringCategories={mentoringCategories}
+              setMentoringCategories={setMentoringCategories}
             />
           </FormInputContainer>
           <FormInputContainer
@@ -253,19 +306,6 @@ interface RestFormValues {
   inOffice: boolean;
   mentoringCategories: string[];
 }
-
-const MentorRegisterFormValues = {
-  company: "",
-  introduction: "",
-  jobName: "",
-};
-
-const initialRestForm: RestFormValues = {
-  job: "",
-  career: "",
-  inOffice: false,
-  mentoringCategories: [],
-};
 
 const MentorRegisterFormSchema = Yup.object().shape({
   company: Yup.string().required("Required"),

@@ -1,19 +1,34 @@
-import { GetMentorsParameters, RegisterMentorBody } from "@/types/api/mentor";
+import {
+  GetMentorsParameters,
+  RegisterMentorBody,
+  RegisterMentorResponse,
+} from "@/types/api/mentor";
 import customAxios from "./customAxios";
 import { AxiosResponse } from "axios";
 import { handleApiError } from "@/utils/api";
 
-export const registerMentor = async <T>(memberId: string, mentor: FormData) => {
+export const registerMentor = async (memberId: string, mentor: FormData) => {
   try {
-    const { data, status }: AxiosResponse<T> = await customAxios.post(
-      `/mentors/${memberId}`,
-      mentor,
-      {
+    const { data, status }: AxiosResponse<RegisterMentorResponse> =
+      await customAxios.post(`/mentors/${memberId}`, mentor, {
         headers: {
           "Content-Type": "multitype/form-data",
         },
-      }
-    );
+      });
+    return { data, status };
+  } catch (e) {
+    return handleApiError(e);
+  }
+};
+
+export const editMentor = async (mentorId: number, mentor: FormData) => {
+  try {
+    const { data, status }: AxiosResponse<RegisterMentorResponse> =
+      await customAxios.patch(`/mentors/${mentorId}`, mentor, {
+        headers: {
+          "Content-Type": "multitype/form-data",
+        },
+      });
     return { data, status };
   } catch (e) {
     return handleApiError(e);

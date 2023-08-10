@@ -18,7 +18,7 @@ import { useEffect, useState } from "react";
 import { searchUniv } from "@/api/signApi";
 import useRestForm from "@/hooks/useRestForm";
 import useUploadFile from "@/hooks/useUploadFile";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import {
   DISABILITIES,
   EMPLOYMENT_STATUSES,
@@ -36,38 +36,35 @@ import { selectUser, setUser } from "@/features/user/userSlice";
 import { setLocalUser, localUser } from "@/utils/tempUser";
 import { RegisterProfileResponse } from "@/types/api/profile";
 import { useDispatch } from "react-redux";
-import useGetProfileQuery from "@/queries/profileQuery";
+import useInitiallizeFormValues from "@/hooks/useInitiallizeFormValues";
 
 const ProfileFormPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const isEdit = useSearchParams().get("edit");
-  const editIntoduction = useSearchParams().get("introduction");
-  const editDesiredJob = useSearchParams().get("desiredJob");
-  const editJob = useSearchParams().get("job");
-  const editEductation = useSearchParams().get("education");
-  const editDisability = useSearchParams().get("disability");
-  const editEmploymentStatus = useSearchParams().get("employmentStatus");
-  const editSeverity = useSearchParams().get("severity");
-  const editImgUrl = useSearchParams().get("imgUrl");
 
-  const profileFormValues = {
-    introduction: editIntoduction ? editIntoduction : "",
-    desiredJob: editDesiredJob ? editDesiredJob : "",
+  const initialFormikValues = {
+    introduction: "",
+    desiredJob: "",
   };
 
-  const initialRestForm = {
-    job: editJob ? editJob : "",
-    education: editEductation ? editEductation : "",
-    disability: editDisability ? editDisability : "",
-    employmentStatus: editEmploymentStatus ? editEmploymentStatus : "",
-    severity: editSeverity ? editSeverity : "중증",
+  const initialRestFormValues = {
+    job: "",
+    education: "",
+    disability: "",
+    employmentStatus: "",
+    severity: "",
   };
+
+  const { formikValues, restFormValues, isEdit, pathParams } =
+    useInitiallizeFormValues<ProfileFormValues, RestFormValues>(
+      initialFormikValues,
+      initialRestFormValues
+    );
 
   const { id: memberId, profileId } = useSelector(selectUser)!;
 
   const { restForm, setRestForm, validateRestForm, invalid } =
-    useRestForm<RestFormValues>(initialRestForm);
+    useRestForm<RestFormValues>(restFormValues);
   const { file, onUploadFile } = useUploadFile();
   const [bigEducationCategory, setBigEducationCategory] = useState("");
   const [job, setJob] = useState("");
@@ -75,8 +72,15 @@ const ProfileFormPage = () => {
   const [submitType, setSubmitType] = useState<string>("");
 
   useEffect(() => {
-    if (isEdit) setJob(editJob!);
-  });
+    if (isEdit) {
+      setJob(restFormValues.job!);
+      if (restFormValues.education === ("초등학교" || "중학교" || "고등학교")) {
+        setBigEducationCategory(restFormValues.education);
+        restFormValues.education = "";
+      } else {
+      }
+    }
+  }, []);
 
   const handleProfileSubmit = async (values: ProfileFormValues) => {
     processData();
@@ -151,7 +155,7 @@ const ProfileFormPage = () => {
 
   const formData = new FormData();
   const formik = useFormik({
-    initialValues: profileFormValues,
+    initialValues: formikValues,
     onSubmit: (values: ProfileFormValues) => handleProfileSubmit(values),
     validationSchema: ProfileSchema,
   });
@@ -173,7 +177,7 @@ const ProfileFormPage = () => {
         align="center"
         {...{ margin: "80px 0px 80px 0px" }}
       >
-        프로필 작성하기
+        {isEdit ? "프로필 수정하기" : "프로필 작성하기"}
       </Typography>
       <form onSubmit={formik.handleSubmit}>
         <FlexBox direction="column" rowGap="50px">
@@ -195,6 +199,7 @@ const ProfileFormPage = () => {
               variant="square"
               type="button"
               onClick={() => document.getElementById("profileImage")?.click()}
+              disabled={isEdit}
               {...{ marginLeft: "10px" }}
             >
               등록하기

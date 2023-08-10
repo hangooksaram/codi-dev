@@ -23,35 +23,36 @@ export const MENTOR_CATEGORIES = [
 ];
 
 const MentorCategoriesSelector = ({
-  mentorCategories,
-  setMentorCategories,
+  mentoringCategories,
+  setMentoringCategories,
 }: {
-  mentorCategories: string[];
-  setMentorCategories: Dispatch<SetStateAction<string[]>>;
+  mentoringCategories: string[];
+  setMentoringCategories: Dispatch<SetStateAction<string[]>>;
 }) => (
   <FlexBox justifyContent="flex-start" columnGap="10px" rowGap="10px" isWrap>
     {MENTOR_CATEGORIES.map(({ iconComponent: IconComponent, text }, index) => (
       <div
         key={index}
         onClick={() => {
-          if (mentorCategories.includes(text))
-            setMentorCategories((prev) =>
+          if (mentoringCategories.includes(text))
+            setMentoringCategories((prev) =>
               prev.filter((category) => category !== text)
             );
-          else setMentorCategories([...mentorCategories, text]);
+          else setMentoringCategories([...mentoringCategories, text]);
         }}
       >
         <MentoringCategoryButton
           variant="square"
           type="button"
-          selected={mentorCategories.includes(text)}
+          selected={mentoringCategories.includes(text)}
           disabled={
-            !mentorCategories.includes(text) && mentorCategories.length > 3
+            !mentoringCategories.includes(text) &&
+            mentoringCategories.length > 3
           }
         >
           <IconComponent
             fill={
-              mentorCategories.includes(text)
+              mentoringCategories.includes(text)
                 ? theme.colors.white
                 : theme.colors.primary
             }

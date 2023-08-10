@@ -93,7 +93,6 @@ const Content = ({
           <Chip>{severity}</Chip>
         </FlexBox>
       )}
-
       {!apply &&
         (edit ? (
           <Button
