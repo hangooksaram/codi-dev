@@ -32,13 +32,13 @@ public class QMentoring extends EntityPathBase<Mentoring> {
 
     public final EnumPath<Mentoring.MentoringPlatform> mentoringPlatform = createEnum("mentoringPlatform", Mentoring.MentoringPlatform.class);
 
+    public final EnumPath<Mentoring.MentoringStatus> mentoringStatus = createEnum("mentoringStatus", Mentoring.MentoringStatus.class);
+
     public final codi.backend.domain.profile.entity.QProfile profile;
 
     public final NumberPath<Double> rating = createNumber("rating", Double.class);
 
     public final codi.backend.domain.schedule.entity.QSchedule schedule;
-
-    public final EnumPath<Mentoring.MentoringStatus> status = createEnum("status", Mentoring.MentoringStatus.class);
 
     public QMentoring(String variable) {
         this(Mentoring.class, forVariable(variable), INITS);

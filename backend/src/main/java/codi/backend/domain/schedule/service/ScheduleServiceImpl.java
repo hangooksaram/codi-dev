@@ -3,6 +3,7 @@ package codi.backend.domain.schedule.service;
 import codi.backend.domain.member.repository.MemberRepository;
 import codi.backend.domain.mentor.entity.Mentor;
 import codi.backend.domain.mentor.repository.MentorRepository;
+import codi.backend.domain.mentor.service.MentorService;
 import codi.backend.domain.schedule.dto.ScheduleDto;
 import codi.backend.domain.schedule.entity.Schedule;
 import codi.backend.domain.schedule.repository.ScheduleRepository;
@@ -11,6 +12,7 @@ import codi.backend.global.exception.ExceptionCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -24,17 +26,17 @@ import java.util.stream.Collectors;
 public class ScheduleServiceImpl implements ScheduleService {
     private final ScheduleRepository scheduleRepository;
     private final MemberRepository memberRepository;
-    private final MentorRepository mentorRepository;
+    private final MentorService mentorService;
 
-    public ScheduleServiceImpl(ScheduleRepository scheduleRepository, MemberRepository memberRepository, MentorRepository mentorRepository) {
+    public ScheduleServiceImpl(ScheduleRepository scheduleRepository, MemberRepository memberRepository, MentorService mentorService) {
         this.scheduleRepository = scheduleRepository;
         this.memberRepository = memberRepository;
-        this.mentorRepository = mentorRepository;
+        this.mentorService = mentorService;
     }
 
     @Override
     public void registerSchedule(Long mentorId, ScheduleDto.SchedulePostDto schedulePostDto) {
-        Mentor mentor = findMentor(mentorId);
+        Mentor mentor = mentorService.findMentor(mentorId);
         List<Schedule> newSchedules = convertToSchedules(mentor, schedulePostDto.getDate(), schedulePostDto.getTimes());
         List<Schedule> existingSchedules = scheduleRepository.findAllByMentor(mentor);
 
@@ -62,11 +64,6 @@ public class ScheduleServiceImpl implements ScheduleService {
 
         // 추가: 새로운 스케줄에서 추가된 것들
         scheduleRepository.saveAll(schedulesToAdd);
-    }
-
-    private Mentor findMentor(Long mentorId) {
-        return mentorRepository.findById(mentorId)
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_MENTOR_ERROR));
     }
 
     private List<Schedule> convertToSchedules(Mentor mentor, String date, List<ScheduleDto.TimeConstraint> times) {
@@ -123,5 +120,19 @@ public class ScheduleServiceImpl implements ScheduleService {
         if (schedule.getMentoring() != null) {
             throw new BusinessLogicException(ExceptionCode.MENTORING_ALREADY_EXIST);
         }
+    }
+
+    @Override
+    public ScheduleDto.ScheduleDailyResponse findDailySchedules(Long mentorId, String date) {
+        Mentor mentor = mentorService.findMentor(mentorId);
+        LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+        return scheduleRepository.findDailySchedules(mentor, localDate);
+    }
+
+    @Override
+    public ScheduleDto.ScheduleMonthlyResponse findMonthlySchedules(Long mentorId, String month) {
+        Mentor mentor = mentorService.findMentor(mentorId);
+        LocalDate localDateMonth = LocalDate.parse(month + "/01", DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+        return scheduleRepository.findMonthlySchedules(mentor, localDateMonth);
     }
 }

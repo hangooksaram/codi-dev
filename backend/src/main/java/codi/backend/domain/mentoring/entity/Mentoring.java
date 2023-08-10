@@ -3,7 +3,11 @@ package codi.backend.domain.mentoring.entity;
 import codi.backend.domain.mentor.entity.Mentor;
 import codi.backend.domain.profile.entity.Profile;
 import codi.backend.domain.schedule.entity.Schedule;
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -18,7 +22,7 @@ public class Mentoring {
 
     @Enumerated(EnumType.STRING)
     @Column
-    private MentoringStatus status;
+    private MentoringStatus mentoringStatus;
 
     @Column
     private String applicationReason;
@@ -59,17 +63,34 @@ public class Mentoring {
         }
     }
 
+    @JsonFormat(shape = JsonFormat.Shape.OBJECT)
     public enum MentoringPlatform {
-        GOOGLE,
-        KAKAO,
-        DISCORD,
-        ZOOM
+        GOOGLE("Google Meeting"),
+        KAKAO("KakaoTalk"),
+        DISCORD("Discord"),
+        ZOOM("ZOOM");
+
+        @Getter
+        private final String platform;
+
+        MentoringPlatform(String platform) {
+            this.platform = platform;
+        }
+
+        public static MentoringPlatform platformOf(String name) {
+            for (MentoringPlatform platform : MentoringPlatform.values()) {
+                if (platform.getPlatform().equals(name)) {
+                    return platform;
+                }
+            }
+            return null;
+        }
     }
 
     @Builder
-    public Mentoring(Long id, MentoringStatus status, String applicationReason, Mentor mentor, Profile profile, Schedule schedule) {
+    public Mentoring(Long id, MentoringStatus mentoringStatus, String applicationReason, Mentor mentor, Profile profile, Schedule schedule) {
         this.id = id;
-        this.status = status;
+        this.mentoringStatus = mentoringStatus;
         this.applicationReason = applicationReason;
         this.mentor = mentor;
         this.profile = profile;

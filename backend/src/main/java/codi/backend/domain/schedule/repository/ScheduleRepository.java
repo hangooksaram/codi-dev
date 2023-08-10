@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
+public interface ScheduleRepository extends JpaRepository<Schedule, Long>, ScheduleRepositoryCustom {
     List<Schedule> findAllByMentor(Mentor mentor);
     Optional<Schedule> findByMentorAndStartDateTimeAndEndDateTime(Mentor mentor, LocalDateTime startTime, LocalDateTime endTime);
 }

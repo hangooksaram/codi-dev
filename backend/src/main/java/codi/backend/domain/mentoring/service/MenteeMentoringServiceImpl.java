@@ -43,7 +43,7 @@ public class MenteeMentoringServiceImpl implements MenteeMentoringService {
         scheduleService.checkScheduleMentoring(schedule);
 
         Mentoring mentoring = Mentoring.builder()
-                .status(Mentoring.MentoringStatus.APPLICATION)
+                .mentoringStatus(Mentoring.MentoringStatus.APPLICATION)
                 .applicationReason(mentoringPostDto.getApplicationReason())
                 .mentor(mentor)
                 .profile(profile)
@@ -110,7 +110,7 @@ public class MenteeMentoringServiceImpl implements MenteeMentoringService {
 
     private void validateMentorRating(Mentoring mentoring, MentoringDto.RateMentorRequest rateMentorRequest) {
         // Check if the mentoring is not application
-        if (mentoring.getStatus() != Mentoring.MentoringStatus.APPLICATION) {
+        if (mentoring.getMentoringStatus() != Mentoring.MentoringStatus.APPLICATION) {
             throw new BusinessLogicException(ExceptionCode.MENTORING_NOT_APPLICATION);
         }
 

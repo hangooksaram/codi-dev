@@ -16,7 +16,7 @@ import java.util.List;
 
 @Api(tags = { "Recommendation" })
 @RestController
-@RequestMapping("/api/v1/recommendations")
+@RequestMapping("/api/v1/rank")
 @Validated
 @Slf4j
 public class JobRecommendationController {

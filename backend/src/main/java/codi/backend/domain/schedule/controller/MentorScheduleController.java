@@ -2,6 +2,7 @@ package codi.backend.domain.schedule.controller;
 
 import codi.backend.domain.schedule.dto.ScheduleDto;
 import codi.backend.domain.schedule.service.ScheduleService;
+import codi.backend.global.response.SingleResponseDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +34,14 @@ public class MentorScheduleController {
     }
 
     // 스케줄 조회(월별) GET
+    @GetMapping("/monthly/{mentor-id}")
+    public ResponseEntity getMonthlySchedule(@PathVariable("mentor-id") Long mentorId, @RequestBody ScheduleDto.MonthlyRequest monthlyRequest) {
+        return new ResponseEntity<>(new SingleResponseDto<>(scheduleService.findMonthlySchedules(mentorId, monthlyRequest.getMonth())), HttpStatus.OK);
+    }
 
     // 스케줄 조회(일별) GET
+    @GetMapping("/daily/{mentor-id}")
+    public ResponseEntity getDailySchedule(@PathVariable("mentor-id") Long mentorId, @RequestBody ScheduleDto.DailyRequest dailyRequest) {
+        return new ResponseEntity<>(new SingleResponseDto<>(scheduleService.findDailySchedules(mentorId, dailyRequest.getDate())), HttpStatus.OK);
+    }
 }

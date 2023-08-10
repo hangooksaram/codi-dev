@@ -42,7 +42,8 @@ public enum ExceptionCode {
     // mentoring
     MENTORING_NOT_FOUND(404, "Mentoring not found."),
     NOT_YOUR_MENTORING(404, "This mentoring is not yours."),
-    MENTORING_NOT_APPLICATION(400, "Mentoring is not completed yet."),
+    MENTORING_NOT_APPLICATION(400, "Mentoring status is not application"),
+    MENTORING_NOT_ACCEPTED(400, "Mentoring status is not accepted."),
     INVALID_STAR_VALUE(400, "Star value must be between 0 and 5."),
     MENTOR_MISMATCH(404, "Mentor ID does not match with the mentoring's mentor."),
     ALREADY_RATED_MENTORING(400, "This Mentoring is already rated.");
