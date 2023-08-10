@@ -1,4 +1,7 @@
 import { SCHEDULE_TIME_TABLE } from "@/constants";
+import { selectUser } from "@/features/user/userSlice";
+import { useScheduleMutation } from "@/queries/scheduleQuery";
+
 import Button from "@/ui/atoms/Button";
 import Card from "@/ui/atoms/Card";
 import Chip from "@/ui/atoms/Chip";
@@ -6,6 +9,7 @@ import FlexBox from "@/ui/atoms/FlexBox";
 import Typography from "@/ui/atoms/Typography";
 import theme from "@/ui/theme";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const MentorScheduleEdit = ({
   date,
@@ -15,7 +19,8 @@ const MentorScheduleEdit = ({
   toggleEditState: () => void;
 }) => {
   const [selecteds, setSelecteds] = useState<string[]>([]);
-
+  const { mentorId } = useSelector(selectUser);
+  const addSchedule = useScheduleMutation(mentorId!);
   const selected = (time: string) => {
     return selecteds.includes(time);
   };
@@ -29,7 +34,11 @@ const MentorScheduleEdit = ({
   };
 
   const patchMentorSchedule = () => {
-    toggleEditState();
+    // toggleEditState();
+    const times: { time: string }[] = selecteds.map((time) => {
+      return { time };
+    });
+    addSchedule.mutate({ date: date!, times: times! });
   };
 
   return (

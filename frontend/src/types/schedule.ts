@@ -2,10 +2,10 @@ import { Status } from "./mentoring";
 
 export interface Schedule {
   date: string;
-  times: ScheuleTimes[];
+  times: { time: string }[];
 }
 
-export interface ScheuleTimes {
+export interface ScheduleTime {
   time: string;
   status: Status;
 }

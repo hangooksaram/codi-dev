@@ -70,7 +70,7 @@ const MentorProfilePage = () => {
                 {MENTOR_CATEGORIES.filter((category) =>
                   mentor?.mentoringCategories?.find((c) => c === category.text)
                 ).map(({ text, iconComponent: IconComponent }) => (
-                  <MentorCategoryButton variant="default">
+                  <MentorCategoryButton variant="default" key={text}>
                     <IconComponent fill={theme.colors.primary} />
                     {text}
                   </MentorCategoryButton>
