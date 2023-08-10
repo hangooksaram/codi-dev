@@ -25,7 +25,10 @@ import {
   EMPLOYMENT_STATUSES_VALUE,
   SEVERITIES,
 } from "@/constants";
-import { editProfile, registerProfile } from "@/api/profileApi";
+import {
+  editProfile as patchEditProfile,
+  registerProfile as postRegisterProfile,
+} from "@/api/profileApi";
 import { handleApiCallback } from "@/utils/api";
 import JobSelector from "@/components/Job/JopSelector";
 import { useSelector } from "react-redux";
@@ -85,8 +88,8 @@ const ProfileFormPage = () => {
     createFormData(values, restForm);
 
     if (isEdit) {
-      patchEditProfile();
-    } else postRegisterProfile();
+      editProfile();
+    } else registerProfile();
   };
 
   const createFormData = (
@@ -104,9 +107,9 @@ const ProfileFormPage = () => {
     imageFormData.append("file", file.data!);
   };
 
-  const postRegisterProfile = async () => {
+  const registerProfile = async () => {
     const { data, status, errorMessage } =
-      await registerProfile<RegisterProfileResponse>(memberId, formData);
+      await postRegisterProfile<RegisterProfileResponse>(memberId, formData);
 
     const signInSuccessCallback = () => {
       const { id, imgUrl } = data!;
@@ -124,9 +127,9 @@ const ProfileFormPage = () => {
     );
   };
 
-  const patchEditProfile = async () => {
+  const editProfile = async () => {
     const { data, status, errorMessage } =
-      await editProfile<RegisterProfileResponse>(profileId!, formData);
+      await patchEditProfile<RegisterProfileResponse>(profileId!, formData);
 
     const signInSuccessCallback = () => {
       const { id, imgUrl } = data!;

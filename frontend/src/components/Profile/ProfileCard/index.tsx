@@ -36,7 +36,7 @@ const ProfileCard = ({
         justifyContent="space-between"
         {...{ height: "100%" }}
       >
-        <Header edit={edit} mentor={mentor} apply={apply} />
+        <Header edit={edit} mentor={mentor} apply={apply} mentorId={mentorId} />
         <Content
           name={name}
           job={job}

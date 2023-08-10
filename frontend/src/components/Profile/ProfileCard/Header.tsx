@@ -7,19 +7,29 @@ import FilledLike from "@icons/common/filled-like.svg";
 import EmptyLike from "@icons/common/empty-like.svg";
 import Edit from "@icons/common/edit.svg";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { selectUser } from "@/features/user/userSlice";
+import { likeMentor as postLikeMentor, unLikeMentor } from "@/api/mentorApi";
 
 const Header = ({
   edit,
   mentor,
   apply,
+  mentorId,
 }: {
   edit?: boolean;
   mentor?: boolean;
   apply?: boolean;
+  mentorId?: number;
 }) => {
   const today = false;
   const [liked, setLiked] = useState(false);
-  const likeMentor = () => {
+  const { profileId } = useSelector(selectUser);
+  const toggleLikeMentor = async () => {
+    if (liked === true) await unLikeMentor(profileId!, mentorId!);
+    else {
+      await postLikeMentor(profileId!, mentorId!);
+    }
     setLiked((prev) => !prev);
   };
   return (
@@ -41,7 +51,7 @@ const Header = ({
           </Button>
         ) : (
           <Button
-            onClick={likeMentor}
+            onClick={toggleLikeMentor}
             variant="round"
             width="48px"
             color={liked ? theme.colors.info : theme.colors.white}

@@ -33,4 +33,26 @@ const getMentor = async (mentorId: number) => {
   return (await customAxios.get(`/mentors/${mentorId}`)).data!;
 };
 
-export { applyMentor, getMentors, getMentor };
+const likeMentor = async (profileId: number, mentorId: number) => {
+  try {
+    const { data, status }: AxiosResponse = await customAxios.post(
+      `/profiles/${profileId}/favorites/${mentorId}`
+    );
+    return { data, status };
+  } catch (e) {
+    return handleApiError(e);
+  }
+};
+
+const unLikeMentor = async (profileId: number, mentorId: number) => {
+  try {
+    const { data, status }: AxiosResponse = await customAxios.delete(
+      `/profiles/${profileId}/favorites/${mentorId}`
+    );
+    return { data, status };
+  } catch (e) {
+    return handleApiError(e);
+  }
+};
+
+export { applyMentor, getMentors, getMentor, likeMentor, unLikeMentor };

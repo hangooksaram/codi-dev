@@ -16,7 +16,11 @@ import IdIcon from "@icons/common/id.svg";
 import PasswordIcon from "@icons/common/password.svg";
 import TagIcon from "@icons/common/tag.svg";
 import { useRouter } from "next/navigation";
-import { checkDuplicateId, signIn, signUp } from "@/api/signApi";
+import {
+  checkDuplicateId as postCheckDuplicateId,
+  signIn,
+  signUp,
+} from "@/api/signApi";
 import { DATE } from "@/constants";
 
 import { handleApiCallback } from "@/utils/api";
@@ -68,8 +72,8 @@ const SignUpPage = () => {
 
   const router = useRouter();
 
-  const postCheckDuplicateId = async () => {
-    const { data, status, errorMessage } = await checkDuplicateId<boolean>(
+  const checkDuplicateId = async () => {
+    const { data, status, errorMessage } = await postCheckDuplicateId<boolean>(
       formik.values.id
     );
     handleApiCallback(
@@ -144,7 +148,7 @@ const SignUpPage = () => {
                   />
                 </IconInputContainer>
                 <Button
-                  onClick={postCheckDuplicateId}
+                  onClick={checkDuplicateId}
                   width="30%"
                   variant="square"
                   type="button"
