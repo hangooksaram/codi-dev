@@ -29,6 +29,7 @@ const Content = ({
   mentor,
   mentorId,
   employmentStatus,
+  link,
 }: ProfileCard) => {
   const router = useRouter();
   return (
@@ -45,7 +46,6 @@ const Content = ({
       {!mentor && (
         <Typography
           variant="div"
-          size={theme.fonts.size.lg}
           color={theme.colors.white}
           {...{ marginBottom: "4px" }}
         >
@@ -96,7 +96,12 @@ const Content = ({
 
       {!apply &&
         (edit ? (
-          <Button size="small" variant="default" color={theme.colors.secondary}>
+          <Button
+            onClick={() => router.push(link!)}
+            size="small"
+            variant="default"
+            color={theme.colors.secondary}
+          >
             프로필 수정하기
           </Button>
         ) : (

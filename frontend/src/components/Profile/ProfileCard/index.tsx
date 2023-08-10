@@ -21,6 +21,7 @@ const ProfileCard = ({
   apply,
   mentorId,
   employmentStatus,
+  link,
 }: ProfileCard) => {
   const today = false;
   return (
@@ -49,6 +50,7 @@ const ProfileCard = ({
           isCertificate={isCertificate}
           mentorId={mentorId}
           employmentStatus={employmentStatus}
+          link={link}
         />
       </FlexBox>
     </CardContainer>

@@ -8,7 +8,7 @@ import Social from "@icons/mentoring-categories/social.svg";
 import Tech from "@icons/mentoring-categories/tech.svg";
 import { Dispatch, SetStateAction } from "react";
 import theme from "@/ui/theme";
-import MentorCategoryButton from "./MentoringCategoryButton";
+import MentoringCategoryButton from "./MentoringCategoryButton";
 import FlexBox from "@/ui/atoms/FlexBox";
 
 export const MENTOR_CATEGORIES = [
@@ -41,7 +41,7 @@ const MentorCategoriesSelector = ({
           else setMentorCategories([...mentorCategories, text]);
         }}
       >
-        <MentorCategoryButton
+        <MentoringCategoryButton
           variant="square"
           type="button"
           selected={mentorCategories.includes(text)}
@@ -57,7 +57,7 @@ const MentorCategoriesSelector = ({
             }
           />
           {text}
-        </MentorCategoryButton>
+        </MentoringCategoryButton>
       </div>
     ))}
   </FlexBox>

@@ -55,6 +55,13 @@ const MyInfoPage = () => {
           employmentStatus={profile?.employmentStatus}
           width="313px"
           height="477px"
+          link={`/profileForm?edit=${true}&job=${profile?.job}&education=${
+            profile?.education
+          }&disability=${profile?.disability}&employmentStatus=${
+            profile?.employmentStatus
+          }&severity=${profile?.severity}&introduction=${
+            profile?.introduction
+          }&desiredJob=${profile?.desiredJob}&imgUrl=${profile?.imgUrl}`}
         />
         <Card
           padding="45px 0px 0px 45px"

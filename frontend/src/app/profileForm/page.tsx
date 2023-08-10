@@ -18,14 +18,14 @@ import { useEffect, useState } from "react";
 import { searchUniv } from "@/api/signApi";
 import useRestForm from "@/hooks/useRestForm";
 import useUploadFile from "@/hooks/useUploadFile";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   DISABILITIES,
   EMPLOYMENT_STATUSES,
   EMPLOYMENT_STATUSES_VALUE,
   SEVERITIES,
 } from "@/constants";
-import { registerProfile } from "@/api/profileApi";
+import { editProfile, registerProfile } from "@/api/profileApi";
 import { handleApiCallback } from "@/utils/api";
 import JobSelector from "@/components/Job/JopSelector";
 import { useSelector } from "react-redux";
@@ -33,9 +33,36 @@ import { selectUser, setUser } from "@/features/user/userSlice";
 import { setLocalUser, localUser } from "@/utils/tempUser";
 import { RegisterProfileResponse } from "@/types/api/profile";
 import { useDispatch } from "react-redux";
+import useGetProfileQuery from "@/queries/profileQuery";
 
 const ProfileFormPage = () => {
-  const memberId = useSelector(selectUser)!.id;
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const isEdit = useSearchParams().get("edit");
+  const editIntoduction = useSearchParams().get("introduction");
+  const editDesiredJob = useSearchParams().get("desiredJob");
+  const editJob = useSearchParams().get("job");
+  const editEductation = useSearchParams().get("education");
+  const editDisability = useSearchParams().get("disability");
+  const editEmploymentStatus = useSearchParams().get("employmentStatus");
+  const editSeverity = useSearchParams().get("severity");
+  const editImgUrl = useSearchParams().get("imgUrl");
+
+  const profileFormValues = {
+    introduction: editIntoduction ? editIntoduction : "",
+    desiredJob: editDesiredJob ? editDesiredJob : "",
+  };
+
+  const initialRestForm = {
+    job: editJob ? editJob : "",
+    education: editEductation ? editEductation : "",
+    disability: editDisability ? editDisability : "",
+    employmentStatus: editEmploymentStatus ? editEmploymentStatus : "",
+    severity: editSeverity ? editSeverity : "중증",
+  };
+
+  const { id: memberId, profileId } = useSelector(selectUser)!;
+
   const { restForm, setRestForm, validateRestForm, invalid } =
     useRestForm<RestFormValues>(initialRestForm);
   const { file, onUploadFile } = useUploadFile();
@@ -43,8 +70,11 @@ const ProfileFormPage = () => {
   const [job, setJob] = useState("");
   const [openJobSelector, setOpenJobSelector] = useState(false);
   const [submitType, setSubmitType] = useState<string>("");
-  const dispatch = useDispatch();
-  const router = useRouter();
+
+  useEffect(() => {
+    if (isEdit) setJob(editJob!);
+  });
+
   const handleProfileSubmit = async (values: ProfileFormValues) => {
     if (bigEducationCategory !== "대학교") {
       restForm.education = bigEducationCategory;
@@ -52,9 +82,19 @@ const ProfileFormPage = () => {
     restForm.employmentStatus = EMPLOYMENT_STATUSES_VALUE.get(
       restForm.employmentStatus
     );
+    createFormData(values, restForm);
 
-    values = { ...values, ...restForm };
-    const blob = new Blob([JSON.stringify(values)], {
+    if (isEdit) {
+      patchEditProfile();
+    } else postRegisterProfile();
+  };
+
+  const createFormData = (
+    values: ProfileFormValues,
+    restForm: RestFormValues
+  ) => {
+    const formValues = { ...values, ...restForm };
+    const blob = new Blob([JSON.stringify(formValues)], {
       type: "application/json",
     });
 
@@ -62,7 +102,9 @@ const ProfileFormPage = () => {
     formData.append("file", file.data!);
     const imageFormData = new FormData();
     imageFormData.append("file", file.data!);
+  };
 
+  const postRegisterProfile = async () => {
     const { data, status, errorMessage } =
       await registerProfile<RegisterProfileResponse>(memberId, formData);
 
@@ -78,6 +120,24 @@ const ProfileFormPage = () => {
     handleApiCallback(status!, signInSuccessCallback, () =>
       alert(
         `프로필 등록이 실패하였습니다. 다시 시도해주세요. error message : ${errorMessage}`
+      )
+    );
+  };
+
+  const patchEditProfile = async () => {
+    const { data, status, errorMessage } =
+      await editProfile<RegisterProfileResponse>(profileId!, formData);
+
+    const signInSuccessCallback = () => {
+      const { id, imgUrl } = data!;
+      setLocalUser({ profileId: id, imgUrl });
+      dispatch(setUser(localUser()));
+      router.back();
+    };
+
+    handleApiCallback(status!, signInSuccessCallback, () =>
+      alert(
+        `프로필 수정이 실패하였습니다. 다시 시도해주세요. error message : ${errorMessage}`
       )
     );
   };
@@ -271,17 +331,19 @@ const ProfileFormPage = () => {
           >
             작성완료
           </Button>
-          <Button
-            onClick={() => {
-              setSubmitType("complete-apply");
-              validateRestForm();
-            }}
-            width="100%"
-            type="submit"
-            variant="square"
-          >
-            작성하고 멘토 신청하러 가기
-          </Button>
+          {!isEdit && (
+            <Button
+              onClick={() => {
+                setSubmitType("complete-apply");
+                validateRestForm();
+              }}
+              width="100%"
+              type="submit"
+              variant="square"
+            >
+              작성하고 멘토 신청하러 가기
+            </Button>
+          )}
         </FlexBox>
       </form>
     </FormContainer>
@@ -305,18 +367,5 @@ const ProfileSchema = Yup.object().shape({
   desiredJob: Yup.string().required("Required"),
   introduction: Yup.string().required("Required"),
 });
-
-const profileFormValues = {
-  introduction: "",
-  desiredJob: "",
-};
-
-const initialRestForm: RestFormValues = {
-  job: "",
-  education: "",
-  disability: "",
-  employmentStatus: "",
-  severity: "중증",
-};
 
 export default ProfileFormPage;

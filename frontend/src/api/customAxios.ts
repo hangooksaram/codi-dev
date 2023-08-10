@@ -30,6 +30,17 @@ const customAxios = {
     });
   },
 
+  patch: (url: string, data?: object, options?: AxiosOptions) => {
+    return instance.patch(url, data, {
+      ...options,
+
+      // headers: {
+      //   Authorization: `Bearer ${mockToken}`,
+      //   ...options!.headers,
+      // },
+    });
+  },
+
   delete: (url: string, data?: object, options?: AxiosOptions) => {
     return instance.post(url, {
       ...options,

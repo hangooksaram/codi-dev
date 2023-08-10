@@ -13,11 +13,21 @@ const ProfileLabelText = ({
     <Typography
       variant="div"
       color={theme.colors.gray.main}
-      {...{ minWidth: "96px" }}
+      {...{
+        minWidth: "96px",
+      }}
     >
       {name}
     </Typography>
-    <Typography variant="div">{!value ? "-" : value}</Typography>
+    <Typography
+      variant="div"
+      {...{
+        minWidth: "240px",
+        width: "240px",
+      }}
+    >
+      {!value ? "-" : value}
+    </Typography>
   </FlexBox>
 );
 

@@ -14,7 +14,7 @@ const useGetProfileQuery = (profileId: number) => {
   const { data, isSuccess, isError, isLoading } = useQuery<MenteeProfile>(
     GET_MENTORS_KEY,
     () => getProfile(profileId),
-    { enabled: profileId !== null }
+    { enabled: profileId !== null && profileId !== 0 }
   );
 
   return { data, isSuccess, isError, isLoading };
