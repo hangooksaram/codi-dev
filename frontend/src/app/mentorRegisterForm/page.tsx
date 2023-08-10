@@ -20,19 +20,19 @@ import { useEffect, useState } from "react";
 import MentorCategoriesSelector, {
   MENTOR_CATEGORIES,
 } from "@/components/Mentoring/MentoringCategory/MentoringCategoriesSelector";
-import { applyMentor } from "@/api/mentorApi";
+import { registerMentor } from "@/api/mentorApi";
 import { useSelector } from "react-redux";
 import { selectUser, setUser } from "@/features/user/userSlice";
 import JobSelector from "@/components/Job/JopSelector";
-import { ApplyMnetorResponse } from "@/types/api/mentor";
+import { RegisterMentorResponse } from "@/types/api/mentor";
 import { localUser, setLocalUser } from "@/utils/tempUser";
 import { useDispatch } from "react-redux";
-import useRedirectMentorApplyForm from "@/hooks/useRedirectMentorApplyForm";
+import useRedirectMentorRegisterForm from "@/hooks/useRedirectMentorApplyForm";
 
-const MentorApplyFormPage = () => {
+const MentorRegisterForm = () => {
   const { restForm, setRestForm, validateRestForm, invalid } =
     useRestForm<RestFormValues>(initialRestForm);
-  useRedirectMentorApplyForm();
+  useRedirectMentorRegisterForm();
   const memberId = useSelector(selectUser).id;
   const dispatch = useDispatch();
   const { file, onUploadFile } = useUploadFile();
@@ -42,30 +42,42 @@ const MentorApplyFormPage = () => {
   useEffect(() => {
     setRestForm({ ...restForm, job });
   }, [job]);
-  const handleSignUpSubmit = async (values: MentorApplyFormValues) => {
+  const handleSignUpSubmit = async (values: MentorRegisterFormValues) => {
     restForm.mentoringCategories = MENTOR_CATEGORIES.filter((category) =>
       mentorCategories.includes(category.text)
     ).map((category) => category.value);
-    values = { ...values, ...restForm };
-    const blob = new Blob([JSON.stringify(values)], {
-      type: "application/json",
-    });
-    console.log(values);
-    formData.append("mentor", blob);
-    formData.append("file", file.data!);
-    const { data, status } = await applyMentor<ApplyMnetorResponse>(
-      memberId,
-      formData
-    );
-    setLocalUser({ mentorId: data.id });
-    dispatch(setUser(localUser()));
+
+    createFormData(values, restForm);
+
     // router.push("/");
   };
 
+  const createFormData = (
+    values: MentorRegisterFormValues,
+    restForm: RestFormValues
+  ) => {
+    const formValues = { ...values, ...restForm };
+    const blob = new Blob([JSON.stringify(formValues)], {
+      type: "application/json",
+    });
+    console.log(formValues);
+    formData.append("mentor", blob);
+    formData.append("file", file.data!);
+  };
+
+  // const registerMentor = async () => {
+  //   const { data, status } = await applyMentor<RegisterMentorResponse>(
+  //     memberId,
+  //     formData
+  //   );
+  //   setLocalUser({ mentorId: data.id });
+  //   dispatch(setUser(localUser()));
+  // };
+
   const formik = useFormik({
-    initialValues: mentorApplyFormValues,
-    onSubmit: (values: MentorApplyFormValues) => handleSignUpSubmit(values),
-    validationSchema: MentorApplyFormSchema,
+    initialValues: MentorRegisterFormValues,
+    onSubmit: (values: MentorRegisterFormValues) => handleSignUpSubmit(values),
+    validationSchema: MentorRegisterFormSchema,
   });
 
   const [mentorCategories, setMentorCategories] = useState<string[]>([
@@ -229,7 +241,7 @@ const MentorApplyFormPage = () => {
   );
 };
 
-interface MentorApplyFormValues {
+interface MentorRegisterFormValues {
   company: string;
   introduction: string;
   jobName: string;
@@ -242,7 +254,7 @@ interface RestFormValues {
   mentoringCategories: string[];
 }
 
-const mentorApplyFormValues = {
+const MentorRegisterFormValues = {
   company: "",
   introduction: "",
   jobName: "",
@@ -255,10 +267,10 @@ const initialRestForm: RestFormValues = {
   mentoringCategories: [],
 };
 
-const MentorApplyFormSchema = Yup.object().shape({
+const MentorRegisterFormSchema = Yup.object().shape({
   company: Yup.string().required("Required"),
   introduction: Yup.string().required("Required"),
   jobName: Yup.string().required("Required"),
 });
 
-export default MentorApplyFormPage;
+export default MentorRegisterForm;

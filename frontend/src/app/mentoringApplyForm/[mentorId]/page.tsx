@@ -59,7 +59,10 @@ const MentoringApplyFormPage = () => {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [isAllFilled, setIsAllFilled] = useState(false);
   const { mentorId } = useParams();
-  const { data, refetch } = useScheduleQuery(formattedDate(date));
+  const { data, refetch } = useScheduleQuery(
+    parseInt(mentorId)!,
+    formattedDate(date)
+  );
 
   const handleSubmit = () => {};
 

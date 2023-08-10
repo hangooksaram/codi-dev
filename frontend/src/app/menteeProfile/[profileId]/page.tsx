@@ -6,3 +6,5 @@ const MenteeProfilePage = () => {
 
   return <MenteeProfile profileId={parseInt(profileId)} />;
 };
+
+export default MenteeProfilePage;

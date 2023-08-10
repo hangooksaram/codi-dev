@@ -1,9 +1,9 @@
-import { GetMentorsParameters, applyMentorBody } from "@/types/api/mentor";
+import { GetMentorsParameters, RegisterMentorBody } from "@/types/api/mentor";
 import customAxios from "./customAxios";
 import { AxiosResponse } from "axios";
 import { handleApiError } from "@/utils/api";
 
-export const applyMentor = async <T>(memberId: string, mentor: FormData) => {
+export const registerMentor = async <T>(memberId: string, mentor: FormData) => {
   try {
     const { data, status }: AxiosResponse<T> = await customAxios.post(
       `/mentors/${memberId}`,

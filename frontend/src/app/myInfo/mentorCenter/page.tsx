@@ -36,7 +36,10 @@ const MentorCenterPage = () => {
       <Typography variant="div" size={theme.fonts.size.md}>
         멘티를 가장 잘 이해하는 멘토가 되어주세요
       </Typography>
-      <Button variant="default" onClick={() => router.push("/mentorApplyForm")}>
+      <Button
+        variant="default"
+        onClick={() => router.push("/mentorRegisterForm")}
+      >
         멘토 신청하기
       </Button>
     </FlexBox>

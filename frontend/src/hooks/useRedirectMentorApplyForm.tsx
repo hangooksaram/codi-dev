@@ -3,7 +3,7 @@ import { redirect, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
-const useRedirectMentorApplyForm = () => {
+const useRedirectMentorRegisterForm = () => {
   const user = useSelector(selectUser);
   const router = useRouter();
   useEffect(() => {
@@ -12,4 +12,4 @@ const useRedirectMentorApplyForm = () => {
   }, []);
 };
 
-export default useRedirectMentorApplyForm;
+export default useRedirectMentorRegisterForm;

@@ -79,17 +79,21 @@ const ProfileFormPage = () => {
   });
 
   const handleProfileSubmit = async (values: ProfileFormValues) => {
+    processData();
+    createFormData(values, restForm);
+
+    if (isEdit) {
+      editProfile();
+    } else registerProfile();
+  };
+
+  const processData = () => {
     if (bigEducationCategory !== "대학교") {
       restForm.education = bigEducationCategory;
     }
     restForm.employmentStatus = EMPLOYMENT_STATUSES_VALUE.get(
       restForm.employmentStatus
     );
-    createFormData(values, restForm);
-
-    if (isEdit) {
-      editProfile();
-    } else registerProfile();
   };
 
   const createFormData = (
@@ -117,7 +121,7 @@ const ProfileFormPage = () => {
       dispatch(setUser(localUser()));
       if (submitType === "complete") {
         router.push("/");
-      } else router.push("/mentorApplyForm");
+      } else router.push("/mentorRegisterForm");
     };
 
     handleApiCallback(status!, signInSuccessCallback, () =>

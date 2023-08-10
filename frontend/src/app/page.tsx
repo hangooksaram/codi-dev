@@ -20,7 +20,7 @@ const MainLandingPage = () => {
   const user = useSelector(selectUser);
   const goToApply = () => {
     if (!user.id) router.push("/signin");
-    else if (user.profileId) router.push("/mentorApplyForm");
+    else if (user.profileId) router.push("/mentorRegisterForm");
     else router.push("/profileForm");
   };
   return (
@@ -44,7 +44,7 @@ const MainLandingPage = () => {
           {!user.mentorId ? (
             <Button
               onClick={() => {
-                router.push("/mentorApplyForm");
+                router.push("/mentorRegisterForm");
               }}
               variant="default"
             >
