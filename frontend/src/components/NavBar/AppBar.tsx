@@ -62,6 +62,7 @@ const AppBar = () => {
                   categories={PROFILE_MENU}
                   selectedCategory={selected!}
                   setSelectedCategory={setSelected}
+                  left
                 >
                   {user.imgUrl ? (
                     <AppBarProfile src={user.imgUrl!} />

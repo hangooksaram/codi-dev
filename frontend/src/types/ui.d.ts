@@ -61,6 +61,6 @@ export interface Dropdown {
   invalid?: boolean | undefined;
   selectedCategory: string | number;
   children?: ReactNode;
-
+  left?: boolean;
   setSelectedCategory: (category: T) => void;
 }
