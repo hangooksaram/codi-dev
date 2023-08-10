@@ -250,7 +250,7 @@ const MentorRegisterForm = () => {
               type="button"
               variant="square"
               {...{ minWidth: "fit-content" }}
-              disabled={isEdit}
+              disabled={isEdit !== null}
             >
               등록하기
             </Button>

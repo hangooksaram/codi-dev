@@ -199,7 +199,7 @@ const ProfileFormPage = () => {
               variant="square"
               type="button"
               onClick={() => document.getElementById("profileImage")?.click()}
-              disabled={isEdit}
+              disabled={isEdit !== null}
               {...{ marginLeft: "10px" }}
             >
               등록하기
