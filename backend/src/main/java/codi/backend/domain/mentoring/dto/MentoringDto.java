@@ -48,6 +48,17 @@ public class MentoringDto {
     }
 
     @Getter
+    public static class MentoringLinkRequest {
+        @NotNull
+        @ApiModelProperty(example = "링크")
+        private String link;
+
+        @NotNull
+        @ApiModelProperty(example = "멘토링 플랫폼")
+        private String platform;
+    }
+
+    @Getter
     @Setter
     @NoArgsConstructor
     @AllArgsConstructor
@@ -57,6 +68,22 @@ public class MentoringDto {
         private String status;
         private String applicationReason;
         private Double rating;
-        private ScheduleDto.ScheduleResponse scheduleResponse;
+        private ScheduleDto.ScheduleDailyResponse scheduleResponse;
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class MentoringApplicationResponse {
+        private Long id;
+        private String name;
+        private String employmentStatus;
+        private String disability;
+        private String severity;
+        private String applicationDate;
+        private String applicationReason;
+
     }
 }

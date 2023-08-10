@@ -74,8 +74,23 @@ public class MentorDto {
         @ApiModelProperty(example = "멘토 아이디")
         private Long id;
 
+        @ApiModelProperty(example = "이름")
+        private String name;
+
+        @ApiModelProperty(example = "나이")
+        private Integer age;
+
         @ApiModelProperty(example = "프로필 이미지")
         private String imgUrl;
+
+        @ApiModelProperty(example = "장애 구분")
+        private String disability;
+
+        @ApiModelProperty(example = "중증도")
+        private String severity;
+
+        @ApiModelProperty(example = "최종 학력")
+        private String education;
 
         @ApiModelProperty(example = "재직증명서 링크")
         private String fileUrl;

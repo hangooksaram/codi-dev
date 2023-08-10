@@ -23,6 +23,7 @@ public class JobRecommendationServiceImpl implements JobRecommendationService {
     private final ProfileRepository profileRepository;
     private final JobRecommendationRepository jobRecommendationRepository;
 
+    // TODO change member, profile service DI
     public JobRecommendationServiceImpl(MemberRepository memberRepository, ProfileRepository profileRepository, JobRecommendationRepository jobRecommendationRepository) {
         this.memberRepository = memberRepository;
         this.profileRepository = profileRepository;

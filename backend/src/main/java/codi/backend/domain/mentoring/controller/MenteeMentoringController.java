@@ -33,8 +33,8 @@ public class MenteeMentoringController {
     public ResponseEntity applyMentoring(@PathVariable("profile-id") Long profileId,
                                          @PathVariable("mentor-id") Long mentorId,
                                          @Valid @RequestBody MentoringDto.MentoringPost mentoringPostDto) {
-        MentoringDto.MentoringResponse response = mentoringMapper.mentoringToMentoringResponse(mentoringService.createMentoring(profileId, mentorId, mentoringPostDto));
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        mentoringService.createMentoring(profileId, mentorId, mentoringPostDto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     // 멘토링 신청 취소 PATCH

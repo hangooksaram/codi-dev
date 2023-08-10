@@ -5,6 +5,9 @@ import codi.backend.domain.mentor.entity.Mentor;
 import codi.backend.domain.profile.entity.Profile;
 import org.mapstruct.Mapper;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +54,17 @@ public interface MentorMapper {
             return null;
         }
 
+        // 이름, 나이
+        String name = mentor.getMember().getName();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        LocalDate birthDate = LocalDate.parse(mentor.getMember().getBirth(), formatter);
+        Integer age = Period.between(birthDate, LocalDate.now()).getYears();
+
+        // 이미지, 학력
         String imgUrl = mentor.getMember().getProfile().getImgUrl();
+        String disability = mentor.getMember().getProfile().getDisability();
+        String severity = mentor.getMember().getProfile().getSeverity();
+        String education = mentor.getMember().getProfile().getEducation();
 
         List<String> mentoringCategories = new ArrayList<>(4);
         for (Mentor.MentoringCategory mentoringCategory : mentor.getMentoringCategories()) {
@@ -60,9 +73,14 @@ public interface MentorMapper {
 
         return MentorDto.MentorResponse.builder()
                 .id(mentor.getId())
+                .name(name)
+                .age(age)
                 .imgUrl(imgUrl)
+                .disability(disability)
+                .severity(severity)
                 .fileUrl(mentor.getFileUrl())
                 .isCertificate(mentor.getIsCertificate())
+                .education(education)
                 .company(mentor.getCompany())
                 .job(mentor.getJob())
                 .career(mentor.getCareer())

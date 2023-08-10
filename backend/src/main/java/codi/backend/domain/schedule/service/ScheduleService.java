@@ -10,4 +10,6 @@ public interface ScheduleService {
     void registerSchedule(Long mentorId, ScheduleDto.SchedulePostDto schedule);
     Schedule findSchedule(Mentor mentor, LocalDateTime startTime, LocalDateTime endTime);
     void checkScheduleMentoring(Schedule schedule);
+    ScheduleDto.ScheduleDailyResponse findDailySchedules(Long mentorId, String date);
+    ScheduleDto.ScheduleMonthlyResponse findMonthlySchedules(Long mentorId, String month);
 }

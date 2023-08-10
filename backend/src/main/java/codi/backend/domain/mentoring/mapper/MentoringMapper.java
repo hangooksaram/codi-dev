@@ -12,18 +12,12 @@ public interface MentoringMapper {
             return null;
         }
 
-        ScheduleDto.ScheduleResponse scheduleResponse = ScheduleDto.ScheduleResponse.builder()
-                .id(mentoring.getSchedule().getId())
-                .startDateTime(mentoring.getSchedule().getStartDateTime())
-                .endDateTime(mentoring.getSchedule().getEndDateTime())
-                .build();
-
         return MentoringDto.MentoringResponse.builder()
                 .id(mentoring.getId())
-                .status(mentoring.getStatus().getStatus())
+                .status(mentoring.getMentoringStatus().getStatus())
                 .applicationReason(mentoring.getApplicationReason())
                 .rating(mentoring.getRating())
-                .scheduleResponse(scheduleResponse)
+                .scheduleResponse(null)
                 .build();
     }
 }

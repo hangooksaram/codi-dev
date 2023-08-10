@@ -83,7 +83,7 @@ public class Profile {
         JOBSEEKER("취업 준비생"),
         STUDENT("학생"),
         PREPARINGCHANGEJOB("이직 준비중"),
-        MENTEE("멘티");
+        MENTEE("표시하지 않음(멘티로 표시)");
 
         @Getter
         private final String employmentStatus;
