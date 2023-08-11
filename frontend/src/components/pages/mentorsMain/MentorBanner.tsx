@@ -1,9 +1,10 @@
 import Button from "@/ui/atoms/Button";
 import FlexBox from "@/ui/atoms/FlexBox";
 import Typography from "@/ui/atoms/Typography";
-import theme from "@/ui/theme";
+import theme, { device } from "@/ui/theme";
 import styled from "@emotion/styled";
 import { StyledImage } from "@/ui/atoms/StyledImage";
+import { css } from "@emotion/css";
 
 const MentorBanner = ({
   scrollToMentorList,
@@ -11,7 +12,15 @@ const MentorBanner = ({
   scrollToMentorList: Function;
 }) => {
   return (
-    <FlexBox {...{ backgroundColor: theme.colors.white }}>
+    <FlexBox
+      {...{ backgroundColor: theme.colors.white }}
+      className={css({
+        [device("tablet")]: {
+          flexDirection: "column-reverse",
+          rowGap: "10px",
+        },
+      })}
+    >
       <FlexBox width="90%" direction="column" rowGap="20px">
         <Typography variant="h1" size={theme.fonts.size.xl}>
           MEET YOUR MENTORS

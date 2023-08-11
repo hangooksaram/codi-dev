@@ -22,6 +22,8 @@ const TitleSection = ({
       variant="h1"
       size={theme.fonts.size.lg}
       weight={theme.fonts.weight.black}
+      wordBreak="keep-all"
+      align="center"
     >
       {title}
     </Typography>

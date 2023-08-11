@@ -49,6 +49,7 @@ export interface Typography {
   weight?: number;
   color?: string;
   align?: "left" | "right" | "center";
+  wordBreak?: "keep-all" | "initial" | "break-all";
   children: string | number;
 }
 

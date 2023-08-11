@@ -5,9 +5,10 @@ import Search from "@icons/common/search.svg";
 import { Dispatch, SetStateAction, useState } from "react";
 import Input from "@/ui/atoms/Input";
 import Button from "@/ui/atoms/Button";
-import theme from "@/ui/theme";
+import theme, { device } from "@/ui/theme";
 import { CAREERS, DISABILITIES, JOBS } from "@/constants";
 import { GetMentorsParameters } from "@/types/api/mentor";
+import { css } from "@emotion/css";
 
 const MentorSearch = ({
   query,
@@ -19,8 +20,25 @@ const MentorSearch = ({
   refetch: () => void;
 }) => {
   return (
-    <FlexBox justifyContent="flex-start" columnGap="10px">
-      <FlexBox width="60%" columnGap="10px">
+    <FlexBox
+      justifyContent="flex-start"
+      columnGap="10px"
+      className={css({
+        [device("tablet")]: {
+          flexDirection: "column",
+          rowGap: "10px",
+        },
+      })}
+    >
+      <FlexBox
+        width="60%"
+        columnGap="10px"
+        className={css({
+          [device("tablet")]: {
+            width: "100%",
+          },
+        })}
+      >
         <Dropdown
           width="30%"
           title="장애구분"
@@ -45,7 +63,15 @@ const MentorSearch = ({
           setSelectedCategory={(career) => setQuery({ ...query, career })}
         />
       </FlexBox>
-      <FlexBox width="40%" columnGap="10px">
+      <FlexBox
+        width="40%"
+        columnGap="10px"
+        className={css({
+          [device("tablet")]: {
+            width: "100%",
+          },
+        })}
+      >
         <IconInputContainer iconComponent={<Search />}>
           <Input outline />
         </IconInputContainer>
