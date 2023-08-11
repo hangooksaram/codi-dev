@@ -8,7 +8,7 @@ const Mentorings = ({ mentorings }: { mentorings: any[] }) => {
   const completed = false;
   const accepted = false;
 
-  return mentorings.map(({ date, times }, index) => {
+  return mentorings?.map(({ date, times }, index) => {
     return (
       <div className={css({ width: "100%", marginBottom: "30px" })} key={index}>
         <Chip color={chipColor(completed, accepted)}>{date}</Chip>

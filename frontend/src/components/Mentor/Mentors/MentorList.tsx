@@ -1,5 +1,3 @@
-import { Mentor } from "@/types/mentor";
-
 import Grid from "@/ui/atoms/Grid";
 import theme, { device } from "@/ui/theme";
 import { css } from "@emotion/css";
@@ -8,9 +6,10 @@ import Typography from "@/ui/atoms/Typography";
 import styled from "@emotion/styled";
 import FlexBox from "@/ui/atoms/FlexBox";
 import ProfileCard from "@/components/Profile/ProfileCard";
+import { Mentor } from "@/types/profile";
 
 const MentorList = ({ mentors }: { mentors: Mentor[] }) => {
-  if (mentors.length === 0)
+  if (!mentors)
     return (
       <NoResultCard>
         <FlexBox {...{ height: "100%" }}>
@@ -35,7 +34,6 @@ const MentorList = ({ mentors }: { mentors: Mentor[] }) => {
     >
       {mentors!.map(
         ({
-          id,
           mentorId,
           name,
           job,

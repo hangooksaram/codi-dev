@@ -12,6 +12,7 @@ export interface MenteeProfile {
   favorites?: [];
 }
 export interface Mentor extends MenteeProfile {
+  mentorId?: number;
   fileUrl?: null;
   isCertificate?: boolean;
   company?: string;
