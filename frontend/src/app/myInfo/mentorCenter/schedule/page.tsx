@@ -5,9 +5,7 @@ import MentoringsWithSingleCalendar from "@/components/Mentoring/MentoringsWithS
 import MentorScheduleEdit from "@/components/Schedule/Mentor/MentorScheduleEdit";
 import MentorSchedules from "@/components/Schedule/Mentor/MentorSchedules";
 import { selectUser } from "@/features/user/userSlice";
-
-import useMentoringsQuery from "@/queries/mentoringQuery";
-import { useMonthlySchedulesQuery } from "@/queries/scheduleQuery";
+import { useMonthlyMentoringsQuery } from "@/queries/mentoring/commonMentoringQuery";
 import Button from "@/ui/atoms/Button";
 
 import LabelBox from "@/ui/molecules/LabelBox";
@@ -21,7 +19,10 @@ const SchedulePage = () => {
   const { mentorId } = useSelector(selectUser);
   const [type, setType] = useState<"mentor" | "mentee">("mentee");
   const [isEdit, setIsEdit] = useState(false);
-  const { mentorings, refetch } = useMentoringsQuery(formattedDate(date));
+  const { mentorings, refetch } = useMonthlyMentoringsQuery({
+    mentorId: mentorId!,
+    month: formattedMonth(date),
+  });
 
   const toggleEditState = () => {
     setType((prev) => (prev === "mentor" ? "mentee" : "mentor"));

@@ -1,10 +1,6 @@
-import { handleApiError } from "@/utils/api";
-import customAxios from "./customAxios";
 import { ApplyMentoringBody } from "@/types/api/mentoring";
-
-export const getMentoringsByMonth = async (date: string) => {
-  return (await customAxios.get(`/mock/${date}`)).data;
-};
+import customAxios from "../customAxios";
+import { handleApiError } from "@/utils/api";
 
 export const applyMentoring = async (
   profileId: number,

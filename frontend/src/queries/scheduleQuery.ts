@@ -11,8 +11,10 @@ export const GET_DAILY_SCHEDULES_KEY = ["dailyScheules"];
 export const GET_MONTHLY_SCHEDULES_KEY = ["monthlyScheules"];
 export const ADD_SCHEDULES_KEY = ["addSchedule"];
 const useDailySchedulesQuery = (mentorId: number, date: string) => {
-  return useQuery(GET_DAILY_SCHEDULES_KEY.concat(date), () =>
-    getDailySchedules(mentorId, date)
+  return useQuery(
+    GET_DAILY_SCHEDULES_KEY.concat(date),
+    () => getDailySchedules(mentorId, date),
+    { enabled: mentorId !== null }
   );
 };
 
