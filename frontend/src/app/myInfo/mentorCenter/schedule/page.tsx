@@ -4,20 +4,24 @@ import SingleCalendar from "@/components/Calendar/SingleCalendar";
 import MentoringsWithSingleCalendar from "@/components/Mentoring/MentoringsWithSingleCalendar";
 import MentorScheduleEdit from "@/components/Schedule/Mentor/MentorScheduleEdit";
 import MentorSchedules from "@/components/Schedule/Mentor/MentorSchedules";
+import { selectUser } from "@/features/user/userSlice";
 
-import useGetMentoringsQuery from "@/queries/mentoringQuery";
+import useMentoringsQuery from "@/queries/mentoringQuery";
+import { useMonthlySchedulesQuery } from "@/queries/scheduleQuery";
 import Button from "@/ui/atoms/Button";
 
 import LabelBox from "@/ui/molecules/LabelBox";
-import formattedDate from "@/utils/dateFormat";
+import formattedDate, { formattedMonth } from "@/utils/dateFormat";
 
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const SchedulePage = () => {
   const [date, setDate] = useState<Date>();
+  const { mentorId } = useSelector(selectUser);
   const [type, setType] = useState<"mentor" | "mentee">("mentee");
   const [isEdit, setIsEdit] = useState(false);
-  const { mentorings, refetch } = useGetMentoringsQuery(formattedDate(date));
+  const { mentorings, refetch } = useMentoringsQuery(formattedDate(date));
 
   const toggleEditState = () => {
     setType((prev) => (prev === "mentor" ? "mentee" : "mentor"));
@@ -27,7 +31,7 @@ const SchedulePage = () => {
 
   useEffect(() => {
     if (date) {
-      refetch();
+      // refetch();
     }
   }, [date]);
   return (
@@ -39,6 +43,7 @@ const SchedulePage = () => {
           disabled={date && date?.getDate() < new Date().getDate()}
           onClick={toggleEditState}
           variant="default"
+          {...{ minWidth: "fit-content" }}
         >
           일정편집
         </Button>

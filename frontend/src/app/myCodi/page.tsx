@@ -1,7 +1,7 @@
 "use client";
 
 import MentoringsWithSingleCalendar from "@/components/Mentoring/MentoringsWithSingleCalendar";
-import useGetMentoringsQuery from "@/queries/mentoringQuery";
+import useMentoringsQuery from "@/queries/mentoringQuery";
 import FlexBox from "@/ui/atoms/FlexBox";
 import LabelBox from "@/ui/molecules/LabelBox";
 import formattedDate from "@/utils/dateFormat";
@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 
 const MyCodiPage = () => {
   const [date, setDate] = useState<Date>();
-  const { mentorings, refetch } = useGetMentoringsQuery(formattedDate(date));
+  const { mentorings, refetch } = useMentoringsQuery(formattedDate(date));
 
   useEffect(() => {
     if (date) {

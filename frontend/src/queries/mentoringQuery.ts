@@ -5,7 +5,7 @@ import { useState } from "react";
 
 export const GET_MENTORINGS_FROM_TODAY_KEY = ["mentorings"];
 
-const useGetMentoringsQuery = (dateQuery: string) => {
+const useMentoringsQuery = (dateQuery: string) => {
   const { data, isSuccess, refetch } = useQuery(
     GET_MENTORINGS_FROM_TODAY_KEY.concat(dateQuery),
     () => getMentoringsByMonth(dateQuery)
@@ -67,4 +67,4 @@ const useGetMentoringsQuery = (dateQuery: string) => {
   return { mentorings, isSuccess, refetch };
 };
 
-export default useGetMentoringsQuery;
+export default useMentoringsQuery;

@@ -1,6 +1,7 @@
 import { SCHEDULE_TIME_TABLE } from "@/constants";
 import { selectUser } from "@/features/user/userSlice";
 import { useScheduleMutation } from "@/queries/scheduleQuery";
+import { ScheduleTime } from "@/types/schedule";
 
 import Button from "@/ui/atoms/Button";
 import Card from "@/ui/atoms/Card";
@@ -35,7 +36,7 @@ const MentorScheduleEdit = ({
 
   const patchMentorSchedule = () => {
     // toggleEditState();
-    const times: { time: string }[] = selecteds.map((time) => {
+    const times: ScheduleTime[] = selecteds.map((time) => {
       return { time };
     });
     addSchedule.mutate({ date: date!, times: times! });

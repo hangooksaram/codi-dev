@@ -6,9 +6,8 @@ import LabelBox from "@/ui/molecules/LabelBox";
 import theme from "@/ui/theme";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import useScheduleQuery from "@/queries/scheduleQuery";
+import useDailySchedulesQuery from "@/queries/scheduleQuery";
 import formattedDate from "@/utils/dateFormat";
-import { Status } from "@/types/mentoring";
 import Button from "@/ui/atoms/Button";
 import FormInputContainer from "@/ui/molecules/Input/FormInput";
 import Textarea from "@/ui/atoms/Textarea";
@@ -16,26 +15,6 @@ import ContainerWithBackground from "@/ui/molecules/Container/ContainerWithBackg
 import Typography from "@/ui/atoms/Typography";
 import useRestForm from "@/hooks/useRestForm";
 import ChipButton from "@/ui/atoms/ChipButton";
-
-const mockData = [
-  {
-    date: formattedDate(new Date()),
-    times: [
-      {
-        time: "10:00 - 10:50",
-        status: "ACCEPTED" as Status,
-      },
-      {
-        time: "11:00 - 11:50",
-        status: "APPLICATION" as Status,
-      },
-      {
-        time: "12:00 - 12:50",
-        status: "APPLICATION" as Status,
-      },
-    ],
-  },
-][0];
 
 interface MentoringApplyBody {
   profileId: number;
@@ -59,7 +38,7 @@ const MentoringApplyFormPage = () => {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [isAllFilled, setIsAllFilled] = useState(false);
   const { mentorId } = useParams();
-  const { data, refetch } = useScheduleQuery(
+  const { data, refetch } = useDailySchedulesQuery(
     parseInt(mentorId)!,
     formattedDate(date)
   );
@@ -102,7 +81,7 @@ const MentoringApplyFormPage = () => {
                 columnGap="15px"
                 rowGap="15px"
               >
-                {mockData.times.map(({ time, status }, index) => {
+                {/* {mockData.times.map(({ time, status }, index) => {
                   const scheduled = status === "ACCEPTED";
                   return (
                     <ChipButton
@@ -124,7 +103,7 @@ const MentoringApplyFormPage = () => {
                       {time}
                     </ChipButton>
                   );
-                })}
+                })} */}
               </FlexBox>
             </CalendarContainer>
           </LabelBox>

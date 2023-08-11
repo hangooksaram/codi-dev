@@ -1,8 +1,14 @@
 import { Schedule } from "@/types/schedule";
 import customAxios from "./customAxios";
 
-export const getSchedules = async (mentorId: number, date: string) => {
-  return (await customAxios.get(`/${mentorId}/${date}`)).data;
+export const getDailySchedules = async (mentorId: number, date: string) => {
+  return (await customAxios.get(`/schedule/daily/${mentorId}?date=${date}`))
+    .data;
+};
+
+export const getMonthlySchedules = async (mentorId: number, date: string) => {
+  return (await customAxios.get(`/schedule/monthly/${mentorId}?month=${date}`))
+    .data;
 };
 
 export const addSchedule = async (mentorId: number, schedule: Schedule) => {
