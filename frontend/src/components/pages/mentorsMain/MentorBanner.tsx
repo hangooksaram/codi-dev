@@ -13,13 +13,13 @@ const MentorBanner = ({
 }) => {
   return (
     <FlexBox
-      {...{ backgroundColor: theme.colors.white }}
-      className={css({
+      {...{
+        backgroundColor: theme.colors.white,
         [device("tablet")]: {
           flexDirection: "column-reverse",
           rowGap: "10px",
         },
-      })}
+      }}
     >
       <FlexBox width="90%" direction="column" rowGap="20px">
         <Typography variant="h1" size={theme.fonts.size.xl}>

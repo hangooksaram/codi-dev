@@ -4,6 +4,7 @@ import FlexBox from "@/ui/atoms/FlexBox";
 import Content from "./Content";
 import Header from "./Header";
 import { ProfileCard } from "@/types/profile";
+import { device } from "@/ui/theme";
 
 const ProfileCard = ({
   width,
@@ -60,6 +61,9 @@ const ProfileCard = ({
 const CardContainer = styled(Card)(({ imgUrl }: { imgUrl: string }) => ({
   background: `url(${imgUrl}) no-repeat center`,
   backgroundSize: "cover",
+  [device("tablet")]: {
+    width: "100%",
+  },
 }));
 
 export default ProfileCard;

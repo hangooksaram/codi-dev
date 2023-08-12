@@ -23,21 +23,21 @@ const MentorSearch = ({
     <FlexBox
       justifyContent="flex-start"
       columnGap="10px"
-      className={css({
+      {...{
         [device("tablet")]: {
           flexDirection: "column",
           rowGap: "10px",
         },
-      })}
+      }}
     >
       <FlexBox
         width="60%"
         columnGap="10px"
-        className={css({
+        {...{
           [device("tablet")]: {
             width: "100%",
           },
-        })}
+        }}
       >
         <Dropdown
           width="30%"
@@ -66,11 +66,11 @@ const MentorSearch = ({
       <FlexBox
         width="40%"
         columnGap="10px"
-        className={css({
+        {...{
           [device("tablet")]: {
             width: "100%",
           },
-        })}
+        }}
       >
         <IconInputContainer iconComponent={<Search />}>
           <Input outline />

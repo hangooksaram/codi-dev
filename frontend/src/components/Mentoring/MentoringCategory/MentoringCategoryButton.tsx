@@ -1,5 +1,5 @@
 import Button from "@/ui/atoms/Button";
-import theme from "@/ui/theme";
+import theme, { device } from "@/ui/theme";
 import styled from "@emotion/styled";
 const MentorCategoryButton = styled(Button)(
   ({ selected }: { selected?: boolean }) => ({
@@ -15,6 +15,10 @@ const MentorCategoryButton = styled(Button)(
     background: selected ? theme.colors.primary : theme.colors.white,
     boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.04)",
     color: selected ? theme.colors.white : theme.colors.primary,
+    [device("tablet")]: {
+      width: "90px",
+      height: "90px",
+    },
   })
 );
 

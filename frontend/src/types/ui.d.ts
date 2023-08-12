@@ -43,6 +43,13 @@ export interface FlexBox {
   isWrap?: boolean | undefined;
 }
 
+export interface Card {
+  width?: string;
+  height?: string;
+  color?: string;
+  padding?: string;
+}
+
 export interface Typography {
   variant: "div" | "span" | "h1" | "h2" | "h3" | "label";
   size?: string;

@@ -13,7 +13,7 @@ import FlexBox from "@/ui/atoms/FlexBox";
 import Grid from "@/ui/atoms/Grid";
 import Typography from "@/ui/atoms/Typography";
 import LabelBox from "@/ui/molecules/LabelBox";
-import theme from "@/ui/theme";
+import theme, { device } from "@/ui/theme";
 import { css } from "@emotion/css";
 import styled from "@emotion/styled";
 import { useSelector } from "react-redux";
@@ -24,7 +24,16 @@ const MentorProfilePage = () => {
   console.log(mentor);
   return (
     <Card color={theme.colors.background} padding="30px" height="auto">
-      <FlexBox alignItems="flex-start" columnGap="20px" rowGap="20px">
+      <FlexBox
+        alignItems="flex-start"
+        columnGap="20px"
+        rowGap="20px"
+        {...{
+          [device("tablet")]: {
+            flexDirection: "column",
+          },
+        }}
+      >
         <ProfileCard
           name={mentor?.name}
           mentor={true}
@@ -46,9 +55,12 @@ const MentorProfilePage = () => {
         />
         <Card
           padding="45px 0px 0px 45px"
-          className={css`
-            min-height: 477px;
-          `}
+          className={css({
+            minHeight: "477px",
+            [device("tablet")]: {
+              padding: "30px !important",
+            },
+          })}
         >
           <FlexBox
             direction="column"
@@ -74,6 +86,12 @@ const MentorProfilePage = () => {
                 justifyContent="flex-start"
                 alignItems="center"
                 columnGap="10px"
+                {...{
+                  [device("tablet")]: {
+                    rowGap: "10px",
+                    flexWrap: "wrap",
+                  },
+                }}
               >
                 {MENTOR_CATEGORIES.filter((category) =>
                   mentor?.mentoringCategories?.find((c) => c === category.text)
@@ -88,19 +106,35 @@ const MentorProfilePage = () => {
           </FlexBox>
         </Card>
       </FlexBox>
-      <FlexBox columnGap="20px" alignItems="flex-start">
+      <FlexBox
+        columnGap="20px"
+        alignItems="flex-start"
+        {...{
+          [device("tablet")]: {
+            flexDirection: "column",
+          },
+        }}
+      >
         <Card
           width="313px"
           height="150px"
-          className={css`
-            min-height: 150px;
-            margin-top: 20px;
-          `}
+          className={css({
+            minHeight: "150px",
+            marginTop: "20px",
+            [device("tablet")]: {
+              width: "100%",
+            },
+          })}
         >
           <FlexBox
             alignItems="center"
-            {...{ height: "100%" }}
             justifyContent="space-between"
+            {...{
+              height: "100%",
+              [device("tablet")]: {
+                width: "90%",
+              },
+            }}
           >
             {[
               { text: "멘토링 횟수", value: "0회" },
