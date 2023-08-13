@@ -14,6 +14,7 @@ import codi.backend.global.exception.ExceptionCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -127,5 +128,19 @@ public class MenteeMentoringServiceImpl implements MenteeMentoringService {
         if (mentoring.getRating() != null) {
             throw new BusinessLogicException(ExceptionCode.ALREADY_RATED_MENTORING);
         }
+    }
+
+    @Override
+    public MentoringDto.MentoringDailyMentorsResponse findDailyMentoringsOfMentee(Long profileId, String date) {
+        Profile profile = profileService.findProfile(profileId);
+        LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+        return mentoringRepository.findDailyMentoringsOfMentee(profile, localDate);
+    }
+
+    @Override
+    public MentoringDto.MentoringMonthlyMentorsResponse findMonthlyMentoringsOfMentee(Long profileId, String month) {
+        Profile profile = profileService.findProfile(profileId);
+        LocalDate localDateMonth = LocalDate.parse(month + "/01", DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+        return mentoringRepository.findMonthlyMentoringsOfMentee(profile, localDateMonth);
     }
 }

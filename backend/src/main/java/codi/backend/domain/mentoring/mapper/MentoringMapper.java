@@ -7,17 +7,4 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface MentoringMapper {
-    default MentoringDto.MentoringResponse mentoringToMentoringResponse(Mentoring mentoring) {
-        if (mentoring == null) {
-            return null;
-        }
-
-        return MentoringDto.MentoringResponse.builder()
-                .id(mentoring.getId())
-                .status(mentoring.getMentoringStatus().getStatus())
-                .applicationReason(mentoring.getApplicationReason())
-                .rating(mentoring.getRating())
-                .scheduleResponse(null)
-                .build();
-    }
 }

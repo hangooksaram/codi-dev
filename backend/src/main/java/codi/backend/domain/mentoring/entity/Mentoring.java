@@ -49,6 +49,7 @@ public class Mentoring {
     @JoinColumn(name = "schedule_id")
     private Schedule schedule;
 
+    @JsonFormat(shape = JsonFormat.Shape.OBJECT)
     public enum MentoringStatus {
         APPLICATION("신청"),
         ACCEPTED("수락"),

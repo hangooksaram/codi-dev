@@ -4,11 +4,17 @@ import codi.backend.domain.member.dto.GaraDto;
 import codi.backend.domain.member.entity.Member;
 import codi.backend.domain.member.repository.MemberRepository;
 import codi.backend.domain.member.utils.CustomAuthorityUtils;
+import codi.backend.domain.mentor.entity.Mentor;
+import codi.backend.domain.profile.entity.Profile;
 import codi.backend.global.exception.BusinessLogicException;
 import codi.backend.global.exception.ExceptionCode;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -63,13 +69,22 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public GaraDto.LoginResponse loginMember(GaraDto.LoginDto loginDto) {
         Member findMember = findMember(loginDto.getId());
+        Profile profile = findMember.getProfile();
+        Mentor mentor = findMember.getMentor();
+
+        List<Long> favorites = profile != null ? profile.getFavorites()
+                .stream()
+                .map(f -> f.getMentor().getId())
+                .collect(Collectors.toList()) : null;
+
         isValidPassword(findMember, loginDto.getPassword());
 
         return GaraDto.LoginResponse.builder()
                 .id(findMember.getId())
-                .profileId(findMember.getProfile() != null ? findMember.getProfile().getId() : null)
-                .mentorId(findMember.getMentor() != null ? findMember.getMentor().getId() : null)
-                .imgUrl(findMember.getProfile() != null && findMember.getProfile().getImgUrl() != null ? findMember.getProfile().getImgUrl() : null)
+                .profileId(profile != null ? profile.getId() : null)
+                .mentorId(mentor != null ? mentor.getId() : null)
+                .imgUrl(profile != null ? profile.getImgUrl() : null)
+                .favorites(favorites)
                 .build();
     }
 

@@ -16,6 +16,8 @@ public enum ExceptionCode {
     DUPLICATED_ID(400, "ID is already in use."),
     DUPLICATE_EMAIL(400, "Email is already in use."),
     INVALID_PASSWORD(400, "Password is not valid."),
+    MENTOR_EXIST(400, "You are already mentor."),
+    PROFILE_EXIST(400, "You already have profile."),
 
     // File
     INVALID_DIRECTORY_NAME(400, "This directory name is invalid."),

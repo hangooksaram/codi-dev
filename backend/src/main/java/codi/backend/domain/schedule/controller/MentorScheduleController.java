@@ -33,15 +33,17 @@ public class MentorScheduleController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    // 스케줄 조회(월별) GET
-    @GetMapping("/monthly/{mentor-id}")
-    public ResponseEntity getMonthlySchedule(@PathVariable("mentor-id") Long mentorId, @RequestBody ScheduleDto.MonthlyRequest monthlyRequest) {
-        return new ResponseEntity<>(new SingleResponseDto<>(scheduleService.findMonthlySchedules(mentorId, monthlyRequest.getMonth())), HttpStatus.OK);
+    // 스케줄 조회(일별) GET
+    @ApiOperation(value = "Schedule 일별 조회", notes = "멘토가 특정 날짜의 스케줄을 조회할 수 있다.")
+    @GetMapping("/daily/{mentor-id}")
+    public ResponseEntity getDailySchedule(@PathVariable("mentor-id") Long mentorId, @Valid ScheduleDto.DailyRequest dailyRequest) {
+        return new ResponseEntity<>(new SingleResponseDto<>(scheduleService.findDailySchedules(mentorId, dailyRequest.getDate())), HttpStatus.OK);
     }
 
-    // 스케줄 조회(일별) GET
-    @GetMapping("/daily/{mentor-id}")
-    public ResponseEntity getDailySchedule(@PathVariable("mentor-id") Long mentorId, @RequestBody ScheduleDto.DailyRequest dailyRequest) {
-        return new ResponseEntity<>(new SingleResponseDto<>(scheduleService.findDailySchedules(mentorId, dailyRequest.getDate())), HttpStatus.OK);
+    // 스케줄 조회(월별) GET
+    @ApiOperation(value = "Schedule 월별 조회", notes = "멘토가 한 달간의 스케줄을 조회할 수 있다.")
+    @GetMapping("/monthly/{mentor-id}")
+    public ResponseEntity getMonthlySchedule(@PathVariable("mentor-id") Long mentorId, @Valid ScheduleDto.MonthlyRequest monthlyRequest) {
+        return new ResponseEntity<>(new SingleResponseDto<>(scheduleService.findMonthlySchedules(mentorId, monthlyRequest.getMonth())), HttpStatus.OK);
     }
 }

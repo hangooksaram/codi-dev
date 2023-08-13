@@ -3,6 +3,7 @@ package codi.backend.domain.profile.entity;
 import codi.backend.domain.favorite.entity.Favorite;
 import codi.backend.domain.member.entity.Member;
 import codi.backend.domain.mentoring.entity.Mentoring;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -50,7 +51,7 @@ public class Profile {
     private EmploymentStatus employmentStatus;
 
     @OneToOne
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "member_id", unique = true)
     private Member member;
 
     @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -79,10 +80,11 @@ public class Profile {
         mentoring.setProfile(null);
     }
 
+    @JsonFormat(shape = JsonFormat.Shape.OBJECT)
     public enum EmploymentStatus {
-        JOBSEEKER("취업 준비생"),
+        JOB_SEEKER("취업 준비생"),
         STUDENT("학생"),
-        PREPARINGCHANGEJOB("이직 준비중"),
+        PREPARING_CHANGE_JOB("이직 준비중"),
         MENTEE("표시하지 않음(멘티로 표시)");
 
         @Getter
@@ -90,6 +92,15 @@ public class Profile {
 
         EmploymentStatus(String employmentStatus) {
             this.employmentStatus = employmentStatus;
+        }
+
+        public static EmploymentStatus employmentStatusOf(String name) {
+            for (EmploymentStatus employmentStatus : EmploymentStatus.values()) {
+                if (employmentStatus.getEmploymentStatus().equals(name)) {
+                    return employmentStatus;
+                }
+            }
+            return null;
         }
     }
 

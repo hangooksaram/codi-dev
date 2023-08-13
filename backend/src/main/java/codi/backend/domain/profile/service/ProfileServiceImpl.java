@@ -1,5 +1,6 @@
 package codi.backend.domain.profile.service;
 
+import codi.backend.domain.favorite.entity.Favorite;
 import codi.backend.domain.member.entity.Member;
 import codi.backend.domain.member.repository.MemberRepository;
 import codi.backend.domain.member.service.MemberService;
@@ -13,9 +14,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-@Transactional
 @Service
 public class ProfileServiceImpl implements ProfileService{
     private final ProfileRepository profileRepository;
@@ -28,10 +31,14 @@ public class ProfileServiceImpl implements ProfileService{
         this.s3Service = s3Service;
     }
 
+    @Transactional
     @Override
     public Profile createProfile(String memberId, Profile profile, MultipartFile file) {
         Member member = memberService.findMember(memberId);
-        profile.setMember(member);
+
+        if (member.getProfile() != null) {
+            throw new BusinessLogicException(ExceptionCode.PROFILE_EXIST);
+        }
 
         Optional.ofNullable(file)
                 .filter(f -> !f.isEmpty())
@@ -40,6 +47,7 @@ public class ProfileServiceImpl implements ProfileService{
 
         // member에 profile 1:1 연결
         member.setProfile(profile);
+        profile.setMember(member);
 
         // profile DB 저장
         return profileRepository.save(profile);
@@ -55,6 +63,7 @@ public class ProfileServiceImpl implements ProfileService{
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.PROFILE_NOT_FOUND));
     }
 
+    @Transactional
     @Override
     public Profile updateProfileInformation(Long profileId, Profile profile, MultipartFile file) {
         Profile findProfile = findProfile(profileId);
@@ -96,6 +105,7 @@ public class ProfileServiceImpl implements ProfileService{
         if (inputProfile == null) {
             throw new BusinessLogicException(ExceptionCode.PROFILE_NOT_FOUND);
         }
+
         Optional.ofNullable(inputProfile.getJob())
                 .ifPresent(findProfile::setJob);
         Optional.ofNullable(inputProfile.getDesiredJob())
@@ -112,6 +122,7 @@ public class ProfileServiceImpl implements ProfileService{
                 .ifPresent(findProfile::setEmploymentStatus);
     }
 
+    @Transactional
     @Override
     public void deleteProfileImg(Long profileId) {
         Profile findProfile = findProfile(profileId);
@@ -121,5 +132,14 @@ public class ProfileServiceImpl implements ProfileService{
         } catch (NullPointerException e) {
             throw new BusinessLogicException(ExceptionCode.NOT_PROFILE_ERROR);
         }
+    }
+
+    @Override
+    public List<Long> getFavoriteMentorIds(Long profileId) {
+        Profile profile = findProfile(profileId);
+        Set<Favorite> favorites = profile.getFavorites();
+        return favorites.stream()
+                .map(f -> f.getMentor().getId())
+                .collect(Collectors.toList());
     }
 }

@@ -40,7 +40,7 @@ public class ProfileDto {
 
         @NotNull
         @ApiModelProperty(example = "멘티의 현재 상태를 입력하세요. 취업 준비생, 학생, 이직 준비중, 멘티 중 하나를 선택할 수 있습니다.")
-        private Profile.EmploymentStatus employmentStatus;
+        private String employmentStatus;
     }
 
     @Getter
@@ -65,7 +65,7 @@ public class ProfileDto {
         private String introduction;
 
         @ApiModelProperty(example = "멘티의 현재 상태를 입력하세요. 취업 준비생, 학생, 이직 준비중, 멘티 중 하나를 선택할 수 있습니다.")
-        private Profile.EmploymentStatus employmentStatus;
+        private String employmentStatus;
     }
     
     @Schema(description = "프로필 응답 DTO")

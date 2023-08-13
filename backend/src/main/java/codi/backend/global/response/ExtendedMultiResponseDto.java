@@ -7,9 +7,9 @@ import java.util.List;
 
 @Getter
 public class ExtendedMultiResponseDto<T> extends MultiResponseDto<T> {
-    private List<Long> favorites;
+    private final List<Long> favorites;
 
-    public ExtendedMultiResponseDto(List<T> data, Page page, List<Long> favorites) {
+    public ExtendedMultiResponseDto(List<T> data, Page<T> page, List<Long> favorites) {
         super(data, page);
         this.favorites = favorites;
     }

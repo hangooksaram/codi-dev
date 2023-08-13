@@ -7,4 +7,6 @@ public interface MenteeMentoringService {
     Mentoring createMentoring(Long profileId, Long mentorId, MentoringDto.MentoringPost mentoringPostDto);
     void cancelMentoring(Long profileId, Long mentoringId);
     void rateMentor(MentoringDto.RateMentorRequest rateMentorRequest);
+    MentoringDto.MentoringDailyMentorsResponse findDailyMentoringsOfMentee(Long profileId, String date);
+    MentoringDto.MentoringMonthlyMentorsResponse findMonthlyMentoringsOfMentee(Long profileId, String month);
 }

@@ -11,8 +11,13 @@ import codi.backend.domain.schedule.entity.Schedule;
 import codi.backend.domain.schedule.service.ScheduleService;
 import codi.backend.global.exception.BusinessLogicException;
 import codi.backend.global.exception.ExceptionCode;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Service
 public class MentorMentoringServiceImpl implements MentorMentoringService{
@@ -90,5 +95,25 @@ public class MentorMentoringServiceImpl implements MentorMentoringService{
         if (!mentoring.getMentor().getId().equals(mentorId)) {
             throw new BusinessLogicException(ExceptionCode.NOT_YOUR_MENTORING);
         }
+    }
+
+    @Override
+    public MentoringDto.MentoringDailyMenteesResponse findDailyMentoringsOfMentor(Long mentorId, String date) {
+        Mentor mentor = mentorService.findMentor(mentorId);
+        LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+        return mentoringRepository.findDailyMentoringsOfMentor(mentor, localDate);
+    }
+
+    @Override
+    public MentoringDto.MentoringMonthlyMenteesResponse findMonthlyMentoringsOfMentor(Long mentorId, String month) {
+        Mentor mentor = mentorService.findMentor(mentorId);
+        LocalDate localDateMonth = LocalDate.parse(month + "/01", DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+        return mentoringRepository.findMonthlyMentoringsOfMentor(mentor, localDateMonth);
+    }
+
+    @Override
+    public Page<MentoringDto.MentoringApplicationResponse> getAllMentoringApplication(Long mentorId, String order, Pageable pageable) {
+        Mentor mentor = mentorService.findMentor(mentorId);
+        return mentoringRepository.findAllMentoringApplications(mentor, order, pageable);
     }
 }
