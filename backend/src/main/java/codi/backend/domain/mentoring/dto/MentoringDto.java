@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import javax.validation.constraints.*;
+import java.util.List;
 
 public class MentoringDto {
 
@@ -60,15 +61,91 @@ public class MentoringDto {
 
     @Getter
     @Setter
+    public static class DailyRequest {
+        @NotBlank(message = "날짜를 입력해주세요.")
+        @Pattern(regexp = "^[0-9]{4}/[0-9]{2}/[0-9]{2}$", message = "날짜는 다음과 같은 형태만 가능합니다: yyyy/mm/dd")
+        @ApiModelProperty(example = "날짜 yyyy/mm/dd")
+        private String date;
+    }
+
+    @Getter
+    @Setter
+    public static class MonthlyRequest {
+        @NotBlank(message = "년, 월을 입력해주세요.")
+        @Pattern(regexp = "^[0-9]{4}/[0-9]{2}$", message = "년, 월은 다음과 같은 형태만 가능합니다: yyyy/mm")
+        private String month;
+    }
+
+    // Mentor가 Mentees 정보 조회
+    @Getter
+    @Setter
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
-    public static class MentoringResponse {
-        private Long id;
-        private String status;
-        private String applicationReason;
-        private Double rating;
-        private ScheduleDto.ScheduleDailyResponse scheduleResponse;
+    public static class MentoringMonthlyMenteesResponse {
+        private String month;
+        private List<MentoringDailyMenteesResponse> dailyMentees;
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class MentoringDailyMenteesResponse {
+        private String date;
+        List<MenteeInfoResponse> mentees;
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class MenteeInfoResponse {
+        private Long mentoringId;
+        private String time;
+        private String name;
+        private String imgUrl;
+        private String desiredJob;
+        private String link;
+        private String platform;
+    }
+
+    // Mentee가 Mentors 정보 조회
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class MentoringMonthlyMentorsResponse {
+        private String month;
+        private List<MentoringDailyMentorsResponse> dailyMentors;
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class MentoringDailyMentorsResponse {
+        private String date;
+        List<MentorInfoResponse> mentors;
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class MentorInfoResponse {
+        private Long mentoringId;
+        private String time;
+        private String name;
+        private String imgUrl;
+        private String jobName;
+        private String link;
+        private String platform;
     }
 
     @Getter
@@ -77,13 +154,23 @@ public class MentoringDto {
     @AllArgsConstructor
     @Builder
     public static class MentoringApplicationResponse {
-        private Long id;
-        private String name;
-        private String employmentStatus;
-        private String disability;
-        private String severity;
+        private Long mentoringId;
+        private MentoringApplicationMenteeInfoResponse menteeInfo;
         private String applicationDate;
         private String applicationReason;
+    }
 
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class MentoringApplicationMenteeInfoResponse {
+        private Long profileId;
+        private String name;
+        private String employmentStatus;
+        private String desiredJob;
+        private String disability;
+        private String severity;
     }
 }

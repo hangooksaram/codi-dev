@@ -18,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
-@Transactional
 @Service
 public class MentorServiceImpl implements MentorService{
     private final MentorRepository mentorRepository;
@@ -30,10 +29,19 @@ public class MentorServiceImpl implements MentorService{
         this.memberService = memberService;
         this.s3Service = s3Service;
     }
+
+    @Transactional
     @Override
     public Mentor becomeMentor(String memberId, Mentor mentor, MultipartFile file) {
         Member member = memberService.findMember(memberId);
-        mentor.setMember(member);
+
+        if (member.getProfile() == null) {
+            throw new BusinessLogicException(ExceptionCode.PROFILE_NOT_FOUND);
+        }
+
+        if (member.getMentor() != null) {
+            throw new BusinessLogicException(ExceptionCode.MENTOR_EXIST);
+        }
 
         Optional.ofNullable(file)
                 .filter(f -> !f.isEmpty())
@@ -43,8 +51,9 @@ public class MentorServiceImpl implements MentorService{
         // 파일이 null이 아닌 경우에만 isCertificate를 true로 설정
         mentor.setIsCertificate(Optional.ofNullable(file).isPresent());
 
-        // member에 mentor 1:1 연결
+        // member : mentor 1:1 연결
         member.setMentor(mentor);
+        mentor.setMember(member);
 
         // 멘토 권한 추가(반드시 위에서 mentor 객체를 연결한 다음 실행되어야 한다.)
         member.setRoles(CustomAuthorityUtils.createRoles(member));
@@ -63,6 +72,7 @@ public class MentorServiceImpl implements MentorService{
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_MENTOR_ERROR));
     }
 
+    @Transactional
     @Override
     public Mentor updateMentorInformation(Long mentorId, Mentor mentor, MultipartFile file) {
         Mentor findMentor = findMentor(mentorId);
@@ -118,6 +128,8 @@ public class MentorServiceImpl implements MentorService{
                 .ifPresent(findMentor::setInOffice);
         Optional.ofNullable(inputMentor.getIntroduction())
                 .ifPresent(findMentor::setIntroduction);
+        Optional.ofNullable(inputMentor.getMentoringCategories())
+                .ifPresent(findMentor::setMentoringCategories);
     }
 
     @Override

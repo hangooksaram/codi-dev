@@ -4,7 +4,9 @@ import codi.backend.domain.mentor.dto.MentorDto;
 import codi.backend.domain.mentor.entity.Mentor;
 import codi.backend.domain.mentor.mapper.MentorMapper;
 import codi.backend.domain.mentor.service.MentorService;
+import codi.backend.domain.profile.service.ProfileService;
 import codi.backend.global.response.ExtendedMultiResponseDto;
+import codi.backend.global.response.MultiResponseDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,10 +31,12 @@ import java.util.List;
 @Slf4j
 public class MentorController {
     private final MentorService mentorService;
+    private final ProfileService profileService;
     private final MentorMapper mentorMapper;
 
-    public MentorController(MentorService mentorService, MentorMapper mentorMapper) {
+    public MentorController(MentorService mentorService, ProfileService profileService, MentorMapper mentorMapper) {
         this.mentorService = mentorService;
+        this.profileService = profileService;
         this.mentorMapper = mentorMapper;
     }
 
@@ -73,8 +78,9 @@ public class MentorController {
             "페이지 당 표시할 contents의 개수, example = \"20\"\n" +
             "확인하고 싶은 결과 페이지 번호 (0..N), example = \"0\"\n" +
             "오름차순 및 내림차순 정렬 (asc or desc), example = \"desc\"")
-    @GetMapping
+    @GetMapping("/filtered/{profile-id}")
     public ResponseEntity getFilteredMentors(
+            @PathVariable(name = "profile-id", required = false) Long profileId,
             @RequestParam(name = "job", required = false) String job,
             @RequestParam(name = "career", required = false) String career,
             @RequestParam(name = "disability", required = false) String disability,
@@ -82,12 +88,7 @@ public class MentorController {
             @PageableDefault Pageable pageable) {
         Page<MentorDto.SearchMentorResponse> mentorsPage = mentorService.getFilteredMentors(job, career, disability, keyword, pageable);
         List<MentorDto.SearchMentorResponse> mentorsList = mentorsPage.getContent();
-        List<Long> favorites = Arrays.asList(1L, 2L, 3L, 4L, 10L); // TODO 추후 연관관계 매핑을 통해 기능 구현 예정
-        ExtendedMultiResponseDto<MentorDto.SearchMentorResponse> response = new ExtendedMultiResponseDto<>(mentorsList, mentorsPage, favorites);
-
-//        return new ResponseEntity<>(
-//                new MultiResponseDto<>(mentorsList, mentorsPage), HttpStatus.OK
-//        );
-        return ResponseEntity.ok(response);
+        List<Long> favorites = profileId != null ? profileService.getFavoriteMentorIds(profileId) : new ArrayList<>();
+        return new ResponseEntity<>(new ExtendedMultiResponseDto<>(mentorsList, mentorsPage, favorites), HttpStatus.OK);
     }
 }

@@ -3,6 +3,7 @@ package codi.backend.domain.mentoring.controller;
 import codi.backend.domain.mentoring.dto.MentoringDto;
 import codi.backend.domain.mentoring.mapper.MentoringMapper;
 import codi.backend.domain.mentoring.service.MenteeMentoringService;
+import codi.backend.global.response.SingleResponseDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -46,9 +47,19 @@ public class MenteeMentoringController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    // 월별 멘토링 조회
+    // 일별 멘토링 조회 GET
+    @ApiOperation(value = "Mentee의 Mentoring 일별 조회", notes = "멘티가 특정 날짜의 멘토링을 조회한다.")
+    @GetMapping("/daily/{profile-id}")
+    public ResponseEntity getDailyMentoring(@PathVariable("profile-id") Long profileId, @Valid MentoringDto.DailyRequest menteeDailyRequest) {
+        return new ResponseEntity<>(new SingleResponseDto<>(mentoringService.findDailyMentoringsOfMentee(profileId, menteeDailyRequest.getDate())), HttpStatus.OK);
+    }
 
-    // 일별 멘토링 조회
+    // 월별 멘토링 조회 GET
+    @ApiOperation(value = "Mentor의 Mentoring 월별 조회", notes = "멘티가 한 달간의 멘토링을 조회한다.")
+    @GetMapping("/monthly/{profile-id}")
+    public ResponseEntity getMonthlyMentoring(@PathVariable("profile-id") Long profileId, @Valid MentoringDto.MonthlyRequest monthlyRequest) {
+        return new ResponseEntity<>(new SingleResponseDto<>(mentoringService.findMonthlyMentoringsOfMentee(profileId, monthlyRequest.getMonth())), HttpStatus.OK);
+    }
 
     // 멘토 평가 POST
     @ApiOperation(value = "Mentoring 후 Mentor 평가", notes = "멘티가 멘토링과 멘토 정보, 별점을 입력해서 평가할 수 있다. 다른 request 필드가 많아서 RequestBody에 입력받는다.")

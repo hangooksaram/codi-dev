@@ -4,6 +4,7 @@ import codi.backend.domain.mentor.entity.Mentor;
 import codi.backend.domain.profile.entity.Profile;
 import codi.backend.global.exception.BusinessLogicException;
 import codi.backend.global.exception.ExceptionCode;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.*;
@@ -44,6 +45,7 @@ public class Member {
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     private Profile profile;
 
+    @JsonFormat(shape = JsonFormat.Shape.OBJECT)
     public enum Gender {
         MAN("남자"),
         NOT_CHECKED("선택안함"),
@@ -54,6 +56,15 @@ public class Member {
 
         Gender(String gender) {
             this.gender = gender;
+        }
+
+        public static Gender genderOf(String name) {
+            for (Gender gender : Gender.values()) {
+                if (gender.getGender().equals(name)) {
+                    return gender;
+                }
+            }
+            return null;
         }
     }
 

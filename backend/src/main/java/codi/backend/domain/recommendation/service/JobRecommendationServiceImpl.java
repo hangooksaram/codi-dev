@@ -4,6 +4,7 @@ import codi.backend.domain.member.entity.Member;
 import codi.backend.domain.member.repository.MemberRepository;
 import codi.backend.domain.profile.entity.Profile;
 import codi.backend.domain.profile.repository.ProfileRepository;
+import codi.backend.domain.recommendation.dto.JobRecommendationDto;
 import codi.backend.domain.recommendation.repository.JobRecommendationRepository;
 import codi.backend.global.exception.BusinessLogicException;
 import codi.backend.global.exception.ExceptionCode;
@@ -14,7 +15,6 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
 
 @Transactional
 @Service
@@ -31,7 +31,7 @@ public class JobRecommendationServiceImpl implements JobRecommendationService {
     }
 
     @Override
-    public List<String> recommendJobs(String memberId) {
+    public JobRecommendationDto.Response recommendJobs(String memberId) {
         Member member = getMember(memberId);
         Profile profile = getProfile(member.getProfile().getId());
 

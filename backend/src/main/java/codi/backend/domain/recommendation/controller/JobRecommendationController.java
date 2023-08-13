@@ -1,5 +1,6 @@
 package codi.backend.domain.recommendation.controller;
 
+import codi.backend.domain.recommendation.dto.JobRecommendationDto;
 import codi.backend.domain.recommendation.service.JobRecommendationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -28,8 +29,8 @@ public class JobRecommendationController {
 
     @ApiOperation(value = "직무 추천", notes = "회원의 장애구분, 중증도, 연령을 고려해서 고용노동부의 '장애인 취업률 데이터'를 기반으로 많이 종사하는 직무 3개를 순차적으로 추천해준다.")
     @GetMapping("/{member-id}")
-    public ResponseEntity<List<String>> getJobRecommendations(@PathVariable("member-id") String memberId) {
-        List<String> jobRecommendations = jobRecommendationService.recommendJobs(memberId);
-        return new ResponseEntity<>(jobRecommendations, HttpStatus.OK);
+    public ResponseEntity getJobRecommendations(@PathVariable("member-id") String memberId) {
+        JobRecommendationDto.Response jobRecommendation = jobRecommendationService.recommendJobs(memberId);
+        return new ResponseEntity<>(jobRecommendation, HttpStatus.OK);
     }
 }

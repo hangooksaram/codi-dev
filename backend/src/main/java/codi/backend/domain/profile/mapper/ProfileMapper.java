@@ -26,7 +26,7 @@ public interface ProfileMapper {
                 .disability(profilePostDto.getDisability())
                 .severity(profilePostDto.getSeverity())
                 .introduction(profilePostDto.getIntroduction())
-                .employmentStatus(profilePostDto.getEmploymentStatus())
+                .employmentStatus(Profile.EmploymentStatus.employmentStatusOf(profilePostDto.getEmploymentStatus()))
                 .build();
     }
 
@@ -42,7 +42,7 @@ public interface ProfileMapper {
                 .disability(profilePatchDto.getDisability())
                 .severity(profilePatchDto.getSeverity())
                 .introduction(profilePatchDto.getIntroduction())
-                .employmentStatus(profilePatchDto.getEmploymentStatus())
+                .employmentStatus(Profile.EmploymentStatus.employmentStatusOf(profilePatchDto.getEmploymentStatus()))
                 .build();
     }
 
@@ -51,6 +51,7 @@ public interface ProfileMapper {
             return null;
         }
 
+        // TODO 추후 날짜 관련 Util 만들어서 처리
         // 이름, 나이
         String name = profile.getMember().getName();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");

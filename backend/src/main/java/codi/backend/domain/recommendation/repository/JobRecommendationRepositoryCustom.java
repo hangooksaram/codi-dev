@@ -1,7 +1,9 @@
 package codi.backend.domain.recommendation.repository;
 
+import codi.backend.domain.recommendation.dto.JobRecommendationDto;
+
 import java.util.List;
 
 public interface JobRecommendationRepositoryCustom {
-    List<String> findTop3JobCategories(String disability, String severity, int age);
+    JobRecommendationDto.Response findTop3JobCategories(String disability, String severity, int age);
 }

@@ -26,7 +26,7 @@ public interface MentorMapper {
                 .jobName(mentorPostDto.getJobName())
                 .inOffice(mentorPostDto.getInOffice() != null ? mentorPostDto.getInOffice() : false)
                 .introduction(mentorPostDto.getIntroduction())
-                .mentoringCategories(mentorPostDto.getMentoringCategories() != null ? mentorPostDto.getMentoringCategories() : new ArrayList<>(4))
+                .mentoringCategories(Mentor.MentoringCategory.mentoringCategoriesOf(mentorPostDto.getMentoringCategories()))
                 .isCertificate(false)
                 .star(0.0)
                 .mentees(0)
@@ -45,7 +45,7 @@ public interface MentorMapper {
                 .jobName(mentorPatchDto.getJobName())
                 .inOffice(mentorPatchDto.getInOffice())
                 .introduction(mentorPatchDto.getIntroduction())
-                .mentoringCategories(mentorPatchDto.getMentoringCategories())
+                .mentoringCategories(Mentor.MentoringCategory.mentoringCategoriesOf(mentorPatchDto.getMentoringCategories()))
                 .build();
     }
 
@@ -66,11 +66,6 @@ public interface MentorMapper {
         String severity = mentor.getMember().getProfile().getSeverity();
         String education = mentor.getMember().getProfile().getEducation();
 
-        List<String> mentoringCategories = new ArrayList<>(4);
-        for (Mentor.MentoringCategory mentoringCategory : mentor.getMentoringCategories()) {
-            mentoringCategories.add(mentoringCategory.getMentoringCategory());
-        }
-
         return MentorDto.MentorResponse.builder()
                 .id(mentor.getId())
                 .name(name)
@@ -89,7 +84,7 @@ public interface MentorMapper {
                 .introduction(mentor.getIntroduction())
                 .star(mentor.getStar())
                 .mentees(mentor.getMentees())
-                .mentoringCategories(mentoringCategories)
+                .mentoringCategories(Mentor.MentoringCategory.mentoringCategoryToString(mentor.getMentoringCategories()))
                 .build();
     }
 

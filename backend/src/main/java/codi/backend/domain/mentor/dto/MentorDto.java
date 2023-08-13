@@ -21,12 +21,12 @@ public class MentorDto {
         private String company;
 
         @NotBlank
-        @ApiModelProperty(example = "경력")
-        private String career;
-
-        @NotBlank
         @ApiModelProperty(example = "프로필에 표시될 직무명")
         private String jobName;
+
+        @NotBlank
+        @ApiModelProperty(example = "경력")
+        private String career;
 
         @NotNull
         @ApiModelProperty(example = "재직중 여부")
@@ -36,7 +36,7 @@ public class MentorDto {
         @NotEmpty
         @Size(min = 1, max = 4)
         @ApiModelProperty(example = "멘토링 분야")
-        private List<Mentor.MentoringCategory> mentoringCategories;
+        private List<String> mentoringCategories;
 
         @ApiModelProperty(example = "멘토 소개")
         private String introduction;
@@ -48,14 +48,14 @@ public class MentorDto {
         @ApiModelProperty(example = "직무")
         private String job;
 
-        @ApiModelProperty(example = "경력")
-        private String career;
+        @ApiModelProperty(example = "회사 이름")
+        private String company;
 
         @ApiModelProperty(example = "프로필에 표시될 직무명")
         private String jobName;
 
-        @ApiModelProperty(example = "회사 이름")
-        private String company;
+        @ApiModelProperty(example = "경력")
+        private String career;
 
         @ApiModelProperty(example = "재직중 여부")
         private Boolean inOffice;
@@ -63,8 +63,9 @@ public class MentorDto {
         @ApiModelProperty(example = "멘토 소개")
         private String introduction;
 
+        @Size(min = 1, max = 4)
         @ApiModelProperty(example = "멘토링 분야")
-        private List<Mentor.MentoringCategory> mentoringCategories;
+        private List<String> mentoringCategories;
     }
 
     @Schema(description = "멘토 정보 응답 DTO")
@@ -165,5 +166,8 @@ public class MentorDto {
 
         @ApiModelProperty(example = "수강한 멘토 수")
         private Integer mentees;
+
+        @ApiModelProperty(example = "멘토링 분야")
+        private List<Mentor.MentoringCategory> mentoringCategories;
     }
 }
