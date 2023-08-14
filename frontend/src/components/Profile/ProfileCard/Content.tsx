@@ -32,6 +32,7 @@ const Content = ({
   link,
 }: ProfileCard) => {
   const router = useRouter();
+
   return (
     <CardContent>
       {isCertificate && <Certificate />}

@@ -3,6 +3,7 @@ import {
   getMentoringApplies,
   rejectMentoring,
 } from "@/api/mentoring/mentorApi";
+import { GetMentoringAppliesResponse } from "@/types/api/mentoring";
 
 import { useMutation, useQuery } from "@tanstack/react-query";
 
@@ -11,9 +12,13 @@ export const ACCEPT_MENTORING = ["acceptMentoring"];
 export const REJECT_MENTORING = ["rejectMentoring"];
 
 export const useMentoringApplies = (mentorId: number) => {
-  return useQuery(GET_MENTORING_APPLIES, () => getMentoringApplies(mentorId), {
-    enabled: mentorId !== null,
-  });
+  return useQuery<GetMentoringAppliesResponse>(
+    GET_MENTORING_APPLIES,
+    () => getMentoringApplies(mentorId),
+    {
+      enabled: mentorId !== undefined,
+    }
+  );
 };
 
 export const useMentoringAcceptMutation = (

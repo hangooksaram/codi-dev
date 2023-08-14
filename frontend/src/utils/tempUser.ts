@@ -4,7 +4,7 @@ import { User } from "@/types/user";
 
 export const setLocalUser = (obj: object) => {
   if (typeof window !== "undefined") {
-    if (localUser() !== null) {
+    if (localUser() !== undefined) {
       window.localStorage.setItem(
         "user",
         JSON.stringify(Object.assign(localUser()!, obj))
@@ -24,5 +24,5 @@ export const isLocalUser = () => {
 export const localUser = () => {
   if (typeof window !== "undefined" && window.localStorage.getItem("user"))
     return JSON.parse(window.localStorage.getItem("user")!) as User;
-  return null;
+  return undefined;
 };

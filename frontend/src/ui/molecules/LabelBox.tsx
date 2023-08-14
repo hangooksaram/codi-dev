@@ -19,7 +19,7 @@ const LabelBox = ({
 }) => {
   return (
     <StyledLabelBox>
-      <FlexBox justifyContent="space-between">
+      <FlexBox justifyContent="space-between" alignItems="center">
         <FormLabel text={text} helpText={helpText} />
         {adorement}
       </FlexBox>

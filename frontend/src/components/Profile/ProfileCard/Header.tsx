@@ -1,3 +1,5 @@
+"use cient";
+
 import Button from "@/ui/atoms/Button";
 import Chip from "@/ui/atoms/Chip";
 import FlexBox from "@/ui/atoms/FlexBox";

@@ -15,44 +15,37 @@ import ContainerWithBackground from "@/ui/molecules/Container/ContainerWithBackg
 import Typography from "@/ui/atoms/Typography";
 import useRestForm from "@/hooks/useRestForm";
 import ChipButton from "@/ui/atoms/ChipButton";
+import { selectUser } from "@/features/user/userSlice";
+import { useSelector } from "react-redux";
+import { useApplyMentoringMutation } from "@/queries/mentoring/menteeMentoringQuery";
+import { ApplyMentoringBody } from "@/types/api/mentoring";
 
-interface MentoringApplyBody {
-  profileId: number;
-  date: string;
-  time: string;
-  mentorId: number;
-  applicationReason: string;
-}
-
-const initialRestForm: MentoringApplyBody = {
-  profileId: 0,
+const initialRestForm: ApplyMentoringBody = {
   date: "",
   time: "",
-  mentorId: 0,
   applicationReason: "",
 };
 
 const MentoringApplyFormPage = () => {
   const { restForm, setRestForm } =
-    useRestForm<MentoringApplyBody>(initialRestForm);
+    useRestForm<ApplyMentoringBody>(initialRestForm);
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [isAllFilled, setIsAllFilled] = useState(false);
   const { mentorId } = useParams();
-  const { data, refetch } = useDailySchedulesQuery(
+  const { profileId } = useSelector(selectUser);
+  const mutation = useApplyMentoringMutation(profileId!, parseInt(mentorId));
+  const { data } = useDailySchedulesQuery(
     parseInt(mentorId)!,
     formattedDate(date)
   );
 
-  const handleSubmit = () => {};
-
-  useEffect(() => {
-    setRestForm({ ...restForm, profileId: 1, mentorId: parseInt(mentorId) });
-  }, []);
+  const handleSubmit = () => {
+    mutation.mutate(restForm!);
+  };
 
   useEffect(() => {
     if (date) {
       setRestForm({ ...restForm, date: formattedDate(date) });
-      refetch();
     }
   }, [date]);
   return (
@@ -81,7 +74,7 @@ const MentoringApplyFormPage = () => {
                 columnGap="15px"
                 rowGap="15px"
               >
-                {/* {mockData.times.map(({ time, status }, index) => {
+                {data?.times.map(({ time, enabled }, index) => {
                   const scheduled = status === "ACCEPTED";
                   return (
                     <ChipButton
@@ -97,18 +90,19 @@ const MentoringApplyFormPage = () => {
                           : theme.colors.background
                       }
                       key={index}
-                      outline={scheduled}
-                      disabled={scheduled}
+                      outline={!enabled}
+                      disabled={!enabled}
                     >
                       {time}
                     </ChipButton>
                   );
-                })} */}
+                })}
               </FlexBox>
             </CalendarContainer>
           </LabelBox>
           <FormInputContainer text="하고싶은 말" helpText="(최소 50 글자)">
             <Textarea
+              minLength={50}
               value={restForm.applicationReason}
               onChange={(e) =>
                 setRestForm({ ...restForm, applicationReason: e.target.value })
@@ -117,7 +111,9 @@ const MentoringApplyFormPage = () => {
           </FormInputContainer>
           <Button
             disabled={
-              !restForm.applicationReason || !restForm.date || !restForm.time
+              restForm.applicationReason.length < 50 ||
+              !restForm.date ||
+              !restForm.time
             }
             type="submit"
             variant="square"

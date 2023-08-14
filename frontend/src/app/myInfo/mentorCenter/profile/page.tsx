@@ -21,7 +21,7 @@ import { useSelector } from "react-redux";
 const MentorProfilePage = () => {
   const { mentorId, profileId } = useSelector(selectUser);
   const { data: mentor, isLoading } = useGetMentorQuery(mentorId!);
-  console.log(mentor);
+
   return (
     <Card color={theme.colors.background} padding="30px" height="auto">
       <FlexBox

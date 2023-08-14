@@ -25,9 +25,14 @@ interface SideBarNavigators extends SideBarNavigator {
 const SideBar = ({ navigators }: { navigators: SideBarNavigators[] }) => {
   const [current, setCurrent] = useState<string>();
   const [nestedParent, setNestedParent] = useState<string>();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const router = useRouter();
   const path = usePathname();
+  useEffect(() => {
+    if (window.innerWidth < 1000) {
+      setOpen(false);
+    }
+  }, []);
 
   useEffect(() => {
     navigators.forEach((navigator) => {

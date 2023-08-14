@@ -93,7 +93,6 @@ const MentorRegisterForm = () => {
   ) => {
     const formValues = { ...values, ...restForm };
 
-    console.log(formValues);
     const blob = new Blob([JSON.stringify(formValues)], {
       type: "application/json",
     });

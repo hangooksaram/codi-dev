@@ -9,34 +9,35 @@ import { backgroundImage } from "@/ui/atoms/BackgroundImage";
 import { StyledImage } from "@/ui/atoms/StyledImage";
 import { useState } from "react";
 import Modal from "@/ui/molecules/Modal";
-import MentoringToolModal from "./MentoringToolModal";
+import MentoringToolModal, { MENTORING_TOOLS } from "./MentoringToolModal";
+import { MentoringPlatform, MentoringStatus } from "@/types/mentoring";
+import formattedDate from "@/utils/dateFormat";
 
 const mocks = [];
 
 const MentoringCard = ({
+  mentoringId,
   date,
   time,
+  name,
+  mentoringJob,
+  platform,
 }: {
+  mentoringId: number;
   date: string | undefined;
   time: string;
+  name: string;
+  mentoringJob: string;
+  platform: MentoringPlatform | string;
 }) => {
   const [openModal, setOpenModal] = useState(false);
+  const platformInfo = MENTORING_TOOLS.find(({ text }) => text === platform);
   return (
     <StyledCard>
-      <Header completed={true}>{date}</Header>
+      <Header today={date === formattedDate(new Date())}>{time}</Header>
       <FlexBox justifyContent="space-between">
         <ProfileImage>
-          <StyledImage
-            width="40px"
-            height="40px"
-            alt="zoom"
-            src="/images/tools/zoom.png"
-            {...{
-              position: "absolute",
-              bottom: "-10px",
-              right: "-10px",
-            }}
-          ></StyledImage>
+          {platform === "No Selection." ? null : platformInfo?.icon!}
         </ProfileImage>
         <div>
           <Typography
@@ -44,25 +45,33 @@ const MentoringCard = ({
             weight={theme.fonts.weight.bold}
             {...{ marginBottom: "5px" }}
           >
-            윤지영
+            {name}
           </Typography>
           <Typography
             variant="div"
             size={theme.fonts.size.sm}
             color={theme.colors.gray.dark}
           >
-            마라토너
+            {mentoringJob}
           </Typography>
         </div>
         <LinkButton
           onClick={() => setOpenModal(true)}
           width="42px"
           variant="round"
-          completed={true}
+          color={
+            platform === "No Selection."
+              ? theme.colors.gray.main
+              : theme.colors.primary
+          }
         >
           <Link fill={theme.colors.white} />
         </LinkButton>
-        <MentoringToolModal open={openModal} setOpen={setOpenModal} />
+        <MentoringToolModal
+          mentoringId={mentoringId}
+          open={openModal}
+          setOpen={setOpenModal}
+        />
       </FlexBox>
     </StyledCard>
   );
@@ -75,14 +84,14 @@ const StyledCard = styled(Card)({
   border: `1px solid ${theme.colors.primary}`,
 });
 
-const Header = styled.div(({ completed = false }: { completed: boolean }) => ({
+const Header = styled.div(({ today = false }: { today: boolean }) => ({
   padding: "0px 10px",
   height: "33px",
   display: "flex",
   justifyㅊontent: "space-between",
   alignItems: "center",
   borderRadius: "20px",
-  backgroundColor: completed ? theme.colors.gray.main : theme.colors.primary,
+  backgroundColor: today ? theme.colors.primary : theme.colors.gray.main,
   color: theme.colors.white,
   marginBottom: "13px",
 }));
@@ -95,12 +104,9 @@ const ProfileImage = styled.div(({}) => ({
   ...backgroundImage("/images/ProfileTest.png"),
 }));
 
-const LinkButton = styled(Button)(
-  ({ completed = false }: { completed: boolean }) => ({
-    minWidth: "42px",
-    backgroundColor: completed ? theme.colors.gray.main : theme.colors.primary,
-  })
-);
+const LinkButton = styled(Button)(() => ({
+  minWidth: "42px",
+}));
 
 const ScheduleContainer = styled(Card)(({}) => ({
   maxWidth: "831px",

@@ -10,13 +10,14 @@ import {
   useDayRender,
   useNavigation,
 } from "react-day-picker";
-import formattedDate from "@/utils/dateFormat";
+import formattedDate, { formattedMonth } from "@/utils/dateFormat";
 import LeftIcon from "@icons/common/left-arrow.svg";
 import RightIcon from "@icons/common/right-arrow.svg";
 import styled from "@emotion/styled";
-import SelectedSchedule from "@icons/calendar/calendar-schedule-selected.svg";
+import SelectedMentoring from "@icons/calendar/calendar-mentoring-selected.svg";
+import Mentoring from "@icons/calendar/calendar-mentoring.svg";
+import CompletedMentoring from "@icons/calendar/calendar-mentoring-completed.svg";
 import Schedule from "@icons/calendar/calendar-schedule.svg";
-import CompletedSchedule from "@icons/calendar/calendar-schedule-completed.svg";
 import theme, { device } from "@/ui/theme";
 import {
   CustomCaptionNavigation,
@@ -24,26 +25,38 @@ import {
   dayPickerContainerStyle,
 } from "./style";
 import { format } from "date-fns";
+import { DailyMentoringStatus, MentoringMember } from "@/types/mentoring";
+import { SetState } from "@/index";
 
 interface CustomDayContentProps extends DayContentProps {
   selected?: Date;
-  mentoringDates?: string[];
+  schedules?: string[];
+  mentoringSchedules?: DailyMentoringStatus[];
+}
+
+interface CustomCaptionProps extends CaptionProps {
+  setMonth: SetState<string | undefined>;
 }
 
 const SingleCalendar = ({
   date,
   setDate,
+  setMonth,
   type,
-  mentoringDates,
+  mentoringSchedules,
+  schedules,
 }: {
   date: Date | undefined;
   setDate: React.Dispatch<SetStateAction<Date | undefined>>;
+  setMonth: React.Dispatch<SetStateAction<string | undefined>>;
   type: "mentor" | "mentee";
-  mentoringDates?: string[];
+  mentoringSchedules?: DailyMentoringStatus[];
+  schedules: string[];
 }) => {
   const maxDay = new Date();
   const endDay = new Date(9999, 9, 9);
   maxDay.setDate(new Date().getDate() + 30);
+
   return (
     <DayPicker
       style={dayPickerContainerStyle}
@@ -56,9 +69,10 @@ const SingleCalendar = ({
           CustomDayContent({
             ...props,
             selected: date,
-            mentoringDates,
+            schedules,
+            mentoringSchedules,
           }),
-        Caption: CustomCaption,
+        Caption: (props) => CustomCaption({ ...props, setMonth }),
       }}
       modifiersClassNames={{
         selected:
@@ -101,31 +115,35 @@ export const CustomDay = (props: DayProps) => {
 export const CustomDayContent = ({
   date,
   selected,
-  mentoringDates,
+  schedules,
+  mentoringSchedules,
 }: CustomDayContentProps) => {
   const day = date.getDate();
 
+  const iconRendering = () => {
+    if (schedules?.includes(formattedDate(date))) return <Schedule />;
+  };
   return (
     <CustomCell id={day.toString()}>
       <div style={{ marginBottom: "5px" }}>{day}</div>
-      {mentoringDates?.includes(formattedDate(date)) &&
-        (selected?.getDate() === date.getDate() ? (
-          <SelectedSchedule />
-        ) : (
-          <Schedule />
-        ))}
+      {schedules?.includes(formattedDate(date)) && <Schedule />}
     </CustomCell>
   );
 };
 
-export const CustomCaption = (props: CaptionProps) => {
+export const CustomCaption = (props: CustomCaptionProps) => {
   const { goToMonth, nextMonth, previousMonth } = useNavigation();
+  const handleGoToMonth = (direction: Date) => {
+    if (direction === previousMonth) previousMonth && goToMonth(previousMonth);
+    else nextMonth && goToMonth(nextMonth);
 
+    props.setMonth(formattedMonth(direction));
+  };
   return (
     <CustomContentdates>
       <CustomCaptionNavigation
         disabled={!previousMonth}
-        onClick={() => previousMonth && goToMonth(previousMonth)}
+        onClick={() => handleGoToMonth(previousMonth!)}
       >
         <LeftIcon />
       </CustomCaptionNavigation>
@@ -136,7 +154,7 @@ export const CustomCaption = (props: CaptionProps) => {
 
       <CustomCaptionNavigation
         disabled={!nextMonth}
-        onClick={() => nextMonth && goToMonth(nextMonth)}
+        onClick={() => handleGoToMonth(nextMonth!)}
       >
         <RightIcon />
       </CustomCaptionNavigation>

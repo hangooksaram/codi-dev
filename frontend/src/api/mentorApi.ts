@@ -39,7 +39,7 @@ export const getMentors = async (mentorsParams: GetMentorsParameters) => {
   const { page, size, job, career, disability, keyword } = mentorsParams;
   return (
     await customAxios.get(
-      `/mentors?page=${page}&size=${size}&job=${job}&careere=${career}&disability=${disability}`
+      `/mentors?page=${page}&size=${size}&job=${job}&career=${career}&disability=${disability}`
     )
   ).data;
 };

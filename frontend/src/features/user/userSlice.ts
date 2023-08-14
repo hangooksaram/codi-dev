@@ -4,17 +4,17 @@ import type { RootState } from "../../store/store";
 // Define a type for the slice state
 export interface UserSliceState {
   id: string;
-  imgUrl: string | null;
-  mentorId: number | null;
-  profileId: number | null;
+  imgUrl?: string;
+  mentorId?: number;
+  profileId?: number;
 }
 
 // Define the initial state using that type
 const initialState: UserSliceState = {
   id: "",
   imgUrl: "",
-  mentorId: null,
-  profileId: null,
+  mentorId: undefined,
+  profileId: undefined,
 };
 
 export const userSlice = createSlice({

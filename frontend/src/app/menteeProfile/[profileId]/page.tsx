@@ -1,3 +1,5 @@
+"use client";
+
 import MenteeProfile from "@/components/Profile/MenteeProfile";
 import { useParams } from "next/navigation";
 

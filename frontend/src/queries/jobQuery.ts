@@ -5,6 +5,6 @@ const JOB_RANKS = ["jobRanks"];
 
 export const useJobRanksQuery = (memberId: string) => {
   return useQuery(JOB_RANKS, () => getJobRanks(memberId), {
-    enabled: memberId !== null && memberId.length > 0,
+    enabled: memberId !== undefined && memberId.length > 0,
   });
 };
