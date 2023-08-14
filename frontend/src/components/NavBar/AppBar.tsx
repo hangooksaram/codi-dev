@@ -16,6 +16,7 @@ import MobileAppBar from "./MobileAppBar";
 import { useSelector } from "react-redux";
 import { selectUser } from "@/features/user/userSlice";
 import { StyledImage } from "@/ui/atoms/StyledImage";
+import { backgroundImage } from "@/ui/atoms/BackgroundImage";
 
 const AppBar = () => {
   const path = usePathname();
@@ -29,7 +30,7 @@ const AppBar = () => {
     alert(
       "아직 프로필이 작성되어있지 않습니다. 프로필 작성 페이지로 이동하시겠습니까?"
     );
-    router.push("/mentorApplyForm");
+    router.push("/mentorRegisterForm");
   };
 
   useEffect(() => {
@@ -61,19 +62,15 @@ const AppBar = () => {
                   categories={PROFILE_MENU}
                   selectedCategory={selected!}
                   setSelectedCategory={setSelected}
+                  left
                 >
-                  <AppBarProfile>
-                    {user.imgUrl ? (
-                      <StyledImage
-                        src={user.imgUrl}
-                        alt="profile-image"
-                        width="42px"
-                        height="42px"
-                      />
-                    ) : (
+                  {user.imgUrl ? (
+                    <AppBarProfile src={user.imgUrl!} />
+                  ) : (
+                    <AppBarProfile>
                       <Profile fill={theme.colors.white} />
-                    )}
-                  </AppBarProfile>
+                    </AppBarProfile>
+                  )}
                 </Dropdown>
                 {!user.mentorId ? (
                   <Button
@@ -141,14 +138,15 @@ const AppBarContent = styled(FlexBox)({
   justifyContent: "space-between",
 });
 
-const AppBarProfile = styled.div`
-  width: 42px;
-  height: 42px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: ${theme.colors.gray.light};
-  border-radius: 100%;
-`;
+const AppBarProfile = styled.div(({ src }: { src?: string }) => ({
+  ...backgroundImage(src!),
+  width: "42px",
+  height: "42px",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  backgroundColor: `${theme.colors.gray.light}`,
+  borderRadius: "100%",
+}));
 
 export default AppBar;

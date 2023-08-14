@@ -13,7 +13,6 @@ const Mentors = () => {
       <>
         <MentorSearch query={query} setQuery={setQuery} refetch={refetch} />
         <div className={css({ marginTop: "40px" })}>
-          {mentors.length > 0}
           <MentorList mentors={mentors} />
         </div>
       </>

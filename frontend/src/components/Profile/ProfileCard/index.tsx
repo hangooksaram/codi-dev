@@ -4,6 +4,7 @@ import FlexBox from "@/ui/atoms/FlexBox";
 import Content from "./Content";
 import Header from "./Header";
 import { ProfileCard } from "@/types/profile";
+import { device } from "@/ui/theme";
 
 const ProfileCard = ({
   width,
@@ -21,6 +22,7 @@ const ProfileCard = ({
   apply,
   mentorId,
   employmentStatus,
+  link,
 }: ProfileCard) => {
   const today = false;
   return (
@@ -35,7 +37,7 @@ const ProfileCard = ({
         justifyContent="space-between"
         {...{ height: "100%" }}
       >
-        <Header edit={edit} mentor={mentor} apply={apply} />
+        <Header edit={edit} mentor={mentor} apply={apply} mentorId={mentorId} />
         <Content
           name={name}
           job={job}
@@ -49,6 +51,7 @@ const ProfileCard = ({
           isCertificate={isCertificate}
           mentorId={mentorId}
           employmentStatus={employmentStatus}
+          link={link}
         />
       </FlexBox>
     </CardContainer>
@@ -58,6 +61,9 @@ const ProfileCard = ({
 const CardContainer = styled(Card)(({ imgUrl }: { imgUrl: string }) => ({
   background: `url(${imgUrl}) no-repeat center`,
   backgroundSize: "cover",
+  [device("tablet")]: {
+    width: "100%",
+  },
 }));
 
 export default ProfileCard;

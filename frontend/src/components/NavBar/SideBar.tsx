@@ -28,6 +28,11 @@ const SideBar = ({ navigators }: { navigators: SideBarNavigators[] }) => {
   const [open, setOpen] = useState(true);
   const router = useRouter();
   const path = usePathname();
+  useEffect(() => {
+    if (window.innerWidth < 1000) {
+      setOpen(false);
+    }
+  }, []);
 
   useEffect(() => {
     navigators.forEach((navigator) => {
@@ -38,10 +43,6 @@ const SideBar = ({ navigators }: { navigators: SideBarNavigators[] }) => {
       });
     });
     setCurrent(path);
-
-    if (window.innerWidth < 1000) {
-      setOpen(false);
-    }
 
     return () => setNestedParent("");
   }, [path]);

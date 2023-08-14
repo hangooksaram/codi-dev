@@ -3,21 +3,49 @@
 import SingleCalendar from "@/components/Calendar/SingleCalendar";
 import MentoringsWithSingleCalendar from "@/components/Mentoring/MentoringsWithSingleCalendar";
 import MentorScheduleEdit from "@/components/Schedule/Mentor/MentorScheduleEdit";
-import MentorSchedules from "@/components/Schedule/Mentor/MentorSchedules";
 
-import useGetMentoringsQuery from "@/queries/mentoringQuery";
+import { selectUser } from "@/features/user/userSlice";
+import {
+  useDailyMentoringsQuery,
+  useMonthlyMentoringsQuery,
+} from "@/queries/mentoring/commonMentoringQuery";
 import Button from "@/ui/atoms/Button";
 
 import LabelBox from "@/ui/molecules/LabelBox";
-import formattedDate from "@/utils/dateFormat";
+import formattedDate, { formattedMonth } from "@/utils/dateFormat";
+import { css } from "@emotion/css";
 
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+
+import useDailySchedulesQuery, {
+  useMonthlySchedulesQuery,
+} from "@/queries/scheduleQuery";
+import MentorSchedules from "@/components/Schedule/Mentor/MentorSchedules";
 
 const SchedulePage = () => {
   const [date, setDate] = useState<Date>();
+  const [month, setMonth] = useState<string>();
+  const { mentorId } = useSelector(selectUser);
   const [type, setType] = useState<"mentor" | "mentee">("mentee");
   const [isEdit, setIsEdit] = useState(false);
-  const { mentorings, refetch } = useGetMentoringsQuery(formattedDate(date));
+  const { data: dailySchedules } = useDailySchedulesQuery(
+    mentorId!,
+    formattedDate(date)
+  );
+  const { data: monthlySchedules } = useMonthlySchedulesQuery(
+    mentorId!,
+    formattedMonth(new Date())
+  );
+
+  const { data: mentoringsData } = useMonthlyMentoringsQuery({
+    mentorId: mentorId!,
+    month: month ?? formattedMonth(new Date()),
+  });
+  const { data: dailyMentoringData } = useDailyMentoringsQuery({
+    mentorId: mentorId!,
+    date: formattedDate(date),
+  });
 
   const toggleEditState = () => {
     setType((prev) => (prev === "mentor" ? "mentee" : "mentor"));
@@ -25,11 +53,6 @@ const SchedulePage = () => {
     if (!date) setDate(new Date());
   };
 
-  useEffect(() => {
-    if (date) {
-      refetch();
-    }
-  }, [date]);
   return (
     <LabelBox
       text="멘토링 일정 관리"
@@ -39,6 +62,8 @@ const SchedulePage = () => {
           disabled={date && date?.getDate() < new Date().getDate()}
           onClick={toggleEditState}
           variant="default"
+          size="small"
+          {...{ minWidth: "fit-content", marginBottom: "20px" }}
         >
           일정편집
         </Button>
@@ -48,16 +73,25 @@ const SchedulePage = () => {
         type={type}
         date={date}
         setDate={setDate}
-        mentorings={mentorings}
+        setMonth={setMonth}
+        mentorings={
+          date ? dailyMentoringData! : mentoringsData?.monthlyMentoringMembers
+        }
+        schedules={monthlySchedules?.days.map(({ date }) => date)!}
       />
-      {isEdit ? (
-        <MentorScheduleEdit
-          date={formattedDate(date)}
-          toggleEditState={toggleEditState}
-        />
-      ) : (
-        <MentorSchedules date={formattedDate(date)} />
-      )}
+      <div className={css({ marginTop: "20px" })}>
+        {isEdit ? (
+          <MentorScheduleEdit
+            date={formattedDate(date)}
+            schedules={dailySchedules}
+            toggleEditState={toggleEditState}
+          />
+        ) : (
+          <MentorSchedules
+            schedules={date ? dailySchedules! : monthlySchedules?.days!}
+          />
+        )}
+      </div>
     </LabelBox>
   );
 };

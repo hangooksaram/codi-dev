@@ -6,9 +6,8 @@ import LabelBox from "@/ui/molecules/LabelBox";
 import theme from "@/ui/theme";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import useScheduleQuery from "@/queries/scheduleQuery";
+import useDailySchedulesQuery from "@/queries/scheduleQuery";
 import formattedDate from "@/utils/dateFormat";
-import { Status } from "@/types/mentoring";
 import Button from "@/ui/atoms/Button";
 import FormInputContainer from "@/ui/molecules/Input/FormInput";
 import Textarea from "@/ui/atoms/Textarea";
@@ -16,64 +15,37 @@ import ContainerWithBackground from "@/ui/molecules/Container/ContainerWithBackg
 import Typography from "@/ui/atoms/Typography";
 import useRestForm from "@/hooks/useRestForm";
 import ChipButton from "@/ui/atoms/ChipButton";
+import { selectUser } from "@/features/user/userSlice";
+import { useSelector } from "react-redux";
+import { useApplyMentoringMutation } from "@/queries/mentoring/menteeMentoringQuery";
+import { ApplyMentoringBody } from "@/types/api/mentoring";
 
-const mockData = [
-  {
-    date: formattedDate(new Date()),
-    times: [
-      {
-        time: "10:00 - 10:50",
-        status: "ACCEPTED" as Status,
-      },
-      {
-        time: "11:00 - 11:50",
-        status: "APPLICATION" as Status,
-      },
-      {
-        time: "12:00 - 12:50",
-        status: "APPLICATION" as Status,
-      },
-    ],
-  },
-][0];
-
-interface MentoringApplyBody {
-  profileId: number;
-  date: string;
-  time: string;
-  mentorId: number;
-  applicationReason: string;
-}
-
-const initialRestForm: MentoringApplyBody = {
-  profileId: 0,
+const initialRestForm: ApplyMentoringBody = {
   date: "",
   time: "",
-  mentorId: 0,
   applicationReason: "",
 };
 
 const MentoringApplyFormPage = () => {
   const { restForm, setRestForm } =
-    useRestForm<MentoringApplyBody>(initialRestForm);
+    useRestForm<ApplyMentoringBody>(initialRestForm);
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [isAllFilled, setIsAllFilled] = useState(false);
   const { mentorId } = useParams();
-  const { data, refetch } = useScheduleQuery(
-    parseInt(mentorId),
+  const { profileId } = useSelector(selectUser);
+  const mutation = useApplyMentoringMutation(profileId!, parseInt(mentorId));
+  const { data } = useDailySchedulesQuery(
+    parseInt(mentorId)!,
     formattedDate(date)
   );
 
-  const handleSubmit = () => {};
-
-  useEffect(() => {
-    setRestForm({ ...restForm, profileId: 1, mentorId: parseInt(mentorId) });
-  }, []);
+  const handleSubmit = () => {
+    mutation.mutate(restForm!);
+  };
 
   useEffect(() => {
     if (date) {
       setRestForm({ ...restForm, date: formattedDate(date) });
-      refetch();
     }
   }, [date]);
   return (
@@ -102,7 +74,7 @@ const MentoringApplyFormPage = () => {
                 columnGap="15px"
                 rowGap="15px"
               >
-                {mockData.times.map(({ time, status }, index) => {
+                {data?.times.map(({ time, enabled }, index) => {
                   const scheduled = status === "ACCEPTED";
                   return (
                     <ChipButton
@@ -118,8 +90,8 @@ const MentoringApplyFormPage = () => {
                           : theme.colors.background
                       }
                       key={index}
-                      outline={scheduled}
-                      disabled={scheduled}
+                      outline={!enabled}
+                      disabled={!enabled}
                     >
                       {time}
                     </ChipButton>
@@ -130,6 +102,7 @@ const MentoringApplyFormPage = () => {
           </LabelBox>
           <FormInputContainer text="하고싶은 말" helpText="(최소 50 글자)">
             <Textarea
+              minLength={50}
               value={restForm.applicationReason}
               onChange={(e) =>
                 setRestForm({ ...restForm, applicationReason: e.target.value })
@@ -138,7 +111,9 @@ const MentoringApplyFormPage = () => {
           </FormInputContainer>
           <Button
             disabled={
-              !restForm.applicationReason || !restForm.date || !restForm.time
+              restForm.applicationReason.length < 50 ||
+              !restForm.date ||
+              !restForm.time
             }
             type="submit"
             variant="square"

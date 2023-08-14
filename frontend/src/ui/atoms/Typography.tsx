@@ -9,6 +9,7 @@ const Typography = ({
   weight,
   align,
   children,
+  wordBreak,
   ...rest
 }: Typography) => {
   const StyledTypography = styled
@@ -19,7 +20,7 @@ const Typography = ({
       textAlign: align ?? "left",
       height: "fit-content",
       fontWeight: weight,
-      wordBreak: "break-word",
+      wordBreak: wordBreak ?? "break-word",
       ...rest,
     }))
     .withComponent(variant);

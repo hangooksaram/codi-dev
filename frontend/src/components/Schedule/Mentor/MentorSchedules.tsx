@@ -4,15 +4,23 @@ import Chip from "@/ui/atoms/Chip";
 import FlexBox from "@/ui/atoms/FlexBox";
 import theme from "@/ui/theme";
 import { css } from "@emotion/css";
-import { useEffect } from "react";
 
-const MentorSchedules = ({ date }: { date?: string }) => {
-  useEffect(() => {
-    // api 호출 코드
-  }, [date]);
+const MentorSchedules = ({
+  schedules,
+}: {
+  schedules: Schedule | Schedule[];
+}) => {
+  return Array.isArray(schedules) ? (
+    <MonthlySchedules schedules={schedules} />
+  ) : (
+    <DailySchedules schedules={schedules} />
+  );
+};
+
+const MonthlySchedules = ({ schedules }: { schedules: Schedule[] }) => {
   return (
     <Card padding="45px">
-      {mentorings.map(({ date, times }, index) => {
+      {schedules?.map(({ date, times }, index) => {
         return (
           <div
             className={css({ width: "100%", marginBottom: "30px" })}
@@ -26,17 +34,11 @@ const MentorSchedules = ({ date }: { date?: string }) => {
               rowGap="20px"
               {...{ marginTop: "15px" }}
             >
-              {times.map(({ time, status }) => (
+              {times.map(({ time, enabled }) => (
                 <Chip
-                  color={
-                    status === "ACCEPTED"
-                      ? theme.colors.primary
-                      : theme.colors.white
-                  }
+                  color={enabled ? theme.colors.primary : theme.colors.white}
                   fontColor={
-                    status === "ACCEPTED"
-                      ? theme.colors.white
-                      : theme.colors.gray.main
+                    enabled ? theme.colors.white : theme.colors.gray.main
                   }
                   outline
                   key={index}
@@ -52,57 +54,32 @@ const MentorSchedules = ({ date }: { date?: string }) => {
   );
 };
 
+const DailySchedules = ({ schedules }: { schedules?: Schedule }) => {
+  return (
+    <Card padding="45px">
+      <div className={css({ width: "100%", marginBottom: "30px" })}>
+        <div>{schedules?.date}</div>
+        <FlexBox
+          justifyContent="flex-start"
+          isWrap
+          columnGap="20px"
+          rowGap="20px"
+          {...{ marginTop: "15px" }}
+        >
+          {schedules?.times.map(({ time, enabled }, index) => (
+            <Chip
+              color={enabled ? theme.colors.primary : theme.colors.white}
+              fontColor={enabled ? theme.colors.white : theme.colors.gray.main}
+              outline
+              key={index}
+            >
+              {time}
+            </Chip>
+          ))}
+        </FlexBox>
+      </div>
+    </Card>
+  );
+};
+
 export default MentorSchedules;
-const mentorings = [
-  {
-    date: "2023/05/11",
-    times: [
-      {
-        time: "10:00-10:50",
-        status: "ACCEPTED",
-      },
-      {
-        time: "10:00-10:50",
-        status: "ACCEPTED",
-      },
-      {
-        time: "10:00-10:50",
-        status: "ACCEPTED",
-      },
-    ],
-  },
-  {
-    date: "2023/05/13",
-    times: [
-      {
-        time: "10:00-10:50",
-        status: "ACCEPTED",
-      },
-      {
-        time: "10:00-10:50",
-        status: "",
-      },
-      {
-        time: "10:00-10:50",
-        status: "",
-      },
-    ],
-  },
-  {
-    date: "2023/05/12",
-    times: [
-      {
-        time: "10:00-10:50",
-        status: "",
-      },
-      {
-        time: "10:00-10:50",
-        status: "",
-      },
-      {
-        time: "10:00-10:50",
-        status: "",
-      },
-    ],
-  },
-] as Schedule[];

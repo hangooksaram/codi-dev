@@ -10,10 +10,15 @@ import { PageComponentLayout } from "@/components/pages/mentorsMain/PageComonent
 import TitleSection from "@/components/pages/mentorsMain/TitleSection";
 import Logo from "@icons/logo/recommend-icon.svg";
 import Mentors from "@/components/Mentor/Mentors";
+import { useJobRanksQuery } from "@/queries/jobQuery";
+import { useSelector } from "react-redux";
+import { selectUser } from "@/features/user/userSlice";
 
 const MentorsPage = () => {
   const router = useRouter();
   const ref = useRef<HTMLDivElement>(null);
+  const { id } = useSelector(selectUser);
+  const { data } = useJobRanksQuery(id!);
 
   const scrollToMentorList = () => {
     ref.current?.scrollIntoView({ behavior: "smooth" });

@@ -132,20 +132,23 @@ export const DropdownButton = styled(Button)(
   })
 );
 
-const DropDownList = styled.ul(({ width }: { width?: string }) => ({
-  width: width ?? "100%",
-  minWidth: "fit-content",
-  maxHeight: "250px",
-  overflow: "auto",
-  position: "absolute",
-  zIndex: 1,
-  top: "70px",
-  padding: "0px 10px",
-  backgroundColor: theme.colors.white,
-  borderRadius: "10px",
-  listStyle: "none",
-  border: `1px solid ${theme.colors.gray.main}`,
-}));
+const DropDownList = styled.ul(
+  ({ width, left }: { width?: string; left?: boolean }) => ({
+    width: width ?? "100%",
+    minWidth: "fit-content",
+    maxHeight: "250px",
+    overflow: "auto",
+    position: "absolute",
+    zIndex: 1,
+    top: "70px",
+    right: left ? "0px" : "0px",
+    padding: "0px 10px",
+    backgroundColor: theme.colors.white,
+    borderRadius: "10px",
+    listStyle: "none",
+    border: `1px solid ${theme.colors.gray.main}`,
+  })
+);
 
 const DropdownGridCard = styled(Card)(() => ({
   width: "100%",

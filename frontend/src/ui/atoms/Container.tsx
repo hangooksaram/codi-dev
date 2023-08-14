@@ -1,9 +1,12 @@
-import theme from "@/ui/theme";
+import theme, { device } from "@/ui/theme";
 import styled from "@emotion/styled";
 
 const Container = styled.main(({ width }: { width?: string }) => ({
   width: width ?? "69%",
   margin: "0 auto",
+  [device("tablet")]: {
+    width: "90%",
+  },
 }));
 
 export const FormContainer = styled(Container)`

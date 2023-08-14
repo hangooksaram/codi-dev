@@ -25,7 +25,10 @@ import {
   EMPLOYMENT_STATUSES_VALUE,
   SEVERITIES,
 } from "@/constants";
-import { registerProfile } from "@/api/profileApi";
+import {
+  editProfile as patchEditProfile,
+  registerProfile as postRegisterProfile,
+} from "@/api/profileApi";
 import { handleApiCallback } from "@/utils/api";
 import JobSelector from "@/components/Job/JopSelector";
 import { useSelector } from "react-redux";
@@ -33,28 +36,76 @@ import { selectUser, setUser } from "@/features/user/userSlice";
 import { setLocalUser, localUser } from "@/utils/tempUser";
 import { RegisterProfileResponse } from "@/types/api/profile";
 import { useDispatch } from "react-redux";
+import useInitiallizeFormValues from "@/hooks/useInitiallizeFormValues";
 
 const ProfileFormPage = () => {
-  const memberId = useSelector(selectUser)!.id;
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  const initialFormikValues = {
+    introduction: "",
+    desiredJob: "",
+  };
+
+  const initialRestFormValues = {
+    job: "",
+    education: "",
+    disability: "",
+    employmentStatus: "",
+    severity: "",
+  };
+
+  const { formikValues, restFormValues, isEdit, pathParams } =
+    useInitiallizeFormValues<ProfileFormValues, RestFormValues>(
+      initialFormikValues,
+      initialRestFormValues
+    );
+
+  const { id: memberId, profileId } = useSelector(selectUser)!;
+
   const { restForm, setRestForm, validateRestForm, invalid } =
-    useRestForm<RestFormValues>(initialRestForm);
+    useRestForm<RestFormValues>(restFormValues);
   const { file, onUploadFile } = useUploadFile();
   const [bigEducationCategory, setBigEducationCategory] = useState("");
   const [job, setJob] = useState("");
   const [openJobSelector, setOpenJobSelector] = useState(false);
   const [submitType, setSubmitType] = useState<string>("");
-  const dispatch = useDispatch();
-  const router = useRouter();
+
+  useEffect(() => {
+    if (isEdit) {
+      setJob(restFormValues.job!);
+      if (restFormValues.education === ("초등학교" || "중학교" || "고등학교")) {
+        setBigEducationCategory(restFormValues.education);
+        restFormValues.education = "";
+      } else {
+      }
+    }
+  }, []);
+
   const handleProfileSubmit = async (values: ProfileFormValues) => {
+    processData();
+    createFormData(values, restForm);
+
+    if (isEdit) {
+      editProfile();
+    } else registerProfile();
+  };
+
+  const processData = () => {
     if (bigEducationCategory !== "대학교") {
       restForm.education = bigEducationCategory;
     }
     restForm.employmentStatus = EMPLOYMENT_STATUSES_VALUE.get(
       restForm.employmentStatus
     );
+  };
 
-    values = { ...values, ...restForm };
-    const blob = new Blob([JSON.stringify(values)], {
+  const createFormData = (
+    values: ProfileFormValues,
+    restForm: RestFormValues
+  ) => {
+    const formValues = { ...values, ...restForm };
+    const blob = new Blob([JSON.stringify(formValues)], {
       type: "application/json",
     });
 
@@ -62,9 +113,11 @@ const ProfileFormPage = () => {
     formData.append("file", file.data!);
     const imageFormData = new FormData();
     imageFormData.append("file", file.data!);
+  };
 
+  const registerProfile = async () => {
     const { data, status, errorMessage } =
-      await registerProfile<RegisterProfileResponse>(memberId, formData);
+      await postRegisterProfile<RegisterProfileResponse>(memberId, formData);
 
     const signInSuccessCallback = () => {
       const { id, imgUrl } = data!;
@@ -72,7 +125,7 @@ const ProfileFormPage = () => {
       dispatch(setUser(localUser()));
       if (submitType === "complete") {
         router.push("/");
-      } else router.push("/mentorApplyForm");
+      } else router.push("/mentorRegisterForm");
     };
 
     handleApiCallback(status!, signInSuccessCallback, () =>
@@ -82,9 +135,27 @@ const ProfileFormPage = () => {
     );
   };
 
+  const editProfile = async () => {
+    const { data, status, errorMessage } =
+      await patchEditProfile<RegisterProfileResponse>(profileId!, formData);
+
+    const signInSuccessCallback = () => {
+      const { id, imgUrl } = data!;
+      setLocalUser({ profileId: id, imgUrl });
+      dispatch(setUser(localUser()));
+      router.back();
+    };
+
+    handleApiCallback(status!, signInSuccessCallback, () =>
+      alert(
+        `프로필 수정이 실패하였습니다. 다시 시도해주세요. error message : ${errorMessage}`
+      )
+    );
+  };
+
   const formData = new FormData();
   const formik = useFormik({
-    initialValues: profileFormValues,
+    initialValues: formikValues,
     onSubmit: (values: ProfileFormValues) => handleProfileSubmit(values),
     validationSchema: ProfileSchema,
   });
@@ -106,7 +177,7 @@ const ProfileFormPage = () => {
         align="center"
         {...{ margin: "80px 0px 80px 0px" }}
       >
-        프로필 작성하기
+        {isEdit ? "프로필 수정하기" : "프로필 작성하기"}
       </Typography>
       <form onSubmit={formik.handleSubmit}>
         <FlexBox direction="column" rowGap="50px">
@@ -128,6 +199,7 @@ const ProfileFormPage = () => {
               variant="square"
               type="button"
               onClick={() => document.getElementById("profileImage")?.click()}
+              disabled={isEdit !== null}
               {...{ marginLeft: "10px" }}
             >
               등록하기
@@ -271,17 +343,19 @@ const ProfileFormPage = () => {
           >
             작성완료
           </Button>
-          <Button
-            onClick={() => {
-              setSubmitType("complete-apply");
-              validateRestForm();
-            }}
-            width="100%"
-            type="submit"
-            variant="square"
-          >
-            작성하고 멘토 신청하러 가기
-          </Button>
+          {!isEdit && (
+            <Button
+              onClick={() => {
+                setSubmitType("complete-apply");
+                validateRestForm();
+              }}
+              width="100%"
+              type="submit"
+              variant="square"
+            >
+              작성하고 멘토 신청하러 가기
+            </Button>
+          )}
         </FlexBox>
       </form>
     </FormContainer>
@@ -305,18 +379,5 @@ const ProfileSchema = Yup.object().shape({
   desiredJob: Yup.string().required("Required"),
   introduction: Yup.string().required("Required"),
 });
-
-const profileFormValues = {
-  introduction: "",
-  desiredJob: "",
-};
-
-const initialRestForm: RestFormValues = {
-  job: "",
-  education: "",
-  disability: "",
-  employmentStatus: "",
-  severity: "중증",
-};
 
 export default ProfileFormPage;

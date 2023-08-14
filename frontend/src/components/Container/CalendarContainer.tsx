@@ -6,23 +6,38 @@ import { ReactNode, SetStateAction } from "react";
 
 import Card from "@/ui/atoms/Card";
 import styled from "@emotion/styled";
+import { DailyMentoringStatus, MentoringMember } from "@/types/mentoring";
 
 interface CalendarContainerProps {
   date: Date | undefined;
   setDate: React.Dispatch<SetStateAction<Date | undefined>>;
+  setMonth: React.Dispatch<SetStateAction<string | undefined>>;
   type: "mentor" | "mentee";
   children: ReactNode;
+  schedules: string[];
+
+  mentoringSchedules?: DailyMentoringStatus[];
 }
 
 const CalendarContainer = ({
   date,
   setDate,
+  setMonth,
   type,
   children,
+  schedules,
+  mentoringSchedules,
 }: CalendarContainerProps) => {
   return (
     <StyledCalendarContainer columnGap="20px">
-      <SingleCalendar type={type} date={date} setDate={setDate} />
+      <SingleCalendar
+        type={type}
+        date={date}
+        setDate={setDate}
+        setMonth={setMonth}
+        schedules={schedules}
+        mentoringSchedules={mentoringSchedules}
+      />
       <Card padding="40px">{children}</Card>
     </StyledCalendarContainer>
   );

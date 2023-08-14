@@ -8,4 +8,35 @@ export interface MentorMentoring {
   status: string;
 }
 
-export type Status = "APPLICATION" | "ACCEPTED" | "REJECTED" | "COMPLETED";
+export type MentoringStatus =
+  | "APPLICATION"
+  | "ACCEPTED"
+  | "REJECTED"
+  | "COMPLETED"
+  | "INITIAL";
+
+export type MentoringPlatform =
+  | "Google Meeting"
+  | "Discord"
+  | "Zoom"
+  | "KakaoTalk";
+
+export interface MentoringMember {
+  mentoringJob: string;
+  imgUrl: string;
+  link: string | null;
+  mentoringId: number;
+  name: string;
+  platform: MentoringPlatform | string;
+  time: string;
+}
+export interface DailyMentoringMember {
+  date: string;
+  mentoringMembers: MentoringMember[];
+  mentoringStatus: MentoringStatus;
+}
+
+export interface DailyMentoringStatus {
+  date: string;
+  mentoringStatus: MentoringStatus;
+}

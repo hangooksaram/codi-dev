@@ -1,4 +1,4 @@
-export type applyMentorBody = {
+export type RegisterMentorBody = {
   career: string;
   company: string;
   inOffice: boolean;
@@ -18,7 +18,7 @@ export interface GetMentorsParameters {
   keyword?: string;
 }
 
-export interface ApplyMnetorResponse {
+export interface RegisterMentorResponse {
   id: number;
   fileUrl: string;
   isCertificate: boolean;

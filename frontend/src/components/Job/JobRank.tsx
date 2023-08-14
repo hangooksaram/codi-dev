@@ -1,7 +1,7 @@
 import FlexBox from "@/ui/atoms/FlexBox";
 import { PageComponentLayout } from "@/components/pages/mentorsMain/PageComonentLayout";
 import Typography from "@/ui/atoms/Typography";
-import theme from "@/ui/theme";
+import theme, { device } from "@/ui/theme";
 import styled from "@emotion/styled";
 import Logo from "@icons/logo/recommendation-page-logo.svg";
 import TitleSection from "../pages/mentorsMain/TitleSection";
@@ -46,6 +46,9 @@ const Bar = styled.div(({ first }: { first: boolean }) => ({
   marginBottom: "10px",
   ":last-child": {
     marginBottom: "0px",
+  },
+  [device("tablet")]: {
+    width: first ? "100%" : "90%",
   },
 }));
 

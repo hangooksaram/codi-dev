@@ -12,6 +12,7 @@ export interface MenteeProfile {
   favorites?: [];
 }
 export interface Mentor extends MenteeProfile {
+  mentorId?: number;
   fileUrl?: null;
   isCertificate?: boolean;
   company?: string;
@@ -29,4 +30,6 @@ export interface ProfileCard extends Mentor {
   edit?: boolean;
   mentor?: boolean;
   apply?: boolean;
+  mentorId?: number;
+  link?: string;
 }

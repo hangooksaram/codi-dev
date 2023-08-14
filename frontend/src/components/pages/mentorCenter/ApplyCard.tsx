@@ -1,32 +1,40 @@
 "use client";
 
 import ProfileCard from "@/components/Profile/ProfileCard";
+import { selectUser } from "@/features/user/userSlice";
+import {
+  useMentoringAcceptMutation,
+  useMentoringRejectMutation,
+} from "@/queries/mentoring/mentorMentoringQuery";
+import { GetMentoringAppliesResponseData } from "@/types/api/mentoring";
 import Button from "@/ui/atoms/Button";
 import Card from "@/ui/atoms/Card";
 import Chip from "@/ui/atoms/Chip";
 import FlexBox from "@/ui/atoms/FlexBox";
-import Grid from "@/ui/atoms/Grid";
 import LabelBox from "@/ui/molecules/LabelBox";
 import theme, { device } from "@/ui/theme";
 import { css } from "@emotion/css";
+import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
 
 const MentorCenterApplyCard = ({
-  date,
-  categories,
-  introduction,
+  mentoringId,
+  applicationDate,
   menteeInfo,
-}: {
-  date: string;
-  categories: string[];
-  introduction: string;
-  menteeInfo: {
-    name: string;
-    job: string;
-    disability: string;
-    severity: string;
-  };
-}) => {
-  const { name, disability, job, severity } = menteeInfo;
+  applicationReason,
+}: GetMentoringAppliesResponseData) => {
+  const router = useRouter();
+  const {
+    name,
+    disability,
+    desiredJob,
+    severity,
+    employmentStatus,
+    profileId,
+  } = menteeInfo;
+  const { mentorId } = useSelector(selectUser);
+  const acceptMutation = useMentoringAcceptMutation(mentorId!, mentoringId!);
+  const rejectMutation = useMentoringRejectMutation(mentorId!, mentoringId!);
   return (
     <FlexBox
       justifyContent="space-between"
@@ -49,10 +57,12 @@ const MentorCenterApplyCard = ({
           height="400px"
           name={name}
           disability={disability}
-          job={job}
+          desiredJob={desiredJob}
           severity={severity}
+          employmentStatus={employmentStatus}
           imgUrl="/images/ProfileTest.png"
           apply={true}
+          mentor={false}
         />
       </div>
       <Card padding="40px" width="100%" height="400px">
@@ -64,12 +74,12 @@ const MentorCenterApplyCard = ({
         >
           <FlexBox direction="column" alignItems="flex-start" rowGap="40px">
             <LabelBox text="신청일자" width="50%">
-              <Chip title={date} />
+              <Chip>{applicationDate}</Chip>
             </LabelBox>
 
             <div className={css({ gridColumnEnd: 2 })}>
               <LabelBox text="하고 싶은 말">
-                <p>{introduction}</p>
+                <p>{applicationReason}</p>
               </LabelBox>
             </div>
           </FlexBox>
@@ -79,6 +89,7 @@ const MentorCenterApplyCard = ({
               size="small"
               color={theme.colors.secondary}
               variant="default"
+              onClick={() => router.push(`/menteeProfile/${profileId}`)}
             >
               멘티 프로필 보기
             </Button>
@@ -88,6 +99,7 @@ const MentorCenterApplyCard = ({
                 color={theme.colors.primary}
                 variant="default"
                 {...{ marginRight: "24px" }}
+                onClick={() => acceptMutation.mutate()}
               >
                 수락
               </Button>
@@ -96,6 +108,7 @@ const MentorCenterApplyCard = ({
                 color={theme.colors.white}
                 outline
                 variant="default"
+                onClick={() => rejectMutation.mutate()}
               >
                 거절
               </Button>

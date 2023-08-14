@@ -30,7 +30,7 @@ export const useGetMentorQuery = (mentorId: number) => {
   const { data, isLoading, isSuccess } = useQuery<Mentor>(
     GET_MENTOR_KEY,
     () => getMentor(mentorId),
-    { enabled: mentorId !== null && mentorId !== 0 }
+    { enabled: mentorId !== undefined && mentorId !== 0 }
   );
 
   return { data, isLoading, isSuccess };

@@ -1,15 +1,22 @@
 "use client";
 
 import MentoringsWithSingleCalendar from "@/components/Mentoring/MentoringsWithSingleCalendar";
-import useGetMentoringsQuery from "@/queries/mentoringQuery";
+import { selectUser } from "@/features/user/userSlice";
+import { useMonthlyMentoringsQuery } from "@/queries/mentoring/commonMentoringQuery";
+
 import FlexBox from "@/ui/atoms/FlexBox";
 import LabelBox from "@/ui/molecules/LabelBox";
 import formattedDate from "@/utils/dateFormat";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const MyCodiPage = () => {
+  const { profileId } = useSelector(selectUser);
   const [date, setDate] = useState<Date>();
-  const { mentorings, refetch } = useGetMentoringsQuery(formattedDate(date));
+  const { mentorings, refetch } = useMonthlyMentoringsQuery({
+    profileId: profileId!,
+    month: formattedDate(date),
+  });
 
   useEffect(() => {
     if (date) {

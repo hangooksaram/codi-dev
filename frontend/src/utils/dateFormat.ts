@@ -9,4 +9,12 @@ const formattedDate = (date: Date | undefined) => {
     : "";
 };
 
+export const formattedMonth = (date: Date | undefined) => {
+  const month = date?.getMonth()!;
+
+  return date !== undefined
+    ? `${date?.getFullYear()}/${month < 10 ? `0${month}` : month}`
+    : "";
+};
+
 export default formattedDate;

@@ -7,6 +7,8 @@ const LayoutWithSideBar = styled.main({
   margin: "50px 50px 0px 60px",
   [device("tablet")]: {
     margin: "0 auto",
+    marginTop: "20px",
+    paddingBottom: "200px",
     width: "90%",
   },
 });

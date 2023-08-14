@@ -1,18 +1,57 @@
-import { GetMentorsParameters, applyMentorBody } from "@/types/api/mentor";
+import {
+  GetMentorsParameters,
+  RegisterMentorBody,
+  RegisterMentorResponse,
+} from "@/types/api/mentor";
 import customAxios from "./customAxios";
 import { AxiosResponse } from "axios";
 import { handleApiError } from "@/utils/api";
 
-const applyMentor = async <T>(memberId: string, mentor: FormData) => {
+export const registerMentor = async (memberId: string, mentor: FormData) => {
   try {
-    const { data, status }: AxiosResponse<T> = await customAxios.post(
-      `/mentors/${memberId}`,
-      mentor,
-      {
+    const { data, status }: AxiosResponse<RegisterMentorResponse> =
+      await customAxios.post(`/mentors/${memberId}`, mentor, {
         headers: {
           "Content-Type": "multitype/form-data",
         },
-      }
+      });
+    return { data, status };
+  } catch (e) {
+    return handleApiError(e);
+  }
+};
+
+export const editMentor = async (mentorId: number, mentor: FormData) => {
+  try {
+    const { data, status }: AxiosResponse<RegisterMentorResponse> =
+      await customAxios.patch(`/mentors/${mentorId}`, mentor, {
+        headers: {
+          "Content-Type": "multitype/form-data",
+        },
+      });
+    return { data, status };
+  } catch (e) {
+    return handleApiError(e);
+  }
+};
+
+export const getMentors = async (mentorsParams: GetMentorsParameters) => {
+  const { page, size, job, career, disability, keyword } = mentorsParams;
+  return (
+    await customAxios.get(
+      `/mentors?page=${page}&size=${size}&job=${job}&career=${career}&disability=${disability}`
+    )
+  ).data;
+};
+
+export const getMentor = async (mentorId: number) => {
+  return (await customAxios.get(`/mentors/${mentorId}`)).data!;
+};
+
+export const likeMentor = async (profileId: number, mentorId: number) => {
+  try {
+    const { data, status }: AxiosResponse = await customAxios.post(
+      `/profiles/${profileId}/favorites/${mentorId}`
     );
     return { data, status };
   } catch (e) {
@@ -20,17 +59,13 @@ const applyMentor = async <T>(memberId: string, mentor: FormData) => {
   }
 };
 
-const getMentors = async (mentorsParams: GetMentorsParameters) => {
-  const { page, size, job, career, disability, keyword } = mentorsParams;
-  return (
-    await customAxios.get(
-      `/mentors?page=${page}&size=${size}&job=${job}&careere=${career}&disability=${disability}`
-    )
-  ).data;
+export const unLikeMentor = async (profileId: number, mentorId: number) => {
+  try {
+    const { data, status }: AxiosResponse = await customAxios.delete(
+      `/profiles/${profileId}/favorites/${mentorId}`
+    );
+    return { data, status };
+  } catch (e) {
+    return handleApiError(e);
+  }
 };
-
-const getMentor = async (mentorId: number) => {
-  return (await customAxios.get(`/mentors/${mentorId}`)).data!;
-};
-
-export { applyMentor, getMentors, getMentor };

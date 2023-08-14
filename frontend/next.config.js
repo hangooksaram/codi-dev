@@ -2,7 +2,7 @@
 
 const nextConfig = {
   // output: "export",
-
+  reactStrictMode: false,
   trailingSlash: true,
   webpack: (config) => {
     config.module.rules.push({
@@ -14,6 +14,9 @@ const nextConfig = {
   },
   compiler: {
     styledComponents: true,
+    images: {
+      domains: ["localhost", "codi-frontend.s3.ap-northeast-1.amazonaws.com"],
+    },
   },
 };
 
