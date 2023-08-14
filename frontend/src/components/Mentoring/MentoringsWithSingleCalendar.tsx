@@ -44,7 +44,7 @@ const MentoringsWithSingleCalendar = ({
     </CalendarContainer>
   );
 };
-const SchedulesContainer = styled.div({
+export const SchedulesContainer = styled.div({
   maxHeight: "510px",
   overflowY: "auto",
 });

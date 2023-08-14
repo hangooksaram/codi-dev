@@ -1,7 +1,9 @@
 "use client";
 
 import SingleCalendar from "@/components/Calendar/SingleCalendar";
-import MentoringsWithSingleCalendar from "@/components/Mentoring/MentoringsWithSingleCalendar";
+import MentoringsWithSingleCalendar, {
+  SchedulesContainer,
+} from "@/components/Mentoring/MentoringsWithSingleCalendar";
 import MentorScheduleEdit from "@/components/Schedule/Mentor/MentorScheduleEdit";
 
 import { selectUser } from "@/features/user/userSlice";
@@ -22,6 +24,8 @@ import useDailySchedulesQuery, {
   useMonthlySchedulesQuery,
 } from "@/queries/scheduleQuery";
 import MentorSchedules from "@/components/Schedule/Mentor/MentorSchedules";
+import CalendarContainer from "@/components/Container/CalendarContainer";
+import Mentorings from "@/components/Mentoring/Mentorings";
 
 const SchedulePage = () => {
   const [date, setDate] = useState<Date>();
@@ -44,6 +48,13 @@ const SchedulePage = () => {
     mentorId: mentorId!,
     date: formattedDate(date),
   });
+
+  const mentoringSchedules = mentoringsData?.monthlyMentoringMembers!.map(
+    ({ date, mentoringStatus }) => ({
+      date,
+      mentoringStatus,
+    })
+  );
 
   const toggleEditState = () => {
     setType((prev) => (prev === "mentor" ? "mentee" : "mentor"));
@@ -70,7 +81,7 @@ const SchedulePage = () => {
         </Button>
       }
     >
-      <MentoringsWithSingleCalendar
+      {/* <MentoringsWithSingleCalendar
         type={type}
         date={date}
         setDate={setDate}
@@ -78,8 +89,26 @@ const SchedulePage = () => {
         mentorings={
           date ? dailyMentoringData! : mentoringsData?.monthlyMentoringMembers
         }
+        schedules={}
+      /> */}
+      <CalendarContainer
+        date={date}
+        setDate={setDate}
+        setMonth={setMonth}
+        type={type}
         schedules={monthlySchedules?.days.map(({ date }) => date)!}
-      />
+        mentoringSchedules={mentoringSchedules}
+      >
+        <SchedulesContainer>
+          <Mentorings
+            mentorings={
+              date
+                ? dailyMentoringData!
+                : mentoringsData?.monthlyMentoringMembers
+            }
+          />
+        </SchedulesContainer>
+      </CalendarContainer>
       <div className={css({ marginTop: "20px" })}>
         {isEdit ? (
           <MentorScheduleEdit
