@@ -33,9 +33,7 @@ export const useMonthlySchedulesQuery = (mentorId: number, month: string) => {
 };
 
 export const useScheduleMutation = (mentorId: number) => {
-  return useMutation(ADD_SCHEDULES_KEY, (schedule: Schedule) =>
-    addSchedule(mentorId, schedule)
-  );
+  return useMutation((schedule: Schedule) => addSchedule(mentorId, schedule));
 };
 
 export default useDailySchedulesQuery;

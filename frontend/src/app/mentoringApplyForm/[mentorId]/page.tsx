@@ -6,7 +6,9 @@ import LabelBox from "@/ui/molecules/LabelBox";
 import theme from "@/ui/theme";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import useDailySchedulesQuery from "@/queries/scheduleQuery";
+import useDailySchedulesQuery, {
+  useMonthlySchedulesQuery,
+} from "@/queries/scheduleQuery";
 import formattedDate from "@/utils/dateFormat";
 import Button from "@/ui/atoms/Button";
 import FormInputContainer from "@/ui/molecules/Input/FormInput";

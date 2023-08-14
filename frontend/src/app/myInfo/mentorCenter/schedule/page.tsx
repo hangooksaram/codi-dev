@@ -33,10 +33,8 @@ const SchedulePage = () => {
     mentorId!,
     formattedDate(date)
   );
-  const { data: monthlySchedules } = useMonthlySchedulesQuery(
-    mentorId!,
-    formattedMonth(new Date())
-  );
+  const { data: monthlySchedules, refetch: refetchMonthlySchedule } =
+    useMonthlySchedulesQuery(mentorId!, formattedMonth(new Date()));
 
   const { data: mentoringsData } = useMonthlyMentoringsQuery({
     mentorId: mentorId!,
@@ -50,7 +48,10 @@ const SchedulePage = () => {
   const toggleEditState = () => {
     setType((prev) => (prev === "mentor" ? "mentee" : "mentor"));
     setIsEdit((prev) => !prev);
-    if (!date) setDate(new Date());
+    if (!date) {
+      setDate(new Date());
+      return;
+    }
   };
 
   return (
@@ -83,8 +84,9 @@ const SchedulePage = () => {
         {isEdit ? (
           <MentorScheduleEdit
             date={formattedDate(date)}
-            schedules={dailySchedules}
+            schedules={dailySchedules!}
             toggleEditState={toggleEditState}
+            refetchMonthlySchedule={refetchMonthlySchedule}
           />
         ) : (
           <MentorSchedules

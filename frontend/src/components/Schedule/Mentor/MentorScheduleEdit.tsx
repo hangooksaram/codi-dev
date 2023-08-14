@@ -20,37 +20,46 @@ const MentorScheduleEdit = ({
   date,
   schedules,
   toggleEditState,
+  refetchMonthlySchedule,
 }: {
   date?: string;
   schedules?: Schedule;
   toggleEditState: () => void;
+  refetchMonthlySchedule: () => void;
 }) => {
-  const [selecteds, setSelecteds] = useState<string[]>([]);
+  const [selecteds, setSelecteds] = useState<ScheduleTime[]>([]);
   const { mentorId } = useSelector(selectUser);
 
   useEffect(() => {
-    setSelecteds(schedules?.times.map((item) => item.time)!);
+    setSelecteds(schedules?.times!);
   }, [date, schedules?.times]);
-
   const addSchedule = useScheduleMutation(mentorId!);
   const selected = (time: string) => {
-    return selecteds?.includes(time);
+    return selecteds?.find(({ time: selectedTime }) => selectedTime === time);
   };
 
   const handleClickTime = (time: string) => {
-    if (selecteds?.includes(time)) {
-      setSelecteds((prev) => prev.filter((prevTime) => prevTime !== time));
+    console.log(
+      selecteds?.find(({ time: selectedTime }) => selectedTime === time)
+    );
+    if (selecteds?.find(({ time: selectedTime }) => selectedTime === time)) {
+      setSelecteds((prev) => prev.filter((prevTime) => prevTime.time !== time));
       return;
     }
-    setSelecteds([...selecteds, time]);
+    setSelecteds([...selecteds, { time: time, enabled: true }]);
   };
 
   const patchMentorSchedule = () => {
-    // toggleEditState();
-    const times: ScheduleTime[] = selecteds.map((time) => {
+    toggleEditState();
+    const times: ScheduleTime[] = selecteds.map(({ time }) => {
       return { time };
     });
     addSchedule.mutate({ date: date!, times: times! });
+    if (!addSchedule.isError) {
+      setTimeout(() => {
+        refetchMonthlySchedule();
+      }, 2000);
+    }
   };
 
   return (
@@ -83,12 +92,20 @@ const MentorScheduleEdit = ({
               size="small"
               outline
               key={index}
+              disabled={
+                selected(time)?.time === time && !selected(time)?.enabled
+              }
             >
               {time}
             </Button>
           ))}
         </FlexBox>
-        <Button onClick={patchMentorSchedule} size="small" variant="default">
+        <Button
+          disabled={selecteds?.length === 0}
+          onClick={patchMentorSchedule}
+          size="small"
+          variant="default"
+        >
           변경내용저장
         </Button>
       </FlexBox>
