@@ -16,4 +16,4 @@ export const getJobCategories = async <T>(): Promise<CommonApiResponse<T>> => {
 };
 
 export const getJobRanks = async (memberId: string) =>
-  (await customAxios.get(`/rank/${memberId}`)).data;
+  (await customAxios.get(`/rank/${memberId ?? ""}`)).data;

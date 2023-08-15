@@ -18,6 +18,13 @@ export interface GetMentorsParameters {
   keyword?: string;
 }
 
+export interface GetRecommendationMentorsParameters {
+  disability: string;
+  firstJob: string;
+  secondJob: string;
+  thirdJob: string;
+}
+
 export interface RegisterMentorResponse {
   id: number;
   fileUrl: string;

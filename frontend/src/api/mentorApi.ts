@@ -1,5 +1,6 @@
 import {
   GetMentorsParameters,
+  GetRecommendationMentorsParameters,
   RegisterMentorBody,
   RegisterMentorResponse,
 } from "@/types/api/mentor";
@@ -35,11 +36,22 @@ export const editMentor = async (mentorId: number, mentor: FormData) => {
   }
 };
 
+export const getRecommendationMentors = async (
+  params: GetRecommendationMentorsParameters
+) => {
+  const { disability, firstJob, secondJob, thirdJob } = params;
+  return (
+    await customAxios.get(
+      `/mentors/recommend?disability=${disability}&firstJob=${firstJob}&secondJob=${secondJob}&thirdJob=${thirdJob}`
+    )
+  ).data;
+};
+
 export const getMentors = async (mentorsParams: GetMentorsParameters) => {
   const { page, size, job, career, disability, keyword } = mentorsParams;
   return (
     await customAxios.get(
-      `/mentors?page=${page}&size=${size}&job=${job}&career=${career}&disability=${disability}`
+      `/mentors?page=${page}&size=${size}&job=${job}&career=${career}&disability=${disability}&keyword=${keyword}`
     )
   ).data;
 };

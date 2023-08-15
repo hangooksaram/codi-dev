@@ -1,12 +1,20 @@
 // quires/useTodosQuery.ts
-import { getMentor, getMentors } from "@/api/mentorApi";
-import { GetMentorsParameters } from "@/types/api/mentor";
+import {
+  getMentor,
+  getMentors,
+  getRecommendationMentors,
+} from "@/api/mentorApi";
+import {
+  GetMentorsParameters,
+  GetRecommendationMentorsParameters,
+} from "@/types/api/mentor";
 import { Mentor } from "@/types/profile";
 
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
 export const GET_MENTORS_KEY = ["mentors"];
+export const GET_RECOMMENDATION_MENTORS_KEY = ["mentors/recommendation"];
 export const GET_MENTOR_KEY = ["mentor"];
 
 const useGetMentorsQuery = () => {
@@ -16,6 +24,7 @@ const useGetMentorsQuery = () => {
     job: "",
     disability: "",
     career: "",
+    keyword: "",
   });
 
   const { data, isSuccess, refetch } = useQuery(GET_MENTORS_KEY, () =>
@@ -25,6 +34,15 @@ const useGetMentorsQuery = () => {
 
   return { query, setQuery, mentors, isSuccess, refetch };
 };
+
+export const useGetRecommendationMentorsQuery = (
+  query: GetRecommendationMentorsParameters
+) =>
+  useQuery(
+    GET_RECOMMENDATION_MENTORS_KEY,
+    () => getRecommendationMentors(query!),
+    { enabled: query.disability !== undefined }
+  );
 
 export const useGetMentorQuery = (mentorId: number) => {
   const { data, isLoading, isSuccess } = useQuery<Mentor>(
