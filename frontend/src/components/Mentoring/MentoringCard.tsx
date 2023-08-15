@@ -9,13 +9,18 @@ import { backgroundImage } from "@/ui/atoms/BackgroundImage";
 import { StyledImage } from "@/ui/atoms/StyledImage";
 import { useState } from "react";
 import Modal from "@/ui/molecules/Modal";
-import MentoringToolModal, { MENTORING_TOOLS } from "./MentoringToolModal";
+import MentoringPlatformModal, {
+  MENTORING_PLATFORMS,
+} from "./MentoringPlatformModal";
 import { MentoringPlatform, MentoringStatus } from "@/types/mentoring";
 import formattedDate from "@/utils/dateFormat";
+import { useRouter } from "next/navigation";
 
 const mocks = [];
 
 const MentoringCard = ({
+  profileId,
+  mentorId,
   mentoringId,
   date,
   time,
@@ -23,6 +28,8 @@ const MentoringCard = ({
   mentoringJob,
   platform,
 }: {
+  profileId?: number;
+  mentorId?: number;
   mentoringId: number;
   date: string | undefined;
   time: string;
@@ -31,13 +38,31 @@ const MentoringCard = ({
   platform: MentoringPlatform | string;
 }) => {
   const [openModal, setOpenModal] = useState(false);
-  const platformInfo = MENTORING_TOOLS.find(({ text }) => text === platform);
+  const platformInfo = MENTORING_PLATFORMS.find(
+    ({ text }) => text === platform
+  );
+  const router = useRouter();
+  const mentorProfileUrl = `/mentorProfile/${mentorId}?platform=${platform}`;
+  const menteeProfileUrl = `/menteeProfile/${profileId}?mentoringId=${mentoringId}&platform=${platform}`;
+
   return (
-    <StyledCard>
+    <StyledCard onClick={() => router.push(menteeProfileUrl)}>
       <Header today={date === formattedDate(new Date())}>{time}</Header>
       <FlexBox justifyContent="space-between">
         <ProfileImage>
-          {platform === "No Selection." ? null : platformInfo?.icon!}
+          {platform === "No Selection." ? null : (
+            <StyledImage
+              width="40px"
+              height="40px"
+              src={platformInfo?.iconSrc!}
+              alt={platformInfo?.text!}
+              {...{
+                position: "absolute",
+                bottom: "-10px",
+                right: "-10px",
+              }}
+            />
+          )}
         </ProfileImage>
         <div>
           <Typography
@@ -56,7 +81,9 @@ const MentoringCard = ({
           </Typography>
         </div>
         <LinkButton
-          onClick={() => setOpenModal(true)}
+          onClick={() => {
+            setOpenModal(true);
+          }}
           width="42px"
           variant="round"
           color={
@@ -67,7 +94,7 @@ const MentoringCard = ({
         >
           <Link fill={theme.colors.white} />
         </LinkButton>
-        <MentoringToolModal
+        <MentoringPlatformModal
           mentoringId={mentoringId}
           open={openModal}
           setOpen={setOpenModal}
@@ -78,6 +105,7 @@ const MentoringCard = ({
 };
 
 const StyledCard = styled(Card)({
+  cursor: "pointer",
   maxWidth: "237px",
   maxHeight: "130px",
   padding: "10px",

@@ -7,8 +7,11 @@ import styled from "@emotion/styled";
 import FlexBox from "@/ui/atoms/FlexBox";
 import ProfileCard from "@/components/Profile/ProfileCard";
 import { Mentor } from "@/types/profile";
+import Button from "@/ui/atoms/Button";
+import { useRouter } from "next/navigation";
 
 const MentorList = ({ mentors }: { mentors: Mentor[] }) => {
+  const router = useRouter();
   if (!mentors)
     return (
       <NoResultCard>
@@ -56,7 +59,18 @@ const MentorList = ({ mentors }: { mentors: Mentor[] }) => {
             mentees={mentees}
             imgUrl={imgUrl}
             mentorId={mentorId}
-          ></ProfileCard>
+          >
+            <Button
+              onClick={() =>
+                router.push(`/mentorProfile/${mentorId}?mentoring=${true}`)
+              }
+              size="small"
+              variant="default"
+              color={theme.colors.secondary}
+            >
+              멘토 프로필 보기
+            </Button>
+          </ProfileCard>
         )
       )}
     </Grid>

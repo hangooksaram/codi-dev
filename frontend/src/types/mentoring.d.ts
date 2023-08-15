@@ -22,6 +22,8 @@ export type MentoringPlatform =
   | "KakaoTalk";
 
 export interface MentoringMember {
+  profileId?: number;
+  mentorId?: number;
   mentoringJob: string;
   imgUrl: string;
   link: string | null;

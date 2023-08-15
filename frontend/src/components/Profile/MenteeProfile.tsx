@@ -10,9 +10,16 @@ import Chip from "@/ui/atoms/Chip";
 import useGetProfileQuery from "@/queries/profileQuery";
 import ProfileLabelText from "./ProfileLabelText";
 import styled from "@emotion/styled";
+import { useRouter, useSearchParams } from "next/navigation";
+import Button from "@/ui/atoms/Button";
+import MentoringPlatformModal from "../Mentoring/MentoringPlatformModal";
+import { useState } from "react";
 
 const MenteeProfile = ({ profileId }: { profileId: number }) => {
   const { data: profile } = useGetProfileQuery(profileId);
+  const param = useSearchParams();
+  const isMentoring = param.get("mentoringId");
+  const [openModal, setOpenModal] = useState(false);
   return (
     <Card color={theme.colors.background} padding="30px" height="auto">
       <FlexBox
@@ -26,7 +33,7 @@ const MenteeProfile = ({ profileId }: { profileId: number }) => {
         }}
       >
         <ProfileCard
-          edit
+          edit={isMentoring ? false : true}
           name="이름"
           imgUrl={profile?.imgUrl}
           employmentStatus={profile?.employmentStatus}
@@ -39,7 +46,27 @@ const MenteeProfile = ({ profileId }: { profileId: number }) => {
           }&severity=${profile?.severity}&introduction=${
             profile?.introduction
           }&desiredJob=${profile?.desiredJob}&imgUrl=${profile?.imgUrl}`}
-        />
+          disability={profile?.disability}
+          severity={profile?.disability}
+        >
+          {param.get("platform") ? (
+            <>
+              <Button
+                onClick={() => setOpenModal(true)}
+                size="small"
+                variant="default"
+                color={theme.colors.secondary}
+              >
+                멘토링 링크 수정
+              </Button>
+              <MentoringPlatformModal
+                mentoringId={parseInt(param.get("mentoringId")!)}
+                open={openModal}
+                setOpen={setOpenModal}
+              />
+            </>
+          ) : null}
+        </ProfileCard>
         <Card
           padding="45px 0px 0px 45px"
           className={css({
@@ -51,7 +78,7 @@ const MenteeProfile = ({ profileId }: { profileId: number }) => {
         >
           <LabelBox text="멘티정보">
             <ReactiveGrid1 gridTemplateColumns="1fr 1fr" rowGap="10px">
-              <ProfileLabelText name="이름" value="오현재" />
+              <ProfileLabelText name="이름" value={profile?.name} />
               <ProfileLabelText name="최종학력" value={profile?.education} />
               <ProfileLabelText name="나이" value={"25세"} />
               <ProfileLabelText name="희망직무" value={profile?.desiredJob} />

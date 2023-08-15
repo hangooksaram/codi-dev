@@ -23,8 +23,9 @@ const ProfileCard = ({
   mentorId,
   employmentStatus,
   link,
+  pageQueryInfo,
+  children,
 }: ProfileCard) => {
-  const today = false;
   return (
     <CardContainer
       width={width}
@@ -52,6 +53,8 @@ const ProfileCard = ({
           mentorId={mentorId}
           employmentStatus={employmentStatus}
           link={link}
+          pageQueryInfo={pageQueryInfo}
+          children={children}
         />
       </FlexBox>
     </CardContainer>

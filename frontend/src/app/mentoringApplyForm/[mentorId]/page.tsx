@@ -4,8 +4,8 @@ import CalendarContainer from "@/components/Container/CalendarContainer";
 import FlexBox from "@/ui/atoms/FlexBox";
 import LabelBox from "@/ui/molecules/LabelBox";
 import theme from "@/ui/theme";
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { FormEventHandler, useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
 import useDailySchedulesQuery, {
   useMonthlySchedulesQuery,
 } from "@/queries/scheduleQuery";
@@ -41,8 +41,12 @@ const MentoringApplyFormPage = () => {
     formattedDate(date)
   );
 
-  const handleSubmit = () => {
+  const router = useRouter();
+
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     mutation.mutate(restForm!);
+    e.preventDefault();
+    router.push("/mentorsMain");
   };
 
   useEffect(() => {

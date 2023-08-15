@@ -37,8 +37,18 @@ const Mentorings = ({
             {...{ marginTop: "10px" }}
           >
             {mentoringMembers?.map(
-              ({ time, name, mentoringJob, mentoringId, platform }) => (
+              ({
+                time,
+                name,
+                mentoringJob,
+                mentoringId,
+                platform,
+                profileId,
+                mentorId,
+              }) => (
                 <MentoringCard
+                  profileId={profileId}
+                  mentorId={mentorId}
                   mentoringId={mentoringId}
                   date={date}
                   time={time}
@@ -83,8 +93,21 @@ const Mentorings = ({
           {...{ marginTop: "10px" }}
         >
           {mentorings?.mentoringMembers?.map(
-            ({ time, name, mentoringJob, mentoringId, platform }, index) => (
+            (
+              {
+                time,
+                name,
+                mentoringJob,
+                mentoringId,
+                platform,
+                profileId,
+                mentorId,
+              },
+              index
+            ) => (
               <MentoringCard
+                profileId={profileId}
+                mentorId={mentorId}
                 mentoringId={mentoringId}
                 date={mentorings?.date}
                 time={time}

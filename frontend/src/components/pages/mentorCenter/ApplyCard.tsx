@@ -31,6 +31,7 @@ const MentorCenterApplyCard = ({
     severity,
     employmentStatus,
     profileId,
+    imgUrl,
   } = menteeInfo;
   const { mentorId } = useSelector(selectUser);
   const acceptMutation = useMentoringAcceptMutation(mentorId!, mentoringId!);
@@ -60,7 +61,7 @@ const MentorCenterApplyCard = ({
           desiredJob={desiredJob}
           severity={severity}
           employmentStatus={employmentStatus}
-          imgUrl="/images/ProfileTest.png"
+          imgUrl={imgUrl}
           apply={true}
           mentor={false}
         />

@@ -23,6 +23,7 @@ const MainLandingPage = () => {
     else if (user.profileId) router.push("/mentorRegisterForm");
     else router.push("/profileForm");
   };
+
   return (
     <>
       <FlexBox direction="column" rowGap="20px">
