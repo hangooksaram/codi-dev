@@ -90,7 +90,11 @@ const MentorCenterApplyCard = ({
               size="small"
               color={theme.colors.secondary}
               variant="default"
-              onClick={() => router.push(`/menteeProfile/${profileId}`)}
+              onClick={() =>
+                router.push(
+                  `/menteeProfile/${profileId}?mentoringApply=${true}&mentorId=${mentorId}&mentoringId=${mentoringId}`
+                )
+              }
             >
               멘티 프로필 보기
             </Button>

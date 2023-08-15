@@ -1,11 +1,12 @@
 "use client";
 
 import MentorProfile from "@/components/Profile/MentorProfile";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 
 const MentorProfilePage = () => {
   const { mentorId } = useParams();
-  return <MentorProfile mentorId={parseInt(mentorId!)} />;
+  const param = useSearchParams();
+  return <MentorProfile mentorId={parseInt(mentorId!)} pageParams={param} />;
 };
 
 export default MentorProfilePage;

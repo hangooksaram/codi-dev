@@ -11,14 +11,23 @@ import { css } from "@emotion/css";
 import Typography from "@/ui/atoms/Typography";
 import styled from "@emotion/styled";
 import { useGetMentorQuery } from "@/queries/mentorQuery";
-import { useRouter, useSearchParams } from "next/navigation";
+import {
+  ReadonlyURLSearchParams,
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
 import Button from "@/ui/atoms/Button";
 
-const MentorProfile = ({ mentorId }: { mentorId: number }) => {
+const MentorProfile = ({
+  mentorId,
+  pageParams,
+}: {
+  mentorId: number;
+  pageParams?: ReadonlyURLSearchParams;
+}) => {
   const { data: mentor } = useGetMentorQuery(mentorId!);
   const router = useRouter();
-  const param = useSearchParams();
-  const isMentoringApply = param.get("mentoring");
+  const isMentoringApply = pageParams?.get("mentoring");
   return (
     <Card color={theme.colors.background} padding="30px" height="auto">
       <FlexBox

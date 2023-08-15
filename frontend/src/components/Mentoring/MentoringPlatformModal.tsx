@@ -29,7 +29,7 @@ const MentoringPlatformModal = ({
   const linkRef = useRef<HTMLTextAreaElement>(null);
   const { mentorId } = useSelector(selectUser);
   const addMentoringlink = async () => {
-    const res = await addMentoringLink(mentorId!, mentoringId, {
+    await addMentoringLink(mentorId!, mentoringId, {
       link: linkRef?.current?.value!,
       platform,
     });
@@ -105,7 +105,7 @@ const ModalCard = styled(Card)({
   height: "362px",
   padding: "30px 45px",
   position: "fixed",
-
+  top: "20%",
   left: "50%",
   transform: "translate(-50%, 0)",
   zIndex: 2,

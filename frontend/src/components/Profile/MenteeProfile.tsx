@@ -10,15 +10,31 @@ import Chip from "@/ui/atoms/Chip";
 import useGetProfileQuery from "@/queries/profileQuery";
 import ProfileLabelText from "./ProfileLabelText";
 import styled from "@emotion/styled";
-import { useRouter, useSearchParams } from "next/navigation";
+import {
+  ReadonlyURLSearchParams,
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
 import Button from "@/ui/atoms/Button";
 import MentoringPlatformModal from "../Mentoring/MentoringPlatformModal";
 import { useState } from "react";
+import { useMentoringAcceptMutation } from "@/queries/mentoring/mentorMentoringQuery";
 
-const MenteeProfile = ({ profileId }: { profileId: number }) => {
+const MenteeProfile = ({
+  profileId,
+  pageParams,
+}: {
+  profileId: number;
+  pageParams?: ReadonlyURLSearchParams;
+}) => {
   const { data: profile } = useGetProfileQuery(profileId);
-  const param = useSearchParams();
-  const isMentoring = param.get("mentoringId");
+  const router = useRouter();
+  const acceptMutation = useMentoringAcceptMutation(
+    parseInt(pageParams?.get("mentorId")!),
+    parseInt(pageParams?.get("mentoringId")!)
+  );
+  const isMentoring = pageParams?.get("mentoringId");
+  const isMentoringApply = pageParams?.get("mentoringApply");
   const [openModal, setOpenModal] = useState(false);
   return (
     <Card color={theme.colors.background} padding="30px" height="auto">
@@ -49,7 +65,8 @@ const MenteeProfile = ({ profileId }: { profileId: number }) => {
           disability={profile?.disability}
           severity={profile?.disability}
         >
-          {param.get("platform") ? (
+          {pageParams?.get("platform") &&
+          !pageParams?.get("platform")?.includes("No") ? (
             <>
               <Button
                 onClick={() => setOpenModal(true)}
@@ -60,12 +77,25 @@ const MenteeProfile = ({ profileId }: { profileId: number }) => {
                 멘토링 링크 수정
               </Button>
               <MentoringPlatformModal
-                mentoringId={parseInt(param.get("mentoringId")!)}
+                mentoringId={parseInt(pageParams?.get("mentoringId")!)}
                 open={openModal}
                 setOpen={setOpenModal}
               />
             </>
           ) : null}
+          {isMentoringApply && (
+            <Button
+              onClick={() => {
+                acceptMutation.mutate();
+                router.back();
+              }}
+              size="small"
+              variant="default"
+              color={theme.colors.secondary}
+            >
+              멘토링 수락 하기
+            </Button>
+          )}
         </ProfileCard>
         <Card
           padding="45px 0px 0px 45px"

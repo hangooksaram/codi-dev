@@ -44,12 +44,17 @@ const MentoringCard = ({
   const router = useRouter();
   const mentorProfileUrl = `/mentorProfile/${mentorId}?platform=${platform}`;
   const menteeProfileUrl = `/menteeProfile/${profileId}?mentoringId=${mentoringId}&platform=${platform}`;
+  console.log(openModal);
 
   return (
-    <StyledCard onClick={() => router.push(menteeProfileUrl)}>
+    <StyledCard>
       <Header today={date === formattedDate(new Date())}>{time}</Header>
       <FlexBox justifyContent="space-between">
-        <ProfileImage>
+        <ProfileImage
+          onClick={() => {
+            router.push(menteeProfileUrl);
+          }}
+        >
           {platform === "No Selection." ? null : (
             <StyledImage
               width="40px"
@@ -64,7 +69,11 @@ const MentoringCard = ({
             />
           )}
         </ProfileImage>
-        <div>
+        <div
+          onClick={() => {
+            router.push(menteeProfileUrl);
+          }}
+        >
           <Typography
             variant="div"
             weight={theme.fonts.weight.bold}

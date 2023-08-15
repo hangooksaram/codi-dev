@@ -1,12 +1,12 @@
 "use client";
 
 import MenteeProfile from "@/components/Profile/MenteeProfile";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 
 const MenteeProfilePage = () => {
   const { profileId } = useParams();
-
-  return <MenteeProfile profileId={parseInt(profileId)} />;
+  const param = useSearchParams();
+  return <MenteeProfile profileId={parseInt(profileId)} pageParams={param} />;
 };
 
 export default MenteeProfilePage;
