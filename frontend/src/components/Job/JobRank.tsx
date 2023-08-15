@@ -5,27 +5,38 @@ import theme, { device } from "@/ui/theme";
 import styled from "@emotion/styled";
 import Logo from "@icons/logo/recommendation-page-logo.svg";
 import TitleSection from "../pages/mentorsMain/TitleSection";
+import { JobRanks } from "@/types/job";
 
-const JobRank = ({ ranks }: { ranks: string[] }) => (
+const JobRank = ({ jobRanks }: { jobRanks: JobRanks }) => (
   <PageComponentLayout>
     <FlexBox direction="column">
-      <TitleSection title="지체장애인 취업 직무순위" logo={<Logo />} />
+      <TitleSection
+        title={`${jobRanks?.disability} 취업 직무순위`}
+        logo={<Logo />}
+      />
 
       <FlexBox justifyContent="center" direction="column">
-        {ranks.map((rank, index) => (
-          <Bar key={rank} first={index === 0}>
-            <Typography
-              weight={
-                index === 0
-                  ? theme.fonts.weight.extraBold
-                  : theme.fonts.weight.regular
-              }
-              size={index === 0 ? theme.fonts.size.md : theme.fonts.size.sm}
-              color={theme.colors.black}
-              variant="div"
-            >
-              {`${index + 1}위 ${rank}`}
-            </Typography>
+        {jobRanks?.infos.map(({ job, ranking, ratio }, index) => (
+          <Bar key={index} first={index === 0}>
+            <FlexBox alignItems="center" justifyContent="space-between">
+              <Typography
+                weight={
+                  index === 0
+                    ? theme.fonts.weight.extraBold
+                    : theme.fonts.weight.regular
+                }
+                size={index === 0 ? theme.fonts.size.md : theme.fonts.size.sm}
+                color={theme.colors.black}
+                variant="div"
+              >
+                {`${ranking}위 ${job}`}
+              </Typography>
+              <Typography
+                size={index === 0 ? theme.fonts.size.md : theme.fonts.size.sm}
+                color={theme.colors.black}
+                variant="div"
+              >{`${ratio.toString()}%`}</Typography>
+            </FlexBox>
           </Bar>
         ))}
       </FlexBox>

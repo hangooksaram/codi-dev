@@ -18,7 +18,8 @@ const MentorsPage = () => {
   const router = useRouter();
   const ref = useRef<HTMLDivElement>(null);
   const { id } = useSelector(selectUser);
-  const { data } = useJobRanksQuery(id!);
+  const { data: jobRanks, isSuccess: isJobRanksQuerySuccess } =
+    useJobRanksQuery(id!);
 
   const scrollToMentorList = () => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
@@ -28,9 +29,8 @@ const MentorsPage = () => {
     <main style={{ backgroundColor: theme.colors.background }}>
       <FlexBox direction="column" rowGap="20px">
         <MentorsBanner scrollToMentorList={scrollToMentorList} />
-        <JobRank
-          ranks={["제조 단순직", "기계 설치/정비/생산직", "경영/행정/사무직"]}
-        />
+        {isJobRanksQuerySuccess && <JobRank jobRanks={jobRanks!} />}
+
         {/* <Recommendation mentors={recommendationMentors} /> */}
 
         <div style={{ width: "100%" }} ref={ref}>
