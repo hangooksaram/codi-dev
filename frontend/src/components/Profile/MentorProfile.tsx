@@ -27,7 +27,8 @@ const MentorProfile = ({
 }) => {
   const { data: mentor } = useGetMentorQuery(mentorId!);
   const router = useRouter();
-  const isMentoringApply = pageParams?.get("mentoring");
+  const isMentoringApply = pageParams?.get("mentoringApply");
+  const isMentoring = pageParams?.get("mentoringId");
   return (
     <Card color={theme.colors.background} padding="30px" height="auto">
       <FlexBox
@@ -41,7 +42,7 @@ const MentorProfile = ({
         }}
       >
         <ProfileCard
-          edit={isMentoringApply ? false : true}
+          edit={isMentoringApply || isMentoring ? false : true}
           name={mentor?.name}
           mentor={true}
           star={mentor?.star}

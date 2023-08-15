@@ -25,6 +25,7 @@ const ProfileCard = ({
   link,
   pageQueryInfo,
   children,
+  favorites,
 }: ProfileCard) => {
   return (
     <CardContainer
@@ -38,7 +39,13 @@ const ProfileCard = ({
         justifyContent="space-between"
         {...{ height: "100%" }}
       >
-        <Header edit={edit} mentor={mentor} apply={apply} mentorId={mentorId} />
+        <Header
+          favorites={favorites}
+          edit={edit}
+          mentor={mentor}
+          apply={apply}
+          mentorId={mentorId}
+        />
         <Content
           name={name}
           job={job}

@@ -9,9 +9,12 @@ import ProfileCard from "@/components/Profile/ProfileCard";
 import { Mentor } from "@/types/profile";
 import Button from "@/ui/atoms/Button";
 import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
+import { selectUser } from "@/features/user/userSlice";
 
 const MentorList = ({ mentors }: { mentors: Mentor[] }) => {
   const router = useRouter();
+  const favorites: number[] = [];
   if (!mentors)
     return (
       <NoResultCard>
@@ -59,10 +62,11 @@ const MentorList = ({ mentors }: { mentors: Mentor[] }) => {
             mentees={mentees}
             imgUrl={imgUrl}
             mentorId={mentorId}
+            favorites={favorites}
           >
             <Button
               onClick={() =>
-                router.push(`/mentorProfile/${mentorId}?mentoring=${true}`)
+                router.push(`/mentorProfile/${mentorId}?mentoringApply=${true}`)
               }
               size="small"
               variant="default"

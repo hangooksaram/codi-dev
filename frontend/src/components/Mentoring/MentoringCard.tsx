@@ -42,9 +42,8 @@ const MentoringCard = ({
     ({ text }) => text === platform
   );
   const router = useRouter();
-  const mentorProfileUrl = `/mentorProfile/${mentorId}?platform=${platform}`;
+  const mentorProfileUrl = `/mentorProfile/${mentorId}?mentoringId=${mentoringId}`;
   const menteeProfileUrl = `/menteeProfile/${profileId}?mentoringId=${mentoringId}&platform=${platform}`;
-  console.log(openModal);
 
   return (
     <StyledCard>
@@ -52,7 +51,7 @@ const MentoringCard = ({
       <FlexBox justifyContent="space-between">
         <ProfileImage
           onClick={() => {
-            router.push(menteeProfileUrl);
+            router.push(mentorId ? mentorProfileUrl : menteeProfileUrl);
           }}
         >
           {platform === "No Selection." ? null : (
@@ -71,7 +70,7 @@ const MentoringCard = ({
         </ProfileImage>
         <div
           onClick={() => {
-            router.push(menteeProfileUrl);
+            router.push(mentorId ? mentorProfileUrl : menteeProfileUrl);
           }}
         >
           <Typography
@@ -91,7 +90,9 @@ const MentoringCard = ({
         </div>
         <LinkButton
           onClick={() => {
-            setOpenModal(true);
+            if (profileId) {
+              setOpenModal(true);
+            }
           }}
           width="42px"
           variant="round"

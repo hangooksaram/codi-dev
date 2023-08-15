@@ -7,6 +7,7 @@ export interface UserSliceState {
   imgUrl?: string;
   mentorId?: number;
   profileId?: number;
+  favorites?: number[];
 }
 
 // Define the initial state using that type
@@ -15,6 +16,7 @@ const initialState: UserSliceState = {
   imgUrl: "",
   mentorId: undefined,
   profileId: undefined,
+  favorites: undefined,
 };
 
 export const userSlice = createSlice({

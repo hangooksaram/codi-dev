@@ -1,22 +1,43 @@
 "use client";
 
-import MentoringsWithSingleCalendar from "@/components/Mentoring/MentoringsWithSingleCalendar";
+import CalendarContainer from "@/components/Container/CalendarContainer";
+import Mentorings from "@/components/Mentoring/Mentorings";
+import MentoringsWithSingleCalendar, {
+  SchedulesContainer,
+} from "@/components/Mentoring/MentoringsWithSingleCalendar";
 import { selectUser } from "@/features/user/userSlice";
-import { useMonthlyMentoringsQuery } from "@/queries/mentoring/commonMentoringQuery";
+import {
+  useDailyMentoringsQuery,
+  useMonthlyMentoringsQuery,
+} from "@/queries/mentoring/commonMentoringQuery";
 
 import FlexBox from "@/ui/atoms/FlexBox";
 import LabelBox from "@/ui/molecules/LabelBox";
-import formattedDate from "@/utils/dateFormat";
+import formattedDate, { formattedMonth } from "@/utils/dateFormat";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 const MyCodiPage = () => {
   const { profileId } = useSelector(selectUser);
   const [date, setDate] = useState<Date>();
-  const { mentorings, refetch } = useMonthlyMentoringsQuery({
+  const [type, setType] = useState<"mentor" | "mentee">("mentee");
+
+  const [month, setMonth] = useState<string>();
+  const { data: mentoringsData } = useMonthlyMentoringsQuery({
     profileId: profileId!,
-    month: formattedDate(date),
+    month: month ?? formattedMonth(new Date()),
   });
+  const { data: dailyMentoringData, refetch } = useDailyMentoringsQuery({
+    profileId: profileId!,
+    date: formattedDate(date),
+  });
+
+  const mentoringSchedules = mentoringsData?.monthlyMentoringMembers!.map(
+    ({ date, mentoringStatus }) => ({
+      date,
+      mentoringStatus,
+    })
+  );
 
   useEffect(() => {
     if (date) {
@@ -26,12 +47,23 @@ const MyCodiPage = () => {
   return (
     <FlexBox>
       <LabelBox text="멘토링 일정 관리">
-        <MentoringsWithSingleCalendar
-          type="mentee"
+        <CalendarContainer
           date={date}
           setDate={setDate}
-          mentorings={mentorings}
-        />
+          setMonth={setMonth}
+          type={type}
+          mentoringSchedules={mentoringSchedules!}
+        >
+          <SchedulesContainer>
+            <Mentorings
+              mentorings={
+                date
+                  ? dailyMentoringData!
+                  : mentoringsData?.monthlyMentoringMembers
+              }
+            />
+          </SchedulesContainer>
+        </CalendarContainer>
       </LabelBox>
     </FlexBox>
   );

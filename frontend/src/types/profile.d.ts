@@ -37,5 +37,6 @@ export interface ProfileCard extends Mentor {
   mentor?: boolean;
   apply?: boolean;
   pageQueryInfo?: object;
+  favorites?: number[];
   children?: ReactNode;
 }
