@@ -17,6 +17,7 @@ import { useSelector } from "react-redux";
 import { selectUser } from "@/features/user/userSlice";
 import { StyledImage } from "@/ui/atoms/StyledImage";
 import { backgroundImage } from "@/ui/atoms/BackgroundImage";
+import { logout } from "@/utils/tempUser";
 
 const AppBar = () => {
   const path = usePathname();
@@ -36,7 +37,10 @@ const AppBar = () => {
   useEffect(() => {
     setDomLoaded(true);
     if (selected) {
-      router.push(PROFILE_MENU_HREFS[selected]);
+      if (selected === "로그아웃") {
+        logout();
+        router.push("/");
+      } else router.push(PROFILE_MENU_HREFS[selected]);
     }
     return () => setSelected(undefined);
   }, [selected]);

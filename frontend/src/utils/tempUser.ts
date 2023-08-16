@@ -13,6 +13,12 @@ export const setLocalUser = (obj: object) => {
   }
 };
 
+export const logout = () => {
+  if (typeof window !== "undefined") {
+    window.localStorage.removeItem("user");
+  }
+};
+
 export const isLocalUser = () => {
   if (typeof window !== "undefined") {
     const user = window.localStorage.getItem("user");

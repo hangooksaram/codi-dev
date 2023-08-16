@@ -104,6 +104,7 @@ export const PROFILE_MENU = [
   "멘토 센터",
   "프로필 수정",
   "개인정보 수정",
+  "로그아웃",
 ];
 export const PROFILE_MENU_HREFS = {
   [PROFILE_MENU[0]]: "/myInfo/",
