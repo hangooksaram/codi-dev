@@ -108,7 +108,7 @@ const MenteeProfile = ({
             <ReactiveGrid1 gridTemplateColumns="1fr 1fr" rowGap="10px">
               <ProfileLabelText name="이름" value={profile?.name} />
               <ProfileLabelText name="최종학력" value={profile?.education} />
-              <ProfileLabelText name="나이" value={"25세"} />
+              <ProfileLabelText name="나이" value={`${profile?.age}세`} />
               <ProfileLabelText name="희망직무" value={profile?.desiredJob} />
               <ProfileLabelText name="장애구분" value={profile?.disability} />
               <ProfileLabelText

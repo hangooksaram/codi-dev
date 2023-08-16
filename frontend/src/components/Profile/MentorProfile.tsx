@@ -94,7 +94,10 @@ const MentorProfile = ({
               >
                 <ProfileLabelText name="이름" value={mentor?.name} />
                 <ProfileLabelText name="최종학력" value={mentor?.education} />
-                <ProfileLabelText name="나이" value={"1"} />
+                <ProfileLabelText
+                  name="나이"
+                  value={`${mentor?.age?.toString()}세`}
+                />
                 <ProfileLabelText name="직무" value={mentor?.job} />
                 <ProfileLabelText name="장애구분" value={mentor?.disability} />
                 <ProfileLabelText name="회사명" value={mentor?.company} />

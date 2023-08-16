@@ -12,6 +12,7 @@ export interface MenteeProfile {
   introduction?: string;
   employmentStatus?: string;
   name?: string;
+  age?: number;
   favorites?: [];
 }
 export interface Mentor extends MenteeProfile {
