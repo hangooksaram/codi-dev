@@ -73,7 +73,11 @@ const MentorSearch = ({
         }}
       >
         <IconInputContainer iconComponent={<Search />}>
-          <Input outline />
+          <Input
+            value={query.keyword}
+            onChange={(e) => setQuery({ ...query, keyword: e.target.value })}
+            outline
+          />
         </IconInputContainer>
         <Button
           onClick={() => {

@@ -8,6 +8,7 @@ import styled from "@emotion/styled";
 import Star from "@icons/common/favorite.svg";
 import { ProfileCard } from "@/types/profile";
 import { useRouter } from "next/navigation";
+import { MentoringPlatform } from "@/types/mentoring";
 
 const CardContent = styled.div`
   text-align: center;
@@ -25,11 +26,12 @@ const Content = ({
   star,
   mentees,
   isCertificate,
-  apply,
   mentor,
   mentorId,
   employmentStatus,
   link,
+  children,
+  career,
 }: ProfileCard) => {
   const router = useRouter();
 
@@ -92,28 +94,21 @@ const Content = ({
         >
           <Chip>{disability!}</Chip>
           <Chip>{severity}</Chip>
+          <Chip>{career}</Chip>
         </FlexBox>
       )}
-      {!apply &&
-        (edit ? (
-          <Button
-            onClick={() => router.push(link!)}
-            size="small"
-            variant="default"
-            color={theme.colors.secondary}
-          >
-            프로필 수정하기
-          </Button>
-        ) : (
-          <Button
-            onClick={() => router.push(`/mentoringApplyForm/${mentorId}`)}
-            size="small"
-            variant="default"
-            color={theme.colors.secondary}
-          >
-            멘토링 시작하기
-          </Button>
-        ))}
+      {edit ? (
+        <Button
+          onClick={() => router.push(link!)}
+          size="small"
+          variant="default"
+          color={theme.colors.secondary}
+        >
+          프로필 수정하기
+        </Button>
+      ) : (
+        children
+      )}
     </CardContent>
   );
 };

@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 
 const AuthContainer = ({ children }: { children: ReactNode }) => {
   const dispatch = useDispatch();
-  const user = useSelector(selectUser);
+
   useEffect(() => {
     if (isLocalUser()) {
       dispatch(setUser(localUser()));

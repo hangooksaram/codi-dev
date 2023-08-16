@@ -7,8 +7,18 @@ import styled from "@emotion/styled";
 import FlexBox from "@/ui/atoms/FlexBox";
 import ProfileCard from "@/components/Profile/ProfileCard";
 import { Mentor } from "@/types/profile";
+import Button from "@/ui/atoms/Button";
+import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
+import { selectUser } from "@/features/user/userSlice";
+import { useGetFavoriteMentorsQuery } from "@/queries/mentorQuery";
 
 const MentorList = ({ mentors }: { mentors: Mentor[] }) => {
+  const router = useRouter();
+  const { profileId } = useSelector(selectUser);
+  const { favoriteIds, isSuccess: isFavoritesSuccess } =
+    useGetFavoriteMentorsQuery(profileId!);
+
   if (!mentors)
     return (
       <NoResultCard>
@@ -43,6 +53,7 @@ const MentorList = ({ mentors }: { mentors: Mentor[] }) => {
           isCertificate,
           mentees,
           imgUrl,
+          career,
         }) => (
           <ProfileCard
             key={mentorId}
@@ -51,12 +62,27 @@ const MentorList = ({ mentors }: { mentors: Mentor[] }) => {
             disability={disability}
             severity={severity}
             edit={false}
+            career={career}
             star={star}
             isCertificate={isCertificate}
             mentees={mentees}
             imgUrl={imgUrl}
             mentorId={mentorId}
-          ></ProfileCard>
+            favorites={favoriteIds}
+          >
+            <Button
+              onClick={() =>
+                router.push(
+                  `/mentorProfile?mentorId=${mentorId!}?mentoringApply=${true}`
+                )
+              }
+              size="small"
+              variant="default"
+              color={theme.colors.secondary}
+            >
+              멘토 프로필 보기
+            </Button>
+          </ProfileCard>
         )
       )}
     </Grid>

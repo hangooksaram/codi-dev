@@ -1,13 +1,18 @@
 import {
   GetMentorsParameters,
+  GetRecommendationMentorsParameters,
   RegisterMentorBody,
   RegisterMentorResponse,
 } from "@/types/api/mentor";
 import customAxios from "./customAxios";
 import { AxiosResponse } from "axios";
 import { handleApiError } from "@/utils/api";
+import { CommonApiResponse } from "@/types/api/common";
 
-export const registerMentor = async (memberId: string, mentor: FormData) => {
+export const registerMentor = async (
+  memberId: string,
+  mentor: FormData
+): Promise<CommonApiResponse<RegisterMentorResponse>> => {
   try {
     const { data, status }: AxiosResponse<RegisterMentorResponse> =
       await customAxios.post(`/mentors/${memberId}`, mentor, {
@@ -15,13 +20,16 @@ export const registerMentor = async (memberId: string, mentor: FormData) => {
           "Content-Type": "multitype/form-data",
         },
       });
-    return { data, status };
+    return { data: data!, status };
   } catch (e) {
     return handleApiError(e);
   }
 };
 
-export const editMentor = async (mentorId: number, mentor: FormData) => {
+export const editMentor = async (
+  mentorId: number,
+  mentor: FormData
+): Promise<CommonApiResponse<RegisterMentorResponse>> => {
   try {
     const { data, status }: AxiosResponse<RegisterMentorResponse> =
       await customAxios.patch(`/mentors/${mentorId}`, mentor, {
@@ -35,11 +43,26 @@ export const editMentor = async (mentorId: number, mentor: FormData) => {
   }
 };
 
+export const getRecommendationMentors = async (
+  params: GetRecommendationMentorsParameters
+) => {
+  const { disability, firstJob, secondJob, thirdJob } = params;
+  return (
+    await customAxios.get(
+      `/mentors/recommend?disability=${disability}&firstJob=${firstJob}&secondJob=${secondJob}&thirdJob=${thirdJob}`
+    )
+  ).data;
+};
+
+export const getFavoriteMentors = async (profileId: number) => {
+  return (await customAxios.get(`/profiles/${profileId}/favorites`)).data;
+};
+
 export const getMentors = async (mentorsParams: GetMentorsParameters) => {
   const { page, size, job, career, disability, keyword } = mentorsParams;
   return (
     await customAxios.get(
-      `/mentors?page=${page}&size=${size}&job=${job}&career=${career}&disability=${disability}`
+      `/mentors?page=${page}&size=${size}&job=${job}&career=${career}&disability=${disability}&keyword=${keyword}`
     )
   ).data;
 };

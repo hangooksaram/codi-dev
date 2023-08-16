@@ -14,7 +14,7 @@ const MentorCenterPage = () => {
   const router = useRouter();
   const mentorId = useSelector(selectUser).mentorId;
   useEffect(() => {
-    if (mentorId) redirect("profile");
+    if (mentorId) redirect("/myInfo/mentorCenter/profile/");
   }, []);
   return (
     <FlexBox direction="column" rowGap="20px" {...{ minHeight: "500px" }}>

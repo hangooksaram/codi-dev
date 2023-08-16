@@ -11,3 +11,8 @@ export type SignInBody = {
   id: string;
   password: string;
 };
+
+export interface UpdatePasswordBody {
+  newPassword: string;
+  oldPassword: String;
+}

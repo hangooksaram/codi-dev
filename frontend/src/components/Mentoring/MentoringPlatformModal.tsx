@@ -16,7 +16,7 @@ import Close from "@icons/common/close.svg";
 import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 
-const MentoringToolModal = ({
+const MentoringPlatformModal = ({
   open,
   setOpen,
   mentoringId,
@@ -29,7 +29,7 @@ const MentoringToolModal = ({
   const linkRef = useRef<HTMLTextAreaElement>(null);
   const { mentorId } = useSelector(selectUser);
   const addMentoringlink = async () => {
-    const res = await addMentoringLink(mentorId!, mentoringId, {
+    await addMentoringLink(mentorId!, mentoringId, {
       link: linkRef?.current?.value!,
       platform,
     });
@@ -60,24 +60,30 @@ const MentoringToolModal = ({
               멘토링에 사용할 도구를 선택해주세요.
             </Typography>
             <FlexBox justifyContent="flex-start" columnGap="10px">
-              {MENTORING_TOOLS.map((tool, index) => (
+              {MENTORING_PLATFORMS.map(({ text, iconSrc }, index) => (
                 <Chip
-                  onClick={() => setPlatform(tool.text)}
+                  onClick={() => setPlatform(text)}
                   key={index}
                   color={
-                    tool.text === platform
+                    text === platform
                       ? theme.colors.primary
                       : theme.colors.background
                   }
                   fontColor={
-                    tool.text === platform
+                    text === platform
                       ? theme.colors.white
                       : theme.colors.primary
                   }
                 >
                   <FlexBox alignItems="center" justifyContent="flex-start">
-                    {tool.icon}
-                    {tool.text}
+                    <StyledImage
+                      src={iconSrc!}
+                      width="24px"
+                      height="24px"
+                      key={text}
+                      alt={text}
+                    />
+                    {text}
                   </FlexBox>
                 </Chip>
               ))}
@@ -99,7 +105,7 @@ const ModalCard = styled(Card)({
   height: "362px",
   padding: "30px 45px",
   position: "fixed",
-
+  top: "20%",
   left: "50%",
   transform: "translate(-50%, 0)",
   zIndex: 2,
@@ -115,75 +121,23 @@ const ModalTextarea = styled(Textarea)({
   color: theme.colors.gray.dark,
 });
 
-export const MENTORING_TOOLS = [
+export const MENTORING_PLATFORMS = [
   {
-    icon: (
-      <StyledImage
-        width="40px"
-        height="40px"
-        key="Google Meeting"
-        src="/images/tools/google.png"
-        alt="Google Meeting"
-        {...{
-          position: "absolute",
-          bottom: "-10px",
-          right: "-10px",
-        }}
-      />
-    ),
+    iconSrc: "/images/platforms/google.png",
     text: "Google Meeting" as MentoringPlatform,
   },
   {
-    icon: (
-      <StyledImage
-        width="40px"
-        height="40px"
-        key="Discord"
-        src="/images/tools/discord.png"
-        alt="discord"
-        {...{
-          position: "absolute",
-          bottom: "-10px",
-          right: "-10px",
-        }}
-      />
-    ),
+    iconSrc: "/images/platforms/discord.png",
     text: "Discord" as MentoringPlatform,
   },
   {
-    icon: (
-      <StyledImage
-        width="40px"
-        height="40px"
-        key="Zoom"
-        src="/images/tools/zoom.png"
-        alt="Zoom"
-        {...{
-          position: "absolute",
-          bottom: "-10px",
-          right: "-10px",
-        }}
-      />
-    ),
+    icoSrc: "/images/platforms/zoom.png",
     text: "Zoom" as MentoringPlatform,
   },
   {
-    icon: (
-      <StyledImage
-        width="40px"
-        height="40px"
-        key="Kakaotalk"
-        src="/images/tools/kakaotalk.png"
-        alt="KakaoTalk"
-        {...{
-          position: "absolute",
-          bottom: "-10px",
-          right: "-10px",
-        }}
-      />
-    ),
+    iconSrc: "/images/platforms/kakaotalk.png",
     text: "KakaoTalk" as MentoringPlatform,
   },
 ];
 
-export default MentoringToolModal;
+export default MentoringPlatformModal;

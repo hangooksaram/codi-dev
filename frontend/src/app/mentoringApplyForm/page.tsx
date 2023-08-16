@@ -4,9 +4,11 @@ import CalendarContainer from "@/components/Container/CalendarContainer";
 import FlexBox from "@/ui/atoms/FlexBox";
 import LabelBox from "@/ui/molecules/LabelBox";
 import theme from "@/ui/theme";
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
-import useDailySchedulesQuery from "@/queries/scheduleQuery";
+import { FormEventHandler, useEffect, useState } from "react";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
+import useDailySchedulesQuery, {
+  useMonthlySchedulesQuery,
+} from "@/queries/scheduleQuery";
 import formattedDate from "@/utils/dateFormat";
 import Button from "@/ui/atoms/Button";
 import FormInputContainer from "@/ui/molecules/Input/FormInput";
@@ -31,16 +33,23 @@ const MentoringApplyFormPage = () => {
     useRestForm<ApplyMentoringBody>(initialRestForm);
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [isAllFilled, setIsAllFilled] = useState(false);
-  const { mentorId } = useParams();
+  const param = useSearchParams();
   const { profileId } = useSelector(selectUser);
-  const mutation = useApplyMentoringMutation(profileId!, parseInt(mentorId));
+  const mutation = useApplyMentoringMutation(
+    profileId!,
+    parseInt(param.get("mentorId")!)
+  );
   const { data } = useDailySchedulesQuery(
-    parseInt(mentorId)!,
+    parseInt(param.get("mentorId")!),
     formattedDate(date)
   );
 
-  const handleSubmit = () => {
+  const router = useRouter();
+
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     mutation.mutate(restForm!);
+    e.preventDefault();
+    router.push("/mentorsMain");
   };
 
   useEffect(() => {

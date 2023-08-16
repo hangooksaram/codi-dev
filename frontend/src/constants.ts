@@ -104,12 +104,13 @@ export const PROFILE_MENU = [
   "멘토 센터",
   "프로필 수정",
   "개인정보 수정",
+  "로그아웃",
 ];
 export const PROFILE_MENU_HREFS = {
   [PROFILE_MENU[0]]: "/myInfo/",
   [PROFILE_MENU[1]]: "/myInfo/mentorCenter/",
-  [PROFILE_MENU[2]]: "/myCodi",
-  [PROFILE_MENU[3]]: "/myCodi",
+  [PROFILE_MENU[2]]: "/profileForm",
+  [PROFILE_MENU[3]]: "/updateMyInfo",
 };
 
 export const SCHEDULE_TIME_TABLE = [

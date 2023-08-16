@@ -52,7 +52,7 @@ const ProfileFormPage = () => {
     education: "",
     disability: "",
     employmentStatus: "",
-    severity: "",
+    severity: "중증",
   };
 
   const { formikValues, restFormValues, isEdit, pathParams } =
@@ -62,7 +62,6 @@ const ProfileFormPage = () => {
     );
 
   const { id: memberId, profileId } = useSelector(selectUser)!;
-
   const { restForm, setRestForm, validateRestForm, invalid } =
     useRestForm<RestFormValues>(restFormValues);
   const { file, onUploadFile } = useUploadFile();
@@ -117,7 +116,7 @@ const ProfileFormPage = () => {
 
   const registerProfile = async () => {
     const { data, status, errorMessage } =
-      await postRegisterProfile<RegisterProfileResponse>(memberId, formData);
+      await postRegisterProfile<RegisterProfileResponse>(memberId!, formData);
 
     const signInSuccessCallback = () => {
       const { id, imgUrl } = data!;

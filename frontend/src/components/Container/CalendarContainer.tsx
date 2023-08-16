@@ -11,10 +11,10 @@ import { DailyMentoringStatus, MentoringMember } from "@/types/mentoring";
 interface CalendarContainerProps {
   date: Date | undefined;
   setDate: React.Dispatch<SetStateAction<Date | undefined>>;
-  setMonth: React.Dispatch<SetStateAction<string | undefined>>;
+  setMonth?: React.Dispatch<SetStateAction<string | undefined>>;
   type: "mentor" | "mentee";
   children: ReactNode;
-  schedules: string[];
+  schedules?: string[];
 
   mentoringSchedules?: DailyMentoringStatus[];
 }
@@ -34,8 +34,8 @@ const CalendarContainer = ({
         type={type}
         date={date}
         setDate={setDate}
-        setMonth={setMonth}
-        schedules={schedules}
+        setMonth={setMonth!}
+        schedules={schedules!}
         mentoringSchedules={mentoringSchedules}
       />
       <Card padding="40px">{children}</Card>

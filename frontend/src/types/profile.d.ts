@@ -1,3 +1,6 @@
+import { ReactNode } from "react";
+import { MentoringPlatform } from "./mentoring";
+
 export interface MenteeProfile {
   id?: number;
   imgUrl?: string;
@@ -9,6 +12,7 @@ export interface MenteeProfile {
   introduction?: string;
   employmentStatus?: string;
   name?: string;
+  age?: number;
   favorites?: [];
 }
 export interface Mentor extends MenteeProfile {
@@ -27,9 +31,13 @@ export interface Mentor extends MenteeProfile {
 export interface ProfileCard extends Mentor {
   width?: string;
   height?: string;
+  mentorId?: number;
+  link?: string;
+
   edit?: boolean;
   mentor?: boolean;
   apply?: boolean;
-  mentorId?: number;
-  link?: string;
+  pageQueryInfo?: object;
+  favorites?: number[];
+  children?: ReactNode;
 }

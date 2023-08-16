@@ -10,11 +10,36 @@ import Chip from "@/ui/atoms/Chip";
 import useGetProfileQuery from "@/queries/profileQuery";
 import ProfileLabelText from "./ProfileLabelText";
 import styled from "@emotion/styled";
+import {
+  ReadonlyURLSearchParams,
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
+import Button from "@/ui/atoms/Button";
+import MentoringPlatformModal from "../Mentoring/MentoringPlatformModal";
+import { useState } from "react";
+import { useMentoringAcceptMutation } from "@/queries/mentoring/mentorMentoringQuery";
+import MyInfoCommonContainerCard from "../pages/myInfoCommon/MyInfoCommonContainerCard";
+import MyInfoCard from "../pages/myInfoCommon/MyInfoCard";
 
-const MenteeProfile = ({ profileId }: { profileId: number }) => {
+const MenteeProfile = ({
+  profileId,
+  pageParams,
+}: {
+  profileId: number;
+  pageParams?: ReadonlyURLSearchParams;
+}) => {
   const { data: profile } = useGetProfileQuery(profileId);
+  const router = useRouter();
+  const acceptMutation = useMentoringAcceptMutation(
+    parseInt(pageParams?.get("mentorId")!),
+    parseInt(pageParams?.get("mentoringId")!)
+  );
+  const isMentoring = pageParams?.get("mentoringId");
+  const isMentoringApply = pageParams?.get("mentoringApply");
+  const [openModal, setOpenModal] = useState(false);
   return (
-    <Card color={theme.colors.background} padding="30px" height="auto">
+    <MyInfoCommonContainerCard>
       <FlexBox
         alignItems="flex-start"
         columnGap="20px"
@@ -26,7 +51,7 @@ const MenteeProfile = ({ profileId }: { profileId: number }) => {
         }}
       >
         <ProfileCard
-          edit
+          edit={isMentoring ? false : true}
           name="이름"
           imgUrl={profile?.imgUrl}
           employmentStatus={profile?.employmentStatus}
@@ -39,21 +64,51 @@ const MenteeProfile = ({ profileId }: { profileId: number }) => {
           }&severity=${profile?.severity}&introduction=${
             profile?.introduction
           }&desiredJob=${profile?.desiredJob}&imgUrl=${profile?.imgUrl}`}
-        />
-        <Card
-          padding="45px 0px 0px 45px"
+          disability={profile?.disability}
+          severity={profile?.disability}
+        >
+          {pageParams?.get("platform") &&
+          !pageParams?.get("platform")?.includes("No") ? (
+            <>
+              <Button
+                onClick={() => setOpenModal(true)}
+                size="small"
+                variant="default"
+                color={theme.colors.secondary}
+              >
+                멘토링 링크 수정
+              </Button>
+              <MentoringPlatformModal
+                mentoringId={parseInt(pageParams?.get("mentoringId")!)}
+                open={openModal}
+                setOpen={setOpenModal}
+              />
+            </>
+          ) : null}
+          {isMentoringApply && (
+            <Button
+              onClick={() => {
+                acceptMutation.mutate();
+                router.back();
+              }}
+              size="small"
+              variant="default"
+              color={theme.colors.secondary}
+            >
+              멘토링 수락 하기
+            </Button>
+          )}
+        </ProfileCard>
+        <MyInfoCard
           className={css({
             minHeight: "477px",
-            [device("tablet")]: {
-              padding: "30px !important",
-            },
           })}
         >
           <LabelBox text="멘티정보">
             <ReactiveGrid1 gridTemplateColumns="1fr 1fr" rowGap="10px">
-              <ProfileLabelText name="이름" value="오현재" />
+              <ProfileLabelText name="이름" value={profile?.name} />
               <ProfileLabelText name="최종학력" value={profile?.education} />
-              <ProfileLabelText name="나이" value={"25세"} />
+              <ProfileLabelText name="나이" value={`${profile?.age}세`} />
               <ProfileLabelText name="희망직무" value={profile?.desiredJob} />
               <ProfileLabelText name="장애구분" value={profile?.disability} />
               <ProfileLabelText
@@ -85,11 +140,10 @@ const MenteeProfile = ({ profileId }: { profileId: number }) => {
               </FlexBox>
             </LabelBox>
           </FlexBox>
-        </Card>
+        </MyInfoCard>
       </FlexBox>
-      <Card
+      <MyInfoCard
         height="auto"
-        padding="45px 0px 0px 45px"
         className={css`
           min-height: 261px;
           margin-top: 20px;
@@ -98,8 +152,8 @@ const MenteeProfile = ({ profileId }: { profileId: number }) => {
         <LabelBox text="자기소개">
           <p>{profile?.introduction}</p>
         </LabelBox>
-      </Card>
-    </Card>
+      </MyInfoCard>
+    </MyInfoCommonContainerCard>
   );
 };
 

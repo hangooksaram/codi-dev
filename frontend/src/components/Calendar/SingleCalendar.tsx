@@ -120,13 +120,28 @@ export const CustomDayContent = ({
 }: CustomDayContentProps) => {
   const day = date.getDate();
 
-  const iconRendering = () => {
+  const icon = () => {
+    if (
+      mentoringSchedules?.some(
+        ({ date: mentoringDate }) => mentoringDate === formattedDate(date)
+      )
+    ) {
+      return (
+        <Mentoring
+          fill={
+            date.getDate() === selected?.getDate()
+              ? theme.colors.white
+              : theme.colors.primary
+          }
+        />
+      );
+    }
     if (schedules?.includes(formattedDate(date))) return <Schedule />;
   };
   return (
     <CustomCell id={day.toString()}>
       <div style={{ marginBottom: "5px" }}>{day}</div>
-      {schedules?.includes(formattedDate(date)) && <Schedule />}
+      {icon()}
     </CustomCell>
   );
 };
@@ -148,9 +163,9 @@ export const CustomCaption = (props: CustomCaptionProps) => {
         <LeftIcon />
       </CustomCaptionNavigation>
 
-      {`${new Date(props.displayMonth).getFullYear()}.${new Date(
-        props.displayMonth
-      ).getMonth()}`}
+      {`${new Date(props.displayMonth).getFullYear()}.${
+        new Date(props.displayMonth).getMonth() + 1
+      }`}
 
       <CustomCaptionNavigation
         disabled={!nextMonth}

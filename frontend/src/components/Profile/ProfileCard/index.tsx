@@ -23,8 +23,11 @@ const ProfileCard = ({
   mentorId,
   employmentStatus,
   link,
+  pageQueryInfo,
+  children,
+  career,
+  favorites,
 }: ProfileCard) => {
-  const today = false;
   return (
     <CardContainer
       width={width}
@@ -37,7 +40,13 @@ const ProfileCard = ({
         justifyContent="space-between"
         {...{ height: "100%" }}
       >
-        <Header edit={edit} mentor={mentor} apply={apply} mentorId={mentorId} />
+        <Header
+          favorites={favorites}
+          edit={edit}
+          mentor={mentor}
+          apply={apply}
+          mentorId={mentorId}
+        />
         <Content
           name={name}
           job={job}
@@ -50,9 +59,13 @@ const ProfileCard = ({
           mentees={mentees}
           isCertificate={isCertificate}
           mentorId={mentorId}
+          career={career}
           employmentStatus={employmentStatus}
           link={link}
-        />
+          pageQueryInfo={pageQueryInfo}
+        >
+          {children}
+        </Content>
       </FlexBox>
     </CardContainer>
   );

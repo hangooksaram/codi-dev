@@ -39,6 +39,7 @@ export interface GetMentoringAppliesResponseData {
     desiredJob: string;
     disability: string;
     severity: string;
+    imgUrl: string;
   };
   applicationDate: string;
   applicationReason: string;

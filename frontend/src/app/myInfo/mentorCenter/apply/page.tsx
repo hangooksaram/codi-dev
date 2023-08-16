@@ -1,6 +1,7 @@
 "use client";
 
 import MentorCenterApplyCard from "@/components/pages/mentorCenter/ApplyCard";
+import MyInfoCommonContainerCard from "@/components/pages/myInfoCommon/MyInfoCommonContainerCard";
 import { selectUser } from "@/features/user/userSlice";
 import { useMentoringApplies } from "@/queries/mentoring/mentorMentoringQuery";
 import Card from "@/ui/atoms/Card";
@@ -15,7 +16,7 @@ const ApplyPage = () => {
 
   return (
     <LabelBox text="멘토링요청">
-      <Card color={theme.colors.background} padding="40px">
+      <MyInfoCommonContainerCard>
         {data?.data.map(
           (
             { applicationDate, applicationReason, menteeInfo, mentoringId },
@@ -33,7 +34,7 @@ const ApplyPage = () => {
             );
           }
         )}
-      </Card>
+      </MyInfoCommonContainerCard>
     </LabelBox>
   );
 };
