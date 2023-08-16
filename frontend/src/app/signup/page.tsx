@@ -102,7 +102,7 @@ const SignUpPage = () => {
           id: values.id,
           password: values.password,
         });
-        setLocalUser(data);
+        setLocalUser(data!);
         dispatch(setUser(data));
 
         router.push("complete");

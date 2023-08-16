@@ -109,8 +109,8 @@ export const PROFILE_MENU = [
 export const PROFILE_MENU_HREFS = {
   [PROFILE_MENU[0]]: "/myInfo/",
   [PROFILE_MENU[1]]: "/myInfo/mentorCenter/",
-  [PROFILE_MENU[2]]: "/myCodi",
-  [PROFILE_MENU[3]]: "/myCodi",
+  [PROFILE_MENU[2]]: "/profileForm",
+  [PROFILE_MENU[3]]: "/updateMyInfo",
 };
 
 export const SCHEDULE_TIME_TABLE = [
