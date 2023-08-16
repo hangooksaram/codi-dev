@@ -1,10 +1,13 @@
 import { CommonApiResponse } from "@/types/api/common";
-import { AxiosError } from "axios";
+import { AxiosError, isAxiosError } from "axios";
 
 export const handleApiError = (e: unknown) => {
-  if (e instanceof AxiosError) {
-    throw new Error(e.message);
-  } else throw new Error("unexpected error occured");
+  if (isAxiosError(e)) {
+    return {
+      status: e.response?.status,
+      errorMessage: e.response?.data.message,
+    };
+  } else return { errorMessage: "unknown error occured" };
 };
 
 export const handleApiCallback = (
