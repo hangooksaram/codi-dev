@@ -38,7 +38,7 @@ const customAxios = {
   },
 
   delete: (url: string, data?: object, options?: AxiosRequestConfig) => {
-    return instance.post(url, {
+    return instance.delete(url, {
       ...options,
       // headers: {
       //   Authorization: `Bearer ${mockToken}`,

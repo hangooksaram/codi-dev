@@ -54,6 +54,10 @@ export const getRecommendationMentors = async (
   ).data;
 };
 
+export const getFavoriteMentors = async (profileId: number) => {
+  return (await customAxios.get(`/profiles/${profileId}/favorites`)).data;
+};
+
 export const getMentors = async (mentorsParams: GetMentorsParameters) => {
   const { page, size, job, career, disability, keyword } = mentorsParams;
   return (

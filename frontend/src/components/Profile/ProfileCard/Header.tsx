@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import { selectUser, setUser } from "@/features/user/userSlice";
 import { likeMentor, unLikeMentor } from "@/api/mentorApi";
 import { setLocalUser } from "@/utils/tempUser";
+import { useEffect, useState } from "react";
 
 const Header = ({
   edit,
@@ -28,20 +29,25 @@ const Header = ({
 }) => {
   const today = false;
   const user = useSelector(selectUser);
-  const liked = favorites?.includes(mentorId!);
+  const [localFavorites, setLocalFavorites] = useState<number[]>([]);
   const toggleLikeMentor = async () => {
-    if (liked === true) await unLikeMentor(user?.profileId!, mentorId!);
-    else {
+    if (localFavorites?.includes(mentorId!) === true) {
+      const { status } = await unLikeMentor(user?.profileId!, mentorId!);
+      if (status === 200)
+        setLocalFavorites((prev) =>
+          prev.filter((favorite) => favorite !== mentorId)
+        );
+    } else {
       const { status } = await likeMentor(user?.profileId!, mentorId!);
       if (status === 200) {
-        setUser({
-          ...user,
-          favorites: favorites?.concat(mentorId!),
-        });
-        setLocalUser({ ...user, favorites: favorites?.concat(mentorId!) });
+        setLocalFavorites((prev) => prev.concat(mentorId!));
       }
     }
   };
+
+  useEffect(() => {
+    setLocalFavorites(favorites!);
+  }, [favorites]);
   return (
     <FlexBox justifyContent="space-between">
       <div>
@@ -53,7 +59,7 @@ const Header = ({
           </Chip>
         )}
       </div>
-
+      {localFavorites?.includes(mentorId!).toString()}
       {(!apply && edit && (
         <Button variant="round" width="48px" color={theme.colors.info}>
           <Edit />
@@ -64,9 +70,17 @@ const Header = ({
             onClick={toggleLikeMentor}
             variant="round"
             width="48px"
-            color={liked ? theme.colors.info : theme.colors.white}
+            color={
+              localFavorites?.includes(mentorId!)
+                ? theme.colors.info
+                : theme.colors.white
+            }
           >
-            {liked ? <FilledLike /> : <EmptyLike />}
+            {localFavorites?.includes(mentorId!) ? (
+              <FilledLike />
+            ) : (
+              <EmptyLike />
+            )}
           </Button>
         ))}
     </FlexBox>

@@ -11,10 +11,14 @@ import Button from "@/ui/atoms/Button";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { selectUser } from "@/features/user/userSlice";
+import { useGetFavoriteMentorsQuery } from "@/queries/mentorQuery";
 
 const MentorList = ({ mentors }: { mentors: Mentor[] }) => {
   const router = useRouter();
-  const favorites: number[] = [];
+  const { profileId } = useSelector(selectUser);
+  const { favoriteIds, isSuccess: isFavoritesSuccess } =
+    useGetFavoriteMentorsQuery(profileId!);
+
   if (!mentors)
     return (
       <NoResultCard>
@@ -64,7 +68,7 @@ const MentorList = ({ mentors }: { mentors: Mentor[] }) => {
             mentees={mentees}
             imgUrl={imgUrl}
             mentorId={mentorId}
-            favorites={favorites}
+            favorites={favoriteIds}
           >
             <Button
               onClick={() =>

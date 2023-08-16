@@ -33,6 +33,6 @@ const navigators = [
     iconComponent: <Verified fill={theme.colors.gray.main} />,
     currentIconComponent: <Verified fill={theme.colors.white} />,
     name: "관심 멘토",
-    href: "/myCodi/badges/",
+    href: "/myCodi/favorites/",
   },
 ];
