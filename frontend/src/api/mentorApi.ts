@@ -7,8 +7,12 @@ import {
 import customAxios from "./customAxios";
 import { AxiosResponse } from "axios";
 import { handleApiError } from "@/utils/api";
+import { CommonApiResponse } from "@/types/api/common";
 
-export const registerMentor = async (memberId: string, mentor: FormData) => {
+export const registerMentor = async (
+  memberId: string,
+  mentor: FormData
+): Promise<CommonApiResponse<RegisterMentorResponse>> => {
   try {
     const { data, status }: AxiosResponse<RegisterMentorResponse> =
       await customAxios.post(`/mentors/${memberId}`, mentor, {
@@ -16,13 +20,16 @@ export const registerMentor = async (memberId: string, mentor: FormData) => {
           "Content-Type": "multitype/form-data",
         },
       });
-    return { data, status };
+    return { data: data!, status };
   } catch (e) {
     return handleApiError(e);
   }
 };
 
-export const editMentor = async (mentorId: number, mentor: FormData) => {
+export const editMentor = async (
+  mentorId: number,
+  mentor: FormData
+): Promise<CommonApiResponse<RegisterMentorResponse>> => {
   try {
     const { data, status }: AxiosResponse<RegisterMentorResponse> =
       await customAxios.patch(`/mentors/${mentorId}`, mentor, {

@@ -25,6 +25,7 @@ const ProfileCard = ({
   link,
   pageQueryInfo,
   children,
+  career,
   favorites,
 }: ProfileCard) => {
   return (
@@ -58,6 +59,7 @@ const ProfileCard = ({
           mentees={mentees}
           isCertificate={isCertificate}
           mentorId={mentorId}
+          career={career}
           employmentStatus={employmentStatus}
           link={link}
           pageQueryInfo={pageQueryInfo}

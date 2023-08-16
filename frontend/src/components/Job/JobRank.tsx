@@ -5,44 +5,72 @@ import theme, { device } from "@/ui/theme";
 import styled from "@emotion/styled";
 import Logo from "@icons/logo/recommendation-page-logo.svg";
 import TitleSection from "../pages/mentorsMain/TitleSection";
-import { JobRanks } from "@/types/job";
+import { useJobRanksQuery } from "@/queries/jobQuery";
+import { useSelector } from "react-redux";
+import { selectUser } from "@/features/user/userSlice";
 
-const JobRank = ({ jobRanks }: { jobRanks: JobRanks }) => (
-  <PageComponentLayout>
-    <FlexBox direction="column">
-      <TitleSection
-        title={`${jobRanks?.disability} 취업 직무순위`}
-        logo={<Logo />}
-      />
+const JobRank = () => {
+  const { id, profileId } = useSelector(selectUser);
+  const { data: jobRanks, isSuccess: isJobRanksQuerySuccess } =
+    useJobRanksQuery(id!);
 
-      <FlexBox justifyContent="center" direction="column">
-        {jobRanks?.infos.map(({ job, ranking, ratio }, index) => (
-          <Bar key={index} first={index === 0}>
-            <FlexBox alignItems="center" justifyContent="space-between">
-              <Typography
-                weight={
-                  index === 0
-                    ? theme.fonts.weight.extraBold
-                    : theme.fonts.weight.regular
-                }
-                size={index === 0 ? theme.fonts.size.md : theme.fonts.size.sm}
-                color={theme.colors.black}
-                variant="div"
-              >
-                {`${ranking}위 ${job}`}
-              </Typography>
-              <Typography
-                size={index === 0 ? theme.fonts.size.md : theme.fonts.size.sm}
-                color={theme.colors.black}
-                variant="div"
-              >{`${ratio.toString()}%`}</Typography>
+  return (
+    <PageComponentLayout>
+      <FlexBox direction="column">
+        <TitleSection
+          title={`${jobRanks?.disability ?? "지체장애"} 취업 직무순위`}
+          logo={<Logo />}
+        />
+        {!id && (
+          <div>
+            로그인 후 프로필을 작성하여 공공데이터를 기반으로한 추천 직무들을
+            확인해보세요!
+          </div>
+        )}
+        {id && !profileId && (
+          <div>
+            프로필을 작성하여 공공데이터를 기반으로한 추천 직무들을
+            확인해보세요!
+          </div>
+        )}
+        {isJobRanksQuerySuccess &&
+          (jobRanks?.infos.length === 0 ? (
+            <div>해당 장애로 취업자의 정보가 없습니다. </div>
+          ) : (
+            <FlexBox justifyContent="center" direction="column">
+              {jobRanks?.infos.map(({ job, ranking, ratio }, index) => (
+                <Bar key={index} first={index === 0}>
+                  <FlexBox alignItems="center" justifyContent="space-between">
+                    <Typography
+                      weight={
+                        index === 0
+                          ? theme.fonts.weight.extraBold
+                          : theme.fonts.weight.regular
+                      }
+                      size={
+                        index === 0 ? theme.fonts.size.md : theme.fonts.size.sm
+                      }
+                      color={theme.colors.black}
+                      variant="div"
+                    >
+                      {`${ranking}위 ${job}`}
+                    </Typography>
+                    <Typography
+                      size={
+                        index === 0 ? theme.fonts.size.md : theme.fonts.size.sm
+                      }
+                      color={theme.colors.black}
+                      variant="div"
+                    >{`${ratio.toString()}%`}</Typography>
+                  </FlexBox>
+                </Bar>
+              ))}
             </FlexBox>
-          </Bar>
-        ))}
+          ))}
       </FlexBox>
-    </FlexBox>
-  </PageComponentLayout>
-);
+    </PageComponentLayout>
+  );
+};
 
 const Bar = styled.div(({ first }: { first: boolean }) => ({
   width: first ? "771px" : "709px",

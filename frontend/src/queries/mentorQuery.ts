@@ -38,10 +38,8 @@ const useGetMentorsQuery = () => {
 export const useGetRecommendationMentorsQuery = (
   query: GetRecommendationMentorsParameters
 ) =>
-  useQuery(
-    GET_RECOMMENDATION_MENTORS_KEY,
-    () => getRecommendationMentors(query!),
-    { enabled: query.disability !== undefined }
+  useQuery(GET_RECOMMENDATION_MENTORS_KEY, () =>
+    getRecommendationMentors(query!)
   );
 
 export const useGetMentorQuery = (mentorId: number) => {

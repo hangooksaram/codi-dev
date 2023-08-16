@@ -49,6 +49,7 @@ const MentorList = ({ mentors }: { mentors: Mentor[] }) => {
           isCertificate,
           mentees,
           imgUrl,
+          career,
         }) => (
           <ProfileCard
             key={mentorId}
@@ -57,6 +58,7 @@ const MentorList = ({ mentors }: { mentors: Mentor[] }) => {
             disability={disability}
             severity={severity}
             edit={false}
+            career={career}
             star={star}
             isCertificate={isCertificate}
             mentees={mentees}

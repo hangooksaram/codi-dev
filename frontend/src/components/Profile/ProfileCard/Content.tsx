@@ -31,6 +31,7 @@ const Content = ({
   employmentStatus,
   link,
   children,
+  career,
 }: ProfileCard) => {
   const router = useRouter();
 
@@ -93,6 +94,7 @@ const Content = ({
         >
           <Chip>{disability!}</Chip>
           <Chip>{severity}</Chip>
+          <Chip>{career}</Chip>
         </FlexBox>
       )}
       {edit ? (
