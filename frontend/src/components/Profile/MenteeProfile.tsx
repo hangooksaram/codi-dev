@@ -19,6 +19,8 @@ import Button from "@/ui/atoms/Button";
 import MentoringPlatformModal from "../Mentoring/MentoringPlatformModal";
 import { useState } from "react";
 import { useMentoringAcceptMutation } from "@/queries/mentoring/mentorMentoringQuery";
+import MyInfoCommonContainerCard from "../pages/myInfoCommon/MyInfoCommonContainerCard";
+import MyInfoCard from "../pages/myInfoCommon/MyInfoCard";
 
 const MenteeProfile = ({
   profileId,
@@ -37,7 +39,7 @@ const MenteeProfile = ({
   const isMentoringApply = pageParams?.get("mentoringApply");
   const [openModal, setOpenModal] = useState(false);
   return (
-    <Card color={theme.colors.background} padding="30px" height="auto">
+    <MyInfoCommonContainerCard>
       <FlexBox
         alignItems="flex-start"
         columnGap="20px"
@@ -97,13 +99,9 @@ const MenteeProfile = ({
             </Button>
           )}
         </ProfileCard>
-        <Card
-          padding="45px 0px 0px 45px"
+        <MyInfoCard
           className={css({
             minHeight: "477px",
-            [device("tablet")]: {
-              padding: "30px !important",
-            },
           })}
         >
           <LabelBox text="멘티정보">
@@ -142,11 +140,10 @@ const MenteeProfile = ({
               </FlexBox>
             </LabelBox>
           </FlexBox>
-        </Card>
+        </MyInfoCard>
       </FlexBox>
-      <Card
+      <MyInfoCard
         height="auto"
-        padding="45px 0px 0px 45px"
         className={css`
           min-height: 261px;
           margin-top: 20px;
@@ -155,8 +152,8 @@ const MenteeProfile = ({
         <LabelBox text="자기소개">
           <p>{profile?.introduction}</p>
         </LabelBox>
-      </Card>
-    </Card>
+      </MyInfoCard>
+    </MyInfoCommonContainerCard>
   );
 };
 

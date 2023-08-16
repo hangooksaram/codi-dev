@@ -61,8 +61,9 @@ const ProfileCard = ({
           employmentStatus={employmentStatus}
           link={link}
           pageQueryInfo={pageQueryInfo}
-          children={children}
-        />
+        >
+          {children}
+        </Content>
       </FlexBox>
     </CardContainer>
   );

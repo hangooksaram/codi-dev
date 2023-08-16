@@ -42,8 +42,8 @@ const MentoringCard = ({
     ({ text }) => text === platform
   );
   const router = useRouter();
-  const mentorProfileUrl = `/mentorProfile/${mentorId}?mentoringId=${mentoringId}`;
-  const menteeProfileUrl = `/menteeProfile/${profileId}?mentoringId=${mentoringId}&platform=${platform}`;
+  const mentorProfileUrl = `/mentorProfile?mentorId=${mentorId}&mentoringId=${mentoringId}`;
+  const menteeProfileUrl = `/menteeProfile?profileId=${profileId}&mentoringId=${mentoringId}&platform=${platform}`;
 
   return (
     <StyledCard>

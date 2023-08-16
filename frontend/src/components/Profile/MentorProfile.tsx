@@ -17,6 +17,8 @@ import {
   useSearchParams,
 } from "next/navigation";
 import Button from "@/ui/atoms/Button";
+import MyInfoCommonContainerCard from "../pages/myInfoCommon/MyInfoCommonContainerCard";
+import MyInfoCard from "../pages/myInfoCommon/MyInfoCard";
 
 const MentorProfile = ({
   mentorId,
@@ -30,7 +32,7 @@ const MentorProfile = ({
   const isMentoringApply = pageParams?.get("mentoringApply");
   const isMentoring = pageParams?.get("mentoringId");
   return (
-    <Card color={theme.colors.background} padding="30px" height="auto">
+    <MyInfoCommonContainerCard>
       <FlexBox
         alignItems="flex-start"
         columnGap="20px"
@@ -63,7 +65,9 @@ const MentorProfile = ({
         >
           {isMentoringApply ? (
             <Button
-              onClick={() => router.push(`/mentoringApplyForm/${mentorId}`)}
+              onClick={() =>
+                router.push(`/mentoringApplyForm?mentorId=${mentorId}`)
+              }
               size="small"
               variant="default"
               color={theme.colors.secondary}
@@ -72,13 +76,9 @@ const MentorProfile = ({
             </Button>
           ) : null}
         </ProfileCard>
-        <Card
-          padding="45px 0px 0px 45px"
+        <MyInfoCard
           className={css({
             minHeight: "477px",
-            [device("tablet")]: {
-              padding: "30px !important",
-            },
           })}
         >
           <FlexBox
@@ -88,7 +88,10 @@ const MentorProfile = ({
             rowGap="60px"
           >
             <LabelBox text="멘토정보">
-              <Grid gridTemplateColumns="1fr 1fr" rowGap="10px">
+              <Grid
+                gridTemplateColumns="repeat(auto-fit, minmax(300px, 2fr))"
+                rowGap="10px"
+              >
                 <ProfileLabelText name="이름" value={mentor?.name} />
                 <ProfileLabelText name="최종학력" value={mentor?.education} />
                 <ProfileLabelText name="나이" value={"1"} />
@@ -123,7 +126,7 @@ const MentorProfile = ({
               </FlexBox>
             </LabelBox>
           </FlexBox>
-        </Card>
+        </MyInfoCard>
       </FlexBox>
       <FlexBox
         columnGap="20px"
@@ -178,21 +181,20 @@ const MentorProfile = ({
             ))}
           </FlexBox>
         </Card>
-        <Card
+        <MyInfoCard
           width="100%"
           height="auto"
-          padding="45px 0px 0px 45px"
           className={css`
             min-height: 261px;
             margin-top: 20px;
           `}
         >
           <LabelBox text="자기소개">
-            <p>{mentor?.introduction}</p>
+            <Typography variant="div">{mentor?.introduction!}</Typography>
           </LabelBox>
-        </Card>
+        </MyInfoCard>
       </FlexBox>
-    </Card>
+    </MyInfoCommonContainerCard>
   );
 };
 const Divider = styled.div`

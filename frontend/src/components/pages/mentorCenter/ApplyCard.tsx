@@ -11,11 +11,13 @@ import Button from "@/ui/atoms/Button";
 import Card from "@/ui/atoms/Card";
 import Chip from "@/ui/atoms/Chip";
 import FlexBox from "@/ui/atoms/FlexBox";
+import Typography from "@/ui/atoms/Typography";
 import LabelBox from "@/ui/molecules/LabelBox";
 import theme, { device } from "@/ui/theme";
 import { css } from "@emotion/css";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
+import MyInfoCard from "../myInfoCommon/MyInfoCard";
 
 const MentorCenterApplyCard = ({
   mentoringId,
@@ -40,11 +42,11 @@ const MentorCenterApplyCard = ({
     <FlexBox
       justifyContent="space-between"
       columnGap="20px"
-      className={css({
+      {...{
         [device("tablet")]: {
           flexDirection: "column",
         },
-      })}
+      }}
     >
       <div
         className={css({
@@ -66,7 +68,7 @@ const MentorCenterApplyCard = ({
           mentor={false}
         />
       </div>
-      <Card padding="40px" width="100%" height="400px">
+      <MyInfoCard width="100%" height="400px">
         <FlexBox
           direction="column"
           justifyContent="space-between"
@@ -80,19 +82,26 @@ const MentorCenterApplyCard = ({
 
             <div className={css({ gridColumnEnd: 2 })}>
               <LabelBox text="하고 싶은 말">
-                <p>{applicationReason}</p>
+                <Typography variant="div">{applicationReason}</Typography>
               </LabelBox>
             </div>
           </FlexBox>
 
-          <FlexBox justifyContent="space-between">
+          <FlexBox
+            justifyContent="space-between"
+            {...{
+              [device("tablet")]: {
+                flexDirection: "column",
+              },
+            }}
+          >
             <Button
               size="small"
               color={theme.colors.secondary}
               variant="default"
               onClick={() =>
                 router.push(
-                  `/menteeProfile/${profileId}?mentoringApply=${true}&mentorId=${mentorId}&mentoringId=${mentoringId}`
+                  `/menteeProfile?${profileId}&mentoringApply=${true}&mentorId=${mentorId}&mentoringId=${mentoringId}`
                 )
               }
             >
@@ -120,7 +129,7 @@ const MentorCenterApplyCard = ({
             </FlexBox>
           </FlexBox>
         </FlexBox>
-      </Card>
+      </MyInfoCard>
     </FlexBox>
   );
 };

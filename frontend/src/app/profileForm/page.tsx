@@ -117,7 +117,7 @@ const ProfileFormPage = () => {
 
   const registerProfile = async () => {
     const { data, status, errorMessage } =
-      await postRegisterProfile<RegisterProfileResponse>(memberId, formData);
+      await postRegisterProfile<RegisterProfileResponse>(memberId!, formData);
 
     const signInSuccessCallback = () => {
       const { id, imgUrl } = data!;
