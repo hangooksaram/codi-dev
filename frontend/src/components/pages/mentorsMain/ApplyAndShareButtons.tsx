@@ -16,7 +16,7 @@ const ApplyAndShareButtons = () => {
           src="/images/main-mentor-apply.png"
           alt="apply-button"
           {...{ cursor: "pointer" }}
-          onClick={() => router.push(id ? "/mentorApplyForm" : `/signup7`)}
+          onClick={() => router.push(id ? `/mentorApplyForm` : `/signup`)}
         />
       )}
 

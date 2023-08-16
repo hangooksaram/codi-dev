@@ -5,7 +5,7 @@ import FlexBox from "@/ui/atoms/FlexBox";
 import LabelBox from "@/ui/molecules/LabelBox";
 import theme from "@/ui/theme";
 import { FormEventHandler, useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import useDailySchedulesQuery, {
   useMonthlySchedulesQuery,
 } from "@/queries/scheduleQuery";
@@ -33,11 +33,14 @@ const MentoringApplyFormPage = () => {
     useRestForm<ApplyMentoringBody>(initialRestForm);
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [isAllFilled, setIsAllFilled] = useState(false);
-  const { mentorId } = useParams();
+  const param = useSearchParams();
   const { profileId } = useSelector(selectUser);
-  const mutation = useApplyMentoringMutation(profileId!, parseInt(mentorId));
+  const mutation = useApplyMentoringMutation(
+    profileId!,
+    parseInt(param.get("mentorId")!)
+  );
   const { data } = useDailySchedulesQuery(
-    parseInt(mentorId)!,
+    parseInt(param.get("mentorId")!),
     formattedDate(date)
   );
 

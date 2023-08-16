@@ -66,7 +66,9 @@ const MentorList = ({ mentors }: { mentors: Mentor[] }) => {
           >
             <Button
               onClick={() =>
-                router.push(`/mentorProfile/${mentorId}?mentoringApply=${true}`)
+                router.push(
+                  `/mentorProfile?mentorId=${mentorId!}?mentoringApply=${true}`
+                )
               }
               size="small"
               variant="default"
