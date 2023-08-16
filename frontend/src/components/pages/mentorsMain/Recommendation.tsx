@@ -14,14 +14,14 @@ import ApplyAndShareButtons from "./ApplyAndShareButtons";
 
 const Recommendation = () => {
   const router = useRouter();
-  const { id, mentorId } = useSelector(selectUser);
+  const { id } = useSelector(selectUser);
   const { data: jobRanks } = useJobRanksQuery(id!);
   const {
     data: recommendationMentors,
     isSuccess: isRecommendationMentorsSuccess,
   } = useGetRecommendationMentorsQuery({
     disability: jobRanks?.disability!,
-    firstJob: jobRanks?.infos[0].job!,
+    firstJob: jobRanks?.infos[0]?.job!,
     secondJob: jobRanks?.infos[1]?.job! ?? "",
     thirdJob: jobRanks?.infos[2]?.job! ?? "",
   });
@@ -41,10 +41,14 @@ const Recommendation = () => {
           width: "100%",
           display: "flex",
           justifyContent: "center",
-          marginTop: "40px",
+          margin: "40px 0px",
         }}
       >
-        <MoreMentorsButton variant="default" color={theme.colors.primary}>
+        <MoreMentorsButton
+          onClick={() => router.push(`/mentorsMain?fromRecommendation=${true}`)}
+          variant="default"
+          color={theme.colors.primary}
+        >
           멘토전체보기
         </MoreMentorsButton>
       </div>

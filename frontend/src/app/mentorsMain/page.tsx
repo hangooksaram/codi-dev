@@ -3,35 +3,34 @@
 import JobRank from "@/components/Job/JobRank";
 import FlexBox from "@/ui/atoms/FlexBox";
 import theme from "@/ui/theme";
-import { useRef } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useRef } from "react";
+import { useSearchParams } from "next/navigation";
 import MentorsBanner from "@/components/pages/mentorsMain/MentorBanner";
 import { PageComponentLayout } from "@/components/pages/mentorsMain/PageComonentLayout";
 import TitleSection from "@/components/pages/mentorsMain/TitleSection";
 import Logo from "@icons/logo/recommend-icon.svg";
 import Mentors from "@/components/Mentor/Mentors";
-import { useJobRanksQuery } from "@/queries/jobQuery";
-import { useSelector } from "react-redux";
-import { selectUser } from "@/features/user/userSlice";
+import Recommendation from "@/components/pages/mentorsMain/Recommendation";
 
 const MentorsPage = () => {
-  const router = useRouter();
   const ref = useRef<HTMLDivElement>(null);
-  const { id } = useSelector(selectUser);
-  const { data: jobRanks, isSuccess: isJobRanksQuerySuccess } =
-    useJobRanksQuery(id!);
+  const params = useSearchParams();
 
   const scrollToMentorList = () => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  useEffect(() => {
+    if (params.get("fromRecommendation")) scrollToMentorList();
+  }, []);
+
   return (
     <main style={{ backgroundColor: theme.colors.background }}>
       <FlexBox direction="column" rowGap="20px">
         <MentorsBanner scrollToMentorList={scrollToMentorList} />
-        {isJobRanksQuerySuccess && <JobRank jobRanks={jobRanks!} />}
+        <JobRank />
 
-        {/* <Recommendation mentors={recommendationMentors} /> */}
+        <Recommendation />
 
         <div style={{ width: "100%" }} ref={ref}>
           <PageComponentLayout>
