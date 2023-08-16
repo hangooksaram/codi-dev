@@ -23,6 +23,7 @@ const MyCodiPage = () => {
   const [type, setType] = useState<"mentor" | "mentee">("mentee");
 
   const [month, setMonth] = useState<string>();
+
   const { data: mentoringsData } = useMonthlyMentoringsQuery({
     profileId: profileId!,
     month: month ?? formattedMonth(new Date()),

@@ -163,9 +163,9 @@ export const CustomCaption = (props: CustomCaptionProps) => {
         <LeftIcon />
       </CustomCaptionNavigation>
 
-      {`${new Date(props.displayMonth).getFullYear()}.${new Date(
-        props.displayMonth
-      ).getMonth()}`}
+      {`${new Date(props.displayMonth).getFullYear()}.${
+        new Date(props.displayMonth).getMonth() + 1
+      }`}
 
       <CustomCaptionNavigation
         disabled={!nextMonth}
