@@ -15,7 +15,6 @@ import { PROFILE_MENU, PROFILE_MENU_HREFS } from "@/constants";
 import MobileAppBar from "./MobileAppBar";
 import { useSelector } from "react-redux";
 import { selectUser } from "@/features/user/userSlice";
-import { StyledImage } from "@/ui/atoms/StyledImage";
 import { backgroundImage } from "@/ui/atoms/BackgroundImage";
 import { logout } from "@/utils/tempUser";
 
@@ -39,7 +38,9 @@ const AppBar = () => {
     if (selected) {
       if (selected === "로그아웃") {
         logout();
-        router.push("/");
+        setTimeout(() => {
+          window.location.reload();
+        }, 400);
       } else router.push(PROFILE_MENU_HREFS[selected]);
     }
     return () => setSelected(undefined);
