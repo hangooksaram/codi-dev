@@ -1,6 +1,7 @@
 package codi.backend.domain.profile.dto;
 
-import codi.backend.domain.favorite.dto.FavoriteResponseDto;
+import codi.backend.domain.favorite.dto.FavoriteDto;
+import codi.backend.domain.mentor.dto.MentorDto;
 import codi.backend.domain.profile.entity.Profile;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -40,7 +41,7 @@ public class ProfileDto {
 
         @NotNull
         @ApiModelProperty(example = "멘티의 현재 상태를 입력하세요. 취업 준비생, 학생, 이직 준비중, 멘티 중 하나를 선택할 수 있습니다.")
-        private String employmentStatus;
+        private Profile.EmploymentStatus employmentStatus;
     }
 
     @Getter
@@ -65,7 +66,7 @@ public class ProfileDto {
         private String introduction;
 
         @ApiModelProperty(example = "멘티의 현재 상태를 입력하세요. 취업 준비생, 학생, 이직 준비중, 멘티 중 하나를 선택할 수 있습니다.")
-        private String employmentStatus;
+        private Profile.EmploymentStatus employmentStatus;
     }
     
     @Schema(description = "프로필 응답 DTO")
@@ -106,6 +107,6 @@ public class ProfileDto {
         private String employmentStatus;
 
         @ApiModelProperty(example = "관심 멘토")
-        private Set<FavoriteResponseDto> favorites;
+        private Set<FavoriteDto.FavoriteResponse> favorites;
     }
 }

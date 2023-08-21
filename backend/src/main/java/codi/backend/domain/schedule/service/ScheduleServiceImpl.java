@@ -21,7 +21,6 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-@Transactional
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
     private final ScheduleRepository scheduleRepository;
@@ -34,11 +33,13 @@ public class ScheduleServiceImpl implements ScheduleService {
         this.mentorService = mentorService;
     }
 
+    @Transactional
     @Override
     public void registerSchedule(Long mentorId, ScheduleDto.SchedulePostDto schedulePostDto) {
         Mentor mentor = mentorService.findMentor(mentorId);
         List<Schedule> newSchedules = convertToSchedules(mentor, schedulePostDto.getDate(), schedulePostDto.getTimes());
-        List<Schedule> existingSchedules = scheduleRepository.findAllByMentor(mentor);
+        LocalDate localDate = LocalDate.parse(schedulePostDto.getDate(), DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+        List<Schedule> existingSchedules = scheduleRepository.findAllByMentorAndDate(mentor, localDate);
 
         // 기존 스케줄을 시작시간-종료시간으로 맵에 저장
         Map<String, Schedule> existingScheduleMap = existingSchedules.stream()
@@ -108,6 +109,7 @@ public class ScheduleServiceImpl implements ScheduleService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Schedule findSchedule(Mentor mentor, LocalDateTime startTime, LocalDateTime endTime) {
         return scheduleRepository
@@ -115,6 +117,7 @@ public class ScheduleServiceImpl implements ScheduleService {
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.SCHEDULE_NOT_FOUND));
     }
 
+    @Transactional(readOnly = true)
     @Override
     public void checkScheduleMentoring(Schedule schedule) {
         if (schedule.getMentoring() != null) {
@@ -122,6 +125,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         }
     }
 
+    @Transactional(readOnly = true)
     @Override
     public ScheduleDto.ScheduleDailyResponse findDailySchedules(Long mentorId, String date) {
         Mentor mentor = mentorService.findMentor(mentorId);
@@ -129,6 +133,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         return scheduleRepository.findDailySchedules(mentor, localDate);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public ScheduleDto.ScheduleMonthlyResponse findMonthlySchedules(Long mentorId, String month) {
         Mentor mentor = mentorService.findMentor(mentorId);

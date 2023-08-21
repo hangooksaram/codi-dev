@@ -10,5 +10,5 @@ public interface ProfileService {
     Profile updateProfileInformation(Long profileId, Profile profile, MultipartFile file);
     Profile findProfile(Long profileId);
     void deleteProfileImg(Long profileId);
-    List<Long> getFavoriteMentorIds(Long profileId);
+    List<Long> getFavoriteMentors(Long profileId);
 }

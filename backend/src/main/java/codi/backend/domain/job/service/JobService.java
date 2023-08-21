@@ -1,9 +1,9 @@
 package codi.backend.domain.job.service;
 
-import codi.backend.domain.job.dto.JobCategoryDto;
+import codi.backend.domain.job.dto.JobCategoryResponse;
 
 import java.util.List;
 
 public interface JobService {
-    List<JobCategoryDto> getAllJobsByCategory();
+    List<JobCategoryResponse> getAllJobsByCategory();
 }

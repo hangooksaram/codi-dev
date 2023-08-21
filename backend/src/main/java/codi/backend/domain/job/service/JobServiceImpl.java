@@ -1,6 +1,6 @@
 package codi.backend.domain.job.service;
 
-import codi.backend.domain.job.dto.JobCategoryDto;
+import codi.backend.domain.job.dto.JobCategoryResponse;
 import codi.backend.domain.job.dto.JobDto;
 import codi.backend.domain.job.entity.Job;
 import codi.backend.domain.job.repository.JobRepository;
@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Transactional
 @Service
 public class JobServiceImpl implements JobService {
     private final JobRepository jobRepository;
@@ -22,8 +21,9 @@ public class JobServiceImpl implements JobService {
         this.jobRepository = jobRepository;
     }
 
+    @Transactional(readOnly = true)
     @Override
-    public List<JobCategoryDto> getAllJobsByCategory() {
+    public List<JobCategoryResponse> getAllJobsByCategory() {
         // findAll()과 비교했을 때, 속도가 약 5배 정도 빠르다.
         List<Job> jobs = jobRepository.findAllOrdered();
 
@@ -31,7 +31,7 @@ public class JobServiceImpl implements JobService {
         Map<String, List<Job>> jobsByCategory = jobs.stream()
                 .collect(Collectors.groupingBy(job -> job.getJobCategory().getClassification(), LinkedHashMap::new, Collectors.toList()));
 
-        List<JobCategoryDto> result = new ArrayList<>();
+        List<JobCategoryResponse> result = new ArrayList<>();
         for(Map.Entry<String, List<Job>> entry : jobsByCategory.entrySet()) {
             String classification = entry.getKey();
             List<Job> jobsInCategory = entry.getValue();
@@ -40,7 +40,7 @@ public class JobServiceImpl implements JobService {
                     .map(JobDto::new)
                     .collect(Collectors.toList());
 
-            result.add(new JobCategoryDto(classification, jobDtos));
+            result.add(new JobCategoryResponse(classification, jobDtos));
         }
 
         return result;

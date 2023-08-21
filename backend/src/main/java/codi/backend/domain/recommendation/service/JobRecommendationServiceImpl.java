@@ -1,9 +1,10 @@
 package codi.backend.domain.recommendation.service;
 
+import codi.backend.domain.job.repository.JobRepository;
 import codi.backend.domain.member.entity.Member;
-import codi.backend.domain.member.repository.MemberRepository;
+import codi.backend.domain.member.service.MemberService;
 import codi.backend.domain.profile.entity.Profile;
-import codi.backend.domain.profile.repository.ProfileRepository;
+import codi.backend.domain.profile.service.ProfileService;
 import codi.backend.domain.recommendation.dto.JobRecommendationDto;
 import codi.backend.domain.recommendation.repository.JobRecommendationRepository;
 import codi.backend.global.exception.BusinessLogicException;
@@ -14,26 +15,28 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
-@Transactional
 @Service
 public class JobRecommendationServiceImpl implements JobRecommendationService {
-    private final MemberRepository memberRepository;
-    private final ProfileRepository profileRepository;
+    private final MemberService memberService;
+    private final ProfileService profileService;
     private final JobRecommendationRepository jobRecommendationRepository;
 
     // TODO change member, profile service DI
-    public JobRecommendationServiceImpl(MemberRepository memberRepository, ProfileRepository profileRepository, JobRecommendationRepository jobRecommendationRepository) {
-        this.memberRepository = memberRepository;
-        this.profileRepository = profileRepository;
+    public JobRecommendationServiceImpl(MemberService memberService, ProfileService profileService, JobRecommendationRepository jobRecommendationRepository) {
+        this.memberService = memberService;
+        this.profileService = profileService;
         this.jobRecommendationRepository = jobRecommendationRepository;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public JobRecommendationDto.Response recommendJobs(String memberId) {
-        Member member = getMember(memberId);
-        Profile profile = getProfile(member.getProfile().getId());
+        if (memberId == null) return JobRecommendationDto.Response.builder()
+                .build();
+
+        Member member = memberService.findMember(memberId);
+        Profile profile = profileService.findProfile(member.getProfile().getId());
 
         int age = calculateAge(member.getBirth(), LocalDate.now());
 
@@ -44,15 +47,5 @@ public class JobRecommendationServiceImpl implements JobRecommendationService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         LocalDate birthDate = LocalDate.parse(birthDateString, formatter);
         return Period.between(birthDate, currentDate).getYears();
-    }
-
-    private Member getMember(String memberId) {
-        return memberRepository.findById(memberId)
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-    }
-
-    private Profile getProfile(Long profileId) {
-        return profileRepository.findById(profileId)
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.PROFILE_NOT_FOUND));
     }
 }

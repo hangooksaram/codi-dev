@@ -51,17 +51,10 @@ public class Mentoring {
 
     @JsonFormat(shape = JsonFormat.Shape.OBJECT)
     public enum MentoringStatus {
-        APPLICATION("신청"),
-        ACCEPTED("수락"),
-        REJECTED("거절"),
-        COMPLETED("완료");
-
-        @Getter
-        private final String status;
-
-        MentoringStatus(String status) {
-            this.status = status;
-        }
+        APPLICATION,
+        ACCEPTED,
+        REJECTED,
+        COMPLETED;
     }
 
     @JsonFormat(shape = JsonFormat.Shape.OBJECT)

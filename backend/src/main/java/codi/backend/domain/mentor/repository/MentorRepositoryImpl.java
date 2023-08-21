@@ -8,20 +8,28 @@ import codi.backend.domain.profile.entity.QProfile;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPQLQuery;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
+import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class MentorRepositoryImpl extends QuerydslRepositorySupport implements MentorRepositoryCustom {
+    private final JPAQueryFactory queryFactory;
 
-    public MentorRepositoryImpl() {
+    public MentorRepositoryImpl(JPAQueryFactory queryFactory) {
         super(Mentor.class);
+        this.queryFactory = queryFactory;
     }
 
     @Override
@@ -42,7 +50,9 @@ public class MentorRepositoryImpl extends QuerydslRepositorySupport implements M
         }
         if (StringUtils.hasText(keyword)) {
             builder.and(mentor.company.contains(keyword)
-                    .or(mentor.introduction.contains(keyword)));
+                    .or(mentor.introduction.contains(keyword))
+                    .or(mentor.jobName.contains(keyword))
+                    .or(member.name.contains(keyword)));
         }
 
         Pageable pageableDown = PageRequest.of(pageable.getPageNumber() - 1, pageable.getPageSize(), pageable.getSort());
@@ -69,5 +79,44 @@ public class MentorRepositoryImpl extends QuerydslRepositorySupport implements M
         QueryResults<MentorDto.SearchMentorResponse> result = pageableQuery.fetchResults();
 
         return new PageImpl<>(result.getResults(), pageableDown, result.getTotal());
+    }
+
+    @Override
+    public List<MentorDto.IntermediateMentorResponse> getMentorsByRanking(MentorDto.RecommendationMentorRequest request) {
+        QMentor mentor = QMentor.mentor;
+
+        BooleanBuilder jobExpression = new BooleanBuilder();
+
+        if (request.getFirstJob() != null) {
+            jobExpression.or(mentor.job.eq(request.getFirstJob()));
+        }
+
+        if (request.getSecondJob() != null) {
+            jobExpression.or(mentor.job.eq(request.getSecondJob()));
+        }
+
+        if (request.getThirdJob() != null) {
+            jobExpression.or(mentor.job.eq(request.getThirdJob()));
+        }
+
+        return queryFactory.select(Projections.constructor(MentorDto.IntermediateMentorResponse.class,
+                        mentor.member.id,
+                        mentor.id,
+                        mentor.member.profile.imgUrl,
+                        mentor.isCertificate,
+                        mentor.member.name,
+                        mentor.job,
+                        mentor.jobName,
+                        mentor.inOffice,
+                        mentor.career,
+                        mentor.member.profile.disability,
+                        mentor.member.profile.severity,
+                        mentor.star,
+                        mentor.mentees))
+                .from(mentor)
+                .innerJoin(mentor.member, QMember.member)
+                .innerJoin(mentor.member.profile, QProfile.profile)
+                .where(jobExpression)
+                .fetch();
     }
 }

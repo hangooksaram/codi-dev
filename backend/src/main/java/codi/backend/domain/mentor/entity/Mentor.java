@@ -98,14 +98,14 @@ public class Mentor {
 
     @JsonFormat(shape = JsonFormat.Shape.OBJECT)
     public enum MentoringCategory {
-        SHARING_EXPERIENCE("경험공유"),
-        PREPARING_INTERVIEW("면접대비"),
-        SOCIAL_SKILL("사회생활"),
-        PRACTICAL_SKILL("실무/기술"),
-        WORK_COMPETENCY("업무역량"),
-        JOB_INFORMATION("일자리정보"),
-        PREPARATION_EMPLOY("취업준비"),
-        CAREER_DIRECTION("커리어방향");
+        SHARINGEXPERIENCE("경험공유"),
+        PREPARINGINTERVIEW("면접대비"),
+        SOCIALSKILL("사회생활"),
+        PRACTICALSKILL("실무/기술"),
+        WORKCOMPETENCY("업무역량"),
+        JOBINFORMATION("일자리정보"),
+        PREPARATIONEMPLOY("취업준비"),
+        CAREERDIRECTION("커리어방향");
 
         @Getter
         private final String mentoringCategory;

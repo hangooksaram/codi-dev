@@ -1,5 +1,7 @@
 package codi.backend.domain.mentoring.dto;
 
+import codi.backend.domain.mentor.dto.MentorDto;
+import codi.backend.domain.mentoring.entity.Mentoring;
 import codi.backend.domain.schedule.dto.ScheduleDto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -84,7 +86,17 @@ public class MentoringDto {
     @Builder
     public static class MentoringMonthlyMenteesResponse {
         private String month;
-        private List<MentoringDailyMenteesResponse> dailyMentees;
+        private List<MentoringDailyMenteesResponse> monthlyMentoringMembers;
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class MentoringMonthlyMentorsResponse {
+        private String month;
+        private List<MentoringDailyMentorsResponse> monthlyMentoringMembers;
     }
 
     @Getter
@@ -94,33 +106,8 @@ public class MentoringDto {
     @Builder
     public static class MentoringDailyMenteesResponse {
         private String date;
-        List<MenteeInfoResponse> mentees;
-    }
-
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Builder
-    public static class MenteeInfoResponse {
-        private Long mentoringId;
-        private String time;
-        private String name;
-        private String imgUrl;
-        private String desiredJob;
-        private String link;
-        private String platform;
-    }
-
-    // Mentee가 Mentors 정보 조회
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Builder
-    public static class MentoringMonthlyMentorsResponse {
-        private String month;
-        private List<MentoringDailyMentorsResponse> dailyMentors;
+        List<MenteeInfoResponse> mentoringMembers;
+        private String mentoringStatus;
     }
 
     @Getter
@@ -130,7 +117,24 @@ public class MentoringDto {
     @Builder
     public static class MentoringDailyMentorsResponse {
         private String date;
-        List<MentorInfoResponse> mentors;
+        List<MentorInfoResponse> mentoringMembers;
+        private String mentoringStatus;
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class MenteeInfoResponse {
+        private Long mentoringId;
+        private Long profileId;
+        private String time;
+        private String name;
+        private String imgUrl;
+        private String mentoringJob;
+        private String link;
+        private String platform;
     }
 
     @Getter
@@ -140,14 +144,16 @@ public class MentoringDto {
     @Builder
     public static class MentorInfoResponse {
         private Long mentoringId;
+        private Long mentorId;
         private String time;
         private String name;
         private String imgUrl;
-        private String jobName;
+        private String mentoringJob;
         private String link;
         private String platform;
     }
 
+    // 멘토 신청 내역 조회
     @Getter
     @Setter
     @NoArgsConstructor
@@ -168,9 +174,21 @@ public class MentoringDto {
     public static class MentoringApplicationMenteeInfoResponse {
         private Long profileId;
         private String name;
+        private String imgUrl;
         private String employmentStatus;
         private String desiredJob;
         private String disability;
         private String severity;
+    }
+
+    // 멘토링 일정 (오늘 날짜)
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class TodayMentoringInfoResponse {
+        private String applicationDate;
+        private MentorDto.SearchMentorResponse mentorInfo;
     }
 }

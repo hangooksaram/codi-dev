@@ -1,12 +1,13 @@
 package codi.backend.domain.mentoring.repository;
 
+import codi.backend.domain.member.entity.Member;
+import codi.backend.domain.mentor.dto.MentorDto;
 import codi.backend.domain.mentor.entity.Mentor;
 import codi.backend.domain.mentoring.dto.MentoringDto;
 import codi.backend.domain.mentoring.entity.Mentoring;
 import codi.backend.domain.mentoring.entity.QMentoring;
 import codi.backend.domain.profile.entity.Profile;
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
@@ -18,10 +19,9 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.TextStyle;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Repository
@@ -36,17 +36,35 @@ public class MentoringRepositoryImpl implements MentoringRepositoryCustom {
     // Mentor가 Mentee 정보 본다.
     @Override
     public MentoringDto.MentoringDailyMenteesResponse findDailyMentoringsOfMentor(Mentor mentor, LocalDate date) {
+        BooleanExpression dateCondition = mentoring.schedule.startDateTime.goe(date.atStartOfDay())
+                .and(mentoring.schedule.endDateTime.lt(date.plusDays(1).atStartOfDay()));
+
+        BooleanExpression statusCondition = mentoring.mentoringStatus.eq(Mentoring.MentoringStatus.ACCEPTED)
+                .or(mentoring.mentoringStatus.eq(Mentoring.MentoringStatus.COMPLETED));
+
         List<Mentoring> mentorings = queryFactory.selectFrom(mentoring)
                 .where(mentoring.mentor.eq(mentor)
-                        .and(mentoring.schedule.startDateTime.goe(date.atStartOfDay())
-                                .and(mentoring.schedule.endDateTime.lt(date.plusDays(1).atStartOfDay()))))
+                        .and(dateCondition)
+                        .and(statusCondition))
                 .fetch();
+
+        String mentoringStatus = mentorings.stream()
+                .map(Mentoring::getMentoringStatus)
+                .map(status -> {
+                    if (status == Mentoring.MentoringStatus.COMPLETED) return Mentoring.MentoringStatus.COMPLETED.toString();
+                    if (status == Mentoring.MentoringStatus.ACCEPTED) return Mentoring.MentoringStatus.ACCEPTED.toString();
+                    return null;
+                })
+                .filter(Objects::nonNull)
+                .findFirst()
+                .orElse(null);
 
         List<MentoringDto.MenteeInfoResponse> menteeInfoResponses = mapToMenteeInfoResponses(mentorings);
 
         return MentoringDto.MentoringDailyMenteesResponse.builder()
                 .date(date.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")))
-                .mentees(menteeInfoResponses)
+                .mentoringMembers(menteeInfoResponses)
+                .mentoringStatus(mentoringStatus)
                 .build();
     }
 
@@ -55,32 +73,52 @@ public class MentoringRepositoryImpl implements MentoringRepositoryCustom {
         LocalDate startOfMonth = month.withDayOfMonth(1);
         LocalDate endOfMonth = month.withDayOfMonth(month.lengthOfMonth());
 
+        BooleanExpression monthCondition = mentoring.schedule.startDateTime.goe(startOfMonth.atStartOfDay())
+                .and(mentoring.schedule.endDateTime.lt(endOfMonth.plusDays(1).atStartOfDay()));
+
+        BooleanExpression statusCondition = mentoring.mentoringStatus.eq(Mentoring.MentoringStatus.ACCEPTED)
+                .or(mentoring.mentoringStatus.eq(Mentoring.MentoringStatus.COMPLETED));
+
         List<Mentoring> monthlyMentorings = queryFactory.selectFrom(mentoring)
                 .where(mentoring.mentor.eq(mentor)
-                        .and(mentoring.schedule.startDateTime.goe(startOfMonth.atStartOfDay())
-                                .and(mentoring.schedule.endDateTime.lt(endOfMonth.plusDays(1).atStartOfDay()))))
+                        .and(monthCondition)
+                        .and(statusCondition))
+                .orderBy(mentoring.schedule.startDateTime.asc())
                 .fetch();
 
         Map<LocalDate, List<Mentoring>> groupedByDate = monthlyMentorings.stream()
                 .collect(Collectors.groupingBy(m -> m.getSchedule().getStartDateTime().toLocalDate()));
 
         List<MentoringDto.MentoringDailyMenteesResponse> dailyResponses = groupedByDate.entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
                 .map(entry -> {
                     LocalDate date = entry.getKey();
                     List<Mentoring> dailyMentorings = entry.getValue();
 
                     List<MentoringDto.MenteeInfoResponse> menteeInfoResponses = mapToMenteeInfoResponses(dailyMentorings);
 
+                    String mentoringStatus = dailyMentorings.stream()
+                            .map(Mentoring::getMentoringStatus)
+                            .map(status -> {
+                                if (status == Mentoring.MentoringStatus.COMPLETED) return Mentoring.MentoringStatus.COMPLETED.toString();
+                                if (status == Mentoring.MentoringStatus.ACCEPTED) return Mentoring.MentoringStatus.ACCEPTED.toString();
+                                return null;
+                            })
+                            .filter(Objects::nonNull)
+                            .findFirst()
+                            .orElse(null);
+
                     return MentoringDto.MentoringDailyMenteesResponse.builder()
                             .date(date.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")))
-                            .mentees(menteeInfoResponses)
+                            .mentoringMembers(menteeInfoResponses)
+                            .mentoringStatus(mentoringStatus)
                             .build();
                 })
                 .collect(Collectors.toList());
 
         return MentoringDto.MentoringMonthlyMenteesResponse.builder()
                 .month(month.format(DateTimeFormatter.ofPattern("yyyy/MM")))
-                .dailyMentees(dailyResponses)
+                .monthlyMentoringMembers(dailyResponses)
                 .build();
     }
 
@@ -88,10 +126,11 @@ public class MentoringRepositoryImpl implements MentoringRepositoryCustom {
         return mentorings.stream()
                 .map(m -> new MentoringDto.MenteeInfoResponse(
                         m.getId(),
+                        m.getProfile().getId(),
                         m.getSchedule().getStartDateTime().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")) + " - " + m.getSchedule().getEndDateTime().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")),
                         m.getProfile().getMember().getName(),
                         m.getProfile().getImgUrl(),
-                        m.getMentor().getJobName(),
+                        m.getProfile().getDesiredJob(),
                         m.getLink(),
                         m.getMentoringPlatform() == null ? "No Selection." : m.getMentoringPlatform().getPlatform()
                 ))
@@ -101,17 +140,35 @@ public class MentoringRepositoryImpl implements MentoringRepositoryCustom {
     // Mentee가 Mentor 정보 본다.
     @Override
     public MentoringDto.MentoringDailyMentorsResponse findDailyMentoringsOfMentee(Profile profile, LocalDate date) {
+        BooleanExpression dateCondition = mentoring.schedule.startDateTime.goe(date.atStartOfDay())
+                .and(mentoring.schedule.endDateTime.lt(date.plusDays(1).atStartOfDay()));
+
+        BooleanExpression statusCondition = mentoring.mentoringStatus.eq(Mentoring.MentoringStatus.ACCEPTED)
+                .or(mentoring.mentoringStatus.eq(Mentoring.MentoringStatus.COMPLETED));
+
         List<Mentoring> mentorings = queryFactory.selectFrom(mentoring)
                 .where(mentoring.profile.eq(profile)
-                        .and(mentoring.schedule.startDateTime.goe(date.atStartOfDay())
-                                .and(mentoring.schedule.endDateTime.lt(date.plusDays(1).atStartOfDay()))))
+                        .and(dateCondition)
+                        .and(statusCondition))
                 .fetch();
 
         List<MentoringDto.MentorInfoResponse> mentorInfoResponses = mapToMentorInfoResponses(mentorings);
 
+        String mentoringStatus = mentorings.stream()
+                .map(Mentoring::getMentoringStatus)
+                .map(status -> {
+                    if (status == Mentoring.MentoringStatus.COMPLETED) return Mentoring.MentoringStatus.COMPLETED.toString();
+                    if (status == Mentoring.MentoringStatus.ACCEPTED) return Mentoring.MentoringStatus.ACCEPTED.toString();
+                    return null;
+                })
+                .filter(Objects::nonNull)
+                .findFirst()
+                .orElse(null);
+
         return MentoringDto.MentoringDailyMentorsResponse.builder()
                 .date(date.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")))
-                .mentors(mentorInfoResponses)
+                .mentoringMembers(mentorInfoResponses)
+                .mentoringStatus(mentoringStatus)
                 .build();
     }
 
@@ -120,32 +177,52 @@ public class MentoringRepositoryImpl implements MentoringRepositoryCustom {
         LocalDate startOfMonth = month.withDayOfMonth(1);
         LocalDate endOfMonth = month.withDayOfMonth(month.lengthOfMonth());
 
+        BooleanExpression monthCondition = mentoring.schedule.startDateTime.goe(startOfMonth.atStartOfDay())
+                .and(mentoring.schedule.endDateTime.lt(endOfMonth.plusDays(1).atStartOfDay()));
+
+        BooleanExpression statusCondition = mentoring.mentoringStatus.eq(Mentoring.MentoringStatus.ACCEPTED)
+                .or(mentoring.mentoringStatus.eq(Mentoring.MentoringStatus.COMPLETED));
+
         List<Mentoring> monthlyMentorings = queryFactory.selectFrom(mentoring)
                 .where(mentoring.profile.eq(profile)
-                        .and(mentoring.schedule.startDateTime.goe(startOfMonth.atStartOfDay())
-                                .and(mentoring.schedule.endDateTime.lt(endOfMonth.plusDays(1).atStartOfDay()))))
+                        .and(monthCondition)
+                        .and(statusCondition))
+                .orderBy(mentoring.schedule.startDateTime.asc())
                 .fetch();
 
         Map<LocalDate, List<Mentoring>> groupedByDate = monthlyMentorings.stream()
                 .collect(Collectors.groupingBy(m -> m.getSchedule().getStartDateTime().toLocalDate()));
 
         List<MentoringDto.MentoringDailyMentorsResponse> dailyResponses = groupedByDate.entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
                 .map(entry -> {
                     LocalDate date = entry.getKey();
                     List<Mentoring> dailyMentorings = entry.getValue();
 
                     List<MentoringDto.MentorInfoResponse> mentorInfoResponses = mapToMentorInfoResponses(dailyMentorings);
 
+                    String mentoringStatus = dailyMentorings.stream()
+                            .map(Mentoring::getMentoringStatus)
+                            .map(status -> {
+                                if (status == Mentoring.MentoringStatus.COMPLETED) return Mentoring.MentoringStatus.COMPLETED.toString();
+                                if (status == Mentoring.MentoringStatus.ACCEPTED) return Mentoring.MentoringStatus.ACCEPTED.toString();
+                                return null;
+                            })
+                            .filter(Objects::nonNull)
+                            .findFirst()
+                            .orElse(null);
+
                     return MentoringDto.MentoringDailyMentorsResponse.builder()
                             .date(date.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")))
-                            .mentors(mentorInfoResponses)
+                            .mentoringMembers(mentorInfoResponses)
+                            .mentoringStatus(mentoringStatus)
                             .build();
                 })
                 .collect(Collectors.toList());
 
         return MentoringDto.MentoringMonthlyMentorsResponse.builder()
                 .month(month.format(DateTimeFormatter.ofPattern("yyyy/MM")))
-                .dailyMentors(dailyResponses)
+                .monthlyMentoringMembers(dailyResponses)
                 .build();
     }
 
@@ -153,9 +230,10 @@ public class MentoringRepositoryImpl implements MentoringRepositoryCustom {
         return mentorings.stream()
                 .map(m -> new MentoringDto.MentorInfoResponse(
                         m.getId(),
+                        m.getMentor().getId(),
                         m.getSchedule().getStartDateTime().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")) + " - " + m.getSchedule().getEndDateTime().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")),
                         m.getMentor().getMember().getName(),
-                        m.getProfile().getImgUrl(),
+                        m.getMentor().getMember().getProfile().getImgUrl(),
                         m.getMentor().getJobName(),
                         m.getLink(),
                         m.getMentoringPlatform() == null ? "No Selection." : m.getMentoringPlatform().getPlatform()
@@ -189,8 +267,7 @@ public class MentoringRepositoryImpl implements MentoringRepositoryCustom {
         long total = queryFactory
                 .selectFrom(mentoring)
                 .where(whereClause)
-                .stream()
-                .count();
+                .fetch().size();
 
         return new PageImpl<>(content, PageRequest.of(adjustedPageNumber, pageable.getPageSize(), pageable.getSort()), total);
     }
@@ -204,6 +281,7 @@ public class MentoringRepositoryImpl implements MentoringRepositoryCustom {
                 .builder()
                 .profileId(profile.getId())
                 .name(profile.getMember().getName())
+                .imgUrl(profile.getImgUrl())
                 .employmentStatus(profile.getEmploymentStatus().getEmploymentStatus())
                 .desiredJob(profile.getDesiredJob())
                 .disability(profile.getDisability())
@@ -217,4 +295,51 @@ public class MentoringRepositoryImpl implements MentoringRepositoryCustom {
                 m.getApplicationReason()
                 );
     }
+
+    @Override
+    public List<MentoringDto.TodayMentoringInfoResponse> findTodayMentoringSchedules(Profile profile) {
+        BooleanExpression todayCondition = mentoring.schedule.startDateTime.after(LocalDateTime.now());
+        BooleanExpression statusCondition = mentoring.mentoringStatus.eq(Mentoring.MentoringStatus.ACCEPTED);
+
+        return queryFactory.selectFrom(mentoring)
+                .where(mentoring.profile.eq(profile)
+                        .and(todayCondition)
+                        .and(statusCondition))
+                .orderBy(mentoring.schedule.startDateTime.asc())
+                .limit(4)
+                .fetch()
+                .stream()
+                .map(this::mapToTodayMentoringInfoResponse)
+                .collect(Collectors.toList());
+    }
+
+    private MentoringDto.TodayMentoringInfoResponse mapToTodayMentoringInfoResponse(Mentoring m) {
+        String applicationDate = m.getSchedule().getStartDateTime().format(DateTimeFormatter.ofPattern("yyyy/MM/dd (E) HH:mm")) +
+                " - " + m.getSchedule().getEndDateTime().format(DateTimeFormatter.ofPattern("HH:mm"));
+        Member mentorMember = m.getMentor().getMember();
+        Mentor mentor = m.getMentor();
+        Profile mentorProfile = m.getMentor().getMember().getProfile();
+
+        MentorDto.SearchMentorResponse searchMentorResponse = MentorDto.SearchMentorResponse.builder()
+                .id(mentorMember.getId())
+                .mentorId(mentor.getId())
+                .imgUrl(mentorProfile.getImgUrl())
+                .isCertificate(mentor.getIsCertificate())
+                .name(mentorMember.getName())
+                .job(mentor.getJob())
+                .jobName(mentor.getJobName())
+                .career(mentor.getCareer())
+                .disability(mentorProfile.getDisability())
+                .severity(mentorProfile.getSeverity())
+                .star(mentor.getStar())
+                .mentees(mentor.getMentees())
+                .build();
+
+        return MentoringDto.TodayMentoringInfoResponse.builder()
+                .applicationDate(applicationDate)
+                .mentorInfo(searchMentorResponse)
+                .build();
+    }
 }
+
+

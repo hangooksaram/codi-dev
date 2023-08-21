@@ -53,6 +53,7 @@ public class ProfileServiceImpl implements ProfileService{
         return profileRepository.save(profile);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Profile findProfile(Long profileId) {
         return verifyProfile(profileId);
@@ -134,8 +135,9 @@ public class ProfileServiceImpl implements ProfileService{
         }
     }
 
+    @Transactional(readOnly = true)
     @Override
-    public List<Long> getFavoriteMentorIds(Long profileId) {
+    public List<Long> getFavoriteMentors(Long profileId) {
         Profile profile = findProfile(profileId);
         Set<Favorite> favorites = profile.getFavorites();
         return favorites.stream()

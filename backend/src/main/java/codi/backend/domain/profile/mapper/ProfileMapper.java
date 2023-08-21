@@ -1,7 +1,6 @@
 package codi.backend.domain.profile.mapper;
 
-import codi.backend.domain.favorite.dto.FavoriteResponseDto;
-import codi.backend.domain.member.entity.Member;
+import codi.backend.domain.favorite.dto.FavoriteDto;
 import codi.backend.domain.profile.dto.ProfileDto;
 import codi.backend.domain.profile.entity.Profile;
 import org.mapstruct.Mapper;
@@ -26,7 +25,7 @@ public interface ProfileMapper {
                 .disability(profilePostDto.getDisability())
                 .severity(profilePostDto.getSeverity())
                 .introduction(profilePostDto.getIntroduction())
-                .employmentStatus(Profile.EmploymentStatus.employmentStatusOf(profilePostDto.getEmploymentStatus()))
+                .employmentStatus(profilePostDto.getEmploymentStatus())
                 .build();
     }
 
@@ -42,7 +41,7 @@ public interface ProfileMapper {
                 .disability(profilePatchDto.getDisability())
                 .severity(profilePatchDto.getSeverity())
                 .introduction(profilePatchDto.getIntroduction())
-                .employmentStatus(Profile.EmploymentStatus.employmentStatusOf(profilePatchDto.getEmploymentStatus()))
+                .employmentStatus(profilePatchDto.getEmploymentStatus())
                 .build();
     }
 
@@ -58,8 +57,8 @@ public interface ProfileMapper {
         LocalDate birthDate = LocalDate.parse(profile.getMember().getBirth(), formatter);
         Integer age = Period.between(birthDate, LocalDate.now()).getYears();
 
-        Set<FavoriteResponseDto> favorites = profile.getFavorites().stream()
-                .map(FavoriteResponseDto::of)
+        Set<FavoriteDto.FavoriteResponse> favorites = profile.getFavorites().stream()
+                .map(FavoriteDto.FavoriteResponse::of)
                 .collect(Collectors.toSet());
 
         return ProfileDto.ProfileResponse.builder()
