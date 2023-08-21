@@ -64,7 +64,7 @@ public class ProfileController {
     // TODO 추후 로그인 한 사용자의 로그인 정보를 함께 받는 방식으로 변경이 필요
     @ApiOperation(value = "프로필 페이지 조회", notes = "프로필 페이지에 입력한 정보를 조회할 수 있다.")
     @GetMapping("/{profile-id}")
-    public ResponseEntity getProfile(@PathVariable(value = "profile-id") Long profileId) {
+    public ResponseEntity getProfile(@PathVariable("profile-id") Long profileId) {
         ProfileDto.ProfileResponse profile = profileMapper.profileToProfileResponse(profileService.findProfile(profileId));
         return new ResponseEntity<>(profile, HttpStatus.OK);
     }

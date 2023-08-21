@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Transactional
 @Service
@@ -33,8 +34,9 @@ public class MenteeMentoringServiceImpl implements MenteeMentoringService {
         this.scheduleService = scheduleService;
     }
 
+    @Transactional
     @Override
-    public Mentoring createMentoring(Long profileId, Long mentorId, MentoringDto.MentoringPost mentoringPostDto) {
+    public void createMentoring(Long profileId, Long mentorId, MentoringDto.MentoringPost mentoringPostDto) {
         Profile profile = profileService.findProfile(profileId);
         Mentor mentor = mentorService.findMentor(mentorId);
 
@@ -54,9 +56,10 @@ public class MenteeMentoringServiceImpl implements MenteeMentoringService {
         profile.addMentoring(mentoring);
         mentor.addMentoring(mentoring);
 
-        return mentoringRepository.save(mentoring);
+        mentoringRepository.save(mentoring);
     }
 
+    @Transactional
     @Override
     public void cancelMentoring(Long profileId, Long mentoringId) {
         Mentoring mentoring = findMentoring(mentoringId);
@@ -89,6 +92,7 @@ public class MenteeMentoringServiceImpl implements MenteeMentoringService {
         }
     }
 
+    @Transactional
     @Override
     public void rateMentor(MentoringDto.RateMentorRequest rateMentorRequest) {
         Mentoring mentoring = findMentoring(rateMentorRequest.getMentoringId());
@@ -125,11 +129,13 @@ public class MenteeMentoringServiceImpl implements MenteeMentoringService {
             throw new BusinessLogicException(ExceptionCode.MENTOR_MISMATCH);
         }
 
+        // Check rate a mentoring before
         if (mentoring.getRating() != null) {
             throw new BusinessLogicException(ExceptionCode.ALREADY_RATED_MENTORING);
         }
     }
 
+    @Transactional(readOnly = true)
     @Override
     public MentoringDto.MentoringDailyMentorsResponse findDailyMentoringsOfMentee(Long profileId, String date) {
         Profile profile = profileService.findProfile(profileId);
@@ -137,10 +143,17 @@ public class MenteeMentoringServiceImpl implements MenteeMentoringService {
         return mentoringRepository.findDailyMentoringsOfMentee(profile, localDate);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public MentoringDto.MentoringMonthlyMentorsResponse findMonthlyMentoringsOfMentee(Long profileId, String month) {
         Profile profile = profileService.findProfile(profileId);
         LocalDate localDateMonth = LocalDate.parse(month + "/01", DateTimeFormatter.ofPattern("yyyy/MM/dd"));
         return mentoringRepository.findMonthlyMentoringsOfMentee(profile, localDateMonth);
+    }
+
+    @Override
+    public List<MentoringDto.TodayMentoringInfoResponse> findMentoringSchedules(Long profileId) {
+        Profile profile = profileService.findProfile(profileId);
+        return mentoringRepository.findTodayMentoringSchedules(profile);
     }
 }

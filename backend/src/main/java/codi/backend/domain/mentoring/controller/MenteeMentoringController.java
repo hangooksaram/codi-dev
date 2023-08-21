@@ -13,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Api(tags = { "Mentee's Mentoring" })
 @RestController
@@ -51,14 +52,16 @@ public class MenteeMentoringController {
     @ApiOperation(value = "Mentee의 Mentoring 일별 조회", notes = "멘티가 특정 날짜의 멘토링을 조회한다.")
     @GetMapping("/daily/{profile-id}")
     public ResponseEntity getDailyMentoring(@PathVariable("profile-id") Long profileId, @Valid MentoringDto.DailyRequest menteeDailyRequest) {
-        return new ResponseEntity<>(new SingleResponseDto<>(mentoringService.findDailyMentoringsOfMentee(profileId, menteeDailyRequest.getDate())), HttpStatus.OK);
+        MentoringDto.MentoringDailyMentorsResponse response = mentoringService.findDailyMentoringsOfMentee(profileId, menteeDailyRequest.getDate());
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // 월별 멘토링 조회 GET
     @ApiOperation(value = "Mentor의 Mentoring 월별 조회", notes = "멘티가 한 달간의 멘토링을 조회한다.")
     @GetMapping("/monthly/{profile-id}")
     public ResponseEntity getMonthlyMentoring(@PathVariable("profile-id") Long profileId, @Valid MentoringDto.MonthlyRequest monthlyRequest) {
-        return new ResponseEntity<>(new SingleResponseDto<>(mentoringService.findMonthlyMentoringsOfMentee(profileId, monthlyRequest.getMonth())), HttpStatus.OK);
+        MentoringDto.MentoringMonthlyMentorsResponse response = mentoringService.findMonthlyMentoringsOfMentee(profileId, monthlyRequest.getMonth());
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // 멘토 평가 POST
@@ -67,5 +70,12 @@ public class MenteeMentoringController {
     public ResponseEntity rateMentor(@Valid @RequestBody MentoringDto.RateMentorRequest rateMentorRequest) {
         mentoringService.rateMentor(rateMentorRequest);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "오늘의 멘토링 스케줄 조회", notes = "오늘을 기준으로 4개의 멘토링에 대한 정보를 시간이 빠른 순서대로 나열한다.")
+    @GetMapping("/mentoring-schedules/{profile-id}")
+    public ResponseEntity getMentoringSchedules(@PathVariable("profile-id") Long profileId) {
+        List<MentoringDto.TodayMentoringInfoResponse> responses = mentoringService.findMentoringSchedules(profileId);
+        return new ResponseEntity<>(responses, HttpStatus.OK);
     }
 }

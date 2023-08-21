@@ -7,6 +7,7 @@ import codi.backend.global.exception.BusinessLogicException;
 import codi.backend.global.exception.ExceptionCode;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -32,6 +33,7 @@ public class AccountServiceImpl implements AccountService{
         return memberRepository.existsByEmail(email);
     }
 
+    @Transactional
     @Override
     public void findId(String email) {
         Member member = memberRepository.findByEmail(email)
@@ -50,6 +52,7 @@ public class AccountServiceImpl implements AccountService{
         return id.substring(0, length - 3) + mask;
     }
 
+    @Transactional
     @Override
     public void findPw(String id, String email) {
         Member member = memberRepository.findByIdAndEmail(id, email)

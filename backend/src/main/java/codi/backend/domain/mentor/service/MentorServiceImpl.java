@@ -16,7 +16,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class MentorServiceImpl implements MentorService{
@@ -62,6 +65,7 @@ public class MentorServiceImpl implements MentorService{
         return mentorRepository.save(mentor);
     }
 
+    @Transactional
     @Override
     public Mentor findMentor(Long mentorId) {
         return verifyMentor(mentorId);
@@ -135,5 +139,58 @@ public class MentorServiceImpl implements MentorService{
     @Override
     public Page<MentorDto.SearchMentorResponse> getFilteredMentors(String job, String career, String disability, String keyword, Pageable pageable) {
         return mentorRepository.search(job, career, disability, keyword, pageable);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<MentorDto.SearchMentorResponse> recommendMentors(MentorDto.RecommendationMentorRequest request) {
+        List<MentorDto.IntermediateMentorResponse> recommendedMentors = mentorRepository.getMentorsByRanking(request);
+
+        // TODO 추후 리팩토링 필요
+        if (recommendedMentors.isEmpty()) {
+            recommendedMentors = mentorRepository.getMentorsByRanking(MentorDto.RecommendationMentorRequest.builder().build());
+        }
+
+        recommendedMentors.sort((mentor1, mentor2) -> {
+            int score1 = calculateScore(mentor1, request);
+            int score2 = calculateScore(mentor2, request);
+            return score2 - score1; // 점수 높은 순서대로 정렬
+        });
+
+        // 상위 4명의 MentorResponse 객체 가져오기
+        List<MentorDto.IntermediateMentorResponse> top4Mentors = recommendedMentors.subList(0, Math.min(recommendedMentors.size(), 4));
+
+        return top4Mentors.stream()
+                .map(this::convertToSearchMentorResponse)
+                .collect(Collectors.toList());
+    }
+
+    private int calculateScore(MentorDto.IntermediateMentorResponse mentor, MentorDto.RecommendationMentorRequest request) {
+        int score = 0;
+        if (mentor.getDisability().equals(request.getDisability())) score += 100;
+        if (mentor.getJob().equals(request.getFirstJob())) score += 50;
+        if (mentor.getJob().equals(request.getSecondJob())) score += 30;
+        if (mentor.getJob().equals(request.getThirdJob())) score += 10;
+        if (mentor.getIsCertificate()) score += 5;
+        if (mentor.getInOffice()) score += 3; // 재직 상태를 점수로 반영
+        score += mentor.getStar(); // 별점을 점수로 사용
+        return score;
+    }
+
+    private MentorDto.SearchMentorResponse convertToSearchMentorResponse(MentorDto.IntermediateMentorResponse mentorResponse) {
+        return MentorDto.SearchMentorResponse.builder()
+                .id(mentorResponse.getId())
+                .mentorId(mentorResponse.getMentorId())
+                .imgUrl(mentorResponse.getImgUrl())
+                .isCertificate(mentorResponse.getIsCertificate())
+                .name(mentorResponse.getName())
+                .job(mentorResponse.getJob())
+                .jobName(mentorResponse.getJobName())
+                .career(mentorResponse.getCareer())
+                .disability(mentorResponse.getDisability())
+                .severity(mentorResponse.getSeverity())
+                .star(mentorResponse.getStar())
+                .mentees(mentorResponse.getMentees())
+                .build();
     }
 }

@@ -26,7 +26,7 @@ public interface MentorMapper {
                 .jobName(mentorPostDto.getJobName())
                 .inOffice(mentorPostDto.getInOffice() != null ? mentorPostDto.getInOffice() : false)
                 .introduction(mentorPostDto.getIntroduction())
-                .mentoringCategories(Mentor.MentoringCategory.mentoringCategoriesOf(mentorPostDto.getMentoringCategories()))
+                .mentoringCategories(mentorPostDto.getMentoringCategories())
                 .isCertificate(false)
                 .star(0.0)
                 .mentees(0)
@@ -45,7 +45,7 @@ public interface MentorMapper {
                 .jobName(mentorPatchDto.getJobName())
                 .inOffice(mentorPatchDto.getInOffice())
                 .introduction(mentorPatchDto.getIntroduction())
-                .mentoringCategories(Mentor.MentoringCategory.mentoringCategoriesOf(mentorPatchDto.getMentoringCategories()))
+                .mentoringCategories(mentorPatchDto.getMentoringCategories())
                 .build();
     }
 

@@ -25,7 +25,4 @@ public class JobRecommendationDto {
         private String job;
         private Double ratio;
     }
-
-
-
 }

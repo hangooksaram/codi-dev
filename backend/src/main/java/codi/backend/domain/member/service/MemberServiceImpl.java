@@ -17,7 +17,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional
 public class MemberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
@@ -27,6 +26,7 @@ public class MemberServiceImpl implements MemberService{
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Transactional
     @Override
     public Member createMember(Member member) {
         // 중복 검사
@@ -42,6 +42,7 @@ public class MemberServiceImpl implements MemberService{
         return memberRepository.save(member);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Member findMember(String memberId) {
         return verifyMember(memberId);
@@ -52,6 +53,7 @@ public class MemberServiceImpl implements MemberService{
                 new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
     }
 
+    @Transactional
     @Override
     public void updateMemberInformation(String memberId, String oldPassword, String newPassword) {
         Member member = findMember(memberId);

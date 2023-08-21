@@ -97,6 +97,7 @@ public class MentorMentoringServiceImpl implements MentorMentoringService{
         }
     }
 
+    @Transactional(readOnly = true)
     @Override
     public MentoringDto.MentoringDailyMenteesResponse findDailyMentoringsOfMentor(Long mentorId, String date) {
         Mentor mentor = mentorService.findMentor(mentorId);
@@ -104,6 +105,7 @@ public class MentorMentoringServiceImpl implements MentorMentoringService{
         return mentoringRepository.findDailyMentoringsOfMentor(mentor, localDate);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public MentoringDto.MentoringMonthlyMenteesResponse findMonthlyMentoringsOfMentor(Long mentorId, String month) {
         Mentor mentor = mentorService.findMentor(mentorId);
@@ -111,6 +113,7 @@ public class MentorMentoringServiceImpl implements MentorMentoringService{
         return mentoringRepository.findMonthlyMentoringsOfMentor(mentor, localDateMonth);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Page<MentoringDto.MentoringApplicationResponse> getAllMentoringApplication(Long mentorId, String order, Pageable pageable) {
         Mentor mentor = mentorService.findMentor(mentorId);

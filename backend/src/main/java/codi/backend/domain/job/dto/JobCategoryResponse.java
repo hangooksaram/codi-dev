@@ -9,11 +9,11 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class JobCategoryDto {
+public class JobCategoryResponse {
     private String classification;
     private List<JobDto> jobs;
 
-    public JobCategoryDto(String classification, List<JobDto> jobs) {
+    public JobCategoryResponse(String classification, List<JobDto> jobs) {
         this.classification = classification;
         this.jobs = jobs;
     }

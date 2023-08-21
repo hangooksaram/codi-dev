@@ -30,7 +30,7 @@ public class MemberDto {
 
         @NotNull
         @ApiModelProperty(example = "남자 또는 여자")
-        private String gender;
+        private Member.Gender gender;
 
         @NotBlank
         @ApiModelProperty(example = "email@address.com")

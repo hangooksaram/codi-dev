@@ -15,7 +15,7 @@ public interface MemberMapper {
                 .id(memberPostDto.getId())
                 .name(memberPostDto.getName())
                 .birth(memberPostDto.getBirth())
-                .gender(Member.Gender.genderOf(memberPostDto.getGender()))
+                .gender(memberPostDto.getGender())
                 .email(memberPostDto.getEmail())
                 .password(memberPostDto.getPassword())
                 .build();
