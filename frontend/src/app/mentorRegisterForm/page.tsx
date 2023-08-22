@@ -33,6 +33,7 @@ import { localUser, setLocalUser } from "@/utils/tempUser";
 import { handleApiCallback } from "@/utils/api";
 import { useRouter } from "next/navigation";
 import useInitiallizeFormValues from "@/hooks/useInitiallizeFormValues";
+import { CAREERS } from "@/constants";
 
 const MentorRegisterForm = () => {
   useRedirectMentorRegisterForm();
@@ -101,8 +102,8 @@ const MentorRegisterForm = () => {
   };
 
   const registerMentor = async () => {
-    const { data, status } = await postRegisterMentor(memberId, formData);
-    setLocalUser({ mentorId: data.id! });
+    const { data, status } = await postRegisterMentor(memberId!, formData);
+    setLocalUser({ mentorId: data?.id! });
     dispatch(setUser(localUser()));
     handleApiCallback(
       status!,
@@ -181,13 +182,7 @@ const MentorRegisterForm = () => {
                   <Dropdown
                     width="50%"
                     title="경력"
-                    categories={[
-                      "신입",
-                      "1 - 3년차",
-                      "3 - 5년차",
-                      "5 - 10년차",
-                      "10년 이상",
-                    ]}
+                    categories={CAREERS}
                     selectedCategory={restForm.career}
                     setSelectedCategory={(career) =>
                       setRestForm({ ...restForm, career })

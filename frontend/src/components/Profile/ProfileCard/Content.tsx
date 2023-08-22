@@ -94,7 +94,7 @@ const Content = ({
         >
           <Chip>{disability!}</Chip>
           <Chip>{severity}</Chip>
-          <Chip>{career}</Chip>
+          {career && <Chip>{career}</Chip>}
         </FlexBox>
       )}
       {edit ? (

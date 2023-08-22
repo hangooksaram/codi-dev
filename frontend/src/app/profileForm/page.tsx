@@ -91,9 +91,10 @@ const ProfileFormPage = () => {
   };
 
   const processData = () => {
-    if (bigEducationCategory !== "대학교") {
+    if (bigEducationCategory !== "대학교" && bigEducationCategory) {
       restForm.education = bigEducationCategory;
     }
+
     restForm.employmentStatus = EMPLOYMENT_STATUSES_VALUE.get(
       restForm.employmentStatus
     );
@@ -198,7 +199,6 @@ const ProfileFormPage = () => {
               variant="square"
               type="button"
               onClick={() => document.getElementById("profileImage")?.click()}
-              disabled={isEdit !== null}
               {...{ marginLeft: "10px" }}
             >
               등록하기

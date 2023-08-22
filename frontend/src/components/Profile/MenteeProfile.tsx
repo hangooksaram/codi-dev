@@ -52,7 +52,7 @@ const MenteeProfile = ({
       >
         <ProfileCard
           edit={isMentoring ? false : true}
-          name="이름"
+          name={profile?.name}
           imgUrl={profile?.imgUrl}
           employmentStatus={profile?.employmentStatus}
           width="313px"

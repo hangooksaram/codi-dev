@@ -4,6 +4,7 @@ import {
   MentoringMentee,
   MonthlyMentoringMembers,
 } from "../mentoring";
+import { Mentor } from "../profile";
 import { Schedule } from "../schedule";
 
 export interface ApplyMentoringBody {
@@ -53,4 +54,9 @@ export interface GetMonthlyMentoringsResponse {
 export interface GetDailyMentoringsResponse {
   date: string;
   mentoringMembers: MentoringMember[];
+}
+
+export interface GetTodayMentoringsResponse {
+  applicationDate: string;
+  mentorInfo: Mentor;
 }

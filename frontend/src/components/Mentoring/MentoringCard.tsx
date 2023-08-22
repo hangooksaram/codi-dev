@@ -27,6 +27,7 @@ const MentoringCard = ({
   name,
   mentoringJob,
   platform,
+  imgUrl,
 }: {
   profileId?: number;
   mentorId?: number;
@@ -36,6 +37,7 @@ const MentoringCard = ({
   name: string;
   mentoringJob: string;
   platform: MentoringPlatform | string;
+  imgUrl?: string;
 }) => {
   const [openModal, setOpenModal] = useState(false);
   const platformInfo = MENTORING_PLATFORMS.find(
@@ -50,6 +52,7 @@ const MentoringCard = ({
       <Header today={date === formattedDate(new Date())}>{time}</Header>
       <FlexBox justifyContent="space-between">
         <ProfileImage
+          imgUrl={imgUrl}
           onClick={() => {
             router.push(mentorId ? mentorProfileUrl : menteeProfileUrl);
           }}
@@ -134,12 +137,12 @@ const Header = styled.div(({ today = false }: { today: boolean }) => ({
   marginBottom: "13px",
 }));
 
-const ProfileImage = styled.div(({}) => ({
+const ProfileImage = styled.div(({ imgUrl }: { imgUrl?: string }) => ({
   width: "54px",
   height: "54px",
   borderRadius: "100%",
   position: "relative",
-  ...backgroundImage("/images/ProfileTest.png"),
+  ...backgroundImage(imgUrl!),
 }));
 
 const LinkButton = styled(Button)(() => ({

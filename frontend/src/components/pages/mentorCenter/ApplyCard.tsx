@@ -45,6 +45,7 @@ const MentorCenterApplyCard = ({
       {...{
         [device("tablet")]: {
           flexDirection: "column",
+          rowGap: "20px",
         },
       }}
     >
@@ -68,7 +69,7 @@ const MentorCenterApplyCard = ({
           mentor={false}
         />
       </div>
-      <MyInfoCard width="100%" height="400px">
+      <MyInfoCard width="100%" height="400px" padding="45px !important">
         <FlexBox
           direction="column"
           justifyContent="space-between"
@@ -92,6 +93,7 @@ const MentorCenterApplyCard = ({
             {...{
               [device("tablet")]: {
                 flexDirection: "column",
+                rowGap: "10px",
               },
             }}
           >
@@ -101,18 +103,35 @@ const MentorCenterApplyCard = ({
               variant="default"
               onClick={() =>
                 router.push(
-                  `/menteeProfile?${profileId}&mentoringApply=${true}&mentorId=${mentorId}&mentoringId=${mentoringId}`
+                  `/menteeProfile?profileId=${profileId}&mentoringApply=${true}&mentorId=${mentorId}&mentoringId=${mentoringId}`
                 )
               }
+              {...{
+                [device("tablet")]: {
+                  width: "100%",
+                },
+              }}
             >
               멘티 프로필 보기
             </Button>
-            <FlexBox width="fit-content">
+            <FlexBox
+              width="fit-content"
+              {...{
+                [device("tablet")]: {
+                  width: "100%",
+                },
+              }}
+            >
               <Button
                 size="small"
                 color={theme.colors.primary}
                 variant="default"
-                {...{ marginRight: "24px" }}
+                {...{
+                  marginRight: "24px",
+                  [device("tablet")]: {
+                    width: "100%",
+                  },
+                }}
                 onClick={() => acceptMutation.mutate()}
               >
                 수락
@@ -123,6 +142,11 @@ const MentorCenterApplyCard = ({
                 outline
                 variant="default"
                 onClick={() => rejectMutation.mutate()}
+                {...{
+                  [device("tablet")]: {
+                    width: "100%",
+                  },
+                }}
               >
                 거절
               </Button>

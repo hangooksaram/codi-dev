@@ -37,3 +37,9 @@ const getMentoringsUri = (
     profileId ?? mentorId
   }`;
 };
+
+export const getTodayMentorings = async (profileId: number) => {
+  return (
+    await customAxios.get(`/mentees/mentoring/mentoring-schedules/${profileId}`)
+  ).data;
+};

@@ -15,6 +15,7 @@ const ProfileCard = ({
   job,
   disability,
   severity,
+  applicationDate,
   isCertificate,
   imgUrl,
   star,
@@ -46,6 +47,7 @@ const ProfileCard = ({
           mentor={mentor}
           apply={apply}
           mentorId={mentorId}
+          applicationDate={applicationDate}
         />
         <Content
           name={name}

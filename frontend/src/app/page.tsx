@@ -14,6 +14,8 @@ import { StyledImage } from "@/ui/atoms/StyledImage";
 import FlexBox from "@/ui/atoms/FlexBox";
 import { selectUser } from "@/features/user/userSlice";
 import { useSelector } from "react-redux";
+import { useJobRanksQuery } from "@/queries/jobQuery";
+import TodayMentoring from "@/components/pages/main/TodayMentoring";
 
 const MainLandingPage = () => {
   const router = useRouter();
@@ -54,7 +56,8 @@ const MainLandingPage = () => {
             </Button>
           ) : null}
         </MainBanner>
-        {/* <Recommendation mentors={recommendationMentors} /> */}
+        {user.id && <TodayMentoring />}
+        <Recommendation />
         <div
           className={css({
             width: "100%",
