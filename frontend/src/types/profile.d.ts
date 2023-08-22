@@ -25,6 +25,7 @@ export interface Mentor extends MenteeProfile {
   inOffice?: boolean;
   star?: number;
   mentees?: number;
+  applicationDate?: string;
   mentoringCategories?: string[];
 }
 

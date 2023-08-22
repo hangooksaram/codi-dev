@@ -20,14 +20,15 @@ const Header = ({
   apply,
   mentorId,
   favorites,
+  applicationDate,
 }: {
   edit?: boolean;
   mentor?: boolean;
   apply?: boolean;
   mentorId?: number;
   favorites?: number[];
+  applicationDate?: string;
 }) => {
-  const today = false;
   const user = useSelector(selectUser);
   const [localFavorites, setLocalFavorites] = useState<number[]>([]);
   const toggleLikeMentor = async () => {
@@ -50,16 +51,14 @@ const Header = ({
   }, [favorites]);
   return (
     <FlexBox justifyContent="space-between">
-      <div>
-        {today && (
-          <Chip>
-            <Typography variant="span" size="sm">
-              6/24 (금) 오후 12:00
-            </Typography>
-          </Chip>
-        )}
-      </div>
-      {localFavorites?.includes(mentorId!).toString()}
+      <div></div>
+      {applicationDate && (
+        <Chip>
+          <Typography variant="span" size="sm">
+            {applicationDate!}
+          </Typography>
+        </Chip>
+      )}
       {(!apply && edit && (
         <Button variant="round" width="48px" color={theme.colors.info}>
           <Edit />

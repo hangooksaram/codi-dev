@@ -27,9 +27,10 @@ const AppBar = () => {
   const user = useSelector(selectUser);
 
   const goToApply = () => {
-    alert(
-      "아직 프로필이 작성되어있지 않습니다. 프로필 작성 페이지로 이동하시겠습니까?"
-    );
+    if (!user?.profileId)
+      alert(
+        "아직 프로필이 작성되어있지 않습니다. 프로필 작성 페이지로 이동하시겠습니까?"
+      );
     router.push("/mentorRegisterForm");
   };
 

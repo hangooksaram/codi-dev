@@ -54,6 +54,7 @@ const MentorList = ({ mentors }: { mentors: Mentor[] }) => {
           mentees,
           imgUrl,
           career,
+          applicationDate,
         }) => (
           <ProfileCard
             key={mentorId}
@@ -69,11 +70,12 @@ const MentorList = ({ mentors }: { mentors: Mentor[] }) => {
             imgUrl={imgUrl}
             mentorId={mentorId}
             favorites={favoriteIds}
+            applicationDate={applicationDate}
           >
             <Button
               onClick={() =>
                 router.push(
-                  `/mentorProfile?mentorId=${mentorId!}?mentoringApply=${true}`
+                  `/mentorProfile?mentorId=${mentorId!}&mentoringApply=${true}`
                 )
               }
               size="small"

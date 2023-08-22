@@ -31,7 +31,7 @@ const SignInPage = () => {
   const login = async () => {
     const { data, status } = await signIn(loginInfo);
     if (status === 200) {
-      setLocalUser(data);
+      setLocalUser(data!);
       dispatch(setUser(localUser()));
       router.push("/");
     } else {

@@ -131,7 +131,7 @@ export const MENTORING_PLATFORMS = [
     text: "Discord" as MentoringPlatform,
   },
   {
-    icoSrc: "/images/platforms/zoom.png",
+    iconSrc: "/images/platforms/zoom.png",
     text: "Zoom" as MentoringPlatform,
   },
   {

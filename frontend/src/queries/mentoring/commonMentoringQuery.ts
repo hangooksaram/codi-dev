@@ -1,18 +1,22 @@
 import {
   getDailyMentorings,
   getMonthlyMentorings,
+  getTodayMentorings,
 } from "@/api/mentoring/commonApi";
 import {
   GetDailyMentoringsParams,
   GetMonthlyMentoringsParams,
   GetMonthlyMentoringsResponse,
+  GetTodayMentoringsResponse,
 } from "@/types/api/mentoring";
+import { Mentor } from "@/types/profile";
 import { useQuery } from "@tanstack/react-query";
 
 export const GET_MENTEE_DAILY_MENTORINGS_KEY = ["dailyMentorings/mentee"];
 export const GET_MENTEE_MONTHLY_MENTORINGS_KEY = ["monthlysMentorings/mentee"];
 export const GET_MENTOR_DAILY_MENTORINGS_KEY = ["dailyMentorings/mentor"];
 export const GET_MENTOR_MONTHLY_MENTORINGS_KEY = ["monthlysMentorings/mentor"];
+export const GET_TODAY_MENTORINGS_KEY = ["todayMentorings"];
 
 export const useDailyMentoringsQuery = ({
   date,
@@ -49,6 +53,16 @@ export const useMonthlyMentoringsQuery = ({
         ((mentorId !== undefined && mentorId !== undefined) ||
           (profileId !== undefined && profileId !== undefined)) &&
         month !== undefined,
+    }
+  );
+};
+
+export const useTodayMentoringsQuery = (profileId: number) => {
+  return useQuery<GetTodayMentoringsResponse[]>(
+    GET_TODAY_MENTORINGS_KEY,
+    () => getTodayMentorings(profileId!),
+    {
+      enabled: profileId !== undefined,
     }
   );
 };

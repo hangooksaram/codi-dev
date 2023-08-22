@@ -11,11 +11,7 @@ import { css } from "@emotion/css";
 import Typography from "@/ui/atoms/Typography";
 import styled from "@emotion/styled";
 import { useGetMentorQuery } from "@/queries/mentorQuery";
-import {
-  ReadonlyURLSearchParams,
-  useRouter,
-  useSearchParams,
-} from "next/navigation";
+import { ReadonlyURLSearchParams, useRouter } from "next/navigation";
 import Button from "@/ui/atoms/Button";
 import MyInfoCommonContainerCard from "../pages/myInfoCommon/MyInfoCommonContainerCard";
 import MyInfoCard from "../pages/myInfoCommon/MyInfoCard";
@@ -31,6 +27,7 @@ const MentorProfile = ({
   const router = useRouter();
   const isMentoringApply = pageParams?.get("mentoringApply");
   const isMentoring = pageParams?.get("mentoringId");
+
   return (
     <MyInfoCommonContainerCard>
       <FlexBox
@@ -53,6 +50,7 @@ const MentorProfile = ({
           severity={mentor?.severity}
           desiredJob={mentor?.desiredJob}
           imgUrl={mentor?.imgUrl}
+          career={mentor?.career}
           width="313px"
           height="477px"
           link={`/mentorRegisterForm?edit=${true}&company=${

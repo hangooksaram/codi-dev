@@ -102,15 +102,15 @@ export const DATE = {
 export const PROFILE_MENU = [
   "마이페이지",
   "멘토 센터",
-  "프로필 수정",
+  // "프로필 수정",
   "개인정보 수정",
   "로그아웃",
 ];
 export const PROFILE_MENU_HREFS = {
   [PROFILE_MENU[0]]: "/myInfo/",
   [PROFILE_MENU[1]]: "/myInfo/mentorCenter/",
-  [PROFILE_MENU[2]]: "/profileForm",
-  [PROFILE_MENU[3]]: "/updateMyInfo",
+  // [PROFILE_MENU[2]]: `/profileForm?edit=${true}`,
+  [PROFILE_MENU[2]]: "/updateMyInfo",
 };
 
 export const SCHEDULE_TIME_TABLE = [

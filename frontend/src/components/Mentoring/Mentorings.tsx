@@ -11,6 +11,7 @@ const Mentorings = ({
 }: {
   mentorings: DailyMentoringMember[] | DailyMentoringMember;
 }) => {
+  console.log(mentorings);
   const today = (date: string) => {
     return date === formattedDate(new Date());
   };
@@ -45,6 +46,7 @@ const Mentorings = ({
                 platform,
                 profileId,
                 mentorId,
+                imgUrl,
               }) => (
                 <MentoringCard
                   profileId={profileId}
@@ -55,6 +57,7 @@ const Mentorings = ({
                   name={name}
                   mentoringJob={mentoringJob}
                   platform={platform}
+                  imgUrl={imgUrl}
                   key={index}
                 />
               )
@@ -102,10 +105,12 @@ const Mentorings = ({
                 platform,
                 profileId,
                 mentorId,
+                imgUrl,
               },
               index
             ) => (
               <MentoringCard
+                imgUrl={imgUrl}
                 profileId={profileId}
                 mentorId={mentorId}
                 mentoringId={mentoringId}
