@@ -3,7 +3,6 @@
 import { FormContainer } from "@/ui/atoms/Container";
 import Typography from "@/ui/atoms/Typography";
 import theme from "@/ui/theme";
-import * as Yup from "yup";
 import FormInputContainer from "@/ui/molecules/Input/FormInput";
 import IconInputContainer from "@/ui/molecules/Input/IconInput";
 import Input from "@/ui/atoms/Input";
@@ -13,10 +12,9 @@ import Dropdown from "@/ui/atoms/Dropdown";
 import FlexBox from "@/ui/atoms/FlexBox";
 import Search from "@icons/common/search.svg";
 import Textarea from "@/ui/atoms/Textarea";
-import { useFormik } from "formik";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { searchUniv } from "@/api/signApi";
-import useRestForm from "@/hooks/useRestForm";
+import useRestForm from "@/hooks/useForm";
 import useUploadFile from "@/hooks/useUploadFile";
 import { useRouter } from "next/navigation";
 import {
@@ -42,12 +40,9 @@ const ProfileFormPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const initialFormikValues = {
+  const initialFormValues = {
     introduction: "",
     desiredJob: "",
-  };
-
-  const initialRestFormValues = {
     job: "",
     education: "",
     disability: "",
@@ -55,15 +50,18 @@ const ProfileFormPage = () => {
     severity: "중증",
   };
 
-  const { formikValues, restFormValues, isEdit, pathParams } =
-    useInitiallizeFormValues<ProfileFormValues, RestFormValues>(
-      initialFormikValues,
-      initialRestFormValues
-    );
+  const { formValues, isEdit, pathParams } =
+    useInitiallizeFormValues<FormValues>(initialFormValues);
 
   const { id: memberId, profileId } = useSelector(selectUser)!;
-  const { restForm, setRestForm, validateRestForm, invalid } =
-    useRestForm<RestFormValues>(restFormValues);
+  const {
+    form,
+    setForm,
+    validateForm,
+    invalid,
+    handleFormValueChange,
+    invalidValues,
+  } = useRestForm<FormValues>(formValues);
   const { file, onUploadFile } = useUploadFile();
   const [bigEducationCategory, setBigEducationCategory] = useState("");
   const [job, setJob] = useState("");
@@ -72,18 +70,21 @@ const ProfileFormPage = () => {
 
   useEffect(() => {
     if (isEdit) {
-      setJob(restFormValues.job!);
-      if (restFormValues.education === ("초등학교" || "중학교" || "고등학교")) {
-        setBigEducationCategory(restFormValues.education);
-        restFormValues.education = "";
+      setJob(formValues.job!);
+      if (formValues.education === ("초등학교" || "중학교" || "고등학교")) {
+        setBigEducationCategory(formValues.education);
+        formValues.education = "";
       } else {
       }
     }
   }, []);
 
-  const handleProfileSubmit = async (values: ProfileFormValues) => {
+  const handleProfileSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    if (invalidValues.length > 0) return;
+
     processData();
-    createFormData(values, restForm);
+    createFormData(form);
 
     if (isEdit) {
       editProfile();
@@ -92,19 +93,16 @@ const ProfileFormPage = () => {
 
   const processData = () => {
     if (bigEducationCategory !== "대학교" && bigEducationCategory) {
-      restForm.education = bigEducationCategory;
+      form.education = bigEducationCategory;
     }
 
-    restForm.employmentStatus = EMPLOYMENT_STATUSES_VALUE.get(
-      restForm.employmentStatus
+    form.employmentStatus = EMPLOYMENT_STATUSES_VALUE.get(
+      form.employmentStatus
     );
   };
 
-  const createFormData = (
-    values: ProfileFormValues,
-    restForm: RestFormValues
-  ) => {
-    const formValues = { ...values, ...restForm };
+  const createFormData = (form: FormValues) => {
+    const formValues = { ...form };
     const blob = new Blob([JSON.stringify(formValues)], {
       type: "application/json",
     });
@@ -154,18 +152,13 @@ const ProfileFormPage = () => {
   };
 
   const formData = new FormData();
-  const formik = useFormik({
-    initialValues: formikValues,
-    onSubmit: (values: ProfileFormValues) => handleProfileSubmit(values),
-    validationSchema: ProfileSchema,
-  });
 
   useEffect(() => {
     searchUniv();
   }, []);
 
   useEffect(() => {
-    setRestForm({ ...restForm, job });
+    setForm({ ...form, job });
   }, [job]);
 
   return (
@@ -179,7 +172,7 @@ const ProfileFormPage = () => {
       >
         {isEdit ? "프로필 수정하기" : "프로필 작성하기"}
       </Typography>
-      <form onSubmit={formik.handleSubmit}>
+      <form onSubmit={(e) => handleProfileSubmit(e)}>
         <FlexBox direction="column" rowGap="50px">
           <FormInputContainer text="프로필 사진" helpText="(선택)">
             <IconInputContainer iconComponent={<ProfileImage />}>
@@ -214,9 +207,12 @@ const ProfileFormPage = () => {
                   title="소분류"
                   categories={DISABILITIES}
                   contentType="grid"
-                  selectedCategory={restForm.disability}
+                  selectedCategory={form.disability}
                   setSelectedCategory={(disability) =>
-                    setRestForm({ ...restForm, disability })
+                    handleFormValueChange({
+                      name: "disability",
+                      value: disability,
+                    })
                   }
                 ></Dropdown>
               </FlexBox>
@@ -229,7 +225,7 @@ const ProfileFormPage = () => {
                 width="50%"
                 type="button"
                 color={
-                  restForm.severity === severity
+                  form.severity === severity
                     ? theme.colors.primary
                     : theme.colors.white
                 }
@@ -240,7 +236,9 @@ const ProfileFormPage = () => {
                     marginRight: "10px",
                   },
                 }}
-                onClick={() => setRestForm({ ...restForm, severity })}
+                onClick={() =>
+                  handleFormValueChange({ name: "severity", value: severity })
+                }
               >
                 {severity}
               </Button>
@@ -254,7 +252,10 @@ const ProfileFormPage = () => {
                 title="최종 학력"
                 selectedCategory={bigEducationCategory}
                 setSelectedCategory={(education) =>
-                  setBigEducationCategory(education)
+                  handleFormValueChange({
+                    name: "education",
+                    value: education,
+                  })
                 }
                 categories={["초등학교", "중학교", "고등학교", "대학교"]}
               />
@@ -264,11 +265,9 @@ const ProfileFormPage = () => {
                   id="education"
                   name="education"
                   placeholder="학교명 검색"
-                  value={restForm.education}
+                  value={form.education}
                   outline
-                  onChange={(e) =>
-                    setRestForm({ ...restForm, education: e.target.value })
-                  }
+                  onChange={handleFormValueChange}
                 />
               </IconInputContainer>
             </FlexBox>
@@ -289,12 +288,7 @@ const ProfileFormPage = () => {
                 maxLength={10}
                 width="60%"
                 placeholder="정확한 직무를 입력해주세요. 10자 내외."
-                value={formik.values.desiredJob}
-                onChange={formik.handleChange}
-                invalid={
-                  formik.errors.desiredJob !== undefined &&
-                  formik.touched.desiredJob
-                }
+                onChange={handleFormValueChange}
               />
             </FlexBox>
           </FormInputContainer>
@@ -303,9 +297,12 @@ const ProfileFormPage = () => {
               width="40%"
               type="form"
               title="선택"
-              selectedCategory={restForm.employmentStatus}
+              selectedCategory={form.employmentStatus}
               setSelectedCategory={(employmentStatus) =>
-                setRestForm({ ...restForm, employmentStatus })
+                handleFormValueChange({
+                  name: "employmentStatus",
+                  value: employmentStatus,
+                })
               }
               invalid={invalid("employmentStatus")}
               categories={EMPLOYMENT_STATUSES}
@@ -316,13 +313,8 @@ const ProfileFormPage = () => {
               id="introduction"
               name="introduction"
               placeholder="최소 50 글자"
-              value={formik.values.introduction}
-              onChange={formik.handleChange}
-              outline
-              invalid={
-                formik.errors.introduction !== undefined &&
-                formik.touched.introduction
-              }
+              onChange={handleFormValueChange}
+              invalid={invalid("introduction")}
             />
           </FormInputContainer>
           {/* 
@@ -333,7 +325,7 @@ const ProfileFormPage = () => {
           <Button
             onClick={() => {
               setSubmitType("complete");
-              validateRestForm();
+              validateForm();
             }}
             width="100%"
             type="submit"
@@ -346,7 +338,7 @@ const ProfileFormPage = () => {
             <Button
               onClick={() => {
                 setSubmitType("complete-apply");
-                validateRestForm();
+                validateForm();
               }}
               width="100%"
               type="submit"
@@ -361,22 +353,14 @@ const ProfileFormPage = () => {
   );
 };
 
-interface ProfileFormValues {
+interface FormValues {
   introduction: string;
   desiredJob: string;
-}
-
-interface RestFormValues {
   job: string;
   education: string;
   employmentStatus: string;
   disability: string;
   severity: string;
 }
-
-const ProfileSchema = Yup.object().shape({
-  desiredJob: Yup.string().required("Required"),
-  introduction: Yup.string().required("Required"),
-});
 
 export default ProfileFormPage;

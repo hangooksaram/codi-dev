@@ -14,7 +14,7 @@ import Dropdown from "@/ui/atoms/Dropdown";
 import Checkbox from "@/ui/atoms/Checkbox";
 import * as Yup from "yup";
 import Textarea from "@/ui/atoms/Textarea";
-import useRestForm from "@/hooks/useRestForm";
+import useRestForm from "@/hooks/useForm";
 import useUploadFile from "@/hooks/useUploadFile";
 import { useEffect, useState } from "react";
 import MentoringCategoriesSelector, {
