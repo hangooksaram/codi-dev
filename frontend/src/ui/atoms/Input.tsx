@@ -6,7 +6,7 @@ export const borderStyle = (
   invalid: boolean | undefined,
   outline: boolean | undefined
 ) => {
-  if (invalid === true) {
+  if (invalid) {
     return theme.colors.error;
   }
   if (outline) return theme.colors.gray.main;

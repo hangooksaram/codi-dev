@@ -14,7 +14,7 @@ import Search from "@icons/common/search.svg";
 import Textarea from "@/ui/atoms/Textarea";
 import { FormEvent, useEffect, useState } from "react";
 import { searchUniv } from "@/api/signApi";
-import useRestForm from "@/hooks/useForm";
+import useForm from "@/hooks/useForm";
 import useUploadFile from "@/hooks/useUploadFile";
 import { useRouter } from "next/navigation";
 import {
@@ -61,7 +61,8 @@ const ProfileFormPage = () => {
     invalid,
     handleFormValueChange,
     invalidValues,
-  } = useRestForm<FormValues>(formValues);
+    isInvalid,
+  } = useForm<FormValues>(formValues);
   const { file, onUploadFile } = useUploadFile();
   const [bigEducationCategory, setBigEducationCategory] = useState("");
   const [job, setJob] = useState("");
@@ -80,7 +81,7 @@ const ProfileFormPage = () => {
 
   const handleProfileSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (invalidValues.length > 0) return;
+    if (isInvalid) return;
     processData();
     createFormData(form);
 
@@ -313,14 +314,9 @@ const ProfileFormPage = () => {
               name="introduction"
               placeholder="최소 50 글자"
               onChange={handleFormValueChange}
-              invalid={invalid("introduction", { required: true })}
+              invalid={invalid("introduction", { required: true, min: 10 })}
             />
           </FormInputContainer>
-          {/* 
-        
-        
-        <FormInputContainer text="직무 경력"></FormInputContainer>
-        */}
           <Button
             onClick={() => {
               setSubmitType("complete");
