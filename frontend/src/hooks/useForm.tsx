@@ -1,10 +1,4 @@
-import {
-  ChangeEvent,
-  ChangeEventHandler,
-  FormEvent,
-  useEffect,
-  useState,
-} from "react";
+import { ChangeEvent, useState } from "react";
 
 const useForm = <T extends Object>(values: T) => {
   const [invalidValues, setInvalidValues] = useState<string[]>([]);
@@ -43,9 +37,10 @@ const useForm = <T extends Object>(values: T) => {
         return !form[key as keyof typeof form];
       }
       if (regex) {
-        return regex.test(form[key as keyof typeof form]);
+        return !regex.test(form[key as keyof typeof form]!.toString());
       }
     }
+    return false;
   };
 
   interface InvalidType {
