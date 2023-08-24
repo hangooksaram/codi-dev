@@ -14,7 +14,7 @@ import Search from "@icons/common/search.svg";
 import Textarea from "@/ui/atoms/Textarea";
 import { FormEvent, useEffect, useState } from "react";
 import { searchUniv } from "@/api/signApi";
-import useRestForm from "@/hooks/useForm";
+import useForm from "@/hooks/useForm";
 import useUploadFile from "@/hooks/useUploadFile";
 import { useRouter } from "next/navigation";
 import {
@@ -61,7 +61,8 @@ const ProfileFormPage = () => {
     invalid,
     handleFormValueChange,
     invalidValues,
-  } = useRestForm<FormValues>(formValues);
+    isInvalid,
+  } = useForm<FormValues>(formValues);
   const { file, onUploadFile } = useUploadFile();
   const [bigEducationCategory, setBigEducationCategory] = useState("");
   const [job, setJob] = useState("");
@@ -74,15 +75,13 @@ const ProfileFormPage = () => {
       if (formValues.education === ("초등학교" || "중학교" || "고등학교")) {
         setBigEducationCategory(formValues.education);
         formValues.education = "";
-      } else {
       }
     }
   }, []);
 
   const handleProfileSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (invalidValues.length > 0) return;
-
+    if (isInvalid) return;
     processData();
     createFormData(form);
 
@@ -201,7 +200,7 @@ const ProfileFormPage = () => {
             <FlexBox direction="column" rowGap="10px">
               <FlexBox columnGap="10px">
                 <Dropdown
-                  invalid={invalid("disability")}
+                  invalid={invalid("disability", { required: true })}
                   width="100%"
                   type="form"
                   title="소분류"
@@ -275,7 +274,7 @@ const ProfileFormPage = () => {
           <FormInputContainer text="희망 직무" htmlFor="desiredJob">
             <FlexBox columnGap="10px">
               <JobSelector
-                invalid={invalid("job")}
+                invalid={invalid("job", { required: true })}
                 selected={job}
                 setSelected={setJob}
                 open={openJobSelector}
@@ -289,6 +288,7 @@ const ProfileFormPage = () => {
                 width="60%"
                 placeholder="정확한 직무를 입력해주세요. 10자 내외."
                 onChange={handleFormValueChange}
+                invalid={invalid("desiredJob", { required: true })}
               />
             </FlexBox>
           </FormInputContainer>
@@ -304,7 +304,7 @@ const ProfileFormPage = () => {
                   value: employmentStatus,
                 })
               }
-              invalid={invalid("employmentStatus")}
+              invalid={invalid("employmentStatus", { required: true })}
               categories={EMPLOYMENT_STATUSES}
             ></Dropdown>
           </FormInputContainer>
@@ -314,14 +314,9 @@ const ProfileFormPage = () => {
               name="introduction"
               placeholder="최소 50 글자"
               onChange={handleFormValueChange}
-              invalid={invalid("introduction")}
+              invalid={invalid("introduction", { required: true, min: 10 })}
             />
           </FormInputContainer>
-          {/* 
-        
-        
-        <FormInputContainer text="직무 경력"></FormInputContainer>
-        */}
           <Button
             onClick={() => {
               setSubmitType("complete");

@@ -7,16 +7,14 @@ import { FormContainer } from "@/ui/atoms/Container";
 import FlexBox from "@/ui/atoms/FlexBox";
 import Typography from "@/ui/atoms/Typography";
 import theme from "@/ui/theme";
-import { useFormik } from "formik";
 import ProfileImage from "@icons/common/profile-image.svg";
 import Button from "@/ui/atoms/Button";
 import Dropdown from "@/ui/atoms/Dropdown";
 import Checkbox from "@/ui/atoms/Checkbox";
-import * as Yup from "yup";
 import Textarea from "@/ui/atoms/Textarea";
-import useRestForm from "@/hooks/useForm";
+import useForm from "@/hooks/useForm";
 import useUploadFile from "@/hooks/useUploadFile";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import MentoringCategoriesSelector, {
   MENTOR_CATEGORIES,
 } from "@/components/Mentoring/MentoringCategory/MentoringCategoriesSelector";
@@ -40,25 +38,26 @@ const MentorRegisterForm = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const initialFormikValues: MentorRegisterFormValues = {
+  const initialFormValues: FormValues = {
     company: "",
     introduction: "",
     jobName: "",
-  };
-  const initialRestFormValues: RestFormValues = {
     job: "",
     career: "",
     inOffice: false,
     mentoringCategories: [],
   };
-  const { formikValues, restFormValues, isEdit, pathParams } =
-    useInitiallizeFormValues<MentorRegisterFormValues, RestFormValues>(
-      initialFormikValues,
-      initialRestFormValues
-    );
+  const { formValues, isEdit, pathParams } =
+    useInitiallizeFormValues<FormValues>(initialFormValues);
 
-  const { restForm, setRestForm, validateRestForm, invalid } =
-    useRestForm<RestFormValues>(restFormValues);
+  const {
+    form,
+    setForm,
+    validateForm,
+    invalid,
+    handleFormValueChange,
+    invalidValues,
+  } = useForm<FormValues>(formValues);
 
   const { id: memberId, mentorId } = useSelector(selectUser);
   const { file, onUploadFile } = useUploadFile();
@@ -72,27 +71,26 @@ const MentorRegisterForm = () => {
   const formData = new FormData();
 
   useEffect(() => {
-    setRestForm({ ...restForm, job });
+    setForm({ ...form, job });
   }, [job]);
-  const handleSignUpSubmit = async (values: MentorRegisterFormValues) => {
+  const handleMentorProfileSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    if (invalidValues.length > 0) return;
     processData();
-    createFormData(values, restForm);
+    createFormData(form);
 
     if (isEdit) editMentor();
     else registerMentor();
   };
 
   const processData = () => {
-    restForm.mentoringCategories = MENTOR_CATEGORIES.filter((category) =>
+    form.mentoringCategories = MENTOR_CATEGORIES.filter((category) =>
       mentoringCategories.includes(category.text)
     ).map((category) => category.value);
   };
 
-  const createFormData = (
-    values: MentorRegisterFormValues,
-    restForm: RestFormValues
-  ) => {
-    const formValues = { ...values, ...restForm };
+  const createFormData = (form: FormValues) => {
+    const formValues = { ...form };
 
     const blob = new Blob([JSON.stringify(formValues)], {
       type: "application/json",
@@ -129,12 +127,6 @@ const MentorRegisterForm = () => {
     );
   };
 
-  const formik = useFormik({
-    initialValues: formikValues,
-    onSubmit: (values: MentorRegisterFormValues) => handleSignUpSubmit(values),
-    validationSchema: MentorRegisterFormSchema,
-  });
-
   return (
     <FormContainer>
       <Typography
@@ -147,7 +139,7 @@ const MentorRegisterForm = () => {
         {isEdit ? "멘토 프로필 수정하기" : "멘토 신청하기"}
       </Typography>
 
-      <form onSubmit={formik.handleSubmit}>
+      <form onSubmit={(e) => handleMentorProfileSubmit(e)}>
         <FlexBox direction="column" rowGap="50px">
           <FormInputContainer
             labelColor={theme.colors.secondary}
@@ -160,11 +152,9 @@ const MentorRegisterForm = () => {
                 outline
                 id="company"
                 name="company"
-                onChange={formik.handleChange}
-                value={formik.values.company}
-                invalid={
-                  formik.errors.company !== undefined && formik.touched.company
-                }
+                onChange={handleFormValueChange}
+                value={form.company}
+                invalid={invalid("company", { required: true })}
               />
               <FlexBox justifyContent="space-between" columnGap="10px">
                 <FlexBox
@@ -173,7 +163,7 @@ const MentorRegisterForm = () => {
                   columnGap="10px"
                 >
                   <JobSelector
-                    invalid={invalid("job")}
+                    invalid={invalid("job", { required: true })}
                     selected={job}
                     setSelected={setJob}
                     open={openJobSelector}
@@ -183,11 +173,14 @@ const MentorRegisterForm = () => {
                     width="50%"
                     title="경력"
                     categories={CAREERS}
-                    selectedCategory={restForm.career}
+                    selectedCategory={form.career}
                     setSelectedCategory={(career) =>
-                      setRestForm({ ...restForm, career })
+                      handleFormValueChange({
+                        name: "career",
+                        value: career,
+                      })
                     }
-                    invalid={invalid("career")}
+                    invalid={invalid("career", { required: true })}
                   />
                 </FlexBox>
 
@@ -195,9 +188,9 @@ const MentorRegisterForm = () => {
                   <Checkbox
                     label="재직중"
                     handleClick={() => {
-                      setRestForm({
-                        ...restForm,
-                        inOffice: !restForm.inOffice,
+                      handleFormValueChange({
+                        name: "inOffice",
+                        value: !form.inOffice,
                       });
                     }}
                   />
@@ -216,11 +209,9 @@ const MentorRegisterForm = () => {
               name="jobName"
               placeholder="프로필에 표시 될 직무명을 입력해주세요."
               outline
-              onChange={formik.handleChange}
-              value={formik.values.jobName}
-              invalid={
-                formik.errors.jobName !== undefined && formik.touched.jobName
-              }
+              onChange={handleFormValueChange}
+              value={form.jobName}
+              invalid={invalid("jobName", { required: true })}
             />
           </FormInputContainer>
           <FormInputContainer
@@ -266,17 +257,17 @@ const MentorRegisterForm = () => {
               name="introduction"
               placeholder="최소 50 글자"
               outline
-              onChange={formik.handleChange}
-              value={formik.values.introduction}
-              invalid={
-                formik.errors.introduction !== undefined &&
-                formik.touched.introduction
-              }
+              onChange={handleFormValueChange}
+              value={form.introduction}
+              invalid={invalid("introduction", {
+                required: true,
+                min: 50,
+              })}
             />
           </FormInputContainer>
           <Button
             width="100%"
-            onClick={validateRestForm}
+            onClick={validateForm}
             variant="square"
             type="submit"
           >
@@ -288,23 +279,14 @@ const MentorRegisterForm = () => {
   );
 };
 
-interface MentorRegisterFormValues {
+interface FormValues {
   company: string;
   introduction: string;
   jobName: string;
-}
-
-interface RestFormValues {
   job: string;
   career: string;
   inOffice: boolean;
   mentoringCategories: string[];
 }
-
-const MentorRegisterFormSchema = Yup.object().shape({
-  company: Yup.string().required("Required"),
-  introduction: Yup.string().required("Required"),
-  jobName: Yup.string().required("Required"),
-});
 
 export default MentorRegisterForm;
