@@ -1,12 +1,11 @@
 import { ChangeEvent, useState } from "react";
 
 const useForm = <T extends Object>(values: T) => {
-  const [invalidValues, setInvalidValues] = useState<string[]>([]);
   const [form, setForm] = useState<T>(values);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isInvalid, setIsInvalid] = useState(false);
-
+  const [formInvalid, setFormInvalid] = useState(false);
   let validations: Validation[] = [];
+
   const handleFormValueChange = (
     e:
       | ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -19,50 +18,43 @@ const useForm = <T extends Object>(values: T) => {
 
   const validateForm = () => {
     if (isSubmitted === false) setIsSubmitted(true);
-    let invalidValue = false;
-    for (let i = 0; i < validations.length; i++) {
-      if (Object.values(validations[i].obj).find((flag) => flag === true)) {
-        invalidValue = true;
-        break;
+    setFormInvalid(false);
+    validations.some(({ validation }) => {
+      if (
+        Object.values(validation).some((validationValue) => validationValue)
+      ) {
+        setFormInvalid(true);
+        return false;
       }
-    }
-    setIsInvalid(invalidValue);
-    return;
+    });
   };
 
-  const invalid = (key: string, { required, regex, min, max }: InvalidType) => {
+  const invalid = (key: string, invalidType: InvalidType) => {
+    const validationResult = validate(key, invalidType);
+    validations = [...validations, { key, validation: validationResult }];
+    return isSubmitted && Object.values(validationResult).includes(true);
+  };
+
+  const validate = (key: string, invalidType: InvalidType) => {
+    const validationResult: ValidationObj = {};
+    const { regex, min, max } = invalidType;
     const formValue = form[key as keyof typeof form];
-    const validation: ValidationObj = {};
-    const valdationCondition = {
+    const validateCondition = {
       required: !formValue,
       regex: !regex?.test(formValue!.toString()),
       min: typeof formValue === "string" && formValue.length < min!,
       max: typeof formValue === "string" && formValue.length > max!,
     };
 
-    const doValidate = (key: keyof typeof valdationCondition) => {
-      Object.assign(validation, {
-        ...validation,
-        [key]: valdationCondition[key],
-      });
-    };
+    Object.keys(invalidType).map((key) => {
+      if (invalidType[key as keyof typeof invalidType])
+        Object.assign(validationResult, {
+          ...validationResult,
+          [key]: validateCondition[key as keyof typeof validateCondition],
+        });
+    });
 
-    if (required) {
-      doValidate("required");
-    }
-    if (regex) {
-      doValidate("regex");
-    }
-    if (typeof formValue === "string") {
-      if (min) {
-        doValidate("min");
-      }
-      if (max) {
-        doValidate("max");
-      }
-    }
-    validations = [...validations, { name: key, obj: validation }];
-    return isSubmitted && Object.values(validation).includes(true);
+    return validationResult;
   };
 
   interface InvalidType {
@@ -73,8 +65,8 @@ const useForm = <T extends Object>(values: T) => {
   }
 
   interface Validation {
-    name: string;
-    obj: ValidationObj;
+    key: string;
+    validation: ValidationObj;
   }
 
   interface ValidationObj {
@@ -85,8 +77,6 @@ const useForm = <T extends Object>(values: T) => {
   }
 
   return {
-    invalidValues,
-    setInvalidValues,
     form,
     setForm,
     validateForm,
@@ -94,7 +84,7 @@ const useForm = <T extends Object>(values: T) => {
     isSubmitted,
     setIsSubmitted,
     handleFormValueChange,
-    isInvalid,
+    formInvalid,
   };
 };
 

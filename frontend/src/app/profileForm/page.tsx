@@ -60,8 +60,7 @@ const ProfileFormPage = () => {
     validateForm,
     invalid,
     handleFormValueChange,
-    invalidValues,
-    isInvalid,
+    formInvalid,
   } = useForm<FormValues>(formValues);
   const { file, onUploadFile } = useUploadFile();
   const [bigEducationCategory, setBigEducationCategory] = useState("");
@@ -81,7 +80,7 @@ const ProfileFormPage = () => {
 
   const handleProfileSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (isInvalid) return;
+    if (formInvalid) return;
     processData();
     createFormData(form);
 
@@ -314,7 +313,11 @@ const ProfileFormPage = () => {
               name="introduction"
               placeholder="최소 50 글자"
               onChange={handleFormValueChange}
-              invalid={invalid("introduction", { required: true, min: 10 })}
+              invalid={invalid("introduction", {
+                required: true,
+                min: 10,
+                max: 50,
+              })}
             />
           </FormInputContainer>
           <Button
