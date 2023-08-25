@@ -35,22 +35,31 @@ const useForm = <T extends Object>(values: T) => {
     return isSubmitted && Object.values(validationResult).includes(true);
   };
 
-  const validate = (key: string, invalidType: InvalidType) => {
-    const validationResult: ValidationObj = {};
+  const validateCondition = (
+    formKey: string,
+    invalidType: InvalidType,
+    key: string
+  ) => {
     const { regex, min, max } = invalidType;
-    const formValue = form[key as keyof typeof form];
-    const validateCondition = {
+    const formValue = form[formKey as keyof typeof form];
+    const condition = {
       required: !formValue,
       regex: !regex?.test(formValue!.toString()),
       min: typeof formValue === "string" && formValue.length < min!,
       max: typeof formValue === "string" && formValue.length > max!,
     };
 
+    return condition[key as keyof typeof condition];
+  };
+
+  const validate = (formKey: string, invalidType: InvalidType) => {
+    const validationResult: ValidationObj = {};
+
     Object.keys(invalidType).map((key) => {
       if (invalidType[key as keyof typeof invalidType])
         Object.assign(validationResult, {
           ...validationResult,
-          [key]: validateCondition[key as keyof typeof validateCondition],
+          [key]: validateCondition(formKey, invalidType, key),
         });
     });
 
