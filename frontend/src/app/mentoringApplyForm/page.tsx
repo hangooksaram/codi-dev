@@ -5,32 +5,29 @@ import FlexBox from "@/ui/atoms/FlexBox";
 import LabelBox from "@/ui/molecules/LabelBox";
 import theme from "@/ui/theme";
 import { FormEventHandler, useEffect, useState } from "react";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
-import useDailySchedulesQuery, {
-  useMonthlySchedulesQuery,
-} from "@/queries/scheduleQuery";
+import { useRouter, useSearchParams } from "next/navigation";
+import useDailySchedulesQuery from "@/queries/scheduleQuery";
 import formattedDate from "@/utils/dateFormat";
 import Button from "@/ui/atoms/Button";
 import FormInputContainer from "@/ui/molecules/Input/FormInput";
 import Textarea from "@/ui/atoms/Textarea";
 import ContainerWithBackground from "@/ui/molecules/Container/ContainerWithBackground";
 import Typography from "@/ui/atoms/Typography";
-import useRestForm from "@/hooks/useForm";
+import useForm from "@/hooks/useForm";
 import ChipButton from "@/ui/atoms/ChipButton";
 import { selectUser } from "@/features/user/userSlice";
 import { useSelector } from "react-redux";
 import { useApplyMentoringMutation } from "@/queries/mentoring/menteeMentoringQuery";
 import { ApplyMentoringBody } from "@/types/api/mentoring";
 
-const initialRestForm: ApplyMentoringBody = {
+const initialForm: ApplyMentoringBody = {
   date: "",
   time: "",
   applicationReason: "",
 };
 
 const MentoringApplyFormPage = () => {
-  const { restForm, setRestForm } =
-    useRestForm<ApplyMentoringBody>(initialRestForm);
+  const { setForm, form } = useForm<ApplyMentoringBody>(initialForm);
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [isAllFilled, setIsAllFilled] = useState(false);
   const param = useSearchParams();
@@ -47,14 +44,14 @@ const MentoringApplyFormPage = () => {
   const router = useRouter();
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
-    mutation.mutate(restForm!);
     e.preventDefault();
+    mutation.mutate(form!);
     router.push("/mentorsMain");
   };
 
   useEffect(() => {
     if (date) {
-      setRestForm({ ...restForm, date: formattedDate(date) });
+      setForm({ ...form, date: formattedDate(date) });
     }
   }, [date]);
   return (
@@ -88,13 +85,13 @@ const MentoringApplyFormPage = () => {
                   return (
                     <ChipButton
                       type="button"
-                      onClick={() => setRestForm({ ...restForm, time })}
+                      onClick={() => setForm({ ...form, time })}
                       variant="default"
                       size="small"
                       color={
                         scheduled
                           ? theme.colors.white
-                          : time === restForm.time
+                          : time === form.time
                           ? theme.colors.primary
                           : theme.colors.background
                       }
@@ -112,17 +109,15 @@ const MentoringApplyFormPage = () => {
           <FormInputContainer text="하고싶은 말" helpText="(최소 50 글자)">
             <Textarea
               minLength={50}
-              value={restForm.applicationReason}
+              value={form.applicationReason}
               onChange={(e) =>
-                setRestForm({ ...restForm, applicationReason: e.target.value })
+                setForm({ ...form, applicationReason: e.target.value })
               }
             ></Textarea>
           </FormInputContainer>
           <Button
             disabled={
-              restForm.applicationReason.length < 50 ||
-              !restForm.date ||
-              !restForm.time
+              form.applicationReason.length < 50 || !form.date || !form.time
             }
             type="submit"
             variant="square"
