@@ -3,6 +3,7 @@ import {
   getDailySchedules,
   getMonthlySchedules,
 } from "@/api/scheduleApi";
+import { STALE_TIME } from "@/constants";
 import {
   GetDailySchedulesResponse,
   GetMonthlySchedulesResponse,
@@ -20,6 +21,7 @@ const useDailySchedulesQuery = (mentorId: number, date: string) => {
     {
       enabled: mentorId !== undefined && date !== undefined,
       retry: false,
+      staleTime: STALE_TIME.OFTEN,
     }
   );
 };
@@ -28,7 +30,10 @@ export const useMonthlySchedulesQuery = (mentorId: number, month: string) => {
   return useQuery<GetMonthlySchedulesResponse>(
     GET_MONTHLY_SCHEDULES_KEY.concat(month),
     () => getMonthlySchedules(mentorId, month),
-    { enabled: mentorId !== undefined && month !== undefined }
+    {
+      enabled: mentorId !== undefined && month !== undefined,
+      staleTime: STALE_TIME.OFTEN,
+    }
   );
 };
 

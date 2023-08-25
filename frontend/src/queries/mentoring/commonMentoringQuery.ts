@@ -3,13 +3,13 @@ import {
   getMonthlyMentorings,
   getTodayMentorings,
 } from "@/api/mentoring/commonApi";
+import { STALE_TIME } from "@/constants";
 import {
   GetDailyMentoringsParams,
   GetMonthlyMentoringsParams,
   GetMonthlyMentoringsResponse,
   GetTodayMentoringsResponse,
 } from "@/types/api/mentoring";
-import { Mentor } from "@/types/profile";
 import { useQuery } from "@tanstack/react-query";
 
 export const GET_MENTEE_DAILY_MENTORINGS_KEY = ["dailyMentorings/mentee"];
@@ -32,6 +32,7 @@ export const useDailyMentoringsQuery = ({
     {
       enabled: mentorId !== undefined || profileId !== undefined,
       retry: false,
+      staleTime: STALE_TIME.SOMETIMES,
     }
   );
 };
@@ -53,6 +54,7 @@ export const useMonthlyMentoringsQuery = ({
         ((mentorId !== undefined && mentorId !== undefined) ||
           (profileId !== undefined && profileId !== undefined)) &&
         month !== undefined,
+      staleTime: STALE_TIME.SOMETIMES,
     }
   );
 };
@@ -63,6 +65,7 @@ export const useTodayMentoringsQuery = (profileId: number) => {
     () => getTodayMentorings(profileId!),
     {
       enabled: profileId !== undefined,
+      staleTime: STALE_TIME.SOMETIMES,
     }
   );
 };
