@@ -3,6 +3,7 @@ import {
   getMentoringApplies,
   rejectMentoring,
 } from "@/api/mentoring/mentorApi";
+import { STALE_TIME } from "@/constants";
 import { GetMentoringAppliesResponse } from "@/types/api/mentoring";
 
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -17,6 +18,7 @@ export const useMentoringApplies = (mentorId: number) => {
     () => getMentoringApplies(mentorId),
     {
       enabled: mentorId !== undefined,
+      staleTime: STALE_TIME.SOMETIMES,
     }
   );
 };

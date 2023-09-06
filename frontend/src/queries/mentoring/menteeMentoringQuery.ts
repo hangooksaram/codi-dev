@@ -1,6 +1,6 @@
 import { applyMentoring, cancelMentoring } from "@/api/mentoring/menteeApi";
 import { ApplyMentoringBody } from "@/types/api/mentoring";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 
 export const APPLY_MENTORING = ["applyMentoings"];
 export const CANCEL_MENTORING = ["cancelMentoings"];

@@ -74,10 +74,12 @@ const ProfileCard = ({
 };
 
 const CardContainer = styled(Card)(({ imgUrl }: { imgUrl: string }) => ({
-  background: `url(${imgUrl}) no-repeat center`,
-  backgroundSize: "cover",
+  background: `url(${imgUrl}) no-repeat`,
+  backgroundPosition: "center",
+  backgroundSize: "140%",
   [device("tablet")]: {
     width: "100%",
+    backgroundSize: "cover",
   },
 }));
 

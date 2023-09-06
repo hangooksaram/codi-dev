@@ -36,6 +36,10 @@ const MentorList = ({ mentors }: { mentors: Mentor[] }) => {
           gridTemplateColumns:
             "repeat(auto-fill,  minmax(47%, auto)) !important",
         },
+        [device("tablet")]: {
+          gridTemplateColumns:
+            "repeat(auto-fill,  minmax(50%, auto)) !important",
+        },
       })}
       gridTemplateColumns="repeat(auto-fill,  minmax(23%, auto))"
       gridAutoRows="477px"

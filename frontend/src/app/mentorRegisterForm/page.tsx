@@ -56,7 +56,7 @@ const MentorRegisterForm = () => {
     validateForm,
     invalid,
     handleFormValueChange,
-    invalidValues,
+    formInvalid,
   } = useForm<FormValues>(formValues);
 
   const { id: memberId, mentorId } = useSelector(selectUser);
@@ -75,7 +75,7 @@ const MentorRegisterForm = () => {
   }, [job]);
   const handleMentorProfileSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (invalidValues.length > 0) return;
+    if (formInvalid) return;
     processData();
     createFormData(form);
 
