@@ -28,7 +28,8 @@ const MyCodiPage = () => {
     profileId: profileId!,
     month: month ?? formattedMonth(new Date()),
   });
-  const { data: dailyMentoringData, refetch } = useDailyMentoringsQuery({
+
+  const { data: dailyMentoringData } = useDailyMentoringsQuery({
     profileId: profileId!,
     date: formattedDate(date),
   });
@@ -40,11 +41,6 @@ const MyCodiPage = () => {
     })
   );
 
-  useEffect(() => {
-    if (date) {
-      refetch();
-    }
-  }, [date]);
   return (
     <FlexBox>
       <LabelBox text="멘토링 일정 관리">
