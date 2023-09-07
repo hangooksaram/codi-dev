@@ -37,8 +37,16 @@ export const useMonthlySchedulesQuery = (mentorId: number, month: string) => {
   );
 };
 
-export const useScheduleMutation = (mentorId: number) => {
-  return useMutation((schedule: Schedule) => addSchedule(mentorId, schedule));
+export const useScheduleMutation = (
+  mentorId: number,
+  refetchMonthlySchedule?: Function
+) => {
+  return useMutation({
+    mutationFn: (schedule: Schedule) => addSchedule(mentorId, schedule),
+    onSuccess: () => {
+      if (refetchMonthlySchedule) refetchMonthlySchedule!();
+    },
+  });
 };
 
 export default useDailySchedulesQuery;

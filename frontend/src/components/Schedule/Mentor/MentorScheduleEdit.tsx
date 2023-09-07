@@ -55,11 +55,6 @@ const MentorScheduleEdit = ({
       return { time };
     });
     addSchedule.mutate({ date: date!, times: times! });
-    if (!addSchedule.isError) {
-      setTimeout(() => {
-        refetchMonthlySchedule();
-      }, 2000);
-    }
   };
 
   return (
