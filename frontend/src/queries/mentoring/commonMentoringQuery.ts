@@ -30,7 +30,8 @@ export const useDailyMentoringsQuery = ({
     querykey.concat(date),
     () => getDailyMentorings({ profileId, mentorId, date }),
     {
-      enabled: mentorId !== undefined || profileId !== undefined,
+      enabled:
+        date !== "" && (mentorId !== undefined || profileId !== undefined),
       retry: false,
       staleTime: STALE_TIME.SOMETIMES,
     }
@@ -51,9 +52,8 @@ export const useMonthlyMentoringsQuery = ({
     () => getMonthlyMentorings({ profileId, mentorId, month }),
     {
       enabled:
-        ((mentorId !== undefined && mentorId !== undefined) ||
-          (profileId !== undefined && profileId !== undefined)) &&
-        month !== undefined,
+        month !== undefined &&
+        (mentorId !== undefined || profileId !== undefined),
       staleTime: STALE_TIME.SOMETIMES,
     }
   );
