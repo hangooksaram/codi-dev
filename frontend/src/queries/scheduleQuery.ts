@@ -19,7 +19,7 @@ const useDailySchedulesQuery = (mentorId: number, date: string) => {
     GET_DAILY_SCHEDULES_KEY.concat(date),
     () => getDailySchedules(mentorId, date),
     {
-      enabled: mentorId !== undefined && date !== undefined,
+      enabled: mentorId !== undefined && date !== "",
       retry: false,
       staleTime: STALE_TIME.OFTEN,
     }
