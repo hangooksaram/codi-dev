@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Ref, forwardRef, useRef, useState } from "react";
 import theme from "@/ui/theme";
 import { Dropdown } from "@/types/ui";
 import styled from "@emotion/styled";
@@ -8,6 +8,7 @@ import Checkbox from "./Checkbox";
 import Button from "./Button";
 import FlexBox from "./FlexBox";
 import Overlay from "./BackgroundOverlay";
+import { useDropdown } from "@/hooks/useDropdown";
 
 const Dropdown = ({
   width,
@@ -20,12 +21,8 @@ const Dropdown = ({
   children,
   setSelectedCategory,
 }: Dropdown) => {
-  const [open, setOpen] = useState(false);
-  const handleClick = (category: string | number) => {
-    setOpen(false);
-    setSelectedCategory(category);
-  };
-
+  const { open, setOpen, ref, setCategory, setDropdownContentPosition } =
+    useDropdown(setSelectedCategory);
   return (
     <>
       {open && <Overlay onClick={() => setOpen(false)}></Overlay>}
@@ -34,10 +31,11 @@ const Dropdown = ({
           <div onClick={() => setOpen((prev) => !prev)}>{children}</div>
         ) : (
           <DropdownButton
+            id="dropdown-button"
             invalid={invalid}
             width="100%"
             color={theme.colors.white}
-            onClick={() => setOpen((prev) => !prev)}
+            onClick={setDropdownContentPosition}
             variant="square"
             type="button"
           >
@@ -49,13 +47,14 @@ const Dropdown = ({
         {open &&
           (contentType === "list" ? (
             <DropdownListContent
+              ref={ref!}
               categories={categories}
-              handleClick={handleClick}
+              setCategory={setCategory}
             />
           ) : (
             <DropdownGridContent
               categories={categories}
-              handleClick={handleClick}
+              setCategory={setCategory}
             />
           ))}
       </DropDownListContainer>
@@ -65,10 +64,10 @@ const Dropdown = ({
 
 const DropdownGridContent = ({
   categories,
-  handleClick,
+  setCategory,
 }: {
   categories: string[] | number[];
-  handleClick: Function;
+  setCategory: Function;
 }) => {
   return (
     <DropdownGridCard>
@@ -84,7 +83,7 @@ const DropdownGridContent = ({
             width="20%"
             label={category}
             key={`${index}-${category}`}
-            handleClick={handleClick}
+            handleClick={setCategory}
           />
         ))}
       </FlexBox>
@@ -92,18 +91,20 @@ const DropdownGridContent = ({
   );
 };
 
-const DropdownListContent = ({
-  categories,
-  handleClick,
-}: {
+interface DropdownListContentProps {
   categories: string[] | number[];
-  handleClick: Function;
-}) => {
+  setCategory: Function;
+}
+
+const DropdownListContent = forwardRef<
+  HTMLUListElement,
+  DropdownListContentProps
+>(({ categories, setCategory }, ref) => {
   return (
-    <DropDownList width="100%">
+    <DropDownList ref={ref} width="100%">
       {categories.map((category, index) => (
         <div key={`${index}-${category}`}>
-          <DropdownItem onClick={() => handleClick(category)}>
+          <DropdownItem onClick={() => setCategory(category)}>
             {category}
           </DropdownItem>
           {index < categories.length - 1 && <Divider />}
@@ -111,7 +112,7 @@ const DropdownListContent = ({
       ))}
     </DropDownList>
   );
-};
+});
 
 export const DropDownListContainer = styled.div(
   ({ width }: { width?: string }) => ({
@@ -137,16 +138,20 @@ const DropDownList = styled.ul(
     width: width ?? "100%",
     minWidth: "fit-content",
     maxHeight: "250px",
+    height: "250px",
     overflow: "auto",
     position: "absolute",
     zIndex: 1,
     top: "70px",
+
     right: left ? "0px" : "0px",
     padding: "0px 10px",
+    marginBottom: "20px",
     backgroundColor: theme.colors.white,
     borderRadius: "10px",
     listStyle: "none",
     border: `1px solid ${theme.colors.gray.main}`,
+    overscrollBehavior: "none",
   })
 );
 

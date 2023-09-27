@@ -8,15 +8,16 @@ import Button from "@/ui/atoms/Button";
 import theme, { device } from "@/ui/theme";
 import { CAREERS, DISABILITIES, JOBS } from "@/constants";
 import { GetMentorsParameters } from "@/types/api/mentor";
-import { css } from "@emotion/css";
 
 const MentorSearch = ({
   query,
   setQuery,
   refetch,
+  setSearched,
 }: {
   query: GetMentorsParameters;
   setQuery: (query: GetMentorsParameters) => void;
+  setSearched: Dispatch<SetStateAction<string>>;
   refetch: () => void;
 }) => {
   return (
@@ -81,7 +82,7 @@ const MentorSearch = ({
         </IconInputContainer>
         <Button
           onClick={() => {
-            refetch();
+            setSearched(JSON.stringify(query));
           }}
           width="40%"
           color={theme.colors.primary}

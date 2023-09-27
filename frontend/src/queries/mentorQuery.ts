@@ -19,6 +19,7 @@ export const GET_FAVORITE_MENTORS_KEY = ["mentors/favorite"];
 export const GET_MENTOR_KEY = ["mentor"];
 
 const useGetMentorsQuery = () => {
+  const [searched, setSearched] = useState("");
   const [query, setQuery] = useState<GetMentorsParameters>({
     page: 1,
     size: 10,
@@ -29,7 +30,7 @@ const useGetMentorsQuery = () => {
   });
 
   const { data, isSuccess, refetch } = useQuery(
-    GET_MENTORS_KEY,
+    GET_MENTORS_KEY.concat(searched),
     () => getMentors(query),
     {
       staleTime: STALE_TIME.OFTEN,
@@ -37,7 +38,7 @@ const useGetMentorsQuery = () => {
   );
   const mentors = data?.data as Mentor[];
 
-  return { query, setQuery, mentors, isSuccess, refetch };
+  return { query, setQuery, mentors, isSuccess, refetch, setSearched };
 };
 
 export const useGetRecommendationMentorsQuery = (
