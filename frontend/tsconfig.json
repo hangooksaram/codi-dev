@@ -21,7 +21,8 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@icons/*": ["./public/icons/*"]
+      "@icons/*": ["./public/icons/*"],
+      "@pages/*": ["./src/app/*"]
     }
   },
   "include": [
@@ -29,7 +30,9 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/app/updateMyInfo"
+    "src/app/updateMyInfo",
+    "jest.config.js",
+    "./jest.setup.ts"
   ],
   "exclude": ["node_modules"]
 }
