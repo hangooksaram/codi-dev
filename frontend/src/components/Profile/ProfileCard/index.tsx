@@ -5,6 +5,7 @@ import Content from "./Content";
 import Header from "./Header";
 import { ProfileCard } from "@/types/profile";
 import { device } from "@/ui/theme";
+import { StyledImage } from "@/ui/atoms/StyledImage";
 
 const ProfileCard = ({
   width,
@@ -75,12 +76,16 @@ const ProfileCard = ({
 
 const CardContainer = styled(Card)(({ imgUrl }: { imgUrl: string }) => ({
   background: `url(${imgUrl}) no-repeat`,
-  backgroundPosition: "center",
-  backgroundSize: "140%",
+  [device("smWeb")]: {
+    backgroundPosition: "top",
+  },
   [device("tablet")]: {
     width: "100%",
-    backgroundSize: "cover",
   },
+  backgroundPosition: "center",
+  backgroundSize: "cover",
+
+  // border: "none",
 }));
 
 export default ProfileCard;
