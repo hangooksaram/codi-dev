@@ -17,14 +17,12 @@ import { useEffect, useState } from "react";
 const Header = ({
   edit,
   mentor,
-  apply,
   mentorId,
   favorites,
   applicationDate,
 }: {
   edit?: boolean;
   mentor?: boolean;
-  apply?: boolean;
   mentorId?: number;
   favorites?: number[];
   applicationDate?: string;
@@ -51,7 +49,6 @@ const Header = ({
   }, [favorites]);
   return (
     <FlexBox justifyContent="space-between">
-      <div></div>
       {applicationDate && (
         <Chip>
           <Typography variant="span" size="sm">
@@ -59,7 +56,7 @@ const Header = ({
           </Typography>
         </Chip>
       )}
-      {(!apply && edit && (
+      {(edit && (
         <Button variant="round" width="48px" color={theme.colors.info}>
           <Edit />
         </Button>

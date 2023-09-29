@@ -21,7 +21,6 @@ const ProfileCard = ({
   imgUrl,
   star,
   mentees,
-  apply,
   mentorId,
   employmentStatus,
   link,
@@ -46,7 +45,6 @@ const ProfileCard = ({
           favorites={favorites}
           edit={edit}
           mentor={mentor}
-          apply={apply}
           mentorId={mentorId}
           applicationDate={applicationDate}
         />
@@ -58,7 +56,6 @@ const ProfileCard = ({
           edit={edit}
           star={star}
           mentor={mentor}
-          apply={apply}
           mentees={mentees}
           isCertificate={isCertificate}
           mentorId={mentorId}

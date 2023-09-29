@@ -65,8 +65,8 @@ const MentorCenterApplyCard = ({
           severity={severity}
           employmentStatus={employmentStatus}
           imgUrl={imgUrl}
-          apply={true}
           mentor={false}
+          edit={false}
         />
       </div>
       <MyInfoCard width="100%" height="400px" padding="45px !important">
