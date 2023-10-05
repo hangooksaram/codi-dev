@@ -2,13 +2,12 @@ import Overlay from "@/ui/atoms/BackgroundOverlay";
 import Button from "@/ui/atoms/Button";
 import FlexBox from "@/ui/atoms/FlexBox";
 import theme, { device } from "@/ui/theme";
-import { css } from "@emotion/css";
 import styled from "@emotion/styled";
-import { useQuery } from "@tanstack/react-query";
-import { useParams, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Menu from "@icons/mobile/mobile-menu.svg";
+import { useCheckDeviceWidth } from "@/hooks/useCheckDeviceWidth";
 
 interface SideBarNavigator {
   iconComponent?: React.JSX.Element;
@@ -25,9 +24,15 @@ interface SideBarNavigators extends SideBarNavigator {
 const SideBar = ({ navigators }: { navigators: SideBarNavigators[] }) => {
   const [current, setCurrent] = useState<string>();
   const [nestedParent, setNestedParent] = useState<string>();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const router = useRouter();
   const path = usePathname();
+
+  const isBelow = useCheckDeviceWidth(theme.breakpoints.smWeb);
+
+  useEffect(() => {
+    setOpen(!isBelow);
+  }, [!isBelow]);
 
   useEffect(() => {
     navigators.forEach((navigator) => {
@@ -41,6 +46,7 @@ const SideBar = ({ navigators }: { navigators: SideBarNavigators[] }) => {
 
     return () => setNestedParent("");
   }, [path]);
+
   return (
     <>
       <SideBarOverlay open={open} onClick={() => setOpen(false)} />
@@ -121,7 +127,7 @@ const SideBar = ({ navigators }: { navigators: SideBarNavigators[] }) => {
 const Container = styled.nav(({ open }: { open: boolean }) => ({
   display: open ? "block" : "none",
   width: "244px",
-  height: "calc(100vh - 59px)",
+  height: "100vh",
   position: "sticky",
   alignSelf: "flex-start",
   left: "0px",
