@@ -1,19 +1,14 @@
 import { SCHEDULE_TIME_TABLE } from "@/constants";
 import { selectUser } from "@/features/user/userSlice";
-import useDailySchedulesQuery, {
-  useMonthlySchedulesQuery,
-  useScheduleMutation,
-} from "@/queries/scheduleQuery";
+import { useScheduleMutation } from "@/queries/scheduleQuery";
 import { Schedule, ScheduleTime } from "@/types/schedule";
 
 import Button from "@/ui/atoms/Button";
 import Card from "@/ui/atoms/Card";
-import Chip from "@/ui/atoms/Chip";
 import FlexBox from "@/ui/atoms/FlexBox";
 import Typography from "@/ui/atoms/Typography";
 import theme from "@/ui/theme";
-import formattedDate, { formattedMonth } from "@/utils/dateFormat";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 const MentorScheduleEdit = ({
@@ -39,9 +34,6 @@ const MentorScheduleEdit = ({
   };
 
   const handleClickTime = (time: string) => {
-    console.log(
-      selecteds?.find(({ time: selectedTime }) => selectedTime === time)
-    );
     if (selecteds?.find(({ time: selectedTime }) => selectedTime === time)) {
       setSelecteds((prev) => prev.filter((prevTime) => prevTime.time !== time));
       return;
