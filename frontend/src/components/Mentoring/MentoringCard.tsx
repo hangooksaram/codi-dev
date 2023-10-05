@@ -13,7 +13,7 @@ import MentoringPlatformModal, {
   MENTORING_PLATFORMS,
 } from "./MentoringPlatformModal";
 import { MentoringPlatform, MentoringStatus } from "@/types/mentoring";
-import formattedDate from "@/utils/dateFormat";
+import { formattedDate } from "@/utils/dateFormat";
 import { useRouter } from "next/navigation";
 
 const mocks = [];

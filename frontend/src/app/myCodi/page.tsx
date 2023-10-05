@@ -13,7 +13,7 @@ import {
 
 import FlexBox from "@/ui/atoms/FlexBox";
 import LabelBox from "@/ui/molecules/LabelBox";
-import formattedDate, { formattedMonth } from "@/utils/dateFormat";
+import { formattedDate, formattedMonth } from "@/utils/dateFormat";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 

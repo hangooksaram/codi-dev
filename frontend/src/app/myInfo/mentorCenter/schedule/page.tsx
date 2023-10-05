@@ -14,7 +14,7 @@ import {
 import Button from "@/ui/atoms/Button";
 
 import LabelBox from "@/ui/molecules/LabelBox";
-import formattedDate, { formattedMonth } from "@/utils/dateFormat";
+import { formattedDate, formattedMonth } from "@/utils/dateFormat";
 import { css } from "@emotion/css";
 
 import { useEffect, useState } from "react";

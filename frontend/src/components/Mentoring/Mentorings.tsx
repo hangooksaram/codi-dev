@@ -4,7 +4,7 @@ import FlexBox from "@/ui/atoms/FlexBox";
 import theme from "@/ui/theme";
 import { css } from "@emotion/css";
 import { DailyMentoringMember, MentoringMember } from "@/types/mentoring";
-import formattedDate from "@/utils/dateFormat";
+import { formattedDate } from "@/utils/dateFormat";
 
 const Mentorings = ({
   mentorings,

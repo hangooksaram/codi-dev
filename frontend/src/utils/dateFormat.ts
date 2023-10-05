@@ -1,4 +1,4 @@
-const formattedDate = (date: Date | undefined) => {
+export const formattedDate = (date: Date | undefined) => {
   const month = date?.getMonth()! + 1;
   const day = date?.getDate()!;
 
@@ -17,4 +17,22 @@ export const formattedMonth = (date: Date | undefined) => {
     : "";
 };
 
-export default formattedDate;
+export const disabledDays = () => {
+  const MAX_DAY = new Date(9999, 9, 9);
+  const MIN_DAY = new Date(1999, 9, 9);
+  const endDay = new Date();
+  endDay.setDate(new Date().getDate() + 30);
+  const yesterday = new Date();
+  yesterday.setDate(new Date().getDate() - 1);
+
+  return [
+    {
+      from: endDay,
+      to: MAX_DAY,
+    },
+    {
+      from: MIN_DAY,
+      to: yesterday,
+    },
+  ];
+};

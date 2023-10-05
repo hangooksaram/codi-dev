@@ -21,7 +21,7 @@ export const CustomCaptionNavigation = styled.button`
   background-color: transparent;
 `;
 
-export const CustomContentdates = styled.div`
+export const CustomContentDates = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;

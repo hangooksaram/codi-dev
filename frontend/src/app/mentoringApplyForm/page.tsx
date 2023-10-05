@@ -6,8 +6,10 @@ import LabelBox from "@/ui/molecules/LabelBox";
 import theme from "@/ui/theme";
 import { FormEventHandler, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import useDailySchedulesQuery from "@/queries/scheduleQuery";
-import formattedDate from "@/utils/dateFormat";
+import useDailySchedulesQuery, {
+  useMonthlySchedulesQuery,
+} from "@/queries/scheduleQuery";
+import { formattedDate, formattedMonth } from "@/utils/dateFormat";
 import Button from "@/ui/atoms/Button";
 import FormInputContainer from "@/ui/molecules/Input/FormInput";
 import Textarea from "@/ui/atoms/Textarea";
@@ -29,6 +31,7 @@ const initialForm: ApplyMentoringBody = {
 const MentoringApplyFormPage = () => {
   const { setForm, form } = useForm<ApplyMentoringBody>(initialForm);
   const [date, setDate] = useState<Date | undefined>(new Date());
+  const [month, setMonth] = useState<string>();
   const [isAllFilled, setIsAllFilled] = useState(false);
   const param = useSearchParams();
   const { profileId } = useSelector(selectUser);
@@ -41,6 +44,12 @@ const MentoringApplyFormPage = () => {
     formattedDate(date)
   );
 
+  const { data: monthlySchedules, refetch: refetchMonthlySchedule } =
+    useMonthlySchedulesQuery(
+      parseInt(param.get("mentorId")!)!,
+      formattedMonth(new Date())
+    );
+  console.log(monthlySchedules);
   const router = useRouter();
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
@@ -70,7 +79,13 @@ const MentoringApplyFormPage = () => {
             text="멘토링 시간 선택"
             helpText="원하는 시간과 멘토링 분야를 선택해주세요."
           >
-            <CalendarContainer date={date} setDate={setDate} type="mentee">
+            <CalendarContainer
+              date={date}
+              setDate={setDate}
+              setMonth={setMonth}
+              schedules={monthlySchedules?.days.map(({ date }) => date)!}
+              type="mentee"
+            >
               <Typography variant="div" {...{ marginBottom: "15px" }}>
                 멘토링 가능 시간
               </Typography>
