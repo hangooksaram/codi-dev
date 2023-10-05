@@ -18,12 +18,6 @@ export const StyledImage = ({
     onClick={onClick!}
     style={{ width: width, height: height, position: "relative", ...rest }}
   >
-    <Image
-      src={src}
-      alt={alt}
-      fill
-      style={{ objectFit: "contain" }}
-      unoptimized={true}
-    />
+    <Image src={src} alt={alt} fill style={{ objectFit: "contain" }} />
   </div>
 );

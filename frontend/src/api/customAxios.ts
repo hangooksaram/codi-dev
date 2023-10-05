@@ -7,8 +7,6 @@ const instance = axios.create({
   baseURL: BASE_URL,
 });
 
-const mockToken = "ff";
-
 const customAxios = {
   get: (url: string, options?: AxiosRequestConfig) => {
     return instance.get(url, {
