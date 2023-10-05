@@ -28,7 +28,6 @@ const CalendarContainer = ({
   schedules,
   mentoringSchedules,
 }: CalendarContainerProps) => {
-  console.log(schedules);
   return (
     <StyledCalendarContainer columnGap="20px">
       <SingleCalendar

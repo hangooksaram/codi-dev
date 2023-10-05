@@ -2,13 +2,12 @@ import Overlay from "@/ui/atoms/BackgroundOverlay";
 import Button from "@/ui/atoms/Button";
 import FlexBox from "@/ui/atoms/FlexBox";
 import theme, { device } from "@/ui/theme";
-import { css } from "@emotion/css";
 import styled from "@emotion/styled";
-import { useQuery } from "@tanstack/react-query";
-import { useParams, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Menu from "@icons/mobile/mobile-menu.svg";
+import { useCheckDeviceWidth } from "@/hooks/useCheckDeviceWidth";
 
 interface SideBarNavigator {
   iconComponent?: React.JSX.Element;
@@ -28,11 +27,12 @@ const SideBar = ({ navigators }: { navigators: SideBarNavigators[] }) => {
   const [open, setOpen] = useState(true);
   const router = useRouter();
   const path = usePathname();
+
+  const isBelow = useCheckDeviceWidth(theme.breakpoints.smWeb);
+
   useEffect(() => {
-    if (window.innerWidth < 1000) {
-      setOpen(false);
-    }
-  }, []);
+    setOpen(!isBelow);
+  }, [!isBelow]);
 
   useEffect(() => {
     navigators.forEach((navigator) => {
@@ -46,6 +46,7 @@ const SideBar = ({ navigators }: { navigators: SideBarNavigators[] }) => {
 
     return () => setNestedParent("");
   }, [path]);
+
   return (
     <>
       <SideBarOverlay open={open} onClick={() => setOpen(false)} />
@@ -126,14 +127,14 @@ const SideBar = ({ navigators }: { navigators: SideBarNavigators[] }) => {
 const Container = styled.nav(({ open }: { open: boolean }) => ({
   display: open ? "block" : "none",
   width: "244px",
-  height: "calc(100vh - 59px)",
+  height: "100vh",
   position: "sticky",
   alignSelf: "flex-start",
   left: "0px",
   top: "59px",
   background: theme.colors.white,
   boxShadow: "0px 2px 4px 0px rgba(22, 23, 24, 0.08)",
-  [device("tablet")]: {
+  [device("smWeb")]: {
     position: "fixed",
     zIndex: "3",
     top: "0px",
@@ -170,7 +171,7 @@ const ListItem = styled.div(
 const SideBarOverlay = styled(Overlay)(({ open }: { open: boolean }) => ({
   backgroundColor: "rgba(0, 0, 0, 0.20)",
   display: "none",
-  [device("tablet")]: {
+  [device("smWeb")]: {
     display: open ? "block" : "none",
   },
 }));

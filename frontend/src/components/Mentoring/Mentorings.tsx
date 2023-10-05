@@ -11,7 +11,6 @@ const Mentorings = ({
 }: {
   mentorings: DailyMentoringMember[] | DailyMentoringMember;
 }) => {
-  console.log(mentorings);
   const today = (date: string) => {
     return date === formattedDate(new Date());
   };

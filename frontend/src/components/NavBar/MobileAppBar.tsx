@@ -46,7 +46,7 @@ const StyledMobileAppBar = styled.nav({
   height: "128px",
   backgroundColor: theme.colors.background,
   display: "none",
-  [device("tablet")]: {
+  [device("smWeb")]: {
     display: "block",
   },
 });

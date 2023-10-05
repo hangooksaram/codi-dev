@@ -23,7 +23,6 @@ const AppBar = () => {
   const router = useRouter();
   const [domLoaded, setDomLoaded] = useState(false);
   const [selected, setSelected] = useState();
-  const [open, setOpen] = useState(false);
   const user = useSelector(selectUser);
 
   const goToApply = () => {
@@ -133,7 +132,7 @@ const StyledAppBar = styled.nav({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  [device("tablet")]: {
+  [device("smWeb")]: {
     display: "none",
   },
 });

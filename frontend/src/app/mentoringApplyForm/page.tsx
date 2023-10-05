@@ -32,7 +32,6 @@ const MentoringApplyFormPage = () => {
   const { setForm, form } = useForm<ApplyMentoringBody>(initialForm);
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [month, setMonth] = useState<string>();
-  const [isAllFilled, setIsAllFilled] = useState(false);
   const param = useSearchParams();
   const { profileId } = useSelector(selectUser);
   const mutation = useApplyMentoringMutation(
@@ -44,12 +43,10 @@ const MentoringApplyFormPage = () => {
     formattedDate(date)
   );
 
-  const { data: monthlySchedules, refetch: refetchMonthlySchedule } =
-    useMonthlySchedulesQuery(
-      parseInt(param.get("mentorId")!)!,
-      formattedMonth(new Date())
-    );
-  console.log(monthlySchedules);
+  const { data: monthlySchedules } = useMonthlySchedulesQuery(
+    parseInt(param.get("mentorId")!)!,
+    formattedMonth(new Date())
+  );
   const router = useRouter();
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
