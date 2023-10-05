@@ -4,10 +4,7 @@ import MentorCenterApplyCard from "@/components/pages/mentorCenter/ApplyCard";
 import MyInfoCommonContainerCard from "@/components/pages/myInfoCommon/MyInfoCommonContainerCard";
 import { selectUser } from "@/features/user/userSlice";
 import { useMentoringApplies } from "@/queries/mentoring/mentorMentoringQuery";
-import Card from "@/ui/atoms/Card";
-import { FormLabel } from "@/ui/atoms/Label";
 import LabelBox from "@/ui/molecules/LabelBox";
-import theme from "@/ui/theme";
 import { useSelector } from "react-redux";
 
 const ApplyPage = () => {

@@ -25,14 +25,9 @@ interface SideBarNavigators extends SideBarNavigator {
 const SideBar = ({ navigators }: { navigators: SideBarNavigators[] }) => {
   const [current, setCurrent] = useState<string>();
   const [nestedParent, setNestedParent] = useState<string>();
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const router = useRouter();
   const path = usePathname();
-  useEffect(() => {
-    if (window.innerWidth < 1000) {
-      setOpen(false);
-    }
-  }, []);
 
   useEffect(() => {
     navigators.forEach((navigator) => {
@@ -133,7 +128,7 @@ const Container = styled.nav(({ open }: { open: boolean }) => ({
   top: "59px",
   background: theme.colors.white,
   boxShadow: "0px 2px 4px 0px rgba(22, 23, 24, 0.08)",
-  [device("tablet")]: {
+  [device("smWeb")]: {
     position: "fixed",
     zIndex: "3",
     top: "0px",
@@ -170,7 +165,7 @@ const ListItem = styled.div(
 const SideBarOverlay = styled(Overlay)(({ open }: { open: boolean }) => ({
   backgroundColor: "rgba(0, 0, 0, 0.20)",
   display: "none",
-  [device("tablet")]: {
+  [device("smWeb")]: {
     display: open ? "block" : "none",
   },
 }));

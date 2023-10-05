@@ -32,7 +32,7 @@ const MentorList = ({ mentors }: { mentors: Mentor[] }) => {
   return (
     <Grid
       className={css({
-        [device("smWeb")]: {
+        [device("mdWeb")]: {
           gridTemplateColumns:
             "repeat(auto-fill,  minmax(47%, auto)) !important",
         },

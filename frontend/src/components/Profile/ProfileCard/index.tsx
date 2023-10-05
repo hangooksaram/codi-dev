@@ -73,7 +73,7 @@ const ProfileCard = ({
 
 const CardContainer = styled(Card)(({ imgUrl }: { imgUrl: string }) => ({
   background: `url(${imgUrl}) no-repeat`,
-  [device("smWeb")]: {
+  [device("mdWeb")]: {
     backgroundPosition: "top",
   },
   [device("tablet")]: {

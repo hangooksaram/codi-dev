@@ -70,7 +70,8 @@ const theme = {
   },
   breakpoints: {
     lgWeb: 1920,
-    smWeb: 1399,
+    mdWeb: 1399,
+    smWeb: 1100,
     tablet: 999,
     mobile: 450,
   },

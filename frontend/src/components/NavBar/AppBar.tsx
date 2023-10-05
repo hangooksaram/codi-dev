@@ -133,7 +133,7 @@ const StyledAppBar = styled.nav({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  [device("tablet")]: {
+  [device("smWeb")]: {
     display: "none",
   },
 });

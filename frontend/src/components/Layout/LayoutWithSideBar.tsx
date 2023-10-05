@@ -5,7 +5,7 @@ const LayoutWithSideBar = styled.main({
   width: "100%",
   maxWidth: "1312px",
   margin: "50px 50px 50px 60px",
-  [device("tablet")]: {
+  [device("smWeb")]: {
     margin: "0 auto",
     marginTop: "20px",
     paddingBottom: "200px",
