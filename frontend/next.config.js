@@ -15,8 +15,26 @@ const nextConfig = {
   compiler: {
     styledComponents: true,
     images: {
-      domains: ["localhost", "codi-frontend.s3.ap-northeast-1.amazonaws.com"],
+      domains: [
+        "localhost",
+        "codi-frontend.s3.ap-northeast-1.amazonaws.com",
+        "codi-image-s3-bucket.s3.ap-northeast-2.amazonaws.com",
+      ],
     },
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "codi-frontend.s3.ap-northeast-2.amazonaws.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "codi-image-s3-bucket.s3.ap-northeast-2.amazonaws.com",
+        pathname: "/**",
+      },
+    ],
   },
 };
 
