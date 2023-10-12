@@ -72,3 +72,5 @@ export interface Dropdown {
   left?: boolean;
   setSelectedCategory: (category: T) => void;
 }
+
+export type LabelType = "form" | "general";

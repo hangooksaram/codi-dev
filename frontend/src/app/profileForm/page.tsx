@@ -3,7 +3,7 @@
 import { FormContainer } from "@/ui/atoms/Container";
 import Typography from "@/ui/atoms/Typography";
 import theme from "@/ui/theme";
-import FormInputContainer from "@/ui/molecules/Input/FormInput";
+import LabeledInputContainer from "@/ui/molecules/Input/LabeledInput";
 import IconInputContainer from "@/ui/molecules/Input/IconInput";
 import Input from "@/ui/atoms/Input";
 import Button from "@/ui/atoms/Button";
@@ -172,7 +172,7 @@ const ProfileFormPage = () => {
       </Typography>
       <form onSubmit={(e) => handleProfileSubmit(e)}>
         <FlexBox direction="column" rowGap="50px">
-          <FormInputContainer text="프로필 사진" helpText="(선택)">
+          <LabeledInputContainer text="프로필 사진" helpText="(선택)">
             <IconInputContainer iconComponent={<ProfileImage />}>
               <Input outline={true} disabled value={file.name} />
               <div style={{ display: "none" }}>
@@ -194,8 +194,8 @@ const ProfileFormPage = () => {
             >
               등록하기
             </Button>
-          </FormInputContainer>
-          <FormInputContainer text="장애 분류">
+          </LabeledInputContainer>
+          <LabeledInputContainer text="장애 분류">
             <FlexBox direction="column" rowGap="10px">
               <FlexBox columnGap="10px">
                 <Dropdown
@@ -215,8 +215,8 @@ const ProfileFormPage = () => {
                 ></Dropdown>
               </FlexBox>
             </FlexBox>
-          </FormInputContainer>
-          <FormInputContainer text="중증도">
+          </LabeledInputContainer>
+          <LabeledInputContainer text="중증도">
             {SEVERITIES.map((severity) => (
               <Button
                 key={severity}
@@ -241,8 +241,12 @@ const ProfileFormPage = () => {
                 {severity}
               </Button>
             ))}
-          </FormInputContainer>
-          <FormInputContainer text="학력" htmlFor="education" helpText="(선택)">
+          </LabeledInputContainer>
+          <LabeledInputContainer
+            text="학력"
+            htmlFor="education"
+            helpText="(선택)"
+          >
             <FlexBox columnGap="10px">
               <Dropdown
                 width="40%"
@@ -269,8 +273,8 @@ const ProfileFormPage = () => {
                 />
               </IconInputContainer>
             </FlexBox>
-          </FormInputContainer>
-          <FormInputContainer text="희망 직무" htmlFor="desiredJob">
+          </LabeledInputContainer>
+          <LabeledInputContainer text="희망 직무" htmlFor="desiredJob">
             <FlexBox columnGap="10px">
               <JobSelector
                 invalid={invalid("job", { required: true })}
@@ -290,8 +294,8 @@ const ProfileFormPage = () => {
                 invalid={invalid("desiredJob", { required: true })}
               />
             </FlexBox>
-          </FormInputContainer>
-          <FormInputContainer text="취업 상태" htmlFor="employmentStatus">
+          </LabeledInputContainer>
+          <LabeledInputContainer text="취업 상태" htmlFor="employmentStatus">
             <Dropdown
               width="40%"
               type="form"
@@ -306,8 +310,8 @@ const ProfileFormPage = () => {
               invalid={invalid("employmentStatus", { required: true })}
               categories={EMPLOYMENT_STATUSES}
             ></Dropdown>
-          </FormInputContainer>
-          <FormInputContainer text="자기 소개" htmlFor="introduction">
+          </LabeledInputContainer>
+          <LabeledInputContainer text="자기 소개" htmlFor="introduction">
             <Textarea
               id="introduction"
               name="introduction"
@@ -319,7 +323,7 @@ const ProfileFormPage = () => {
                 max: 50,
               })}
             />
-          </FormInputContainer>
+          </LabeledInputContainer>
           <Button
             onClick={() => {
               setSubmitType("complete");

@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { FormLabel } from "../atoms/Label";
+import { Label } from "../atoms/Label";
 import styled from "@emotion/styled";
 import { device } from "../theme";
 import FlexBox from "../atoms/FlexBox";
@@ -20,7 +20,7 @@ const LabelBox = ({
   return (
     <StyledLabelBox>
       <FlexBox justifyContent="space-between" alignItems="center">
-        <FormLabel text={text} helpText={helpText} />
+        <Label text={text} helpText={helpText} />
         {adorement}
       </FlexBox>
 
