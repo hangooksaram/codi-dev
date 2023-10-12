@@ -1,37 +1,39 @@
+import { LabelType } from "@/types/ui";
 import FlexBox from "@/ui/atoms/FlexBox";
-import { FormLabel } from "@/ui/atoms/Label";
-import Typography from "@/ui/atoms/Typography";
-import theme from "@/ui/theme";
+import { Label } from "@/ui/atoms/Label";
 import styled from "@emotion/styled";
 
-export const StyledFormInputContainer = styled.div`
+export const StyledLabeledInputContainer = styled.div`
   width: 100%;
 `;
 
-const FormInputContainer = ({
+const LabeledInputContainer = ({
   text,
   helpText,
   children,
   htmlFor,
   labelColor,
+  type = "form",
 }: {
   text: string;
   htmlFor?: string;
   helpText?: string;
   children?: React.ReactNode;
   labelColor?: string;
+  type?: LabelType;
 }) => {
   return (
-    <StyledFormInputContainer>
-      <FormLabel
+    <StyledLabeledInputContainer>
+      <Label
         text={text}
         helpText={helpText}
         htmlFor={htmlFor}
         labelColor={labelColor}
+        type={type}
       />
       <FlexBox justifyContent="space-between">{children}</FlexBox>
-    </StyledFormInputContainer>
+    </StyledLabeledInputContainer>
   );
 };
 
-export default FormInputContainer;
+export default LabeledInputContainer;
