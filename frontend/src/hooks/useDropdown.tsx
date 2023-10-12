@@ -1,10 +1,11 @@
 import { Dispatch, SetStateAction, useRef, useState } from "react";
 
 export const useDropdown = (
-  setSelectedCategory: Dispatch<SetStateAction<string | number>>
+  setSelectedCategory: Dispatch<SetStateAction<string | number>>,
+  id?: string
 ) => {
   const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLUListElement>(null);
+  const ref = useRef<HTMLUListElement | HTMLDivElement>(null);
   const setCategory = (category: string | number) => {
     setOpen(false);
     setSelectedCategory(category);
@@ -12,7 +13,7 @@ export const useDropdown = (
   const setDropdownContentPosition = () => {
     const windowHeight = window.innerHeight;
     const buttonPosition = document
-      .getElementById("dropdown-button")!
+      .getElementById(id!)!
       .getBoundingClientRect()!.y;
     setOpen((prev) => !prev);
     setTimeout(() => {

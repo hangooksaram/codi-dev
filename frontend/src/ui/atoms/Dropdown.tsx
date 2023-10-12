@@ -1,4 +1,4 @@
-import { Ref, forwardRef, useRef, useState } from "react";
+import { Ref, RefObject, forwardRef, useRef, useState } from "react";
 import theme from "@/ui/theme";
 import { Dropdown } from "@/types/ui";
 import styled from "@emotion/styled";
@@ -11,6 +11,7 @@ import Overlay from "./BackgroundOverlay";
 import { useDropdown } from "@/hooks/useDropdown";
 
 const Dropdown = ({
+  id,
   width,
   title,
   type,
@@ -22,7 +23,7 @@ const Dropdown = ({
   setSelectedCategory,
 }: Dropdown) => {
   const { open, setOpen, ref, setCategory, setDropdownContentPosition } =
-    useDropdown(setSelectedCategory);
+    useDropdown(setSelectedCategory, id);
   return (
     <>
       {open && <Overlay onClick={() => setOpen(false)}></Overlay>}
@@ -31,7 +32,7 @@ const Dropdown = ({
           <div onClick={() => setOpen((prev) => !prev)}>{children}</div>
         ) : (
           <DropdownButton
-            id="dropdown-button"
+            id={id}
             invalid={invalid}
             width="100%"
             color={theme.colors.white}
@@ -47,12 +48,13 @@ const Dropdown = ({
         {open &&
           (contentType === "list" ? (
             <DropdownListContent
-              ref={ref!}
+              ref={ref! as RefObject<HTMLUListElement>}
               categories={categories}
               setCategory={setCategory}
             />
           ) : (
             <DropdownGridContent
+              ref={ref! as RefObject<HTMLDivElement>}
               categories={categories}
               setCategory={setCategory}
             />
@@ -62,57 +64,52 @@ const Dropdown = ({
   );
 };
 
-const DropdownGridContent = ({
-  categories,
-  setCategory,
-}: {
-  categories: string[] | number[];
-  setCategory: Function;
-}) => {
-  return (
-    <DropdownGridCard>
-      <FlexBox
-        justifyContent="flex-start"
-        width="100%"
-        isWrap
-        columnGap="80px"
-        rowGap="22px"
-      >
-        {categories.map((category, index) => (
-          <Checkbox
-            width="20%"
-            label={category}
-            key={`${index}-${category}`}
-            handleClick={setCategory}
-          />
-        ))}
-      </FlexBox>
-    </DropdownGridCard>
-  );
-};
+const DropdownGridContent = forwardRef<HTMLDivElement, DropdownContentProps>(
+  ({ categories, setCategory }, ref) => {
+    return (
+      <DropdownGridCard ref={ref!}>
+        <FlexBox
+          justifyContent="flex-start"
+          width="100%"
+          isWrap
+          columnGap="80px"
+          rowGap="22px"
+        >
+          {categories.map((category, index) => (
+            <Checkbox
+              width="20%"
+              label={category}
+              key={`${index}-${category}`}
+              handleClick={setCategory}
+            />
+          ))}
+        </FlexBox>
+      </DropdownGridCard>
+    );
+  }
+);
 
-interface DropdownListContentProps {
+interface DropdownContentProps {
   categories: string[] | number[];
   setCategory: Function;
 }
 
-const DropdownListContent = forwardRef<
-  HTMLUListElement,
-  DropdownListContentProps
->(({ categories, setCategory }, ref) => {
-  return (
-    <DropDownList ref={ref} width="100%">
-      {categories.map((category, index) => (
-        <div key={`${index}-${category}`}>
-          <DropdownItem onClick={() => setCategory(category)}>
-            {category}
-          </DropdownItem>
-          {index < categories.length - 1 && <Divider />}
-        </div>
-      ))}
-    </DropDownList>
-  );
-});
+const DropdownListContent = forwardRef<HTMLUListElement, DropdownContentProps>(
+  ({ categories, setCategory }, ref) => {
+    return (
+      <DropDownList ref={ref} width="100%">
+        {categories.map((category, index) => (
+          <div key={`${index}-${category}`}>
+            <DropdownItem onClick={() => setCategory(category)}>
+              {category}
+            </DropdownItem>
+            {index < categories.length - 1 && <Divider />}
+          </div>
+        ))}
+      </DropDownList>
+    );
+  }
+);
 
 export const DropDownListContainer = styled.div(
   ({ width }: { width?: string }) => ({

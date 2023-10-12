@@ -199,6 +199,7 @@ const ProfileFormPage = () => {
             <FlexBox direction="column" rowGap="10px">
               <FlexBox columnGap="10px">
                 <Dropdown
+                  id="disability"
                   invalid={invalid("disability", { required: true })}
                   width="100%"
                   type="form"
@@ -249,15 +250,13 @@ const ProfileFormPage = () => {
           >
             <FlexBox columnGap="10px">
               <Dropdown
+                id="bigEducation"
                 width="40%"
                 type="form"
                 title="최종 학력"
                 selectedCategory={bigEducationCategory}
-                setSelectedCategory={(education) =>
-                  handleFormValueChange({
-                    name: "education",
-                    value: education,
-                  })
+                setSelectedCategory={(bigEducation) =>
+                  setBigEducationCategory(bigEducation)
                 }
                 categories={["초등학교", "중학교", "고등학교", "대학교"]}
               />
@@ -297,6 +296,7 @@ const ProfileFormPage = () => {
           </LabeledInputContainer>
           <LabeledInputContainer text="취업 상태" htmlFor="employmentStatus">
             <Dropdown
+              id="employmentStatus"
               width="40%"
               type="form"
               title="선택"

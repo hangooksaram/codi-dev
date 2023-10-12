@@ -61,6 +61,7 @@ export interface Typography {
 }
 
 export interface Dropdown {
+  id?: string;
   width?: string;
   title?: string;
   type?: "menu" | "form";
