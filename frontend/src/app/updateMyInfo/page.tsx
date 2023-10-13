@@ -9,7 +9,7 @@ import FlexBox from "@/ui/atoms/FlexBox";
 import Input from "@/ui/atoms/Input";
 
 import Typography from "@/ui/atoms/Typography";
-import LabeledInputContainer from "@/ui/molecules/Input/LabeledInput";
+import ContentTextContainer from "@/ui/molecules/Container/ContentTextContainer";
 import theme from "@/ui/theme";
 import { handleApiCallback } from "@/utils/api";
 import { useRouter } from "next/navigation";
@@ -61,7 +61,7 @@ const UpdateMyInfoPage = () => {
       </Typography>
       <FormContainer>
         <FlexBox direction="column" rowGap="50px">
-          <LabeledInputContainer text="현재 비밀번호" htmlFor="oldPassword">
+          <ContentTextContainer text="현재 비밀번호" htmlFor="oldPassword">
             <Input
               value={passwordInfo.oldPassword as string}
               onChange={(e) =>
@@ -71,8 +71,8 @@ const UpdateMyInfoPage = () => {
                 })
               }
             />
-          </LabeledInputContainer>
-          <LabeledInputContainer text="새로운 비밀번호" htmlFor="newPassword">
+          </ContentTextContainer>
+          <ContentTextContainer text="새로운 비밀번호" htmlFor="newPassword">
             <Input
               value={passwordInfo.newPassword as string}
               onChange={(e) =>
@@ -82,7 +82,7 @@ const UpdateMyInfoPage = () => {
                 })
               }
             />
-          </LabeledInputContainer>
+          </ContentTextContainer>
           <Button
             width="100%"
             onClick={() => updatePassWord()}

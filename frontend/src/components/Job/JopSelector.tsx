@@ -23,12 +23,14 @@ export interface Jobs {
 }
 
 const JobSelector = ({
+  id,
   invalid,
   open,
   setOpen,
   selected,
   setSelected,
 }: {
+  id: string;
   invalid: boolean;
   open: boolean;
   setOpen: SetState<boolean>;
@@ -61,6 +63,7 @@ const JobSelector = ({
       {open && <Overlay onClick={() => setOpen(false)}></Overlay>}
       <DropDownListContainer width="40%">
         <DropdownButton
+          id={id}
           width="100%"
           variant="square"
           type="button"

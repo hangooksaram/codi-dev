@@ -3,7 +3,6 @@
 import { FormContainer } from "@/ui/atoms/Container";
 import Typography from "@/ui/atoms/Typography";
 import theme from "@/ui/theme";
-import LabeledInputContainer from "@/ui/molecules/Input/LabeledInput";
 import IconInputContainer from "@/ui/molecules/Input/IconInput";
 import Input from "@/ui/atoms/Input";
 import Button from "@/ui/atoms/Button";
@@ -35,6 +34,7 @@ import { setLocalUser, localUser } from "@/utils/tempUser";
 import { RegisterProfileResponse } from "@/types/api/profile";
 import { useDispatch } from "react-redux";
 import useInitiallizeFormValues from "@/hooks/useInitiallizeFormValues";
+import ContentTextContainer from "@/ui/molecules/Container/ContentTextContainer";
 
 const ProfileFormPage = () => {
   const dispatch = useDispatch();
@@ -172,7 +172,7 @@ const ProfileFormPage = () => {
       </Typography>
       <form onSubmit={(e) => handleProfileSubmit(e)}>
         <FlexBox direction="column" rowGap="50px">
-          <LabeledInputContainer text="프로필 사진" helpText="(선택)">
+          <ContentTextContainer text="프로필 사진" helpText="(선택)">
             <IconInputContainer iconComponent={<ProfileImage />}>
               <Input outline={true} disabled value={file.name} />
               <div style={{ display: "none" }}>
@@ -194,8 +194,8 @@ const ProfileFormPage = () => {
             >
               등록하기
             </Button>
-          </LabeledInputContainer>
-          <LabeledInputContainer text="장애 분류">
+          </ContentTextContainer>
+          <ContentTextContainer text="장애 분류">
             <FlexBox direction="column" rowGap="10px">
               <FlexBox columnGap="10px">
                 <Dropdown
@@ -216,8 +216,8 @@ const ProfileFormPage = () => {
                 ></Dropdown>
               </FlexBox>
             </FlexBox>
-          </LabeledInputContainer>
-          <LabeledInputContainer text="중증도">
+          </ContentTextContainer>
+          <ContentTextContainer text="중증도">
             {SEVERITIES.map((severity) => (
               <Button
                 key={severity}
@@ -242,12 +242,8 @@ const ProfileFormPage = () => {
                 {severity}
               </Button>
             ))}
-          </LabeledInputContainer>
-          <LabeledInputContainer
-            text="학력"
-            htmlFor="education"
-            helpText="(선택)"
-          >
+          </ContentTextContainer>
+          <ContentTextContainer text="학력" helpText="(선택)">
             <FlexBox columnGap="10px">
               <Dropdown
                 id="bigEducation"
@@ -272,10 +268,11 @@ const ProfileFormPage = () => {
                 />
               </IconInputContainer>
             </FlexBox>
-          </LabeledInputContainer>
-          <LabeledInputContainer text="희망 직무" htmlFor="desiredJob">
+          </ContentTextContainer>
+          <ContentTextContainer text="희망 직무">
             <FlexBox columnGap="10px">
               <JobSelector
+                id="job"
                 invalid={invalid("job", { required: true })}
                 selected={job}
                 setSelected={setJob}
@@ -293,8 +290,8 @@ const ProfileFormPage = () => {
                 invalid={invalid("desiredJob", { required: true })}
               />
             </FlexBox>
-          </LabeledInputContainer>
-          <LabeledInputContainer text="취업 상태" htmlFor="employmentStatus">
+          </ContentTextContainer>
+          <ContentTextContainer text="취업 상태">
             <Dropdown
               id="employmentStatus"
               width="40%"
@@ -310,8 +307,8 @@ const ProfileFormPage = () => {
               invalid={invalid("employmentStatus", { required: true })}
               categories={EMPLOYMENT_STATUSES}
             ></Dropdown>
-          </LabeledInputContainer>
-          <LabeledInputContainer text="자기 소개" htmlFor="introduction">
+          </ContentTextContainer>
+          <ContentTextContainer text="자기 소개">
             <Textarea
               id="introduction"
               name="introduction"
@@ -323,7 +320,7 @@ const ProfileFormPage = () => {
                 max: 50,
               })}
             />
-          </LabeledInputContainer>
+          </ContentTextContainer>
           <Button
             onClick={() => {
               setSubmitType("complete");

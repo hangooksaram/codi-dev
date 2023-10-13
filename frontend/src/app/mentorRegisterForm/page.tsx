@@ -1,6 +1,6 @@
 "use client";
 
-import LabeledInputContainer from "@/ui/molecules/Input/LabeledInput";
+import ContentTextContainer from "@/ui/molecules/Container/ContentTextContainer";
 import IconInputContainer from "@/ui/molecules/Input/IconInput";
 import Input from "@/ui/atoms/Input";
 import { FormContainer } from "@/ui/atoms/Container";
@@ -141,7 +141,7 @@ const MentorRegisterForm = () => {
 
       <form onSubmit={(e) => handleMentorProfileSubmit(e)}>
         <FlexBox direction="column" rowGap="50px">
-          <LabeledInputContainer
+          <ContentTextContainer
             labelColor={theme.colors.secondary}
             text="직무경력"
             htmlFor="job"
@@ -197,9 +197,9 @@ const MentorRegisterForm = () => {
                 </div>
               </FlexBox>
             </FlexBox>
-          </LabeledInputContainer>
+          </ContentTextContainer>
 
-          <LabeledInputContainer
+          <ContentTextContainer
             text="직무명 입력"
             htmlFor="jobName"
             labelColor={theme.colors.secondary}
@@ -213,8 +213,8 @@ const MentorRegisterForm = () => {
               value={form.jobName}
               invalid={invalid("jobName", { required: true })}
             />
-          </LabeledInputContainer>
-          <LabeledInputContainer
+          </ContentTextContainer>
+          <ContentTextContainer
             text="재직증명서 제출"
             helpText="(선택)"
             labelColor={theme.colors.secondary}
@@ -239,14 +239,14 @@ const MentorRegisterForm = () => {
             >
               등록하기
             </Button>
-          </LabeledInputContainer>
-          <LabeledInputContainer text="멘토링분야" helpText="(최대 4개)">
+          </ContentTextContainer>
+          <ContentTextContainer text="멘토링분야" helpText="(최대 4개)">
             <MentoringCategoriesSelector
               mentoringCategories={mentoringCategories}
               setMentoringCategories={setMentoringCategories}
             />
-          </LabeledInputContainer>
-          <LabeledInputContainer
+          </ContentTextContainer>
+          <ContentTextContainer
             text="자기 소개"
             htmlFor="introduction"
             labelColor={theme.colors.secondary}
@@ -264,7 +264,7 @@ const MentorRegisterForm = () => {
                 min: 50,
               })}
             />
-          </LabeledInputContainer>
+          </ContentTextContainer>
           <Button
             width="100%"
             onClick={validateForm}
