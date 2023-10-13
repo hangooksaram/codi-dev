@@ -8,7 +8,7 @@ import Button from "@/ui/atoms/Button";
 import theme, { device } from "@/ui/theme";
 import { CAREERS, DISABILITIES, JOBS } from "@/constants";
 import { GetMentorsParameters } from "@/types/api/mentor";
-import LabeledInputContainer from "@/ui/molecules/Input/LabeledInput";
+import ContentTextContainer from "@/ui/molecules/Container/ContentTextContainer";
 
 const MentorSearch = ({
   query,
@@ -74,7 +74,7 @@ const MentorSearch = ({
           },
         }}
       >
-        <LabeledInputContainer
+        <ContentTextContainer
           text="원하는 멘토를 검색하세요"
           type="general"
           htmlFor="search-mentor"
@@ -87,7 +87,7 @@ const MentorSearch = ({
               outline
             />
           </IconInputContainer>
-        </LabeledInputContainer>
+        </ContentTextContainer>
         <Button
           onClick={() => {
             setSearched(JSON.stringify(query));

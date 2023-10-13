@@ -11,7 +11,7 @@ import useDailySchedulesQuery, {
 } from "@/queries/scheduleQuery";
 import { formattedDate, formattedMonth } from "@/utils/dateFormat";
 import Button from "@/ui/atoms/Button";
-import LabeledInputContainer from "@/ui/molecules/Input/LabeledInput";
+import ContentTextContainer from "@/ui/molecules/Container/ContentTextContainer";
 import Textarea from "@/ui/atoms/Textarea";
 import ContainerWithBackground from "@/ui/molecules/Container/ContainerWithBackground";
 import Typography from "@/ui/atoms/Typography";
@@ -118,15 +118,16 @@ const MentoringApplyFormPage = () => {
               </FlexBox>
             </CalendarContainer>
           </LabelBox>
-          <LabeledInputContainer text="하고싶은 말" helpText="(최소 50 글자)">
+          <ContentTextContainer text="하고싶은 말" helpText="(최소 50 글자)">
             <Textarea
+              id="applicationReason"
               minLength={50}
               value={form.applicationReason}
               onChange={(e) =>
                 setForm({ ...form, applicationReason: e.target.value })
               }
             ></Textarea>
-          </LabeledInputContainer>
+          </ContentTextContainer>
           <Button
             disabled={
               form.applicationReason.length < 50 || !form.date || !form.time

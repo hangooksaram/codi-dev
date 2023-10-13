@@ -6,7 +6,7 @@ import { FormContainer } from "@/ui/atoms/Container";
 import Typography from "@/ui/atoms/Typography";
 import theme from "@/ui/theme";
 import Button from "@/ui/atoms/Button";
-import LabeledInputContainer from "@/ui/molecules/Input/LabeledInput";
+import ContentTextContainer from "@/ui/molecules/Container/ContentTextContainer";
 import IconInputContainer from "@/ui/molecules/Input/IconInput";
 import Input from "@/ui/atoms/Input";
 import FlexBox from "@/ui/atoms/FlexBox";
@@ -132,7 +132,7 @@ const SignUpPage = () => {
 
       <form onSubmit={formik.handleSubmit}>
         <FlexBox direction="column" rowGap="50px">
-          <LabeledInputContainer text="아이디" htmlFor="id">
+          <ContentTextContainer text="아이디" htmlFor="id">
             <FlexBox direction="column" alignItems="flex-start" rowGap="10px">
               <FlexBox>
                 <IconInputContainer iconComponent={<IdIcon />}>
@@ -164,9 +164,9 @@ const SignUpPage = () => {
                   "사용할 수 있는 아이디 입니다."}
               </div>
             </FlexBox>
-          </LabeledInputContainer>
+          </ContentTextContainer>
 
-          <LabeledInputContainer
+          <ContentTextContainer
             text="비밀번호"
             helpText="영어, 숫자, 특수기호가 포함된 8자리 이상 비밀번호를 입력해주세요."
             htmlFor="password"
@@ -185,8 +185,8 @@ const SignUpPage = () => {
                 outline
               />
             </IconInputContainer>
-          </LabeledInputContainer>
-          <LabeledInputContainer text="이름" htmlFor="name">
+          </ContentTextContainer>
+          <ContentTextContainer text="이름" htmlFor="name">
             <IconInputContainer iconComponent={<TagIcon />}>
               <Input
                 id="name"
@@ -199,9 +199,9 @@ const SignUpPage = () => {
                 outline
               />
             </IconInputContainer>
-          </LabeledInputContainer>
+          </ContentTextContainer>
 
-          <LabeledInputContainer text="성별" htmlFor="gender">
+          <ContentTextContainer text="성별" htmlFor="gender">
             <FlexBox columnGap="10px">
               {GENDER_LIST.map((genderType) => (
                 <Button
@@ -221,9 +221,9 @@ const SignUpPage = () => {
                 </Button>
               ))}
             </FlexBox>
-          </LabeledInputContainer>
+          </ContentTextContainer>
 
-          <LabeledInputContainer text="생년 월일" htmlFor="birth">
+          <ContentTextContainer text="생년 월일" htmlFor="birth">
             <FlexBox columnGap="10px">
               <Dropdown
                 width="100%"
@@ -247,8 +247,8 @@ const SignUpPage = () => {
                 title="일"
               />
             </FlexBox>
-          </LabeledInputContainer>
-          <LabeledInputContainer text="이메일" htmlFor="email">
+          </ContentTextContainer>
+          <ContentTextContainer text="이메일" htmlFor="email">
             <FlexBox columnGap="10px">
               <Input
                 id="email"
@@ -270,7 +270,7 @@ const SignUpPage = () => {
                 type="form"
               />
             </FlexBox>
-          </LabeledInputContainer>
+          </ContentTextContainer>
           <Button width="100%" variant="square" type="submit">
             가입완료
           </Button>
