@@ -28,6 +28,7 @@ import { SignUpBody } from "@/types/api/sign";
 import { setLocalUser } from "@/utils/tempUser";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/features/user/userSlice";
+import Label from "@/ui/atoms/Label";
 
 const signUpFormValueProps = {
   birth: "",
@@ -132,10 +133,11 @@ const SignUpPage = () => {
 
       <form onSubmit={formik.handleSubmit}>
         <FlexBox direction="column" rowGap="50px">
-          <ContentTextContainer text="아이디" htmlFor="id">
+          <ContentTextContainer text="아이디">
             <FlexBox direction="column" alignItems="flex-start" rowGap="10px">
               <FlexBox>
                 <IconInputContainer iconComponent={<IdIcon />}>
+                  <Label htmlFor="id" text="아이디" />
                   <Input
                     id="id"
                     name="id"
@@ -147,6 +149,7 @@ const SignUpPage = () => {
                     outline
                   />
                 </IconInputContainer>
+
                 <Button
                   onClick={checkDuplicateId}
                   width="30%"
@@ -169,9 +172,9 @@ const SignUpPage = () => {
           <ContentTextContainer
             text="비밀번호"
             helpText="영어, 숫자, 특수기호가 포함된 8자리 이상 비밀번호를 입력해주세요."
-            htmlFor="password"
           >
             <IconInputContainer iconComponent={<PasswordIcon />}>
+              <Label htmlFor="password" text="비밀번호" />
               <Input
                 id="password"
                 name="password"
@@ -186,8 +189,9 @@ const SignUpPage = () => {
               />
             </IconInputContainer>
           </ContentTextContainer>
-          <ContentTextContainer text="이름" htmlFor="name">
+          <ContentTextContainer text="이름">
             <IconInputContainer iconComponent={<TagIcon />}>
+              <Label htmlFor="name" text="이름" />
               <Input
                 id="name"
                 name="name"
@@ -201,7 +205,7 @@ const SignUpPage = () => {
             </IconInputContainer>
           </ContentTextContainer>
 
-          <ContentTextContainer text="성별" htmlFor="gender">
+          <ContentTextContainer text="성별">
             <FlexBox columnGap="10px">
               {GENDER_LIST.map((genderType) => (
                 <Button
@@ -223,23 +227,29 @@ const SignUpPage = () => {
             </FlexBox>
           </ContentTextContainer>
 
-          <ContentTextContainer text="생년 월일" htmlFor="birth">
+          <ContentTextContainer text="생년 월일">
             <FlexBox columnGap="10px">
+              <Label htmlFor="birthYear" text="생년월일 연도" />
               <Dropdown
+                id="birthYear"
                 width="100%"
                 categories={DATE.YEARS}
                 selectedCategory={birth.year!}
                 setSelectedCategory={(year) => setBirth({ ...birth, year })}
                 title="연도"
               />
+              <Label htmlFor="birthMonth" text="생년월일 월" />
               <Dropdown
+                id="birthMonth"
                 width="100%"
                 categories={DATE.MONTHS}
                 selectedCategory={birth.month!}
                 setSelectedCategory={(month) => setBirth({ ...birth, month })}
                 title="월"
               />
+              <Label htmlFor="birthDay" text="생년월일 일" />
               <Dropdown
+                id="birthDay"
                 width="100%"
                 categories={DATE.DAYS}
                 selectedCategory={birth.day!}
@@ -248,8 +258,9 @@ const SignUpPage = () => {
               />
             </FlexBox>
           </ContentTextContainer>
-          <ContentTextContainer text="이메일" htmlFor="email">
+          <ContentTextContainer text="이메일">
             <FlexBox columnGap="10px">
+              <Label htmlFor="email" text="이메일" />
               <Input
                 id="email"
                 name="email"
@@ -261,7 +272,9 @@ const SignUpPage = () => {
                 outline
               />
               @
+              <Label htmlFor="emailType" text="이메일 유형" />
               <Dropdown
+                id="emailType"
                 selectedCategory={emailType}
                 setSelectedCategory={setEmailType}
                 width="30%"
