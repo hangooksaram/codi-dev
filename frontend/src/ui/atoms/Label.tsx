@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 
 const StyledLabel = styled.label(() => ({
-  position: "absolute",
+  position: "fixed",
   opacity: "0",
 }));
 

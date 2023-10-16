@@ -162,7 +162,7 @@ const DropdownGridCard = styled(Card)(() => ({
   padding: "40px",
 }));
 
-const DropdownItem = styled.li`
+const DropdownItem = styled.button`
   height: 50px;
   display: flex;
   align-items: center;
