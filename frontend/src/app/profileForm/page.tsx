@@ -35,6 +35,7 @@ import { RegisterProfileResponse } from "@/types/api/profile";
 import { useDispatch } from "react-redux";
 import useInitiallizeFormValues from "@/hooks/useInitiallizeFormValues";
 import ContentTextContainer from "@/ui/molecules/Container/ContentTextContainer";
+import Label from "@/ui/atoms/Label";
 
 const ProfileFormPage = () => {
   const dispatch = useDispatch();
@@ -185,7 +186,12 @@ const ProfileFormPage = () => {
                 />
               </div>
             </IconInputContainer>
+            <Label
+              htmlFor="profileImage"
+              text="프로필 사진 등록 (선택사항입니다)"
+            />
             <Button
+              id="profileImage"
               width="30%"
               variant="square"
               type="button"
@@ -198,6 +204,7 @@ const ProfileFormPage = () => {
           <ContentTextContainer text="장애 분류">
             <FlexBox direction="column" rowGap="10px">
               <FlexBox columnGap="10px">
+                <Label htmlFor="disability" text="장애 분류" />
                 <Dropdown
                   id="disability"
                   invalid={invalid("disability", { required: true })}
@@ -205,7 +212,6 @@ const ProfileFormPage = () => {
                   type="form"
                   title="소분류"
                   categories={DISABILITIES}
-                  contentType="grid"
                   selectedCategory={form.disability}
                   setSelectedCategory={(disability) =>
                     handleFormValueChange({
@@ -220,6 +226,7 @@ const ProfileFormPage = () => {
           <ContentTextContainer text="중증도">
             {SEVERITIES.map((severity) => (
               <Button
+                id={severity}
                 key={severity}
                 width="50%"
                 type="button"
@@ -245,6 +252,7 @@ const ProfileFormPage = () => {
           </ContentTextContainer>
           <ContentTextContainer text="학력" helpText="(선택)">
             <FlexBox columnGap="10px">
+              <Label htmlFor="bigEducation" text="최종 학력 (선택사항입니다)" />
               <Dropdown
                 id="bigEducation"
                 width="40%"
@@ -257,6 +265,7 @@ const ProfileFormPage = () => {
                 categories={["초등학교", "중학교", "고등학교", "대학교"]}
               />
               <IconInputContainer iconComponent={<Search />}>
+                <Label htmlFor="education" text="대학교 입력" />
                 <Input
                   disabled={bigEducationCategory !== "대학교"}
                   id="education"
@@ -271,6 +280,7 @@ const ProfileFormPage = () => {
           </ContentTextContainer>
           <ContentTextContainer text="희망 직무">
             <FlexBox columnGap="10px">
+              <Label htmlFor="job" text="직무 분류" />
               <JobSelector
                 id="job"
                 invalid={invalid("job", { required: true })}
@@ -279,6 +289,7 @@ const ProfileFormPage = () => {
                 open={openJobSelector}
                 setOpen={setOpenJobSelector}
               />
+              <Label htmlFor="desiredJob" text="희망 직무" />
               <Input
                 id="desiredJob"
                 name="desiredJob"
@@ -292,6 +303,7 @@ const ProfileFormPage = () => {
             </FlexBox>
           </ContentTextContainer>
           <ContentTextContainer text="취업 상태">
+            <Label htmlFor="employmentStatus" text="취업 상태" />
             <Dropdown
               id="employmentStatus"
               width="40%"
@@ -309,6 +321,7 @@ const ProfileFormPage = () => {
             ></Dropdown>
           </ContentTextContainer>
           <ContentTextContainer text="자기 소개">
+            <Label htmlFor="introduction" text="자기 소개" />
             <Textarea
               id="introduction"
               name="introduction"
