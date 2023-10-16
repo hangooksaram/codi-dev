@@ -172,6 +172,7 @@ const DropdownItem = styled.button`
   font-size: ${theme.fonts.size.sm};
   font-weight: ${theme.fonts.weight.regular};
   background-color: ${theme.colors.white};
+  border: none;
   cursor: pointer;
 `;
 
