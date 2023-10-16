@@ -1,3 +1,5 @@
+import Label from "@/ui/atoms/Label";
+import { accessibleFormattedDate, formattedDate } from "@/utils/dateFormat";
 import { useRef } from "react";
 import { Button, DayProps, useDayRender } from "react-day-picker";
 
@@ -21,6 +23,17 @@ export const CustomDay = (props: DayProps) => {
   }
 
   return (
-    <Button {...dayRender.buttonProps} ref={buttonRef} onClick={handleClick} />
+    <>
+      <Label
+        htmlFor={props.date.toString()}
+        text={accessibleFormattedDate(props.date)}
+      />
+      <Button
+        id={props.date.toString()}
+        {...dayRender.buttonProps}
+        ref={buttonRef}
+        onClick={handleClick}
+      />
+    </>
   );
 };
