@@ -21,6 +21,7 @@ import { selectUser } from "@/features/user/userSlice";
 import { useSelector } from "react-redux";
 import { useApplyMentoringMutation } from "@/queries/mentoring/menteeMentoringQuery";
 import { ApplyMentoringBody } from "@/types/api/mentoring";
+import Label from "@/ui/atoms/Label";
 
 const initialForm: ApplyMentoringBody = {
   date: "",
@@ -119,6 +120,10 @@ const MentoringApplyFormPage = () => {
             </CalendarContainer>
           </LabelBox>
           <ContentTextContainer text="하고싶은 말" helpText="(최소 50 글자)">
+            <Label
+              htmlFor="applicationReason"
+              text="하고싶은 말 (최소 50 글자)"
+            />
             <Textarea
               id="applicationReason"
               minLength={50}

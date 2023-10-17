@@ -9,6 +9,17 @@ export const formattedDate = (date: Date | undefined) => {
     : "";
 };
 
+export const accessibleFormattedDate = (date: Date | undefined) => {
+  const month = date?.getMonth()! + 1;
+  const day = date?.getDate()!;
+
+  return date !== undefined
+    ? `${date?.getFullYear()}년 ${month < 10 ? `0${month}` : month}월 ${
+        day < 10 ? `0${day}` : day
+      }일`
+    : "";
+};
+
 export const formattedMonth = (date: Date | undefined) => {
   const month = date?.getMonth()! + 1;
 
