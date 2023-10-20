@@ -144,7 +144,6 @@ const MentorRegisterForm = () => {
           <ContentTextContainer
             labelColor={theme.colors.secondary}
             text="직무경력"
-            htmlFor="job"
           >
             <FlexBox direction="column" rowGap="14px">
               <Input
@@ -163,6 +162,7 @@ const MentorRegisterForm = () => {
                   columnGap="10px"
                 >
                   <JobSelector
+                    id="job"
                     invalid={invalid("job", { required: true })}
                     selected={job}
                     setSelected={setJob}
@@ -201,7 +201,6 @@ const MentorRegisterForm = () => {
 
           <ContentTextContainer
             text="직무명 입력"
-            htmlFor="jobName"
             labelColor={theme.colors.secondary}
           >
             <Input
@@ -248,7 +247,6 @@ const MentorRegisterForm = () => {
           </ContentTextContainer>
           <ContentTextContainer
             text="자기 소개"
-            htmlFor="introduction"
             labelColor={theme.colors.secondary}
           >
             <Textarea

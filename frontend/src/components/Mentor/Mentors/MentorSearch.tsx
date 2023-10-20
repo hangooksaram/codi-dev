@@ -74,11 +74,7 @@ const MentorSearch = ({
           },
         }}
       >
-        <ContentTextContainer
-          text="원하는 멘토를 검색하세요"
-          type="general"
-          htmlFor="search-mentor"
-        >
+        <ContentTextContainer text="원하는 멘토를 검색하세요">
           <IconInputContainer iconComponent={<Search />}>
             <Input
               id="search-mentor"

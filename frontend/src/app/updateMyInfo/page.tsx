@@ -61,7 +61,7 @@ const UpdateMyInfoPage = () => {
       </Typography>
       <FormContainer>
         <FlexBox direction="column" rowGap="50px">
-          <ContentTextContainer text="현재 비밀번호" htmlFor="oldPassword">
+          <ContentTextContainer text="현재 비밀번호">
             <Input
               value={passwordInfo.oldPassword as string}
               onChange={(e) =>
@@ -72,7 +72,7 @@ const UpdateMyInfoPage = () => {
               }
             />
           </ContentTextContainer>
-          <ContentTextContainer text="새로운 비밀번호" htmlFor="newPassword">
+          <ContentTextContainer text="새로운 비밀번호">
             <Input
               value={passwordInfo.newPassword as string}
               onChange={(e) =>
