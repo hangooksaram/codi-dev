@@ -1,4 +1,3 @@
-import { LabelType } from "@/types/ui";
 import FlexBox from "@/ui/atoms/FlexBox";
 import { ContentText } from "@/ui/atoms/ContentText";
 import styled from "@emotion/styled";
