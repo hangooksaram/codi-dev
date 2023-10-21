@@ -170,6 +170,7 @@ const MentorRegisterForm = () => {
                     setOpen={setOpenJobSelector}
                   />
                   <Dropdown
+                    id="career"
                     width="50%"
                     title="경력"
                     categories={CAREERS}
