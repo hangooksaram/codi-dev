@@ -1,9 +1,8 @@
 package codi.backend.domain.mentor.service;
 
 import codi.backend.domain.member.entity.Member;
-import codi.backend.domain.member.repository.MemberRepository;
 import codi.backend.domain.member.service.MemberService;
-import codi.backend.domain.member.utils.CustomAuthorityUtils;
+import codi.backend.auth.utils.CustomAuthorityUtils;
 import codi.backend.domain.mentor.dto.MentorDto;
 import codi.backend.domain.mentor.entity.Mentor;
 import codi.backend.domain.mentor.repository.MentorRepository;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,11 +24,13 @@ public class MentorServiceImpl implements MentorService{
     private final MentorRepository mentorRepository;
     private final MemberService memberService;
     private final S3Service s3Service;
+    private final CustomAuthorityUtils authorityUtils;
 
-    public MentorServiceImpl(MentorRepository mentorRepository, MemberService memberService, S3Service s3Service) {
+    public MentorServiceImpl(MentorRepository mentorRepository, MemberService memberService, S3Service s3Service, CustomAuthorityUtils authorityUtils) {
         this.mentorRepository = mentorRepository;
         this.memberService = memberService;
         this.s3Service = s3Service;
+        this.authorityUtils = authorityUtils;
     }
 
     @Transactional
@@ -59,7 +59,7 @@ public class MentorServiceImpl implements MentorService{
         mentor.setMember(member);
 
         // 멘토 권한 추가(반드시 위에서 mentor 객체를 연결한 다음 실행되어야 한다.)
-        member.setRoles(CustomAuthorityUtils.createRoles(member));
+        member.setRoles(authorityUtils.createRoles(member));
 
         // mentor DB 저장
         return mentorRepository.save(mentor);
@@ -137,7 +137,7 @@ public class MentorServiceImpl implements MentorService{
     }
 
     @Override
-    public Page<MentorDto.SearchMentorResponse> getFilteredMentors(String job, String career, String disability, String keyword, Pageable pageable) {
+    public Page<MentorDto.SearchMentorResponse> searchMentors(String job, String career, String disability, String keyword, Pageable pageable) {
         return mentorRepository.search(job, career, disability, keyword, pageable);
     }
 

@@ -1,5 +1,6 @@
 package codi.backend.domain.member.controller;
 
+import codi.backend.auth.userdetails.CustomUserDetails;
 import codi.backend.domain.member.dto.MemberDto;
 import codi.backend.domain.member.entity.Member;
 import codi.backend.domain.member.mapper.MemberMapper;
@@ -11,6 +12,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,20 +46,18 @@ public class MemberController {
     }
 
     // 비밀번호 변경
-    // TODO 추후 로그인 한 사용자의 로그인 정보를 함께 받는 방식으로 변경이 필요
     @ApiOperation(value = "회원정보 수정(비밀번호 변경)", notes = "현재 비밀번호와 새 비밀번호를 입력해서 비밀번호를 수정한다. 현재는 변경할 정보가 비밀번호 밖에 없기 때문에 해당 방식으로 구현했다.")
-    @PatchMapping("/{member-id}")
-    public ResponseEntity updateMember(@PathVariable("member-id") String memberId, @Valid @RequestBody MemberDto.MemberPatch memberPatchDto) {
-        memberService.updateMemberInformation(memberId, memberPatchDto.getOldPassword(), memberPatchDto.getNewPassword());
+    @PatchMapping
+    public ResponseEntity updateMember(@AuthenticationPrincipal User principal, @Valid @RequestBody MemberDto.MemberPatch memberPatchDto) {
+        memberService.updateMemberInformation(principal.getUsername(), memberPatchDto.getOldPassword(), memberPatchDto.getNewPassword());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     // 마이페이지 조회
-    // TODO 추후 로그인 한 사용자의 로그인 정보를 함께 받는 방식으로 변경이 필요
     @ApiOperation(value = "마이페이지 조회", notes = "회원가입 시 입력한 정보를 조회할 수 있다.")
-    @GetMapping("/{member-id}")
-    public ResponseEntity getMember(@PathVariable("member-id") String memberId) {
-        MemberDto.MemberResponse member = memberMapper.memberToMemberResponse(memberService.findMember(memberId));
+    @GetMapping
+    public ResponseEntity getMember(@AuthenticationPrincipal User principal) {
+        MemberDto.MemberResponse member = memberMapper.memberToMemberResponse(memberService.findMember(principal.getUsername()));
         return new ResponseEntity<>(member, HttpStatus.OK);
     }
 }

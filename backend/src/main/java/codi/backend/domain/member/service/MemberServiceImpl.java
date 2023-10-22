@@ -3,7 +3,7 @@ package codi.backend.domain.member.service;
 import codi.backend.domain.member.dto.GaraDto;
 import codi.backend.domain.member.entity.Member;
 import codi.backend.domain.member.repository.MemberRepository;
-import codi.backend.domain.member.utils.CustomAuthorityUtils;
+import codi.backend.auth.utils.CustomAuthorityUtils;
 import codi.backend.domain.mentor.entity.Mentor;
 import codi.backend.domain.profile.entity.Profile;
 import codi.backend.global.exception.BusinessLogicException;
@@ -13,17 +13,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class MemberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final CustomAuthorityUtils authorityUtils;
 
-    public MemberServiceImpl(MemberRepository memberRepository, PasswordEncoder passwordEncoder) {
+    public MemberServiceImpl(MemberRepository memberRepository, PasswordEncoder passwordEncoder, CustomAuthorityUtils authorityUtils) {
         this.memberRepository = memberRepository;
         this.passwordEncoder = passwordEncoder;
+        this.authorityUtils = authorityUtils;
     }
 
     @Transactional
@@ -37,7 +38,7 @@ public class MemberServiceImpl implements MemberService{
         member.setPassword(passwordEncoder.encode(member.getPassword()));
 
         // Role 설정
-        member.setRoles(CustomAuthorityUtils.createRoles(member));
+        member.setRoles(authorityUtils.createRoles(member));
 
         return memberRepository.save(member);
     }
