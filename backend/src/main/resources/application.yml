@@ -54,3 +54,7 @@ cloud:
       static: ${AWS_REGION}
     stack:
       auto: false
+jwt:
+  secret-key: ${JWT_SECRET_KEY}
+  access-token-expiration-minutes: 60
+  refresh-token-expiration-minutes: 10080

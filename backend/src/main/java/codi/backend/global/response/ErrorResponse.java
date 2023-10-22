@@ -22,4 +22,8 @@ public class ErrorResponse {
         errorResponse.path = path;
         return errorResponse;
     }
+
+    public static ErrorResponse of(int status, String message) {
+        return of(status, message, null);
+    }
 }

@@ -1,6 +1,5 @@
 package codi.backend.domain.mentor.service;
 
-import codi.backend.domain.favorite.entity.Favorite;
 import codi.backend.domain.mentor.dto.MentorDto;
 import codi.backend.domain.mentor.entity.Mentor;
 import org.springframework.data.domain.Page;
@@ -14,7 +13,7 @@ public interface MentorService {
     Mentor becomeMentor(String memberId, Mentor mentor, MultipartFile file);
     Mentor updateMentorInformation(Long mentorId, Mentor mentor, MultipartFile file);
     Mentor findMentor(Long mentorId);
-    Page<MentorDto.SearchMentorResponse> getFilteredMentors(String job, String career, String disability, String keyword, Pageable pageable);
+    Page<MentorDto.SearchMentorResponse> searchMentors(String job, String career, String disability, String keyword, Pageable pageable);
     List<MentorDto.SearchMentorResponse> recommendMentors(MentorDto.RecommendationMentorRequest request);
 
 }

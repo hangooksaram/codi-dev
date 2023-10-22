@@ -29,6 +29,11 @@ dependencies {
 	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
+	// jwt
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+	runtimeOnly	'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
 	// querydsl
 	implementation 'com.querydsl:querydsl-jpa:5.0.0'
 	annotationProcessor 'com.querydsl:querydsl-apt:5.0.0'
@@ -48,7 +53,7 @@ dependencies {
 	// aws - 보안 취약점 이슈로 버전 변경
 	implementation 'com.amazonaws:aws-java-sdk-s3:1.12.13'
 
-//	runtimeOnly 'com.mysql:mysql-connector-j'
+	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 

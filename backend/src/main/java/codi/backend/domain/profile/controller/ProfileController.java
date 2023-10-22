@@ -1,5 +1,6 @@
 package codi.backend.domain.profile.controller;
 
+import codi.backend.auth.userdetails.CustomUserDetails;
 import codi.backend.domain.profile.dto.ProfileDto;
 import codi.backend.domain.profile.entity.Profile;
 import codi.backend.domain.profile.mapper.ProfileMapper;
@@ -9,6 +10,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,42 +33,39 @@ public class ProfileController {
     }
 
     // 프로필 등록
-    // TODO 추후 로그인 한 사용자의 로그인 정보를 함께 받는 방식으로 변경이 필요
     @ApiOperation(value = "프로필 등록", notes = "프로필 이미지, 직무, 경력, 학력, 장애 구분, 중증도, 장애 기간을 입력해서 프로필을 작성한다.")
-    @PostMapping("/{member-id}")
-    public ResponseEntity createProfile(@PathVariable("member-id") String memberId,
+    @PostMapping
+    public ResponseEntity createProfile(@AuthenticationPrincipal CustomUserDetails principal,
                                         @Valid @RequestPart(value = "profile") ProfileDto.ProfilePost profilePostDto,
                                         @RequestPart(value = "file", required = false) MultipartFile file) {
-        Profile profile = profileService.createProfile(memberId, profileMapper.profilePostDtoToProfile(profilePostDto), file);
+        Profile profile = profileService.createProfile(principal.getUsername(), profileMapper.profilePostDtoToProfile(profilePostDto), file);
         ProfileDto.ProfileResponse response = profileMapper.profileToProfileResponse(profile);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     // 프로필 정보 수정
-    // TODO 추후 로그인 한 사용자의 로그인 정보를 함께 받는 방식으로 변경이 필요
     @ApiOperation(value = "프로필 정보 수정", notes = "프로필 이미지, 직무, 연차, 학력, 장애구분, 중증도, 장애기간, 소개를 선택해서 수정할 수 있다.")
-    @PatchMapping("/{profile-id}")
-    public ResponseEntity updateProfile(@PathVariable("profile-id") Long profileId,
+    @PatchMapping
+    public ResponseEntity updateProfile(@AuthenticationPrincipal CustomUserDetails principal,
                                         @Valid @RequestPart(value = "profile", required = false) ProfileDto.ProfilePatch profilePatchDto,
                                         @RequestPart(value = "file", required = false) MultipartFile file) {
-        Profile profile = profileService.updateProfileInformation(profileId, profileMapper.profilePatchDtoToProfile(profilePatchDto), file);
+        Profile profile = profileService.updateProfileInformation(principal.getProfileId(), profileMapper.profilePatchDtoToProfile(profilePatchDto), file);
         ProfileDto.ProfileResponse response = profileMapper.profileToProfileResponse(profile);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @ApiOperation(value = "프로필 이미지 삭제", notes = "memberId에 해당하는 사용자의 프로필 이미지를 삭제한다.")
-    @DeleteMapping("profile-image/{profile-id}")
+    @DeleteMapping("/profile-image/{profile-id}")
     public ResponseEntity deleteProfileImg(@PathVariable("profile-id") Long profileId) {
         profileService.deleteProfileImg(profileId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     // 프로필 정보 조회
-    // TODO 추후 로그인 한 사용자의 로그인 정보를 함께 받는 방식으로 변경이 필요
     @ApiOperation(value = "프로필 페이지 조회", notes = "프로필 페이지에 입력한 정보를 조회할 수 있다.")
-    @GetMapping("/{profile-id}")
-    public ResponseEntity getProfile(@PathVariable("profile-id") Long profileId) {
-        ProfileDto.ProfileResponse profile = profileMapper.profileToProfileResponse(profileService.findProfile(profileId));
+    @GetMapping
+    public ResponseEntity getProfile(@AuthenticationPrincipal CustomUserDetails principal) {
+        ProfileDto.ProfileResponse profile = profileMapper.profileToProfileResponse(profileService.findProfile(principal.getProfileId()));
         return new ResponseEntity<>(profile, HttpStatus.OK);
     }
 }

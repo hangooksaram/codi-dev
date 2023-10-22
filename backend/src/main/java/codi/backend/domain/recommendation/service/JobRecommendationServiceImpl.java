@@ -32,8 +32,7 @@ public class JobRecommendationServiceImpl implements JobRecommendationService {
     @Transactional(readOnly = true)
     @Override
     public JobRecommendationDto.Response recommendJobs(String memberId) {
-        if (memberId == null) return JobRecommendationDto.Response.builder()
-                .build();
+        if (memberId == null) return JobRecommendationDto.Response.builder().build();
 
         Member member = memberService.findMember(memberId);
         Profile profile = profileService.findProfile(member.getProfile().getId());
