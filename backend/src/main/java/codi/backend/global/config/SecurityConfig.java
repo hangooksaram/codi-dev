@@ -50,22 +50,35 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests(authorize -> authorize
                         // member
-                        .antMatchers(HttpMethod.POST, "/**/members").permitAll()
-                        .antMatchers(HttpMethod.PATCH, "/**/members").hasRole("MENTEE")
-                        .antMatchers(HttpMethod.GET, "/**/members").hasAnyRole("MENTEE", "ADMIN")
+                        .antMatchers(HttpMethod.PATCH, "/api/v1/members").hasRole("MENTEE")
+                        .antMatchers(HttpMethod.GET, "/api/v1/members").hasAnyRole("MENTEE", "ADMIN")
 
-                        // profile(mentee)
-                        .antMatchers(HttpMethod.POST, "/**/profiles").hasRole("MENTEE")
-                        .antMatchers(HttpMethod.PATCH, "/**/profiles").hasRole("MENTEE")
-                        .antMatchers(HttpMethod.GET, "/**/profiles").hasRole("MENTEE")
+                        // profile(mentee), favorite
+                        .antMatchers(HttpMethod.POST, "/api/v1/profiles/**").hasRole("MENTEE")
+                        .antMatchers(HttpMethod.PATCH, "/api/v1/profiles/**").hasRole("MENTEE")
+                        .antMatchers(HttpMethod.GET, "/api/v1/profiles/**").hasRole("MENTEE")
+                        .antMatchers(HttpMethod.DELETE, "/api/v1/profiles/**").hasRole("MENTEE")
 
                         // mentor
-                        .antMatchers(HttpMethod.POST, "/**/mentors").hasRole("MENTEE")
-                        .antMatchers(HttpMethod.PATCH, "/**/mentors").hasRole("MENTOR")
-                        .antMatchers(HttpMethod.GET, "/**/mentors").hasRole("MENTOR")
+                        .antMatchers(HttpMethod.POST, "/api/v1/mentors").hasRole("MENTOR")
+                        .antMatchers(HttpMethod.PATCH, "/api/v1/mentors").hasRole("MENTOR")
+                        .antMatchers(HttpMethod.GET, "/api/v1/mentors").hasRole("MENTOR")
+
+                        // mentee's mentoring
+                        .antMatchers(HttpMethod.POST, "/api/v1/mentees/**").hasRole("MENTEE")
+                        .antMatchers(HttpMethod.PATCH, "/api/v1/mentees/**").hasRole("MENTEE")
+                        .antMatchers(HttpMethod.GET, "/api/v1/mentees/**").hasRole("MENTEE")
+
+                        // mentor's mentoring
+                        .antMatchers(HttpMethod.PATCH, "/api/v1/mentors/mentoring").hasRole("MENTOR")
+                        .antMatchers(HttpMethod.GET, "/api/v1/mentors/mentoring").hasRole("MENTOR")
+
+                        // schedule
+                        .antMatchers(HttpMethod.POST, "/api/v1/schedule").hasRole("MENTOR")
+                        .antMatchers(HttpMethod.GET, "/api/v1/schedule/**").hasRole("MENTOR")
 
                         .anyRequest().permitAll()
-                ); // url 별 접근 권한 설정하기
+                );
         return http.build();
     }
 
