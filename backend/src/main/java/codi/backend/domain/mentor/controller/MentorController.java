@@ -1,5 +1,6 @@
 package codi.backend.domain.mentor.controller;
 
+import codi.backend.auth.service.AuthService;
 import codi.backend.auth.userdetails.CustomUserDetails;
 import codi.backend.domain.mentor.dto.MentorDto;
 import codi.backend.domain.mentor.entity.Mentor;
@@ -13,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -30,12 +32,12 @@ import java.util.List;
 @Slf4j
 public class MentorController {
     private final MentorService mentorService;
-    private final ProfileService profileService;
+    private final AuthService authService;
     private final MentorMapper mentorMapper;
 
-    public MentorController(MentorService mentorService, ProfileService profileService, MentorMapper mentorMapper) {
+    public MentorController(MentorService mentorService, AuthService authService, MentorMapper mentorMapper) {
         this.mentorService = mentorService;
-        this.profileService = profileService;
+        this.authService = authService;
         this.mentorMapper = mentorMapper;
     }
 
@@ -47,7 +49,13 @@ public class MentorController {
                                        @RequestPart(value = "file", required = false) MultipartFile file) {
         Mentor mentor = mentorService.becomeMentor(principal.getUsername(), mentorMapper.mentorPostDtoToMentor(mentorPostDto), file);
         MentorDto.MentorResponse response = mentorMapper.mentorToMentorResponse(mentor);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+
+        String newAccessToken = authService.reissueAccessTokenByMemberId(principal.getUsername());
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("new-access-token", "Bearer " + newAccessToken);
+
+        return new ResponseEntity<>(response, headers, HttpStatus.CREATED);
     }
 
     // 멘토 정보 수정
