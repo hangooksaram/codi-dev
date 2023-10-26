@@ -7,6 +7,7 @@ import codi.backend.domain.member.entity.Member;
 import codi.backend.domain.member.repository.MemberRepository;
 import codi.backend.global.exception.BusinessLogicException;
 import codi.backend.global.exception.ExceptionCode;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -50,14 +51,42 @@ public class AuthServiceImpl implements AuthService {
             throw new BusinessLogicException(ExceptionCode.REFRESH_TOKEN_EXPIRED);
         }
 
-        // 새로운 Acces Token 발급
-        Member member = memberRepository.findById(refresh.getMemberId())
+        // 새로운 Access Token 발급
+        String accessToken = generateAccessTokenFromRefreshToken(refresh);
+
+        return accessToken;
+    }
+
+    private boolean isRefreshTokenExpired(RefreshToken refresh) {
+        return refresh.getExpiryDate().before(new Date());
+    }
+
+    @Override
+    public String reissueAccessTokenByMemberId(String username) {
+        // username으로 refresh token을 찾는다.
+        RefreshToken refresh = refreshTokenRepository.findByMemberId(username)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.REFRESH_TOKEN_NOT_FOUND));
+
+        // 토큰의 유효기간이 유효한지 확인
+        if (isRefreshTokenExpired(refresh)) {
+            throw new BusinessLogicException(ExceptionCode.REFRESH_TOKEN_EXPIRED);
+        }
+
+        // 새로운 Access Token 발급
+        String accessToken = generateAccessTokenFromRefreshToken(refresh);
+
+        return accessToken;
+    }
+
+    private String generateAccessTokenFromRefreshToken(RefreshToken refreshToken) {
+        Member member = memberRepository.findById(refreshToken.getMemberId())
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
-        // 중복 코드 추후 수정 필요
         Map<String, Object> claims = new HashMap<>();
         claims.put("username", member.getId());
         claims.put("roles", member.getRoles());
+        claims.put("profileId", member.getProfile().getId());
+        claims.put("mentorId", member.getMentor().getId());
 
         String subject = member.getId();
         Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
@@ -66,9 +95,5 @@ public class AuthServiceImpl implements AuthService {
         String accessToken = jwtTokenizer.generateAccessToken(claims, subject, expiration, base64EncodedSecretKey);
 
         return accessToken;
-    }
-
-    private boolean isRefreshTokenExpired(RefreshToken refresh) {
-        return refresh.getExpiryDate().before(new Date());
     }
 }

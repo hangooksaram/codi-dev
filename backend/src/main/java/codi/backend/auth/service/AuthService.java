@@ -6,4 +6,5 @@ public interface AuthService {
     void login(RefreshToken refreshToken);
     void logout(String refreshToken);
     String reissueAccessToken(String refreshToken);
+    String reissueAccessTokenByMemberId(String username);
 }

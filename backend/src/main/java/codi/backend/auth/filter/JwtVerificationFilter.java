@@ -61,7 +61,6 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         Long mentorId = claims.containsKey("mentorId") ? ((Number) claims.get("mentorId")).longValue() : null;
 
         CustomUserDetails customUserDetails = new CustomUserDetails(username, roles, profileId, mentorId);
-//        User principal = new User(username, "", authorities);
         List<GrantedAuthority> authorities = CustomAuthorityUtils.createAuthorities((List<String>) claims.get("roles"));
         Authentication authentication = new UsernamePasswordAuthenticationToken(customUserDetails, null, authorities);
         SecurityContextHolder.getContext().setAuthentication(authentication);

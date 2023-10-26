@@ -1,5 +1,6 @@
 package codi.backend.domain.profile.controller;
 
+import codi.backend.auth.service.AuthService;
 import codi.backend.auth.userdetails.CustomUserDetails;
 import codi.backend.domain.profile.dto.ProfileDto;
 import codi.backend.domain.profile.entity.Profile;
@@ -8,6 +9,7 @@ import codi.backend.domain.profile.service.ProfileService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,10 +27,12 @@ import javax.validation.Valid;
 @Slf4j
 public class ProfileController {
     private final ProfileService profileService;
+    private final AuthService authService;
     private final ProfileMapper profileMapper;
 
-    public ProfileController(ProfileService profileService, ProfileMapper profileMapper) {
+    public ProfileController(ProfileService profileService, AuthService authService, ProfileMapper profileMapper) {
         this.profileService = profileService;
+        this.authService = authService;
         this.profileMapper = profileMapper;
     }
 

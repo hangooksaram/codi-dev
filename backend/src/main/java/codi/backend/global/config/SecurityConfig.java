@@ -60,7 +60,7 @@ public class SecurityConfig {
                         .antMatchers(HttpMethod.DELETE, "/api/v1/profiles/**").hasRole("MENTEE")
 
                         // mentor
-                        .antMatchers(HttpMethod.POST, "/api/v1/mentors").hasRole("MENTOR")
+                        .antMatchers(HttpMethod.POST, "/api/v1/mentors").hasRole("MENTEE")
                         .antMatchers(HttpMethod.PATCH, "/api/v1/mentors").hasRole("MENTOR")
                         .antMatchers(HttpMethod.GET, "/api/v1/mentors").hasRole("MENTOR")
 
