@@ -6,9 +6,6 @@ import java.util.List;
 
 public class JobRecommendationDto {
     @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
     @Builder
     public static class Response {
         private String disability;
@@ -16,8 +13,6 @@ public class JobRecommendationDto {
     }
 
     @Getter
-    @Setter
-    @NoArgsConstructor
     @AllArgsConstructor
     @Builder
     public static class Info {

@@ -56,9 +56,6 @@ public class ScheduleDto {
     }
 
     @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
     @Builder
     public static class ScheduleMonthlyResponse {
         private String month;
@@ -66,9 +63,6 @@ public class ScheduleDto {
     }
 
     @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
     @Builder
     public static class ScheduleDailyResponse {
         private String date;
@@ -76,8 +70,6 @@ public class ScheduleDto {
     }
 
     @Getter
-    @Setter
-    @NoArgsConstructor
     @AllArgsConstructor
     @Builder
     public static class ScheduleTimeResponse {

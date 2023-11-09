@@ -80,9 +80,6 @@ public class MentoringDto {
 
     // Mentor가 Mentees 정보 조회
     @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
     @Builder
     public static class MentoringMonthlyMenteesResponse {
         private String month;
@@ -90,9 +87,6 @@ public class MentoringDto {
     }
 
     @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
     @Builder
     public static class MentoringMonthlyMentorsResponse {
         private String month;
@@ -100,9 +94,6 @@ public class MentoringDto {
     }
 
     @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
     @Builder
     public static class MentoringDailyMenteesResponse {
         private String date;
@@ -111,9 +102,6 @@ public class MentoringDto {
     }
 
     @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
     @Builder
     public static class MentoringDailyMentorsResponse {
         private String date;
@@ -122,8 +110,6 @@ public class MentoringDto {
     }
 
     @Getter
-    @Setter
-    @NoArgsConstructor
     @AllArgsConstructor
     @Builder
     public static class MenteeInfoResponse {
@@ -138,8 +124,6 @@ public class MentoringDto {
     }
 
     @Getter
-    @Setter
-    @NoArgsConstructor
     @AllArgsConstructor
     @Builder
     public static class MentorInfoResponse {
@@ -155,8 +139,6 @@ public class MentoringDto {
 
     // 멘토 신청 내역 조회
     @Getter
-    @Setter
-    @NoArgsConstructor
     @AllArgsConstructor
     @Builder
     public static class MentoringApplicationResponse {
@@ -167,9 +149,6 @@ public class MentoringDto {
     }
 
     @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
     @Builder
     public static class MentoringApplicationMenteeInfoResponse {
         private Long profileId;
@@ -183,9 +162,6 @@ public class MentoringDto {
 
     // 멘토링 일정 (오늘 날짜)
     @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
     @Builder
     public static class TodayMentoringInfoResponse {
         private String applicationDate;

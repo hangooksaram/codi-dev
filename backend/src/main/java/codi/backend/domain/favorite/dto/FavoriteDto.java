@@ -28,7 +28,6 @@ public class FavoriteDto {
     }
 
     @Getter
-    @Setter
     @Builder
     public static class FavoriteListResponse {
         List<Long> favorites;

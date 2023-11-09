@@ -25,8 +25,6 @@ public class JobRecommendationRepositoryImpl implements JobRecommendationReposit
         int ageStart = (age / 10) * 10;
         int ageEnd = ageStart + 10;
 
-
-
         // 전체 카운트 가져오기
         long totalCount = queryFactory
                 .from(jobRecommendation)

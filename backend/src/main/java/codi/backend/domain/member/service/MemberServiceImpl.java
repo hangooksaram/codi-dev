@@ -1,6 +1,7 @@
 package codi.backend.domain.member.service;
 
 import codi.backend.domain.member.dto.GaraDto;
+import codi.backend.domain.member.dto.MemberDto;
 import codi.backend.domain.member.entity.Member;
 import codi.backend.domain.member.repository.MemberRepository;
 import codi.backend.auth.utils.CustomAuthorityUtils;
@@ -56,16 +57,16 @@ public class MemberServiceImpl implements MemberService{
 
     @Transactional
     @Override
-    public void updateMemberInformation(String memberId, String oldPassword, String newPassword) {
+    public void updateMemberInformation(String memberId, MemberDto.MemberPatch memberPatchDto) {
         Member member = findMember(memberId);
 
-        if (!passwordEncoder.matches(oldPassword, member.getPassword())) {
+        if (!passwordEncoder.matches(memberPatchDto.getOldPassword(), member.getPassword())) {
             throw new BusinessLogicException(ExceptionCode.INVALID_OLD_PASSWORD);
-        } else if (oldPassword.equals(newPassword)) {
+        } else if (memberPatchDto.getOldPassword().equals(memberPatchDto.getNewPassword())) {
             throw new BusinessLogicException(ExceptionCode.SAME_PASSWORD_ERROR);
         }
 
-        member.setPassword(passwordEncoder.encode(newPassword));
+        member.setPassword(passwordEncoder.encode(memberPatchDto.getNewPassword()));
         memberRepository.save(member);
     }
 
