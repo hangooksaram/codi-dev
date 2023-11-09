@@ -48,15 +48,15 @@ public class MemberController {
     // 비밀번호 변경
     @ApiOperation(value = "회원정보 수정(비밀번호 변경)", notes = "현재 비밀번호와 새 비밀번호를 입력해서 비밀번호를 수정한다. 현재는 변경할 정보가 비밀번호 밖에 없기 때문에 해당 방식으로 구현했다.")
     @PatchMapping
-    public ResponseEntity updateMember(@AuthenticationPrincipal User principal, @Valid @RequestBody MemberDto.MemberPatch memberPatchDto) {
-        memberService.updateMemberInformation(principal.getUsername(), memberPatchDto.getOldPassword(), memberPatchDto.getNewPassword());
+    public ResponseEntity updateMember(@AuthenticationPrincipal CustomUserDetails principal, @Valid @RequestBody MemberDto.MemberPatch memberPatchDto) {
+        memberService.updateMemberInformation(principal.getUsername(), memberPatchDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     // 마이페이지 조회
     @ApiOperation(value = "마이페이지 조회", notes = "회원가입 시 입력한 정보를 조회할 수 있다.")
     @GetMapping
-    public ResponseEntity getMember(@AuthenticationPrincipal User principal) {
+    public ResponseEntity getMember(@AuthenticationPrincipal CustomUserDetails principal) {
         MemberDto.MemberResponse member = memberMapper.memberToMemberResponse(memberService.findMember(principal.getUsername()));
         return new ResponseEntity<>(member, HttpStatus.OK);
     }

@@ -45,24 +45,31 @@ public class MentorDto {
     @Getter
     @Builder
     public static class MentorPatch {
+        @NotBlank
         @ApiModelProperty(example = "직무")
         private String job;
 
+        @NotBlank
         @ApiModelProperty(example = "회사 이름")
         private String company;
 
+        @NotBlank
         @ApiModelProperty(example = "프로필에 표시될 직무명")
         private String jobName;
 
+        @NotBlank
         @ApiModelProperty(example = "경력")
         private String career;
 
+        @NotNull
         @ApiModelProperty(example = "재직중 여부")
         private Boolean inOffice;
 
         @ApiModelProperty(example = "멘토 소개")
         private String introduction;
 
+        @NotNull
+        @NotEmpty
         @Size(min = 1, max = 4)
         @ApiModelProperty(example = "멘토링 분야")
         private List<Mentor.MentoringCategory> mentoringCategories;
@@ -128,7 +135,6 @@ public class MentorDto {
     }
 
     @Getter
-    @Setter
     @Builder
     public static class RecommendationMentorRequest {
         @ApiModelProperty(example = "장애 구분")
@@ -189,9 +195,6 @@ public class MentorDto {
 
     @Schema(description = "멘토 검색 결과 응답 DTO")
     @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
     @Builder
     public static class SearchMentorResponse {
         @ApiModelProperty(example = "회원 ID")

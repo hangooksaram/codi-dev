@@ -6,10 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.List;
 
 public class MemberDto {
@@ -17,6 +14,7 @@ public class MemberDto {
     @Builder
     public static class MemberPost {
         @NotBlank
+        @Pattern(regexp = "^[a-z]{4,}$", message = "ID는 최소 4글자 이상의 소문자만 포함해야 합니다")
         @ApiModelProperty(example = "회원 ID")
         private String id;
 
@@ -32,13 +30,14 @@ public class MemberDto {
         @ApiModelProperty(example = "남자 또는 여자")
         private Member.Gender gender;
 
+        @Email
         @NotBlank
         @ApiModelProperty(example = "email@address.com")
         private String email;
 
         @NotBlank
         @Pattern(regexp ="^(?=.*\\d)(?=.*[a-zA-Z])(?=.*[~!@#$%^&*])[\\da-zA-Z~!@#$%^&*]+$",
-                message = "영문자와 숫자로 구성되며 최소 하나 이상의 특수문자(~!@#$%^&*)가 포함되어야합니다. "+
+                message = "영문자와 숫자로 구성되며 최소 하나 이상의 특수문자(~!@#$%^&*)가 포함되어야합니다." +
                         "공백은 포함될 수 없습니다.")
         @Size(min = 8, max = 16)
         @ApiModelProperty(example = "비밀번호 입력, 최소 8자 ~ 최대 16자, 최소 하나 이상의 특수문자가 포함되어야 함")
@@ -46,7 +45,6 @@ public class MemberDto {
     }
 
     @Getter
-    @Builder
     public static class MemberPatch {
         @ApiModelProperty("현재 비밀번호")
         private String oldPassword;
