@@ -16,7 +16,7 @@ const Chip = styled.div(
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    height: size === "small" ? "31px" : "39px",
+    height: size === "small" ? "29px" : "39px",
     fontSize: theme.fonts.size.xs,
     backgroundColor: color ?? theme.colors.background,
     color: fontColor ?? theme.colors.primary,

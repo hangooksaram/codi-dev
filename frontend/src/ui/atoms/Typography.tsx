@@ -19,7 +19,7 @@ const Typography = ({
       color: color ?? theme.colors.black,
       textAlign: align ?? "left",
       height: "fit-content",
-      fontWeight: weight,
+      fontWeight: weight ?? theme.fonts.weight.regular,
       wordBreak: wordBreak ?? "break-word",
       ...rest,
     }))

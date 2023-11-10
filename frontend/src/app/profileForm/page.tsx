@@ -329,8 +329,7 @@ const ProfileFormPage = () => {
               onChange={handleFormValueChange}
               invalid={invalid("introduction", {
                 required: true,
-                min: 10,
-                max: 50,
+                min: 50,
               })}
             />
           </ContentTextContainer>

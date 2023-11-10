@@ -167,6 +167,7 @@ const DropdownItem = styled.button`
   display: flex;
   align-items: center;
   padding: 0px 20px;
+  width: 100%;
   min-width: 130px;
   color: ${theme.colors.black};
   font-size: ${theme.fonts.size.sm};

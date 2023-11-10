@@ -35,7 +35,13 @@ const MainLandingPage = () => {
             size={theme.fonts.size.xl}
             align="center"
             {...{
+              minWidth: "0px",
+              width: "500px",
               marginBottom: "10px",
+              [device("tablet")]: {
+                minWidth: "fit-content",
+                width: "auto",
+              },
             }}
             wordBreak="keep-all"
           >
@@ -51,6 +57,7 @@ const MainLandingPage = () => {
                 router.push("/mentorRegisterForm");
               }}
               variant="default"
+              size="small"
             >
               멘토 신청하러 가기
             </Button>
@@ -90,6 +97,9 @@ const MainBanner = styled.div(({ src }: { src: string }) => ({
   flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
+  [device("tablet")]: {
+    padding: "0px",
+  },
 }));
 
 export default MainLandingPage;

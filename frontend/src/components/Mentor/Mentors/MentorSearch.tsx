@@ -9,6 +9,7 @@ import theme, { device } from "@/ui/theme";
 import { CAREERS, DISABILITIES, JOBS } from "@/constants";
 import { GetMentorsParameters } from "@/types/api/mentor";
 import ContentTextContainer from "@/ui/molecules/Container/ContentTextContainer";
+import Labeled from "@/ui/atoms/Labeled";
 
 const MentorSearch = ({
   query,
@@ -42,6 +43,8 @@ const MentorSearch = ({
         }}
       >
         <Dropdown
+          id="disability"
+          type="form"
           width="30%"
           title="장애구분"
           categories={DISABILITIES}
@@ -51,6 +54,8 @@ const MentorSearch = ({
           }
         />
         <Dropdown
+          id="job"
+          type="form"
           width="40%"
           title="직무"
           categories={JOBS}
@@ -58,6 +63,8 @@ const MentorSearch = ({
           setSelectedCategory={(job) => setQuery({ ...query, job })}
         />
         <Dropdown
+          id="career"
+          type="form"
           width="30%"
           title="경력"
           categories={CAREERS}
@@ -74,7 +81,7 @@ const MentorSearch = ({
           },
         }}
       >
-        <ContentTextContainer text="원하는 멘토를 검색하세요">
+        <Labeled id="search-mentor" text="원하는 멘토를 검색하세요">
           <IconInputContainer iconComponent={<Search />}>
             <Input
               id="search-mentor"
@@ -83,7 +90,7 @@ const MentorSearch = ({
               outline
             />
           </IconInputContainer>
-        </ContentTextContainer>
+        </Labeled>
         <Button
           onClick={() => {
             setSearched(JSON.stringify(query));

@@ -1,12 +1,15 @@
+import { HOMEPAGE_URL } from "@/constants";
 import { selectUser } from "@/features/user/userSlice";
 import FlexBox from "@/ui/atoms/FlexBox";
 import { StyledImage } from "@/ui/atoms/StyledImage";
+import { copyTextToClipBoard } from "@/utils/clipboard";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 
 const ApplyAndShareButtons = () => {
   const { mentorId, id } = useSelector(selectUser);
   const router = useRouter();
+
   return (
     <FlexBox>
       {!mentorId && (
@@ -26,6 +29,7 @@ const ApplyAndShareButtons = () => {
         src="/images/main-mentor-recommend.png"
         alt="recommend-button"
         {...{ cursor: "pointer" }}
+        onClick={() => copyTextToClipBoard(HOMEPAGE_URL, "홈페이지 주소")}
       />
     </FlexBox>
   );
