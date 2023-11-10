@@ -57,6 +57,7 @@ const MainLandingPage = () => {
                 router.push("/mentorRegisterForm");
               }}
               variant="default"
+              size="small"
             >
               멘토 신청하러 가기
             </Button>

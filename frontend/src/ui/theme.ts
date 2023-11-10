@@ -56,10 +56,10 @@ const theme = {
   fonts: {
     size: {
       xl: "50px",
-      lg: "34px",
-      md: "24px",
+      lg: "32px",
+      md: "22px",
       sm: "16px",
-      xs: "16px",
+      xs: "14px",
     },
     weight: {
       black: 900,

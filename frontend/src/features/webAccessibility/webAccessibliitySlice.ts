@@ -24,6 +24,13 @@ export const webAccessibilitySlice = createSlice({
   name: "webAccessibility",
   initialState,
   reducers: {
+    initializeAll: (state) => {
+      state.focused = false;
+      state.highlight = false;
+      state.letterSpacing = "initial";
+      state.lineHeight = 1;
+      state.zoom = 1;
+    },
     setZoom: (state, action) => {
       state.zoom = action.payload;
     },
@@ -48,6 +55,7 @@ export const {
   setLetterSpacing,
   setLineHeight,
   setFocused,
+  initializeAll,
 } = webAccessibilitySlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

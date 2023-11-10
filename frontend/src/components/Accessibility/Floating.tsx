@@ -9,6 +9,7 @@ import { useEffect, useLayoutEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useDispatch } from "react-redux";
 import {
+  initializeAll,
   selectFocused,
   selectHighlight,
   selectLetterSpacing,
@@ -62,6 +63,10 @@ const FloatingMenu = () => {
     }
     dispatch(setFocused());
   };
+
+  const initializeOption = () => {
+    dispatch(initializeAll());
+  };
   return (
     <StyledFloating.Menu color={theme.colors.primary}>
       <FlexBox direction="column" rowGap="40px" alignItems="flex-start">
@@ -73,6 +78,15 @@ const FloatingMenu = () => {
         >
           사용성 옵션
         </Typography>
+        <StyledFloating.InitializeButton
+          size="small"
+          variant="default"
+          onClick={initializeOption}
+          color={theme.colors.gray.main}
+        >
+          초기화
+        </StyledFloating.InitializeButton>
+
         <>
           <Typography
             variant="div"
@@ -83,20 +97,20 @@ const FloatingMenu = () => {
           </Typography>
 
           <FlexBox columnGap="21px">
-            <StyledFloating.Box
+            <StyledFloating.Button
               variant="default"
               color={highlight ? theme.colors.white : theme.colors.primary}
               onClick={() => applyOption("하이라이터")}
             >
-              하이라이트
-            </StyledFloating.Box>
-            <StyledFloating.Box
+              하이라이터
+            </StyledFloating.Button>
+            <StyledFloating.Button
               variant="default"
               color={focused ? theme.colors.white : theme.colors.primary}
               onClick={() => applyOption("포커싱박스")}
             >
               포커싱박스
-            </StyledFloating.Box>
+            </StyledFloating.Button>
           </FlexBox>
         </>
         <>
@@ -115,6 +129,7 @@ const FloatingMenu = () => {
               <Button
                 outline
                 variant="default"
+                size="small"
                 color={
                   letterSpacing === "initial"
                     ? theme.colors.white
@@ -126,6 +141,7 @@ const FloatingMenu = () => {
               </Button>
               <Button
                 outline
+                size="small"
                 color={
                   letterSpacing === "1px"
                     ? theme.colors.white
@@ -147,6 +163,7 @@ const FloatingMenu = () => {
               </Typography>
               <Button
                 outline
+                size="small"
                 color={
                   lineHeight === 1 ? theme.colors.white : theme.colors.primary
                 }
@@ -157,6 +174,7 @@ const FloatingMenu = () => {
               </Button>
               <Button
                 outline
+                size="small"
                 color={
                   lineHeight !== 1 ? theme.colors.white : theme.colors.primary
                 }
@@ -176,6 +194,7 @@ const FloatingMenu = () => {
               </Typography>
               <Button
                 outline
+                size="small"
                 color={zoom === 1 ? theme.colors.white : theme.colors.primary}
                 onClick={() => dispatch(setZoom(1))}
                 variant="default"
@@ -184,6 +203,7 @@ const FloatingMenu = () => {
               </Button>
               <Button
                 outline
+                size="small"
                 color={zoom === 1.1 ? theme.colors.white : theme.colors.primary}
                 onClick={() => dispatch(setZoom(1.1))}
                 variant="default"
@@ -192,6 +212,7 @@ const FloatingMenu = () => {
               </Button>
               <Button
                 outline
+                size="small"
                 color={zoom === 1.2 ? theme.colors.white : theme.colors.primary}
                 onClick={() => dispatch(setZoom(1.2))}
                 variant="default"
@@ -230,11 +251,18 @@ const StyledFloating = {
     bottom: "150px",
     padding: "30px",
   }),
-  Box: styled(Button)({
+  Button: styled(Button)({
     width: "96px",
     height: "96px",
+    padding: "10px",
     borderRadius: "20px",
     boxShadow: `4px 4px 4px 0px #28364D, 2px 2px 4px 0px #2D3C52 inset, -1px -1px 2px 0px #2E3D53`,
+  }),
+  InitializeButton: styled(Button)({
+    position: "absolute",
+    top: "20px",
+    right: "30px",
+    color: theme.colors.black,
   }),
 };
 
