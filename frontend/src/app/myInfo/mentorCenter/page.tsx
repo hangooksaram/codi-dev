@@ -6,15 +6,17 @@ import FlexBox from "@/ui/atoms/FlexBox";
 import { StyledImage } from "@/ui/atoms/StyledImage";
 import Typography from "@/ui/atoms/Typography";
 import theme from "@/ui/theme";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
+
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 const MentorCenterPage = () => {
   const router = useRouter();
   const mentorId = useSelector(selectUser).mentorId;
+
   useEffect(() => {
-    if (mentorId) redirect("/myInfo/mentorCenter/profile/");
+    if (mentorId) router.replace("/myInfo/mentorCenter/profile/");
   }, []);
   return (
     <FlexBox direction="column" rowGap="20px" {...{ minHeight: "500px" }}>
