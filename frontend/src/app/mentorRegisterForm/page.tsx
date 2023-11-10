@@ -172,6 +172,7 @@ const MentorRegisterForm = () => {
                   <Dropdown
                     id="career"
                     width="50%"
+                    type="form"
                     title="경력"
                     categories={CAREERS}
                     selectedCategory={form.career}

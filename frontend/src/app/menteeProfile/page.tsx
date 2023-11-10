@@ -5,7 +5,7 @@ import { useParams, useSearchParams } from "next/navigation";
 
 const MenteeProfilePage = () => {
   const param = useSearchParams();
-  console.log(param);
+
   return (
     <MenteeProfile
       profileId={parseInt(param.get("profileId")!)}
