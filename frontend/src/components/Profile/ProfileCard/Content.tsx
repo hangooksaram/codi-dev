@@ -43,6 +43,7 @@ const Content = ({
         size={theme.fonts.size.lg}
         color={theme.colors.white}
         {...{ marginBottom: "4px" }}
+        weight={theme.fonts.weight.black}
       >
         {name!}
       </Typography>
@@ -92,9 +93,9 @@ const Content = ({
           columnGap="5px"
           {...{ marginBottom: "20px" }}
         >
-          <Chip>{disability!}</Chip>
-          <Chip>{severity}</Chip>
-          {career && <Chip>{career}</Chip>}
+          <Chip size="small">{disability!}</Chip>
+          <Chip size="small">{severity}</Chip>
+          {career && <Chip size="small">{career}</Chip>}
         </FlexBox>
       )}
       {edit ? (

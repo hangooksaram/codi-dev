@@ -86,7 +86,7 @@ const MentorList = ({ mentors }: { mentors: Mentor[] }) => {
               variant="default"
               color={theme.colors.secondary}
             >
-              멘토 프로필 보기
+              멘토프로필 보기
             </Button>
           </ProfileCard>
         )
