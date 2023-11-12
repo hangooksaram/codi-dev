@@ -11,7 +11,7 @@ import Link from "next/link";
 import Profile from "@icons/common/profile.svg";
 import { useEffect, useState } from "react";
 import Dropdown from "@/ui/atoms/Dropdown";
-import { PROFILE_MENU, PROFILE_MENU_HREFS } from "@/constants";
+import { PROFILE_MENU } from "@/constants";
 import MobileAppBar from "./MobileAppBar";
 import { useSelector } from "react-redux";
 import { selectUser } from "@/features/user/userSlice";
@@ -41,7 +41,12 @@ const AppBar = () => {
         setTimeout(() => {
           window.location.reload();
         }, 400);
-      } else router.push(PROFILE_MENU_HREFS[selected]);
+      } else
+        router.push(
+          PROFILE_MENU(user.profileId !== null).find(
+            (menu) => menu.name === selected
+          )!.href!
+        );
     }
     return () => setSelected(undefined);
   }, [selected]);
@@ -64,7 +69,9 @@ const AppBar = () => {
                 <Alarm />
                 <Dropdown
                   type="menu"
-                  categories={PROFILE_MENU}
+                  categories={PROFILE_MENU(user.profileId !== null).map(
+                    ({ name }) => name
+                  )}
                   selectedCategory={selected!}
                   setSelectedCategory={setSelected}
                   left
