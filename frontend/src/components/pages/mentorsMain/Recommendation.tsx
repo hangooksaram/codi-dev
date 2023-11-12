@@ -2,7 +2,7 @@ import theme from "@/ui/theme";
 import { PageComponentLayout } from "@/components/pages/mentorsMain/PageComonentLayout";
 import styled from "@emotion/styled";
 import Logo from "@icons/logo/recommend-icon.svg";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import TitleSection from "./TitleSection";
 import Button from "@/ui/atoms/Button";
 import MentorList from "@/components/Mentor/Mentors/MentorList";
@@ -14,6 +14,7 @@ import ApplyAndShareButtons from "./ApplyAndShareButtons";
 
 const Recommendation = () => {
   const router = useRouter();
+  const isMainPage = !usePathname().includes("mentorsMain");
   const { id } = useSelector(selectUser);
   const { data: jobRanks } = useJobRanksQuery(id!);
   const {
@@ -44,13 +45,17 @@ const Recommendation = () => {
           margin: "40px 0px",
         }}
       >
-        <MoreMentorsButton
-          onClick={() => router.push(`/mentorsMain?fromRecommendation=${true}`)}
-          variant="default"
-          color={theme.colors.primary}
-        >
-          멘토전체보기
-        </MoreMentorsButton>
+        {isMainPage && (
+          <MoreMentorsButton
+            onClick={() =>
+              router.push(`/mentorsMain?fromRecommendation=${true}`)
+            }
+            variant="default"
+            color={theme.colors.primary}
+          >
+            멘토전체보기
+          </MoreMentorsButton>
+        )}
       </div>
       <ApplyAndShareButtons />
     </PageComponentLayout>

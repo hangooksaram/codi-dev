@@ -69,7 +69,9 @@ const SignUpPage = () => {
     day: 1,
   });
 
-  const [isIdDuplicated, setIsIdDuplicated] = useState("initial");
+  const [isIdDuplicated, setIsIdDuplicated] = useState<Boolean | undefined>(
+    undefined
+  );
 
   const router = useRouter();
 
@@ -79,7 +81,7 @@ const SignUpPage = () => {
     );
     handleApiCallback(
       status!,
-      () => setIsIdDuplicated(data === true ? "duplicated" : "not duplicated"),
+      () => setIsIdDuplicated(data === true),
       () => alert(`호출 실패 : ${errorMessage}`)
     );
   };
@@ -144,7 +146,9 @@ const SignUpPage = () => {
                     onChange={formik.handleChange}
                     value={formik.values.id}
                     invalid={
-                      formik.errors.id !== undefined && formik.touched.id
+                      formik.touched.id &&
+                      (formik.errors.id !== undefined ||
+                        formik.values.id === "")
                     }
                     outline
                   />
@@ -156,15 +160,15 @@ const SignUpPage = () => {
                   variant="square"
                   type="button"
                   {...{ marginLeft: "10px" }}
+                  disabled={formik.values.id === ""}
                 >
                   중복확인
                 </Button>
               </FlexBox>
               <div>
-                {isIdDuplicated === "duplicated" &&
+                {isIdDuplicated === true &&
                   "아이디가 중복되었습니다. 다른 아이디를 입력해주세요."}
-                {isIdDuplicated === "not duplicated" &&
-                  "사용할 수 있는 아이디 입니다."}
+                {isIdDuplicated === false && "사용할 수 있는 아이디 입니다."}
               </div>
             </FlexBox>
           </ContentTextContainer>

@@ -15,7 +15,7 @@ import { FormEvent, useEffect, useState } from "react";
 import { searchUniv } from "@/api/signApi";
 import useForm from "@/hooks/useForm";
 import useUploadFile from "@/hooks/useUploadFile";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   DISABILITIES,
   EMPLOYMENT_STATUSES,
@@ -36,6 +36,7 @@ import { useDispatch } from "react-redux";
 import useInitiallizeFormValues from "@/hooks/useInitiallizeFormValues";
 import ContentTextContainer from "@/ui/molecules/Container/ContentTextContainer";
 import Label from "@/ui/atoms/Label";
+import useGetProfileQuery from "@/queries/profileQuery";
 
 const ProfileFormPage = () => {
   const dispatch = useDispatch();
@@ -51,10 +52,12 @@ const ProfileFormPage = () => {
     severity: "중증",
   };
 
-  const { formValues, isEdit, pathParams } =
-    useInitiallizeFormValues<FormValues>(initialFormValues);
+  const isEdit = useSearchParams().get("edit");
 
   const { id: memberId, profileId } = useSelector(selectUser)!;
+
+  const { data, isFetching } = useGetProfileQuery(profileId!);
+
   const {
     form,
     setForm,
@@ -62,7 +65,8 @@ const ProfileFormPage = () => {
     invalid,
     handleFormValueChange,
     formInvalid,
-  } = useForm<FormValues>(formValues);
+  } = useForm<FormValues>(initialFormValues);
+
   const { file, onUploadFile } = useUploadFile();
   const [bigEducationCategory, setBigEducationCategory] = useState("");
   const [job, setJob] = useState("");
@@ -71,13 +75,29 @@ const ProfileFormPage = () => {
 
   useEffect(() => {
     if (isEdit) {
-      setJob(formValues.job!);
-      if (formValues.education === ("초등학교" || "중학교" || "고등학교")) {
-        setBigEducationCategory(formValues.education);
-        formValues.education = "";
-      }
+      // refetch();
     }
   }, []);
+
+  useEffect(() => {
+    if (isEdit) {
+      setForm({
+        introduction: data?.introduction!,
+        desiredJob: data?.desiredJob!,
+        job: data?.job!,
+        education: data?.education!,
+        disability: data?.disability!,
+        employmentStatus: data?.employmentStatus!,
+        severity: data?.severity!,
+      });
+
+      setJob(data?.job!);
+      if (data?.education === ("초등학교" || "중학교" || "고등학교")) {
+        setBigEducationCategory(data?.education);
+        form.education = "";
+      }
+    }
+  }, [isFetching]);
 
   const handleProfileSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -293,6 +313,7 @@ const ProfileFormPage = () => {
               <Input
                 id="desiredJob"
                 name="desiredJob"
+                value={form.desiredJob}
                 outline={true}
                 maxLength={10}
                 width="60%"
@@ -326,6 +347,7 @@ const ProfileFormPage = () => {
               id="introduction"
               name="introduction"
               placeholder="최소 50 글자"
+              value={form.introduction}
               onChange={handleFormValueChange}
               invalid={invalid("introduction", {
                 required: true,
