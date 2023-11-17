@@ -16,6 +16,7 @@ export const setLocalUser = (obj: object) => {
 export const logout = () => {
   if (typeof window !== "undefined") {
     window.localStorage.removeItem("user");
+    location.href = "/";
   }
 };
 
