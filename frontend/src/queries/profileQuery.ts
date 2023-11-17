@@ -6,15 +6,12 @@ import { useQuery } from "@tanstack/react-query";
 export const GET_MENTORS_KEY = ["mentors"];
 
 const useGetProfileQuery = (profileId: number) => {
-  const { data, isSuccess, isError, isFetching } = useQuery<MenteeProfile>(
-    GET_MENTORS_KEY,
-    () => getProfile(profileId),
-    {
-      enabled: profileId !== undefined && profileId !== 0,
-    }
-  );
+  const { data, isSuccess, isLoading, isError, isFetching } =
+    useQuery<MenteeProfile>(GET_MENTORS_KEY, () => getProfile(profileId), {
+      enabled: Number.isSafeInteger(profileId) && profileId !== 0,
+    });
 
-  return { data, isSuccess, isError, isFetching };
+  return { data, isSuccess, isError, isLoading, isFetching };
 };
 
 export default useGetProfileQuery;
