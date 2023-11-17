@@ -6,7 +6,7 @@ import FlexBox from "@/ui/atoms/FlexBox";
 import Typography from "@/ui/atoms/Typography";
 import Link from "@icons/common/link.svg";
 import { backgroundImage } from "@/ui/atoms/BackgroundImage";
-import { StyledImage } from "@/ui/atoms/StyledImage";
+import StyledImage from "@/ui/atoms/StyledImage";
 import { useState } from "react";
 import Modal from "@/ui/molecules/Modal";
 import MentoringPlatformModal, {

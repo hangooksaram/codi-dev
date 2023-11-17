@@ -4,6 +4,14 @@ export type gray = {
   dark;
 };
 
+export interface StyledImagePropsType {
+  width: string;
+  height: string;
+  src: string;
+  alt: string;
+  onClick?: () => void;
+}
+
 export type ThemeColors =
   | "black"
   | "secondary"

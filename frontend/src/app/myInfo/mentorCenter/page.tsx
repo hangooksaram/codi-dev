@@ -3,7 +3,7 @@
 import { selectUser } from "@/features/user/userSlice";
 import Button from "@/ui/atoms/Button";
 import FlexBox from "@/ui/atoms/FlexBox";
-import { StyledImage } from "@/ui/atoms/StyledImage";
+import StyledImage from "@/ui/atoms/StyledImage";
 import Typography from "@/ui/atoms/Typography";
 import theme from "@/ui/theme";
 import { useRouter } from "next/navigation";

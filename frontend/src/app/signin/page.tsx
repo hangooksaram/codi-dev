@@ -11,7 +11,7 @@ import Typography from "@/ui/atoms/Typography";
 import Container from "@/ui/atoms/Container";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { StyledImage } from "@/ui/atoms/StyledImage";
+import StyledImage from "@/ui/atoms/StyledImage";
 import styled from "@emotion/styled";
 import Image from "next/image";
 import Card from "@/ui/atoms/Card";

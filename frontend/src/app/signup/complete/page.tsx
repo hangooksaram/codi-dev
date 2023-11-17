@@ -7,7 +7,7 @@ import StyledLink from "@/ui/atoms/Link";
 import theme from "@/ui/theme";
 import FlexBox from "@/ui/atoms/FlexBox";
 import { useRouter } from "next/navigation";
-import { StyledImage } from "@/ui/atoms/StyledImage";
+import StyledImage from "@/ui/atoms/StyledImage";
 
 const CompletePage = () => {
   const router = useRouter();
