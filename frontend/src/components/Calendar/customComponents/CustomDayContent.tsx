@@ -50,7 +50,7 @@ const CustomCell = styled.div({
   width: "50px",
   height: "64px",
   marginTop: "8px",
-  paddingTop: "14px",
+  paddingTop: "5px",
   [device("mobile")]: {
     width: "40px",
     height: "54px",
