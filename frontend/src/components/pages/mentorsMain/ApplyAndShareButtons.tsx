@@ -1,7 +1,7 @@
 import { HOMEPAGE_URL } from "@/constants";
 import { selectUser } from "@/features/user/userSlice";
 import FlexBox from "@/ui/atoms/FlexBox";
-import { StyledImage } from "@/ui/atoms/StyledImage";
+import StyledImage from "@/ui/atoms/StyledImage";
 import { copyTextToClipBoard } from "@/utils/clipboard";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";

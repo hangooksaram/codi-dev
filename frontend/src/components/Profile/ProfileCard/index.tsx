@@ -5,7 +5,7 @@ import Content from "./Content";
 import Header from "./Header";
 import { ProfileCard } from "@/types/profile";
 import { device } from "@/ui/theme";
-import { StyledImage } from "@/ui/atoms/StyledImage";
+import StyledImage from "@/ui/atoms/StyledImage";
 
 const ProfileCard = ({
   width,

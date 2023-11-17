@@ -1,19 +1,14 @@
 import Image from "next/image";
+import { StyledImagePropsType } from "@/types/ui";
 
-export const StyledImage = ({
+const StyledImage = ({
   width,
   height,
   src,
   alt,
   onClick,
   ...rest
-}: {
-  width: string;
-  height: string;
-  src: string;
-  alt: string;
-  onClick?: () => void;
-}) => (
+}: StyledImagePropsType) => (
   <div
     onClick={onClick!}
     style={{ width: width, height: height, position: "relative", ...rest }}
@@ -27,3 +22,5 @@ export const StyledImage = ({
     />
   </div>
 );
+
+export default StyledImage;

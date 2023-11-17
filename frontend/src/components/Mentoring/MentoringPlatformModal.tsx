@@ -6,7 +6,7 @@ import Button from "@/ui/atoms/Button";
 import Card from "@/ui/atoms/Card";
 import Chip from "@/ui/atoms/Chip";
 import FlexBox from "@/ui/atoms/FlexBox";
-import { StyledImage } from "@/ui/atoms/StyledImage";
+import StyledImage from "@/ui/atoms/StyledImage";
 import Textarea from "@/ui/atoms/Textarea";
 import Typography from "@/ui/atoms/Typography";
 import Modal from "@/ui/molecules/Modal";

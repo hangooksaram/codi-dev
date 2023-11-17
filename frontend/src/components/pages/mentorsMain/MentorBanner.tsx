@@ -3,7 +3,7 @@ import FlexBox from "@/ui/atoms/FlexBox";
 import Typography from "@/ui/atoms/Typography";
 import theme, { device } from "@/ui/theme";
 import styled from "@emotion/styled";
-import { StyledImage } from "@/ui/atoms/StyledImage";
+import StyledImage from "@/ui/atoms/StyledImage";
 import { css } from "@emotion/css";
 
 const MentorBanner = ({

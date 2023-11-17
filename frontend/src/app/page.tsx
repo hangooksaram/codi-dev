@@ -10,7 +10,7 @@ import theme, { device } from "@/ui/theme";
 import { css } from "@emotion/css";
 
 import { useRouter } from "next/navigation";
-import { StyledImage } from "@/ui/atoms/StyledImage";
+import StyledImage from "@/ui/atoms/StyledImage";
 import FlexBox from "@/ui/atoms/FlexBox";
 import { selectUser } from "@/features/user/userSlice";
 import { useSelector } from "react-redux";
