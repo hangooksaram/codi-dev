@@ -16,6 +16,7 @@ const Background = styled.div({
 const StyledContainer = styled(Container)({
   backgroundColor: theme.colors.white,
   width: "78%",
+  minHeight: "100vh",
   padding: "80px 60px",
   [device("tablet")]: {
     width: "100%",

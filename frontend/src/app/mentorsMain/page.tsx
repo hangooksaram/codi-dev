@@ -4,7 +4,7 @@ import JobRank from "@/components/Job/JobRank";
 import FlexBox from "@/ui/atoms/FlexBox";
 import theme from "@/ui/theme";
 import { useEffect, useRef } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import MentorsBanner from "@/components/pages/mentorsMain/MentorBanner";
 import { PageComponentLayout } from "@/components/pages/mentorsMain/PageComonentLayout";
 import TitleSection from "@/components/pages/mentorsMain/TitleSection";
@@ -15,29 +15,23 @@ import Recommendation from "@/components/pages/mentorsMain/Recommendation";
 const MentorsPage = () => {
   const ref = useRef<HTMLDivElement>(null);
   const params = useSearchParams();
+  const router = useRouter();
 
-  const scrollToMentorList = () => {
-    ref.current?.scrollIntoView({ behavior: "smooth" });
+  const goToMentorsPage = () => {
+    router.push("/mentors");
   };
 
   useEffect(() => {
-    if (params.get("fromRecommendation")) scrollToMentorList();
+    if (params.get("fromRecommendation")) goToMentorsPage();
   }, []);
 
   return (
     <main style={{ backgroundColor: theme.colors.background }}>
       <FlexBox direction="column" rowGap="20px">
-        <MentorsBanner scrollToMentorList={scrollToMentorList} />
+        <MentorsBanner goToMentorsPage={goToMentorsPage} />
         <JobRank />
 
         <Recommendation />
-
-        <div style={{ width: "100%" }} ref={ref}>
-          <PageComponentLayout>
-            <TitleSection title="멘토리스트" logo={<Logo />} />
-            <Mentors />
-          </PageComponentLayout>
-        </div>
       </FlexBox>
     </main>
   );
