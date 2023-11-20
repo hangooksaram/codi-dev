@@ -1,7 +1,6 @@
 "use client";
 
 import Recommendation from "@/components/pages/mentorsMain/Recommendation";
-import useGetMentorsQuery, { GET_MENTORS_KEY } from "@/queries/mentorQuery";
 import styled from "@emotion/styled";
 import { backgroundImage } from "@/ui/atoms/BackgroundImage";
 import Typography from "@/ui/atoms/Typography";
@@ -14,8 +13,11 @@ import StyledImage from "@/ui/atoms/StyledImage";
 import FlexBox from "@/ui/atoms/FlexBox";
 import { selectUser } from "@/features/user/userSlice";
 import { useSelector } from "react-redux";
-import { useJobRanksQuery } from "@/queries/jobQuery";
 import TodayMentoring from "@/components/pages/main/TodayMentoring";
+import landingBanner from "../../public/images/landing-banner.png";
+import mainLandingBottom from "../../public/images/main-landing-bottom.png";
+import { BackgroundImage } from "@/ui/molecules/Image/BackgroundImage";
+import ImageComponent from "@/ui/atoms/ImageComponent";
 
 const MainLandingPage = () => {
   const router = useRouter();
@@ -29,40 +31,59 @@ const MainLandingPage = () => {
   return (
     <>
       <FlexBox direction="column" rowGap="20px">
-        <MainBanner src={"/images/landing-banner.png"}>
-          <Typography
-            variant="h1"
-            size={theme.fonts.size.xl}
-            align="center"
-            {...{
-              minWidth: "0px",
-              width: "500px",
-              marginBottom: "10px",
-              [device("tablet")]: {
-                minWidth: "fit-content",
-                width: "auto",
-              },
-            }}
-            wordBreak="keep-all"
+        <BackgroundImage
+          image={{
+            width: "100%",
+            height: "auto",
+            alt: "나와 같은 어려움을 겪고 있는 멘티의 멘토가 되어주세요.",
+            src: landingBanner,
+          }}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <FlexBox
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
           >
-            SHARE THE SAME EXPERIENCE
-          </Typography>
-
-          <Typography variant="div" {...{ marginBottom: "40px" }}>
-            나와 같은 어려움을 겪고 있는 멘티의 멘토가 되어주세요.
-          </Typography>
-          {!user.mentorId ? (
-            <Button
-              onClick={() => {
-                router.push("/mentorRegisterForm");
+            <Typography
+              variant="h1"
+              size={theme.fonts.size.xl}
+              align="center"
+              {...{
+                minWidth: "0px",
+                width: "500px",
+                marginBottom: "10px",
+                [device("tablet")]: {
+                  minWidth: "fit-content",
+                  width: "auto",
+                },
               }}
-              variant="default"
-              size="small"
+              wordBreak="keep-all"
             >
-              멘토 신청하러 가기
-            </Button>
-          ) : null}
-        </MainBanner>
+              SHARE THE SAME EXPERIENCE
+            </Typography>
+
+            <Typography variant="div" {...{ marginBottom: "40px" }}>
+              나와 같은 어려움을 겪고 있는 멘티의 멘토가 되어주세요.
+            </Typography>
+            {!user.mentorId ? (
+              <Button
+                onClick={() => {
+                  router.push("/mentorRegisterForm");
+                }}
+                variant="default"
+                size="small"
+              >
+                멘토 신청하러 가기
+              </Button>
+            ) : null}
+          </FlexBox>
+        </BackgroundImage>
         {user.id && <TodayMentoring />}
         <Recommendation />
         <div
@@ -73,13 +94,10 @@ const MainLandingPage = () => {
             },
           })}
         >
-          <StyledImage
+          <ImageComponent
             width="100%"
-            height="2300px"
-            {...{
-              minHeight: "1900px",
-            }}
-            src="/images/main-landing-bottom.png"
+            height="auto"
+            src={mainLandingBottom}
             alt="main-landing-bottom"
           />
         </div>

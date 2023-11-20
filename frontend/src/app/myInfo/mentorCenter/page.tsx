@@ -3,6 +3,7 @@
 import { selectUser } from "@/features/user/userSlice";
 import Button from "@/ui/atoms/Button";
 import FlexBox from "@/ui/atoms/FlexBox";
+import ImageComponent from "@/ui/atoms/ImageComponent";
 import StyledImage from "@/ui/atoms/StyledImage";
 import Typography from "@/ui/atoms/Typography";
 import theme from "@/ui/theme";
@@ -10,6 +11,7 @@ import { useRouter } from "next/navigation";
 
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import forNotMentor from "../../../../public/images/for-not-mentor.png";
 
 const MentorCenterPage = () => {
   const router = useRouter();
@@ -20,8 +22,8 @@ const MentorCenterPage = () => {
   }, []);
   return (
     <FlexBox direction="column" rowGap="20px" {...{ minHeight: "500px" }}>
-      <StyledImage
-        src="/images/for-not-mentor.png"
+      <ImageComponent
+        src={forNotMentor}
         alt="for-not-mentor"
         width="360px"
         height="101px"

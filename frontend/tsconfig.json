@@ -22,7 +22,8 @@
     "paths": {
       "@/*": ["./src/*"],
       "@icons/*": ["./public/icons/*"],
-      "@pages/*": ["./src/app/*"]
+      "@pages/*": ["./src/app/*"],
+      "@images/*": ["./public/images/*"]
     }
   },
   "include": [

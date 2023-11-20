@@ -1,3 +1,4 @@
+import { StaticImageData } from "next/image";
 import { ComponentProps, ReactNode } from "react";
 
 export type gray = {
@@ -6,10 +7,18 @@ export type gray = {
 
 export interface StyledImagePropsType {
   width: string;
-  height: string;
+  height?: string;
   src: string;
   alt: string;
   onClick?: () => void;
+}
+
+export interface LocalImagePropsType {
+  width: string;
+  height?: string;
+  src: StaticImageData;
+  alt: string;
+  sizes?: string;
 }
 
 export type ThemeColors =
