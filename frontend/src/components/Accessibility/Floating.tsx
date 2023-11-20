@@ -23,6 +23,7 @@ import {
 } from "@/features/webAccessibility/webAccessibliitySlice";
 import { createPortal } from "react-dom";
 import { useSelector } from "react-redux";
+import Overlay from "@/ui/atoms/BackgroundOverlay";
 
 const BOX_LIST = ["하이라이터", "포커싱 박스"];
 
@@ -43,7 +44,16 @@ const Floating = () => {
         >
           <FloatIcon />
         </Button>
-        {open && <FloatingMenu />}
+        {open && (
+          <>
+            <Overlay
+              onClick={() => {
+                setOpen(false);
+              }}
+            />
+            <FloatingMenu />
+          </>
+        )}
       </StyledFloating.Container>
     </StyledFloating.ExternalContainer>
   );
@@ -245,7 +255,7 @@ const StyledFloating = {
   }),
   Menu: styled(Card)({
     position: "absolute",
-
+    zIndex: "2",
     width: "420px",
     height: "auto",
     bottom: "150px",
