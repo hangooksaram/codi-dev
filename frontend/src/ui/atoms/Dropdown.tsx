@@ -39,6 +39,7 @@ const Dropdown = ({
             onClick={setDropdownContentPosition}
             variant="square"
             type="button"
+            role="tab"
           >
             {selectedCategory ? selectedCategory : title}
             <OpenDropdown />

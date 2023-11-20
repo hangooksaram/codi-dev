@@ -7,7 +7,8 @@ import StyledLink from "@/ui/atoms/Link";
 import theme from "@/ui/theme";
 import FlexBox from "@/ui/atoms/FlexBox";
 import { useRouter } from "next/navigation";
-import StyledImage from "@/ui/atoms/StyledImage";
+import ImageComponent from "@/ui/atoms/ImageComponent";
+import signUpCompleteImage from "@images/sign-up-complete.png";
 
 const CompletePage = () => {
   const router = useRouter();
@@ -15,11 +16,11 @@ const CompletePage = () => {
     <Container>
       <FlexBox direction="column" alignItems="center" rowGap="20px">
         <div style={{ width: "70%" }}>
-          <StyledImage
+          <ImageComponent
             width="100%"
             height="520px"
-            src={"/images/sign-up-complete.png"}
-            alt="complete-image"
+            src={signUpCompleteImage}
+            alt="회원가입 완료"
           />
         </div>
 

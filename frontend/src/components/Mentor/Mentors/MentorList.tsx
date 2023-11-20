@@ -19,7 +19,7 @@ const MentorList = ({ mentors }: { mentors: Mentor[] }) => {
   const { favoriteIds, isSuccess: isFavoritesSuccess } =
     useGetFavoriteMentorsQuery(profileId!);
 
-  if (!mentors)
+  if (mentors.length === 0)
     return (
       <NoResultCard>
         <FlexBox {...{ height: "100%" }}>

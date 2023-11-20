@@ -5,12 +5,10 @@ import theme, { device } from "@/ui/theme";
 import styled from "@emotion/styled";
 import StyledImage from "@/ui/atoms/StyledImage";
 import { css } from "@emotion/css";
+import ImageComponent from "@/ui/atoms/ImageComponent";
+import mentorsBannerImage from "@images/mentors-banner-image.png";
 
-const MentorBanner = ({
-  scrollToMentorList,
-}: {
-  scrollToMentorList: Function;
-}) => {
+const MentorBanner = ({ goToMentorsPage }: { goToMentorsPage: Function }) => {
   return (
     <FlexBox
       {...{
@@ -28,15 +26,16 @@ const MentorBanner = ({
         <Typography variant="div">
           나와 같은 장애를 가진 멘토들을 만나보세요!
         </Typography>
-        <Button variant="default" onClick={() => scrollToMentorList()}>
+        <Button variant="default" onClick={() => goToMentorsPage()}>
           멘토 찾아 보기
         </Button>
       </FlexBox>
-      <StyledImage
+
+      <ImageComponent
         width="660px"
         height="400px"
         alt="mentors-page-banner"
-        src="/images/mentors-banner-image.png"
+        src={mentorsBannerImage}
       />
     </FlexBox>
   );

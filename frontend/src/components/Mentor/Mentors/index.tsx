@@ -2,8 +2,6 @@ import useGetMentorsQuery from "@/queries/mentorQuery";
 import MentorSearch from "./MentorSearch";
 import MentorList from "./MentorList";
 import { css } from "@emotion/css";
-import Card from "@/ui/atoms/Card";
-import Typography from "@/ui/atoms/Typography";
 
 const Mentors = () => {
   const { query, setQuery, mentors, isSuccess, refetch, setSearched } =

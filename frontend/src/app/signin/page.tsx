@@ -20,6 +20,8 @@ import { signIn } from "@/api/signApi";
 import { localUser, setLocalUser } from "@/utils/tempUser";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/features/user/userSlice";
+import ImageComponent from "@/ui/atoms/ImageComponent";
+import signInImage from "@images/signin-image.png";
 
 const SignInPage = () => {
   const router = useRouter();
@@ -56,11 +58,11 @@ const SignInPage = () => {
         <div
           style={{ width: "100%", position: "absolute", top: 120, right: 0 }}
         >
-          <StyledImage
+          <ImageComponent
             alt="sign-in-image"
             width="100%"
             height="600px"
-            src="/images/signin-image.png"
+            src={signInImage}
           />
         </div>
       </SignInImageCard>
