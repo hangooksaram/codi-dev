@@ -92,7 +92,12 @@ const SignUpPage = () => {
     const stringFiedBirth = `${year}/${month < 10 ? "0" : null}${month}/${
       day < 10 ? "0" : null
     }${day}`;
-    return { ...values, gender: gender.key, birth: stringFiedBirth };
+    return {
+      ...values,
+      gender: gender.key,
+      birth: stringFiedBirth,
+      email: `${values.email}@${emailType}`,
+    };
   };
 
   const handleSubmit = async (values: SignUpBody) => {

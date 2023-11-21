@@ -33,7 +33,6 @@ import { selectUser, setUser } from "@/features/user/userSlice";
 import { setLocalUser, localUser } from "@/utils/tempUser";
 import { RegisterProfileResponse } from "@/types/api/profile";
 import { useDispatch } from "react-redux";
-import useInitiallizeFormValues from "@/hooks/useInitiallizeFormValues";
 import ContentTextContainer from "@/ui/molecules/Container/ContentTextContainer";
 import Label from "@/ui/atoms/Label";
 import useGetProfileQuery from "@/queries/profileQuery";
