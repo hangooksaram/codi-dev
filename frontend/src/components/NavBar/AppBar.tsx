@@ -18,6 +18,8 @@ import { selectUser } from "@/features/user/userSlice";
 import { backgroundImage } from "@/ui/atoms/BackgroundImage";
 import { logout } from "@/utils/tempUser";
 
+const NOT_SHOWING_LIST = ["/signin/", "/account/findId/", "/account/findPw/"];
+
 const AppBar = () => {
   const path = usePathname();
   const router = useRouter();
@@ -50,8 +52,9 @@ const AppBar = () => {
     }
     return () => setSelected(undefined);
   }, [selected]);
+  console.log(path);
 
-  if (path === "/signin/") return;
+  if (NOT_SHOWING_LIST.includes(path)) return;
   return (
     domLoaded && (
       <>

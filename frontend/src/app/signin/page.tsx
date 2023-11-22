@@ -95,11 +95,11 @@ const SignInPage = () => {
           </FlexBox>
           <FlexBox justifyContent="space-between" {...{ marginBottom: "80px" }}>
             <FlexBox width="60%" columnGap="20px" justifyContent="flex-start">
-              <StyledLink color={theme.colors.gray.dark} href="">
+              <StyledLink color={theme.colors.gray.dark} href="/account/findId">
                 아이디 찾기
               </StyledLink>
               <div style={{ color: theme.colors.gray.dark }}>|</div>
-              <StyledLink color={theme.colors.gray.dark} href="">
+              <StyledLink color={theme.colors.gray.dark} href="/account/findPw">
                 비밀번호 찾기
               </StyledLink>
             </FlexBox>
