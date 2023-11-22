@@ -59,3 +59,29 @@ export const updatePassword = async (
     return handleApiError(e);
   }
 };
+
+export const findId = async (email: string): Promise<CommonApiResponse> => {
+  try {
+    const { data, status } = await customAxios.post(`/account/find-id`, {
+      email,
+    });
+    return { data, status };
+  } catch (e) {
+    return handleApiError(e);
+  }
+};
+
+export const findPassword = async (
+  email: string,
+  id: string
+): Promise<CommonApiResponse> => {
+  try {
+    const { data, status } = await customAxios.post(`/account/find-pw`, {
+      email,
+      id,
+    });
+    return { data, status };
+  } catch (e) {
+    return handleApiError(e);
+  }
+};
