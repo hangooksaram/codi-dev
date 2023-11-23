@@ -20,7 +20,7 @@ const Chip = styled.div(
     fontSize: theme.fonts.size.xs,
     backgroundColor: color ?? theme.colors.background,
     color: fontColor ?? theme.colors.primary,
-    padding: "0px 20px",
+    padding: size === "small" ? "0px 12px" : "0px 20px",
     width: "fit-content",
     borderRadius: "100px",
     cursor: "default",

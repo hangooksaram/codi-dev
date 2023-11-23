@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import theme from "../theme";
+import theme, { device } from "../theme";
 import { Button, ThemeFontSize } from "../../types/ui";
 import { ReactNode } from "react";
 
@@ -41,6 +41,10 @@ const Button = styled.button(
       backgroundColor: theme.colors.gray.dark,
       color: theme.colors.white,
       cursor: "default",
+    },
+    [device("mobile")]: {
+      fontSize: theme.fonts.size.xs,
+      padding: variant === "round" ? "0px" : "0px 12px",
     },
   })
 );
