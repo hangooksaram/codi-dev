@@ -24,6 +24,10 @@ import {
 import { createPortal } from "react-dom";
 import { useSelector } from "react-redux";
 import Overlay from "@/ui/atoms/BackgroundOverlay";
+import ImageComponent from "@/ui/atoms/ImageComponent";
+import highlightImage from "@images/webAccessibility/highlight.png";
+import focusingboxImage from "@images/webAccessibility/focusingbox.png";
+import { SetState } from "@/index";
 
 const BOX_LIST = ["하이라이터", "포커싱 박스"];
 
@@ -34,32 +38,28 @@ const Floating = () => {
   if (path === "/signin/") return;
 
   return (
-    <StyledFloating.ExternalContainer>
-      <StyledFloating.Container>
-        <Button
-          onClick={() => setOpen((prev) => !prev)}
-          variant="round"
-          width="110px"
-          color={theme.colors.primary}
-        >
-          <FloatIcon />
-        </Button>
-        {open && (
-          <>
-            <Overlay
-              onClick={() => {
-                setOpen(false);
-              }}
-            />
-            <FloatingMenu />
-          </>
-        )}
-      </StyledFloating.Container>
-    </StyledFloating.ExternalContainer>
+    <>
+      <StyledFloating.OpenButton
+        onClick={() => setOpen((prev) => !prev)}
+        variant="round"
+        width="110px"
+        color={theme.colors.primary}
+      >
+        <FloatIcon />
+      </StyledFloating.OpenButton>
+      {open && (
+        <Overlay
+          onClick={() => {
+            setOpen(false);
+          }}
+        />
+      )}
+      {open && <FloatingMenu setOpen={setOpen} />}
+    </>
   );
 };
 
-const FloatingMenu = () => {
+const FloatingMenu = ({ setOpen }: { setOpen: SetState<boolean> }) => {
   const dispatch = useDispatch();
   const highlight = useSelector(selectHighlight);
   const focused = useSelector(selectFocused);
@@ -112,6 +112,12 @@ const FloatingMenu = () => {
               color={highlight ? theme.colors.white : theme.colors.primary}
               onClick={() => applyOption("하이라이터")}
             >
+              <ImageComponent
+                width="36px"
+                height="auto"
+                alt="하이라이트"
+                src={highlightImage}
+              ></ImageComponent>
               하이라이터
             </StyledFloating.Button>
             <StyledFloating.Button
@@ -119,7 +125,13 @@ const FloatingMenu = () => {
               color={focused ? theme.colors.white : theme.colors.primary}
               onClick={() => applyOption("포커싱박스")}
             >
-              포커싱박스
+              <ImageComponent
+                width="36px"
+                height="auto"
+                alt="하이라이트"
+                src={focusingboxImage}
+              ></ImageComponent>
+              <div>포커싱박스</div>
             </StyledFloating.Button>
           </FlexBox>
         </>
@@ -230,6 +242,16 @@ const FloatingMenu = () => {
                 최대
               </Button>
             </FlexBox>
+            <StyledFloating.CloseButton
+              variant="default"
+              width="100%"
+              color={theme.colors.white}
+              onClick={() => {
+                setOpen(false);
+              }}
+            >
+              닫기
+            </StyledFloating.CloseButton>
           </FlexBox>
         </>
       </FlexBox>
@@ -238,7 +260,7 @@ const FloatingMenu = () => {
 };
 
 const StyledFloating = {
-  ExternalContainer: styled.div({
+  OpenButton: styled(Button)(({}) => ({
     position: "fixed",
     zIndex: 2,
     bottom: "20px",
@@ -246,13 +268,22 @@ const StyledFloating = {
     letterSpacing: "initial !important",
     lineHeight: "1 !important",
     zoom: "1 !important",
+
+    width: "110px",
     [device("tablet")]: {
-      bottom: "150px",
+      width: "84px",
+      height: "84px",
+
+      bottom: "148px",
     },
-  }),
-  Container: styled.div({
-    position: "relative",
-  }),
+  })),
+  CloseButton: styled(Button)(({}) => ({
+    display: "none",
+    [device("mobile")]: {
+      display: "block",
+    },
+  })),
+
   Menu: styled(Card)({
     position: "absolute",
     zIndex: "2",
@@ -260,6 +291,17 @@ const StyledFloating = {
     height: "auto",
     bottom: "150px",
     padding: "30px",
+    left: "20px",
+    overflow: "auto",
+    [device("tablet")]: {
+      position: "fixed",
+      width: "100%",
+      top: "0",
+      left: "0",
+      height: "calc(100vh - 128px);",
+      padding: "30px",
+      borderRadius: 0,
+    },
   }),
   Button: styled(Button)({
     width: "96px",
@@ -267,6 +309,13 @@ const StyledFloating = {
     padding: "10px",
     borderRadius: "20px",
     boxShadow: `4px 4px 4px 0px #28364D, 2px 2px 4px 0px #2D3C52 inset, -1px -1px 2px 0px #2E3D53`,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    [device("mobile")]: {
+      fontSize: theme.fonts.size.xs,
+    },
   }),
   InitializeButton: styled(Button)({
     position: "absolute",

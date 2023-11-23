@@ -4,12 +4,15 @@ import { findPassword } from "@/api/signApi";
 import Button from "@/ui/atoms/Button";
 import Input from "@/ui/atoms/Input";
 import { FormEvent, useState } from "react";
-import { SignImageContainer, SignInputFormContainer } from "../findId/page";
 import FlexBox from "@/ui/atoms/FlexBox";
 import Container from "@/ui/atoms/Container";
 import Typography from "@/ui/atoms/Typography";
 import theme from "@/ui/theme";
 import useNewForm from "@/hooks/useNewForm/useNewForm";
+import {
+  SignImageContainer,
+  SignInputFormContainer,
+} from "@/components/pages/account/AccountContainers";
 
 const FindPwPage = () => {
   const initialFormValues = {
