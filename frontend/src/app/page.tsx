@@ -64,6 +64,7 @@ const MainLandingPage = () => {
                 },
               }}
               wordBreak="keep-all"
+              weight={theme.fonts.weight.black}
             >
               SHARE THE SAME EXPERIENCE
             </Typography>
