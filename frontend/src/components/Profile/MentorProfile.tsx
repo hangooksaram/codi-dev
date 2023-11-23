@@ -15,6 +15,8 @@ import { ReadonlyURLSearchParams, useRouter } from "next/navigation";
 import Button from "@/ui/atoms/Button";
 import MyInfoCommonContainerCard from "../pages/myInfoCommon/MyInfoCommonContainerCard";
 import MyInfoCard from "../pages/myInfoCommon/MyInfoCard";
+import { useSelector } from "react-redux";
+import { selectUser } from "@/features/user/userSlice";
 
 const MentorProfile = ({
   mentorId,
@@ -27,6 +29,7 @@ const MentorProfile = ({
   const router = useRouter();
   const isMentoringApply = pageParams?.get("mentoringApply");
   const isMentoring = pageParams?.get("mentoringId");
+  const { id } = useSelector(selectUser);
 
   return (
     <MyInfoCommonContainerCard>
@@ -64,7 +67,9 @@ const MentorProfile = ({
           {isMentoringApply ? (
             <Button
               onClick={() =>
-                router.push(`/mentoringApplyForm?mentorId=${mentorId}`)
+                router.push(
+                  id ? `/mentoringApplyForm?mentorId=${mentorId}` : `/signin`
+                )
               }
               size="small"
               variant="default"
