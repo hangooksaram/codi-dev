@@ -15,6 +15,7 @@ import { SetState } from "@/index";
 import Overlay from "@/ui/atoms/BackgroundOverlay";
 import { DropDownListContainer, DropdownButton } from "@/ui/atoms/Dropdown";
 import Add from "@icons/common/add.svg";
+import useClickOutOfInput from "@/hooks/useClickOutOfInput";
 export interface Jobs {
   classification: string;
   jobs: {
@@ -43,6 +44,8 @@ const JobSelector = ({
     { name: string }[] | undefined
   >([]);
 
+  useClickOutOfInput(id!, setOpen);
+
   useEffect(() => {
     (async () => {
       const { data } = await getJobCategories<Jobs[]>();
@@ -60,7 +63,6 @@ const JobSelector = ({
 
   return (
     <>
-      {open && <Overlay onClick={() => setOpen(false)}></Overlay>}
       <DropDownListContainer width="40%">
         <DropdownButton
           id={id}
@@ -69,11 +71,14 @@ const JobSelector = ({
           type="button"
           color={theme.colors.white}
           invalid={invalid}
-          onClick={() => setOpen((prev) => !prev)}
+          onClick={() => {
+            console.log(open);
+            setOpen((prev) => !prev);
+          }}
         >
-          <Truncate>{selected ? selected : "직무 카테고리"}</Truncate>
+          <Truncate id={id}>{selected ? selected : "직무 카테고리"}</Truncate>
 
-          <Add />
+          <Add id={id} />
         </DropdownButton>
 
         {open && (
@@ -121,7 +126,7 @@ const Tabs = ({
         return (
           <TabButton
             onClick={() => setSelectedTab(index)}
-            role="tab"
+            type="button"
             variant="square"
             key={index}
             color={
