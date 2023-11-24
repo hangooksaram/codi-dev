@@ -36,35 +36,74 @@ import { useDispatch } from "react-redux";
 import ContentTextContainer from "@/ui/molecules/Container/ContentTextContainer";
 import Label from "@/ui/atoms/Label";
 import useGetProfileQuery from "@/queries/profileQuery";
+import useNewForm, {
+  FormType,
+  FormPropertyType,
+} from "@/hooks/useNewForm/useNewForm";
 
 const ProfileFormPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-
-  const initialFormValues = {
-    introduction: "",
-    desiredJob: "",
-    job: "",
-    education: "",
-    disability: "",
-    employmentStatus: "",
-    severity: "중증",
-  };
-
   const isEdit = useSearchParams().get("edit");
+  const formData = new FormData();
 
   const { id: memberId, profileId } = useSelector(selectUser)!;
-
   const { data, isFetching } = useGetProfileQuery(profileId!);
+
+  interface ProfileFormValuesType extends FormType {
+    introduction: FormPropertyType<string>;
+    desiredJob: FormPropertyType<string>;
+    job: FormPropertyType<string>;
+    education: FormPropertyType<string>;
+    disability: FormPropertyType<string>;
+    employmentStatus: FormPropertyType<string>;
+    severity: FormPropertyType<string>;
+  }
+
+  const initialFormValues: ProfileFormValuesType = {
+    introduction: {
+      validCondition: {
+        required: true,
+        minLength: 50,
+      },
+    },
+    desiredJob: {
+      validCondition: {
+        required: true,
+      },
+    },
+    job: {
+      validCondition: {
+        required: true,
+      },
+    },
+    education: {
+      validCondition: {},
+    },
+    disability: {
+      validCondition: {
+        required: true,
+      },
+    },
+    employmentStatus: {
+      validCondition: {
+        required: true,
+      },
+    },
+    severity: {
+      initialValue: "중증",
+      validCondition: {
+        required: true,
+      },
+    },
+  };
 
   const {
     form,
-    setForm,
-    validateForm,
-    invalid,
     handleFormValueChange,
-    formInvalid,
-  } = useForm<FormValues>(initialFormValues);
+    validateAllFormValues,
+    convertToFormData,
+  } = useNewForm(initialFormValues, data!);
 
   const { file, onUploadFile } = useUploadFile();
   const [bigEducationCategory, setBigEducationCategory] = useState("");
@@ -73,54 +112,29 @@ const ProfileFormPage = () => {
   const [submitType, setSubmitType] = useState<string>("");
 
   useEffect(() => {
-    if (isEdit) {
-      // refetch();
-    }
-  }, []);
-
-  useEffect(() => {
-    if (isEdit) {
-      setForm({
-        introduction: data?.introduction!,
-        desiredJob: data?.desiredJob!,
-        job: data?.job!,
-        education: data?.education!,
-        disability: data?.disability!,
-        employmentStatus: data?.employmentStatus!,
-        severity: data?.severity!,
-      });
-
-      setJob(data?.job!);
-      if (data?.education === ("초등학교" || "중학교" || "고등학교")) {
-        setBigEducationCategory(data?.education);
-        form.education = "";
+    if (isEdit && data) {
+      const { job, education } = data;
+      setJob(job!);
+      if (education === ("초등학교" || "중학교" || "고등학교")) {
+        setBigEducationCategory(education);
+        form.education.value = "";
       }
     }
   }, [isFetching]);
 
-  const handleProfileSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    if (formInvalid) return;
-    processData();
-    createFormData(form);
-
-    if (isEdit) {
-      editProfile();
-    } else registerProfile();
-  };
-
   const processData = () => {
     if (bigEducationCategory !== "대학교" && bigEducationCategory) {
-      form.education = bigEducationCategory;
+      form.education.value = bigEducationCategory;
     }
 
-    form.employmentStatus = EMPLOYMENT_STATUSES_VALUE.get(
-      form.employmentStatus
+    form.employmentStatus.value = EMPLOYMENT_STATUSES_VALUE.get(
+      form.employmentStatus.value
     );
   };
 
-  const createFormData = (form: FormValues) => {
-    const formValues = { ...form };
+  const createFormData = () => {
+    const formValues = convertToFormData();
+
     const blob = new Blob([JSON.stringify(formValues)], {
       type: "application/json",
     });
@@ -131,23 +145,32 @@ const ProfileFormPage = () => {
     imageFormData.append("file", file.data!);
   };
 
+  const handleProfileSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+
+    const isFormValid = validateAllFormValues();
+    console.log(form);
+
+    if (isFormValid) {
+      processData();
+      createFormData();
+      if (isEdit) {
+        await editProfile();
+      } else await registerProfile();
+    }
+  };
+
   const registerProfile = async () => {
     const { data, status, errorMessage } =
       await postRegisterProfile<RegisterProfileResponse>(memberId!, formData);
 
-    const signInSuccessCallback = () => {
-      const { id, imgUrl } = data!;
-      setLocalUser({ profileId: id, imgUrl });
-      dispatch(setUser(localUser()));
-      if (submitType === "complete") {
-        router.push("/");
-      } else router.push("/mentorRegisterForm");
-    };
-
-    handleApiCallback(status!, signInSuccessCallback, () =>
-      alert(
-        `프로필 등록이 실패하였습니다. 다시 시도해주세요. error message : ${errorMessage}`
-      )
+    handleApiCallback(
+      status!,
+      () => apiSuccessCallback("register", data!),
+      () =>
+        alert(
+          `프로필 등록이 실패하였습니다. 다시 시도해주세요. error message : ${errorMessage}`
+        )
     );
   };
 
@@ -155,29 +178,38 @@ const ProfileFormPage = () => {
     const { data, status, errorMessage } =
       await patchEditProfile<RegisterProfileResponse>(profileId!, formData);
 
-    const signInSuccessCallback = () => {
-      const { id, imgUrl } = data!;
-      setLocalUser({ profileId: id, imgUrl });
-      dispatch(setUser(localUser()));
-      router.back();
-    };
-
-    handleApiCallback(status!, signInSuccessCallback, () =>
-      alert(
-        `프로필 수정이 실패하였습니다. 다시 시도해주세요. error message : ${errorMessage}`
-      )
+    handleApiCallback(
+      status!,
+      () => apiSuccessCallback("edit", data!),
+      () =>
+        alert(
+          `프로필 수정이 실패하였습니다. 다시 시도해주세요. error message : ${errorMessage}`
+        )
     );
   };
 
-  const formData = new FormData();
+  const apiSuccessCallback = (
+    type: "register" | "edit",
+    data: RegisterProfileResponse
+  ) => {
+    const { id, imgUrl } = data!;
+    setLocalUser({ profileId: id, imgUrl });
+    dispatch(setUser(localUser()));
+    if (type === "register") {
+      if (submitType === "complete") {
+        router.push("/");
+        return;
+      }
+      router.push("/mentorRegisterForm");
+      return;
+    }
+
+    router.back();
+  };
 
   useEffect(() => {
     searchUniv();
   }, []);
-
-  useEffect(() => {
-    setForm({ ...form, job });
-  }, [job]);
 
   return (
     <FormContainer>
@@ -226,14 +258,14 @@ const ProfileFormPage = () => {
                 <Label htmlFor="disability" text="장애 분류" />
                 <Dropdown
                   id="disability"
-                  invalid={invalid("disability", { required: true })}
+                  invalid={form.disability.isValid === "invalid"}
                   width="100%"
                   type="form"
                   title="소분류"
                   categories={DISABILITIES}
-                  selectedCategory={form.disability}
+                  selectedCategory={form.disability.value!}
                   setSelectedCategory={(disability) =>
-                    handleFormValueChange({
+                    handleFormValueChange<string>({
                       name: "disability",
                       value: disability,
                     })
@@ -250,7 +282,7 @@ const ProfileFormPage = () => {
                 width="50%"
                 type="button"
                 color={
-                  form.severity === severity
+                  form.severity.value === severity
                     ? theme.colors.primary
                     : theme.colors.white
                 }
@@ -290,7 +322,7 @@ const ProfileFormPage = () => {
                   id="education"
                   name="education"
                   placeholder="학교명 검색"
-                  value={form.education}
+                  value={form.education.value}
                   outline
                   onChange={handleFormValueChange}
                 />
@@ -302,9 +334,11 @@ const ProfileFormPage = () => {
               <Label htmlFor="job" text="직무 분류" />
               <JobSelector
                 id="job"
-                invalid={invalid("job", { required: true })}
-                selected={job}
-                setSelected={setJob}
+                invalid={form.job.isValid === "invalid"}
+                selected={form.job.value}
+                setSelected={(job) =>
+                  handleFormValueChange({ name: "job", value: job })
+                }
                 open={openJobSelector}
                 setOpen={setOpenJobSelector}
               />
@@ -312,13 +346,13 @@ const ProfileFormPage = () => {
               <Input
                 id="desiredJob"
                 name="desiredJob"
-                value={form.desiredJob}
+                value={form.desiredJob.value}
                 outline={true}
                 maxLength={10}
                 width="60%"
                 placeholder="정확한 직무를 입력해주세요. 10자 내외."
                 onChange={handleFormValueChange}
-                invalid={invalid("desiredJob", { required: true })}
+                invalid={form.desiredJob.isValid === "invalid"}
               />
             </FlexBox>
           </ContentTextContainer>
@@ -329,14 +363,14 @@ const ProfileFormPage = () => {
               width="40%"
               type="form"
               title="선택"
-              selectedCategory={form.employmentStatus}
+              selectedCategory={form.employmentStatus.value!}
               setSelectedCategory={(employmentStatus) =>
                 handleFormValueChange({
                   name: "employmentStatus",
                   value: employmentStatus,
                 })
               }
-              invalid={invalid("employmentStatus", { required: true })}
+              invalid={form.employmentStatus.isValid === "invalid"}
               categories={EMPLOYMENT_STATUSES}
             ></Dropdown>
           </ContentTextContainer>
@@ -346,39 +380,42 @@ const ProfileFormPage = () => {
               id="introduction"
               name="introduction"
               placeholder="최소 50 글자"
-              value={form.introduction}
+              value={form.introduction.value}
               onChange={handleFormValueChange}
-              invalid={invalid("introduction", {
-                required: true,
-                min: 50,
-              })}
+              invalid={form.introduction.isValid === "invalid"}
             />
           </ContentTextContainer>
-          <Button
-            onClick={() => {
-              setSubmitType("complete");
-              validateForm();
-            }}
-            width="100%"
-            type="submit"
-            variant="square"
-            color={theme.colors.white}
+          <FlexBox
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+            rowGap="16px"
           >
-            작성완료
-          </Button>
-          {!isEdit && (
             <Button
               onClick={() => {
-                setSubmitType("complete-apply");
-                validateForm();
+                setSubmitType("complete");
+                validateAllFormValues();
               }}
               width="100%"
               type="submit"
               variant="square"
             >
-              작성하고 멘토 신청하러 가기
+              작성완료
             </Button>
-          )}
+            {!isEdit && (
+              <Button
+                onClick={() => {
+                  setSubmitType("complete-apply");
+                  validateAllFormValues();
+                }}
+                width="100%"
+                type="submit"
+                variant="square"
+              >
+                작성하고 멘토 신청하러 가기
+              </Button>
+            )}
+          </FlexBox>
         </FlexBox>
       </form>
     </FormContainer>

@@ -1,4 +1,12 @@
-import { Ref, RefObject, forwardRef, useRef, useState } from "react";
+import {
+  MouseEventHandler,
+  Ref,
+  RefObject,
+  forwardRef,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import theme from "@/ui/theme";
 import { Dropdown } from "@/types/ui";
 import styled from "@emotion/styled";
@@ -9,6 +17,7 @@ import Button from "./Button";
 import FlexBox from "./FlexBox";
 import Overlay from "./BackgroundOverlay";
 import { useDropdown } from "@/hooks/useDropdown";
+import useClickOutOfInput from "@/hooks/useClickOutOfInput";
 
 const Dropdown = ({
   id,
@@ -24,9 +33,10 @@ const Dropdown = ({
 }: Dropdown) => {
   const { open, setOpen, ref, setCategory, setDropdownContentPosition } =
     useDropdown(setSelectedCategory, id);
+
+  useClickOutOfInput(id!, setOpen);
   return (
     <>
-      {open && <Overlay onClick={() => setOpen(false)}></Overlay>}
       <DropDownListContainer width={width}>
         {type === "menu" ? (
           <div onClick={() => setOpen((prev) => !prev)}>{children}</div>

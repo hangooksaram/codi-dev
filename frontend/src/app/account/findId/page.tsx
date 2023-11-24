@@ -7,25 +7,28 @@ import FlexBox from "@/ui/atoms/FlexBox";
 import Input from "@/ui/atoms/Input";
 import StyledLink from "@/ui/atoms/Link";
 import Typography from "@/ui/atoms/Typography";
-import theme, { device } from "@/ui/theme";
-import { FormEvent, useState } from "react";
-import { backgroundImage } from "@/ui/atoms/BackgroundImage";
-import styled from "@emotion/styled";
-import useNewForm from "@/hooks/useNewForm/useNewForm";
+import theme from "@/ui/theme";
+import { FormEvent } from "react";
+import useNewForm, {
+  FormPropertyType,
+  FormType,
+} from "@/hooks/useNewForm/useNewForm";
 import {
   SignImageContainer,
   SignInputFormContainer,
 } from "@/components/pages/account/AccountContainers";
 
 const FindIdPage = () => {
-  const initialFormValues = {
+  interface FindIdFormValuesType extends FormType {
+    email: FormPropertyType<string>;
+  }
+
+  const initialFormValues: FindIdFormValuesType = {
     email: {
-      value: "",
       validCondition: {
         required: true,
         regex: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
       },
-      isValid: "initial",
     },
   };
 
@@ -33,7 +36,7 @@ const FindIdPage = () => {
     useNewForm(initialFormValues);
 
   const postFindId = async () => {
-    const { status } = await findId(form.email.value);
+    const { status } = await findId(form.email.value!);
 
     if (status === 200) {
       alert("해당 이메일로 아이디가 전송되었습니다.");

@@ -135,7 +135,7 @@ const StyledAppBar = styled.nav({
   width: "100%",
   position: "sticky",
   top: "0",
-  zIndex: "1",
+  zIndex: "999",
   height: "59px",
   backgroundColor: theme.colors.white,
   borderBottom: `1px solid ${theme.colors.gray.main}`,
