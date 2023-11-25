@@ -8,28 +8,31 @@ import FlexBox from "@/ui/atoms/FlexBox";
 import Container from "@/ui/atoms/Container";
 import Typography from "@/ui/atoms/Typography";
 import theme from "@/ui/theme";
-import useNewForm from "@/hooks/useNewForm/useNewForm";
+import useNewForm, {
+  FormPropertyType,
+  FormType,
+} from "@/hooks/useNewForm/useNewForm";
 import {
   SignImageContainer,
   SignInputFormContainer,
 } from "@/components/pages/account/AccountContainers";
 
 const FindPwPage = () => {
-  const initialFormValues = {
+  interface FindPasswordFormValuesType extends FormType {
+    email: FormPropertyType<string>;
+    id: FormPropertyType<string>;
+  }
+  const initialFormValues: FindPasswordFormValuesType = {
     email: {
-      value: "",
       validCondition: {
         required: true,
         regex: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
       },
-      isValid: "initial",
     },
     id: {
-      value: "",
       validCondition: {
         required: true,
       },
-      isValid: "initial",
     },
   };
 
