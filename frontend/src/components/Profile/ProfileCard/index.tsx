@@ -72,7 +72,7 @@ const ProfileCard = ({
 };
 
 const CardContainer = styled(Card)(({ imgUrl }: { imgUrl: string }) => ({
-  background: `url(${imgUrl}) no-repeat`,
+  background: `linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.50) 70.83%), url(${imgUrl}), lightgray -28.063px 0px / 217.894% 100% no-repeat`,
   [device("mdWeb")]: {
     backgroundPosition: "top",
   },
