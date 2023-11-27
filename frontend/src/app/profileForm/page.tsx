@@ -149,7 +149,6 @@ const ProfileFormPage = () => {
     e.preventDefault();
 
     const isFormValid = validateAllFormValues();
-    console.log(form);
 
     if (isFormValid) {
       processData();

@@ -29,74 +29,111 @@ import { useDispatch } from "react-redux";
 import useRedirectMentorRegisterForm from "@/hooks/useRedirectMentorApplyForm";
 import { localUser, setLocalUser } from "@/utils/tempUser";
 import { handleApiCallback } from "@/utils/api";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import useInitiallizeFormValues from "@/hooks/useInitiallizeFormValues";
 import { CAREERS } from "@/constants";
+import useNewForm, {
+  FormPropertyType,
+  FormType,
+} from "@/hooks/useNewForm/useNewForm";
+import { useGetMentorQuery } from "@/queries/mentorQuery";
 
 const MentorRegisterForm = () => {
   useRedirectMentorRegisterForm();
   const router = useRouter();
   const dispatch = useDispatch();
+  const { id: memberId, mentorId } = useSelector(selectUser);
+  const { file, onUploadFile } = useUploadFile();
+  const isEdit = useSearchParams().get("edit");
+  const [openJobSelector, setOpenJobSelector] = useState(false);
+  const formData = new FormData();
 
-  const initialFormValues: FormValues = {
-    company: "",
-    introduction: "",
-    jobName: "",
-    job: "",
-    career: "",
-    inOffice: false,
-    mentoringCategories: [],
+  interface MentorRegisterFormValuesType extends FormType {
+    company: FormPropertyType<string>;
+    introduction: FormPropertyType<string>;
+    jobName: FormPropertyType<string>;
+    job: FormPropertyType<string>;
+    career: FormPropertyType<string>;
+    inOffice: FormPropertyType<boolean>;
+    mentoringCategories: FormPropertyType<string[]>;
+  }
+
+  const initialFormValues: MentorRegisterFormValuesType = {
+    company: {
+      validCondition: {
+        required: true,
+      },
+    },
+    introduction: {
+      validCondition: {
+        required: true,
+        minLength: 50,
+      },
+    },
+    jobName: {
+      validCondition: {
+        required: true,
+      },
+    },
+    job: {
+      validCondition: {
+        required: true,
+      },
+    },
+    career: {
+      validCondition: {
+        required: true,
+      },
+    },
+    inOffice: {
+      validCondition: {
+        required: true,
+      },
+    },
+    mentoringCategories: {
+      validCondition: {
+        required: true,
+      },
+    },
   };
-  const { formValues, isEdit, pathParams } =
-    useInitiallizeFormValues<FormValues>(initialFormValues);
+
+  const { data } = useGetMentorQuery(mentorId!);
 
   const {
     form,
-    setForm,
-    validateForm,
-    invalid,
     handleFormValueChange,
-    formInvalid,
-  } = useForm<FormValues>(formValues);
-
-  const { id: memberId, mentorId } = useSelector(selectUser);
-  const { file, onUploadFile } = useUploadFile();
-
-  const [job, setJob] = useState(isEdit ? pathParams.get("job")! : "");
-  const [openJobSelector, setOpenJobSelector] = useState(false);
-  const [mentoringCategories, setMentoringCategories] = useState<string[]>(
-    isEdit ? pathParams.get("mentoringCategories")?.split(",")! : ["면접대비"]
-  );
-
-  const formData = new FormData();
-
-  useEffect(() => {
-    setForm({ ...form, job });
-  }, [job]);
-  const handleMentorProfileSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    if (formInvalid) return;
-    processData();
-    createFormData(form);
-
-    if (isEdit) editMentor();
-    else registerMentor();
-  };
+    validateAllFormValues,
+    convertToFormData,
+  } = useNewForm(initialFormValues, data!);
 
   const processData = () => {
-    form.mentoringCategories = MENTOR_CATEGORIES.filter((category) =>
-      mentoringCategories.includes(category.text)
+    form.mentoringCategories.value = MENTOR_CATEGORIES.filter((category) =>
+      form.mentoringCategories.value.includes(category.text)
     ).map((category) => category.value);
   };
 
-  const createFormData = (form: FormValues) => {
-    const formValues = { ...form };
+  const createFormData = () => {
+    const formValues = convertToFormData();
 
     const blob = new Blob([JSON.stringify(formValues)], {
       type: "application/json",
     });
     formData.append("mentor", blob);
     formData.append("file", file.data!);
+  };
+
+  const handleMentorProfileSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+
+    const isFormValid = validateAllFormValues();
+
+    if (isFormValid) {
+      processData();
+      createFormData();
+
+      if (isEdit) await editMentor();
+      else await registerMentor();
+    }
   };
 
   const registerMentor = async () => {
@@ -152,8 +189,8 @@ const MentorRegisterForm = () => {
                 id="company"
                 name="company"
                 onChange={handleFormValueChange}
-                value={form.company}
-                invalid={invalid("company", { required: true })}
+                value={form.company.value}
+                invalid={form.company.isValid === "invalid"}
               />
               <FlexBox justifyContent="space-between" columnGap="10px">
                 <FlexBox
@@ -163,26 +200,29 @@ const MentorRegisterForm = () => {
                 >
                   <JobSelector
                     id="job"
-                    invalid={invalid("job", { required: true })}
-                    selected={job}
-                    setSelected={setJob}
+                    invalid={form.job.isValid === "invalid"}
+                    selected={form.job.value}
+                    setSelected={(job) =>
+                      handleFormValueChange({ name: "job", value: job })
+                    }
                     open={openJobSelector}
                     setOpen={setOpenJobSelector}
                   />
+                  {form.job.value}
                   <Dropdown
                     id="career"
                     width="50%"
                     type="form"
                     title="경력"
                     categories={CAREERS}
-                    selectedCategory={form.career}
+                    selectedCategory={form.career.value}
                     setSelectedCategory={(career) =>
                       handleFormValueChange({
                         name: "career",
                         value: career,
                       })
                     }
-                    invalid={invalid("career", { required: true })}
+                    invalid={form.career.isValid === "invalid"}
                   />
                 </FlexBox>
 
@@ -192,7 +232,7 @@ const MentorRegisterForm = () => {
                     handleClick={() => {
                       handleFormValueChange({
                         name: "inOffice",
-                        value: !form.inOffice,
+                        value: !form.inOffice.value,
                       });
                     }}
                   />
@@ -211,8 +251,8 @@ const MentorRegisterForm = () => {
               placeholder="프로필에 표시 될 직무명을 입력해주세요."
               outline
               onChange={handleFormValueChange}
-              value={form.jobName}
-              invalid={invalid("jobName", { required: true })}
+              value={form.jobName.value}
+              invalid={form.jobName.isValid === "invalid"}
             />
           </ContentTextContainer>
           <ContentTextContainer
@@ -243,8 +283,15 @@ const MentorRegisterForm = () => {
           </ContentTextContainer>
           <ContentTextContainer text="멘토링분야" helpText="(최대 4개)">
             <MentoringCategoriesSelector
-              mentoringCategories={mentoringCategories}
-              setMentoringCategories={setMentoringCategories}
+              id="mentoringCategories"
+              mentoringCategories={form.mentoringCategories.value}
+              setMentoringCategories={(category) => {
+                console.log(category);
+                handleFormValueChange({
+                  name: "mentoringCategories",
+                  value: category,
+                });
+              }}
             />
           </ContentTextContainer>
           <ContentTextContainer
@@ -258,19 +305,11 @@ const MentorRegisterForm = () => {
               placeholder="최소 50 글자"
               outline
               onChange={handleFormValueChange}
-              value={form.introduction}
-              invalid={invalid("introduction", {
-                required: true,
-                min: 50,
-              })}
+              value={form.introduction.value}
+              invalid={form.introduction.isValid === "invalid"}
             />
           </ContentTextContainer>
-          <Button
-            width="100%"
-            onClick={validateForm}
-            variant="square"
-            type="submit"
-          >
+          <Button width="100%" variant="square" type="submit">
             저장
           </Button>
         </FlexBox>
@@ -278,15 +317,5 @@ const MentorRegisterForm = () => {
     </FormContainer>
   );
 };
-
-interface FormValues {
-  company: string;
-  introduction: string;
-  jobName: string;
-  job: string;
-  career: string;
-  inOffice: boolean;
-  mentoringCategories: string[];
-}
 
 export default MentorRegisterForm;
