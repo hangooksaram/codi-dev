@@ -99,6 +99,8 @@ const MentorRegisterForm = () => {
 
   const { data } = useGetMentorQuery(mentorId!);
 
+  const isCertificate = data?.fileUrl;
+
   const {
     form,
     handleFormValueChange,
@@ -208,7 +210,6 @@ const MentorRegisterForm = () => {
                     open={openJobSelector}
                     setOpen={setOpenJobSelector}
                   />
-                  {form.job.value}
                   <Dropdown
                     id="career"
                     width="50%"
@@ -229,6 +230,7 @@ const MentorRegisterForm = () => {
                 <div>
                   <Checkbox
                     label="재직중"
+                    value={form.inOffice.value}
                     handleClick={() => {
                       handleFormValueChange({
                         name: "inOffice",
@@ -260,38 +262,38 @@ const MentorRegisterForm = () => {
             helpText="(선택)"
             labelColor={theme.colors.secondary}
           >
-            <IconInputContainer iconComponent={<ProfileImage />}>
-              <Input disabled outline value={file.name} />
-              <div style={{ display: "none" }}>
-                <Input
-                  id="certificate"
-                  type="file"
-                  accept="application/pdf"
-                  onChange={onUploadFile}
-                />
-              </div>
-            </IconInputContainer>
-            <Button
-              onClick={() => document.getElementById("certificate")?.click()}
-              type="button"
-              variant="square"
-              {...{ minWidth: "fit-content" }}
-              disabled={isEdit !== null}
-            >
-              등록하기
-            </Button>
+            <FlexBox columnGap="8px">
+              <IconInputContainer iconComponent={<ProfileImage />}>
+                <Input disabled outline value={file.name} />
+                <div style={{ display: "none" }}>
+                  <Input
+                    id="certificate"
+                    type="file"
+                    accept="application/pdf"
+                    onChange={onUploadFile}
+                  />
+                </div>
+              </IconInputContainer>
+              <Button
+                onClick={() => document.getElementById("certificate")?.click()}
+                type="button"
+                variant="square"
+                {...{ minWidth: "fit-content" }}
+              >
+                {isCertificate ? "수정하기" : "등록하기"}
+              </Button>
+            </FlexBox>
           </ContentTextContainer>
           <ContentTextContainer text="멘토링분야" helpText="(최대 4개)">
             <MentoringCategoriesSelector
               id="mentoringCategories"
               mentoringCategories={form.mentoringCategories.value}
-              setMentoringCategories={(category) => {
-                console.log(category);
+              setMentoringCategories={(category) =>
                 handleFormValueChange({
                   name: "mentoringCategories",
                   value: category,
-                });
-              }}
+                })
+              }
             />
           </ContentTextContainer>
           <ContentTextContainer
