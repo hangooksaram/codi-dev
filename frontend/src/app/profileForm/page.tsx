@@ -248,7 +248,7 @@ const ProfileFormPage = () => {
               onClick={() => document.getElementById("profileImage")?.click()}
               {...{ marginLeft: "10px" }}
             >
-              등록하기
+              {isEdit && data?.imgUrl ? "수정하기" : "등록하기"}
             </Button>
           </ContentTextContainer>
           <ContentTextContainer text="장애 분류">
