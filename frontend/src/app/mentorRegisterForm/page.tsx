@@ -230,11 +230,11 @@ const MentorRegisterForm = () => {
                 <div>
                   <Checkbox
                     label="재직중"
-                    value={form.inOffice.value}
-                    handleClick={() => {
+                    checked={form.inOffice.value}
+                    setChecked={(value) => {
                       handleFormValueChange({
                         name: "inOffice",
-                        value: !form.inOffice.value,
+                        value: value,
                       });
                     }}
                   />

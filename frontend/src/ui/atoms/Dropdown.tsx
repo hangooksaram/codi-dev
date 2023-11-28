@@ -86,14 +86,14 @@ const DropdownGridContent = forwardRef<HTMLDivElement, DropdownContentProps>(
           columnGap="80px"
           rowGap="22px"
         >
-          {categories.map((category, index) => (
+          {/* {categories.map((category, index) => (
             <Checkbox
               width="20%"
               label={category}
               key={`${index}-${category}`}
               handleClick={setCategory}
             />
-          ))}
+          ))} */}
         </FlexBox>
       </DropdownGridCard>
     );

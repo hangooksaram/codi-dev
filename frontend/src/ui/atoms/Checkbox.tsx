@@ -4,35 +4,36 @@ import FileedCheckbox from "@icons/common/filled-checkbox.svg";
 import { useState } from "react";
 import Typography from "./Typography";
 import FlexBox from "./FlexBox";
+import { SetState } from "@/index";
 
 const Checkbox = ({
   width,
   label,
-  handleClick,
+  checked,
+  setChecked,
 }: {
   width?: string;
   label: string | number;
-  handleClick: Function;
+  checked: boolean;
+  setChecked: SetState<boolean>;
 }) => {
-  const [checked, setChecked] = useState(false);
-
   const toggle = () => {
-    handleClick(label);
-    setChecked((prev) => !prev);
+    setChecked(!checked);
   };
   return (
     <FlexBox
       justifyContent="flex-start"
       alignItems="center"
-      width={"fit-content"}
+      width={width ?? "fit-content"}
       columnGap="10px"
       {...{ minWidth: "150px" }}
+      onClick={toggle}
     >
       <div style={{ width: "24px", height: "24px" }}>
         {checked ? (
-          <FileedCheckbox onClick={toggle} fill={theme.colors.black} />
+          <FileedCheckbox fill={theme.colors.black} />
         ) : (
-          <EmptyCheckbox onClick={toggle} fill={theme.colors.gray.dark} />
+          <EmptyCheckbox fill={theme.colors.gray.dark} />
         )}
       </div>
 
