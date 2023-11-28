@@ -186,6 +186,14 @@ const DropdownItem = styled.button`
   background-color: ${theme.colors.white};
   border: none;
   cursor: pointer;
+  :hover {
+    background-color: ${theme.colors.primary};
+    color: ${theme.colors.white};
+  }
+  :focus {
+    background-color: ${theme.colors.primary};
+    color: ${theme.colors.white};
+  }
 `;
 
 const Divider = styled.div`
