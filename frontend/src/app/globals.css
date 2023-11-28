@@ -22,12 +22,6 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-}
-
 .calendar-today {
   border-radius: 50px;
   background: #ecf1f6 !important;
