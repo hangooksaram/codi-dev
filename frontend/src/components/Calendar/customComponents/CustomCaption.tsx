@@ -4,6 +4,7 @@ import { CaptionProps, useNavigation } from "react-day-picker";
 import { CustomCaptionNavigation, CustomContentDates } from "../style";
 import LeftIcon from "@icons/common/left-arrow.svg";
 import RightIcon from "@icons/common/right-arrow.svg";
+import theme from "@/ui/theme";
 
 interface CustomCaptionProps extends CaptionProps {
   setMonth: SetState<string | undefined>;
@@ -23,7 +24,7 @@ export const CustomCaption = (props: CustomCaptionProps) => {
         type="button"
         onClick={() => handleGoToMonth(previousMonth!)}
       >
-        <LeftIcon />
+        <LeftIcon width={24} height={24} fill={theme.colors.gray.main} />
       </CustomCaptionNavigation>
 
       {`${new Date(props.displayMonth).getFullYear()}.${
@@ -34,7 +35,7 @@ export const CustomCaption = (props: CustomCaptionProps) => {
         disabled={!nextMonth}
         onClick={() => handleGoToMonth(nextMonth!)}
       >
-        <RightIcon />
+        <RightIcon width={24} height={24} fill={theme.colors.gray.main} />
       </CustomCaptionNavigation>
     </CustomContentDates>
   );

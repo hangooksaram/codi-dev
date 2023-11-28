@@ -23,7 +23,7 @@ const Button = styled.button(
     outline?: boolean;
   }) => ({
     width: width ?? "fit-content",
-    minWidth: "48px",
+    minWidth: "39px",
     backgroundColor: color ?? theme.colors.primary,
     borderRadius: borderRadius(variant),
     height: height(variant, width, size),

@@ -11,8 +11,6 @@ export type RegisterMentorBody = {
 export interface GetMentorsParameters {
   direction?: string;
   job?: string;
-  page: number;
-  size: number;
   career?: string;
   disability?: string;
   keyword?: string;
