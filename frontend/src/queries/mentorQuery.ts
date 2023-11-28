@@ -71,7 +71,7 @@ export const useGetMentorQuery = (mentorId: number) => {
     () => getMentor(mentorId),
     {
       enabled: mentorId !== undefined && mentorId !== 0,
-      staleTime: STALE_TIME.OFTEN,
+      staleTime: STALE_TIME.VERY_OFTEN,
     }
   );
 
