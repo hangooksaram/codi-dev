@@ -10,6 +10,7 @@ const ImageComponent = ({
   ...rest
 }: LocalImagePropsType) => (
   <Image
+    tabIndex={1}
     src={src}
     alt={alt}
     style={{ width: width, height: height }}

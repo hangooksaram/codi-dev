@@ -1,3 +1,4 @@
+import { MOBILE_NAVIGATION_HEIGHT } from "@/constants";
 import theme, { device } from "@/ui/theme";
 import styled from "@emotion/styled";
 
@@ -6,6 +7,9 @@ const Container = styled.main(({ width }: { width?: string }) => ({
   margin: "0 auto",
   [device("tablet")]: {
     width: "90%",
+  },
+  [device("smWeb")]: {
+    paddingBottom: `${MOBILE_NAVIGATION_HEIGHT}px`,
   },
 }));
 

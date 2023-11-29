@@ -35,14 +35,14 @@ export default function MyCodiLayout({
               color={theme.colors.gray.dark}
               {...{ marginRight: "10px" }}
             >
-              아직 아이디가 없어요
+              로그인이 필요해요.
             </Typography>
             <Button
               size="small"
-              onClick={() => router.push("/signup")}
+              onClick={() => router.push("/signin")}
               variant="default"
             >
-              회원가입 하러 가기
+              로그인 하러 가기
             </Button>
           </FlexBox>
         )}

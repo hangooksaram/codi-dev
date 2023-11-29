@@ -28,6 +28,7 @@ import ImageComponent from "@/ui/atoms/ImageComponent";
 import highlightImage from "@images/webAccessibility/highlight.png";
 import focusingboxImage from "@images/webAccessibility/focusingbox.png";
 import { SetState } from "@/index";
+import { MOBILE_NAVIGATION_HEIGHT } from "@/constants";
 
 const BOX_LIST = ["하이라이터", "포커싱 박스"];
 
@@ -298,7 +299,7 @@ const StyledFloating = {
       width: "100%",
       top: "0",
       left: "0",
-      height: "calc(100vh - 128px);",
+      height: `calc(100vh - ${MOBILE_NAVIGATION_HEIGHT}px);`,
       padding: "30px",
       borderRadius: 0,
     },

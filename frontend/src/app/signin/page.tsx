@@ -9,7 +9,7 @@ import StyledLink from "@/ui/atoms/Link";
 import FlexBox from "@/ui/atoms/FlexBox";
 import Typography from "@/ui/atoms/Typography";
 import Container from "@/ui/atoms/Container";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import StyledImage from "@/ui/atoms/StyledImage";
 import styled from "@emotion/styled";
@@ -22,6 +22,7 @@ import { useDispatch } from "react-redux";
 import { setUser } from "@/features/user/userSlice";
 import ImageComponent from "@/ui/atoms/ImageComponent";
 import signInImage from "@images/signin-image.png";
+import usePressEnterKey from "@/hooks/usePressEnterKey";
 
 const SignInPage = () => {
   const router = useRouter();
@@ -40,6 +41,9 @@ const SignInPage = () => {
       alert("로그인이 실패했습니다.");
     }
   };
+
+  const signInButtonRef = useRef<HTMLButtonElement>(null);
+  usePressEnterKey(signInButtonRef);
 
   return (
     <FlexBox {...{ height: "100%" }}>
@@ -89,7 +93,13 @@ const SignInPage = () => {
               type="password"
               placeholder="비밀번호를 입력해주세요"
             />
-            <Button onClick={login} width="100%" variant="square" size="big">
+            <Button
+              ref={signInButtonRef}
+              onClick={login}
+              width="100%"
+              variant="square"
+              size="big"
+            >
               로그인
             </Button>
           </FlexBox>

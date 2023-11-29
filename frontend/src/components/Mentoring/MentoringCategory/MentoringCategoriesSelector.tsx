@@ -23,45 +23,55 @@ export const MENTOR_CATEGORIES = [
 ];
 
 const MentorCategoriesSelector = ({
+  id,
   mentoringCategories,
   setMentoringCategories,
 }: {
+  id: string;
   mentoringCategories: string[];
   setMentoringCategories: Dispatch<SetStateAction<string[]>>;
-}) => (
-  <FlexBox justifyContent="flex-start" columnGap="10px" rowGap="10px" isWrap>
-    {MENTOR_CATEGORIES.map(({ iconComponent: IconComponent, text }, index) => (
-      <div
-        key={index}
-        onClick={() => {
-          if (mentoringCategories.includes(text))
-            setMentoringCategories((prev) =>
-              prev.filter((category) => category !== text)
-            );
-          else setMentoringCategories([...mentoringCategories, text]);
-        }}
-      >
-        <MentoringCategoryButton
-          variant="square"
-          type="button"
-          selected={mentoringCategories.includes(text)}
-          disabled={
-            !mentoringCategories.includes(text) &&
-            mentoringCategories.length > 3
-          }
-        >
-          <IconComponent
-            fill={
-              mentoringCategories.includes(text)
-                ? theme.colors.white
-                : theme.colors.primary
-            }
-          />
-          {text}
-        </MentoringCategoryButton>
-      </div>
-    ))}
-  </FlexBox>
-);
+}) => {
+  const handleClickMentoringCategory = (text: string) => {
+    const copied = [...mentoringCategories];
+
+    if (mentoringCategories?.includes(text))
+      setMentoringCategories([
+        ...copied.filter((category) => category !== text),
+      ]);
+    else setMentoringCategories([...copied, text]);
+  };
+  return (
+    <FlexBox justifyContent="flex-start" columnGap="10px" rowGap="10px" isWrap>
+      {MENTOR_CATEGORIES.map(
+        ({ iconComponent: IconComponent, text }, index) => (
+          <div
+            id={id}
+            key={index}
+            onClick={() => handleClickMentoringCategory(text)}
+          >
+            <MentoringCategoryButton
+              variant="square"
+              type="button"
+              selected={mentoringCategories?.includes(text)}
+              disabled={
+                !mentoringCategories?.includes(text) &&
+                mentoringCategories?.length > 3
+              }
+            >
+              <IconComponent
+                fill={
+                  mentoringCategories?.includes(text)
+                    ? theme.colors.white
+                    : theme.colors.primary
+                }
+              />
+              {text}
+            </MentoringCategoryButton>
+          </div>
+        )
+      )}
+    </FlexBox>
+  );
+};
 
 export default MentorCategoriesSelector;

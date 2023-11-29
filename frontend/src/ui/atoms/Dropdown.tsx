@@ -86,14 +86,14 @@ const DropdownGridContent = forwardRef<HTMLDivElement, DropdownContentProps>(
           columnGap="80px"
           rowGap="22px"
         >
-          {categories.map((category, index) => (
+          {/* {categories.map((category, index) => (
             <Checkbox
               width="20%"
               label={category}
               key={`${index}-${category}`}
               handleClick={setCategory}
             />
-          ))}
+          ))} */}
         </FlexBox>
       </DropdownGridCard>
     );
@@ -186,6 +186,14 @@ const DropdownItem = styled.button`
   background-color: ${theme.colors.white};
   border: none;
   cursor: pointer;
+  :hover {
+    background-color: ${theme.colors.primary};
+    color: ${theme.colors.white};
+  }
+  :focus {
+    background-color: ${theme.colors.primary};
+    color: ${theme.colors.white};
+  }
 `;
 
 const Divider = styled.div`

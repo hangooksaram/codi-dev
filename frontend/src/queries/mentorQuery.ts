@@ -5,13 +5,14 @@ import {
   getRecommendationMentors,
 } from "@/api/mentorApi";
 import { STALE_TIME } from "@/constants";
+import { PageInfo } from "@/types/api/common";
 import {
   GetMentorsParameters,
   GetRecommendationMentorsParameters,
 } from "@/types/api/mentor";
 import { Mentor } from "@/types/profile";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export const GET_MENTORS_KEY = ["mentors"];
 export const GET_RECOMMENDATION_MENTORS_KEY = ["mentors/recommendation"];
@@ -20,25 +21,37 @@ export const GET_MENTOR_KEY = ["mentor"];
 
 const useGetMentorsQuery = () => {
   const [searched, setSearched] = useState("");
+  const [size, setSize] = useState(10);
   const [query, setQuery] = useState<GetMentorsParameters>({
-    page: 1,
-    size: 10,
     job: "",
     disability: "",
     career: "",
     keyword: "",
   });
+  const [page, setPage] = useState(1);
 
   const { data, isSuccess, refetch } = useQuery(
-    GET_MENTORS_KEY.concat(searched),
-    () => getMentors(query),
+    GET_MENTORS_KEY.concat([searched, page.toString()]),
+    () => getMentors(query, page, size),
     {
-      staleTime: STALE_TIME.OFTEN,
+      staleTime: STALE_TIME.SOMETIMES,
     }
   );
-  const mentors = data?.data as Mentor[];
 
-  return { query, setQuery, mentors, isSuccess, refetch, setSearched };
+  const mentors = data?.data as Mentor[];
+  const pageInfo = data?.pageInfo as PageInfo;
+
+  return {
+    query,
+    setQuery,
+    mentors,
+    pageInfo,
+    isSuccess,
+    refetch,
+    setSearched,
+    page,
+    setPage,
+  };
 };
 
 export const useGetRecommendationMentorsQuery = (
@@ -71,7 +84,7 @@ export const useGetMentorQuery = (mentorId: number) => {
     () => getMentor(mentorId),
     {
       enabled: mentorId !== undefined && mentorId !== 0,
-      staleTime: STALE_TIME.OFTEN,
+      staleTime: STALE_TIME.VERY_OFTEN,
     }
   );
 
