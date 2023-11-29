@@ -3,16 +3,22 @@ import theme from "@/ui/theme";
 import styled from "@emotion/styled";
 import { ReactNode } from "react";
 
-const Layout = styled.div`
-  width: 100%;
-  background-color: ${theme.colors.white};
-  height: auto;
-  padding: 50px 0px;
-`;
+const Layout = styled.div(({ color }) => ({
+  width: "100%",
+  backgroundColor: color ? color : `${theme.colors.white}`,
+  height: "auto",
+  padding: "50px 0px",
+}));
 
-export const PageComponentLayout = ({ children }: { children: ReactNode }) => {
+export const PageComponentLayout = ({
+  color,
+  children,
+}: {
+  color?: string;
+  children: ReactNode;
+}) => {
   return (
-    <Layout>
+    <Layout color={color}>
       <Container>{children}</Container>
     </Layout>
   );
