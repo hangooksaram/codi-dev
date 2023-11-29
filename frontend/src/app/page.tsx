@@ -1,36 +1,39 @@
 "use client";
 
 import Recommendation from "@/components/pages/mentorsMain/Recommendation";
-import styled from "@emotion/styled";
-import { backgroundImage } from "@/ui/atoms/BackgroundImage";
 import Typography from "@/ui/atoms/Typography";
 import Button from "@/ui/atoms/Button";
 import theme, { device } from "@/ui/theme";
 import { css } from "@emotion/css";
-
 import { useRouter } from "next/navigation";
-import StyledImage from "@/ui/atoms/StyledImage";
 import FlexBox from "@/ui/atoms/FlexBox";
 import { selectUser } from "@/features/user/userSlice";
 import { useSelector } from "react-redux";
 import TodayMentoring from "@/components/pages/main/TodayMentoring";
 import landingBanner from "../../public/images/landing-banner.png";
-import mainLandingBottom from "../../public/images/main-landing-bottom.png";
 import { BackgroundImage } from "@/ui/molecules/Image/BackgroundImage";
-import ImageComponent from "@/ui/atoms/ImageComponent";
+import Footer from "@/components/pages/main/Footer";
+import Dropdown from "@/ui/atoms/Dropdown";
+import { useState } from "react";
 
 const MainLandingPage = () => {
   const router = useRouter();
   const user = useSelector(selectUser);
-  const goToApply = () => {
-    if (!user.id) router.push("/signin");
-    else if (user.profileId) router.push("/mentorRegisterForm");
-    else router.push("/profileForm");
-  };
+
+  const [test, setTest] = useState<string>("");
 
   return (
     <>
-      <FlexBox direction="column" rowGap="20px">
+      <FlexBox {...{ height: "auto" }} direction="column" rowGap="20px">
+        <Dropdown
+          id="career"
+          width="50%"
+          type="form"
+          title="경력"
+          categories={[1, 2, 3]}
+          selectedCategory={test}
+          setSelectedCategory={setTest}
+        />
         <BackgroundImage
           image={{
             width: "100%",
@@ -87,38 +90,10 @@ const MainLandingPage = () => {
         </BackgroundImage>
         {user.id && <TodayMentoring />}
         <Recommendation />
-        <div
-          className={css({
-            width: "100%",
-            [device("tablet")]: {
-              display: "none",
-            },
-          })}
-        >
-          <ImageComponent
-            width="100%"
-            height="auto"
-            src={mainLandingBottom}
-            alt="main-landing-bottom"
-          />
-        </div>
+        <Footer />
       </FlexBox>
     </>
   );
 };
-
-const MainBanner = styled.div(({ src }: { src: string }) => ({
-  ...backgroundImage(src),
-  width: "100%",
-  height: "auto",
-  padding: "10%",
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "center",
-  alignItems: "center",
-  [device("tablet")]: {
-    padding: "0px",
-  },
-}));
 
 export default MainLandingPage;
