@@ -167,3 +167,5 @@ export const STALE_TIME = {
   SOMETIMES: 60 * 1000,
   SELDOM: 600 * 1000,
 };
+
+export const MOBILE_NAVIGATION_HEIGHT = 128;

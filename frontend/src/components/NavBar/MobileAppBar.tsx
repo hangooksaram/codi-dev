@@ -1,3 +1,4 @@
+import { MOBILE_NAVIGATION_HEIGHT } from "@/constants";
 import Button from "@/ui/atoms/Button";
 import Card from "@/ui/atoms/Card";
 import FlexBox from "@/ui/atoms/FlexBox";
@@ -43,7 +44,7 @@ const StyledMobileAppBar = styled.nav({
   position: "fixed",
   bottom: "0",
   zIndex: "1",
-  height: "128px",
+  height: `${MOBILE_NAVIGATION_HEIGHT}px`,
   backgroundColor: theme.colors.background,
   display: "none",
   [device("smWeb")]: {
