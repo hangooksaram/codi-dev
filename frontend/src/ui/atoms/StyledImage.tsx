@@ -2,6 +2,7 @@ import Image from "next/image";
 import { StyledImagePropsType } from "@/types/ui";
 
 const StyledImage = ({
+  id,
   width,
   height,
   src,
@@ -14,6 +15,7 @@ const StyledImage = ({
     style={{ width: width, height: height, position: "relative", ...rest }}
   >
     <Image
+      id={id}
       src={src}
       alt={alt}
       fill

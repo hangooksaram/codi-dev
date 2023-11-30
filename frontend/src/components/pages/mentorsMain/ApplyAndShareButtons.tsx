@@ -2,13 +2,18 @@ import { HOMEPAGE_URL } from "@/constants";
 import { selectUser } from "@/features/user/userSlice";
 import FlexBox from "@/ui/atoms/FlexBox";
 import StyledImage from "@/ui/atoms/StyledImage";
-import { copyTextToClipBoard } from "@/utils/clipboard";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
+import { copyText } from "@/utils/clipboard";
+import { useEffect } from "react";
 
 const ApplyAndShareButtons = () => {
   const { mentorId, id } = useSelector(selectUser);
   const router = useRouter();
+
+  useEffect(() => {
+    copyText("recommend", "homepageUrl", "홈페이지 주소");
+  }, []);
 
   return (
     <FlexBox>
@@ -22,14 +27,18 @@ const ApplyAndShareButtons = () => {
           onClick={() => router.push(id ? `/mentorApplyForm` : `/signup`)}
         />
       )}
-
+      <input
+        style={{ position: "absolute", top: -200 }}
+        id="homepageUrl"
+        value={"ffff"}
+      />
       <StyledImage
+        id="recommend"
         width="651px"
         height="251px"
         src="/images/main-mentor-recommend.png"
         alt="recommend-button"
         {...{ cursor: "pointer" }}
-        onClick={() => copyTextToClipBoard(HOMEPAGE_URL, "홈페이지 주소")}
       />
     </FlexBox>
   );

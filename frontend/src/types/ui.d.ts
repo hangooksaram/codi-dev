@@ -6,6 +6,7 @@ export type gray = {
 };
 
 export interface StyledImagePropsType {
+  id?: string;
   width: string;
   height?: string;
   src: string;
