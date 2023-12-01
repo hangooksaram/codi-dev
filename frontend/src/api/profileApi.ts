@@ -24,12 +24,11 @@ export const registerProfile = async <T>(
 };
 
 export const editProfile = async <T>(
-  profileId: number,
   profile: FormData
 ): Promise<CommonApiResponse<T>> => {
   try {
     const { data, status }: AxiosResponse<T> = await customAxios.patch(
-      `/profiles/${profileId}`,
+      `/profiles/`,
       profile,
       {
         headers: {
@@ -43,6 +42,6 @@ export const editProfile = async <T>(
   }
 };
 
-export const getProfile = async (profileId: number) => {
-  return (await customAxios.get(`/profiles/${profileId}`)).data!;
+export const getProfile = async () => {
+  return (await customAxios.get(`/profiles/`)).data!;
 };

@@ -29,7 +29,7 @@ const MenteeProfile = ({
   profileId: number;
   pageParams?: ReadonlyURLSearchParams;
 }) => {
-  const { data: profile } = useGetProfileQuery(profileId);
+  const { data: profile } = useGetProfileQuery();
   const router = useRouter();
   const acceptMutation = useMentoringAcceptMutation(
     parseInt(pageParams?.get("mentorId")!),

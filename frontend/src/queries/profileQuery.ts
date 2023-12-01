@@ -5,11 +5,9 @@ import { useQuery } from "@tanstack/react-query";
 
 export const GET_MENTORS_KEY = ["mentors"];
 
-const useGetProfileQuery = (profileId: number) => {
+const useGetProfileQuery = () => {
   const { data, isSuccess, isLoading, isError, isFetching } =
-    useQuery<MenteeProfile>(GET_MENTORS_KEY, () => getProfile(profileId), {
-      enabled: Number.isSafeInteger(profileId) && profileId !== 0,
-    });
+    useQuery<MenteeProfile>(GET_MENTORS_KEY, () => getProfile());
 
   return { data, isSuccess, isError, isLoading, isFetching };
 };
