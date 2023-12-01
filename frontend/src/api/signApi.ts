@@ -28,7 +28,7 @@ export const signIn = async (
   try {
     const res = await customAxios.post(`/auth/login`, SignInBody);
     const { data, status } = res;
-    setTokenToLocalStorage(getToken(res.headers as AxiosResponseHeaders));
+    setTokenToLocalStorage(getToken(res.headers as AxiosResponseHeaders)!);
     return { data, status };
   } catch (e: unknown) {
     return handleApiError(e);
