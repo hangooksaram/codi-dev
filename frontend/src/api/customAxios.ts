@@ -1,3 +1,4 @@
+import { getTokenFormLocalStorage } from "@/utils/auth";
 import axios, { AxiosRequestConfig } from "axios";
 
 export const BASE_URL =
@@ -11,16 +12,21 @@ const customAxios = {
   get: (url: string, options?: AxiosRequestConfig) => {
     return instance.get(url, {
       ...options,
+
+      headers: {
+        Authorization: getTokenFormLocalStorage(),
+        ...options?.headers,
+      },
     });
   },
   post: (url: string, data?: object, options?: AxiosRequestConfig) => {
     return instance.post(url, data, {
       ...options,
 
-      // headers: {
-      //   Authorization: `Bearer ${mockToken}`,
-      //   ...options!.headers,
-      // },
+      headers: {
+        Authorization: getTokenFormLocalStorage(),
+        ...options?.headers,
+      },
     });
   },
 
