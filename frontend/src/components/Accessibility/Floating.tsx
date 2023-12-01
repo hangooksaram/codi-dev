@@ -20,7 +20,7 @@ import {
   setLetterSpacing,
   setLineHeight,
   setZoom,
-} from "@/features/webAccessibility/webAccessibliitySlice";
+} from "@/features/webAccessibility/webAccessibilitySlice";
 import { createPortal } from "react-dom";
 import { useSelector } from "react-redux";
 import Overlay from "@/ui/atoms/BackgroundOverlay";
