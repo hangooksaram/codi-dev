@@ -47,8 +47,8 @@ const ProfileFormPage = () => {
   const isEdit = useSearchParams().get("edit");
   const formData = new FormData();
 
-  const { id: memberId, profileId } = useSelector(selectUser)!;
-  const { data, isFetching } = useGetProfileQuery(profileId!);
+  const { id: memberId } = useSelector(selectUser)!;
+  const { data, isFetching } = useGetProfileQuery();
 
   interface ProfileFormValuesType extends FormType {
     introduction: FormPropertyType<string>;
@@ -175,7 +175,7 @@ const ProfileFormPage = () => {
 
   const editProfile = async () => {
     const { data, status, errorMessage } =
-      await patchEditProfile<RegisterProfileResponse>(profileId!, formData);
+      await patchEditProfile<RegisterProfileResponse>(formData);
 
     handleApiCallback(
       status!,

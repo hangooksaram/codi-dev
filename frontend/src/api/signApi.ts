@@ -1,9 +1,15 @@
-import axios, { AxiosError, AxiosResponse, isAxiosError } from "axios";
+import axios, {
+  AxiosError,
+  AxiosResponse,
+  AxiosResponseHeaders,
+  isAxiosError,
+} from "axios";
 
 import customAxios from "./customAxios";
 import { handleApiError } from "@/utils/api";
 import { CommonApiResponse } from "@/types/api/common";
 import { SignInBody, SignUpBody, UpdatePasswordBody } from "@/types/api/sign";
+import { getToken, setTokenToLocalStorage } from "@/utils/auth";
 
 export const signUp = async (
   SignUpBody: SignUpBody
@@ -20,7 +26,9 @@ export const signIn = async (
   SignInBody: SignInBody
 ): Promise<CommonApiResponse> => {
   try {
-    const { data, status } = await customAxios.post(`/signin`, SignInBody);
+    const res = await customAxios.post(`/auth/login`, SignInBody);
+    const { data, status } = res;
+    setTokenToLocalStorage(getToken(res.headers as AxiosResponseHeaders)!);
     return { data, status };
   } catch (e: unknown) {
     return handleApiError(e);

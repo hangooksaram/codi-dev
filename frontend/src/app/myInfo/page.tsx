@@ -11,8 +11,8 @@ import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 
 const MyInfoPage = () => {
-  const profileId = useSelector(selectUser).profileId;
-  const { data: profile, isLoading, isError } = useGetProfileQuery(profileId!);
+  const profileId = useSelector(selectUser).isProfile;
+  const { data: profile, isLoading, isError } = useGetProfileQuery();
 
   const router = useRouter();
 

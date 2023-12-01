@@ -5,7 +5,7 @@ import {
   selectLineHeight,
   selectZoom,
   setHighlight,
-} from "@/features/webAccessibility/webAccessibliitySlice";
+} from "@/features/webAccessibility/webAccessibilitySlice";
 import styled from "@emotion/styled";
 import { useSelector } from "react-redux";
 import Highlight from "../Accessibility/Highlight";

@@ -1,3 +1,4 @@
+import { getTokenFormLocalStorage } from "@/utils/auth";
 import axios, { AxiosRequestConfig } from "axios";
 
 export const BASE_URL =
@@ -5,6 +6,9 @@ export const BASE_URL =
 
 const instance = axios.create({
   baseURL: BASE_URL,
+  headers: {
+    Authorization: getTokenFormLocalStorage()?.access.value,
+  },
 });
 
 const customAxios = {
@@ -16,41 +20,23 @@ const customAxios = {
   post: (url: string, data?: object, options?: AxiosRequestConfig) => {
     return instance.post(url, data, {
       ...options,
-
-      // headers: {
-      //   Authorization: `Bearer ${mockToken}`,
-      //   ...options!.headers,
-      // },
     });
   },
 
   patch: (url: string, data?: object, options?: AxiosRequestConfig) => {
     return instance.patch(url, data, {
       ...options,
-
-      // headers: {
-      //   Authorization: `Bearer ${mockToken}`,
-      //   ...options!.headers,
-      // },
     });
   },
 
   delete: (url: string, data?: object, options?: AxiosRequestConfig) => {
     return instance.delete(url, {
       ...options,
-      // headers: {
-      //   Authorization: `Bearer ${mockToken}`,
-      //   ...options!.headers,
-      // },
     });
   },
   put: (url: string, data?: object, options?: AxiosRequestConfig) => {
     return instance.post(url, data, {
       ...options,
-      // headers: {
-      //   Authorization: `Bearer ${mockToken}`,
-      //   ...options!.headers,
-      // },
     });
   },
 };
