@@ -59,14 +59,14 @@ export const {
 } = webAccessibilitySlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectZoom = (state: RootState) => state.webAccessibliity.zoom;
+export const selectZoom = (state: RootState) => state.webAccessibility.zoom;
 export const selectHighlight = (state: RootState) =>
-  state.webAccessibliity.highlight;
+  state.webAccessibility.highlight;
 export const selectLetterSpacing = (state: RootState) =>
-  state.webAccessibliity.letterSpacing;
+  state.webAccessibility.letterSpacing;
 export const selectLineHeight = (state: RootState) =>
-  state.webAccessibliity.lineHeight;
+  state.webAccessibility.lineHeight;
 export const selectFocused = (state: RootState) =>
-  state.webAccessibliity.focused;
+  state.webAccessibility.focused;
 
 export default webAccessibilitySlice.reducer;

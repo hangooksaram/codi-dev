@@ -1,12 +1,12 @@
 import userSlice from "@/features/user/userSlice";
-import webAccessibliitySlice from "@/features/webAccessibility/webAccessibliitySlice";
+import webAccessibilitySlice from "@/features/webAccessibility/webAccessibilitySlice";
 
 import { configureStore } from "@reduxjs/toolkit";
 // ...
 
 export const store = configureStore({
   reducer: {
-    webAccessibliity: webAccessibliitySlice,
+    webAccessibility: webAccessibilitySlice,
     user: userSlice,
   },
 });
