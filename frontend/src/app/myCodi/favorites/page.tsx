@@ -2,15 +2,12 @@
 
 import MentorList from "@/components/Mentor/Mentors/MentorList";
 import MyInfoCommonContainerCard from "@/components/pages/myInfoCommon/MyInfoCommonContainerCard";
-import { selectUser } from "@/features/user/userSlice";
 import { useGetFavoriteMentorsQuery } from "@/queries/mentorQuery";
 import FlexBox from "@/ui/atoms/FlexBox";
 import LabelBox from "@/ui/molecules/LabelBox";
-import { useSelector } from "react-redux";
 
 const FavoritesPage = () => {
-  const { profileId } = useSelector(selectUser);
-  const { data, isSuccess } = useGetFavoriteMentorsQuery(profileId!);
+  const { data, isSuccess } = useGetFavoriteMentorsQuery();
 
   return (
     <FlexBox direction="column">

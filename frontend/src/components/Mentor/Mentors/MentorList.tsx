@@ -9,15 +9,12 @@ import ProfileCard from "@/components/Profile/ProfileCard";
 import { Mentor } from "@/types/profile";
 import Button from "@/ui/atoms/Button";
 import { useRouter } from "next/navigation";
-import { useSelector } from "react-redux";
-import { selectUser } from "@/features/user/userSlice";
 import { useGetFavoriteMentorsQuery } from "@/queries/mentorQuery";
 
 const MentorList = ({ mentors }: { mentors: Mentor[] }) => {
   const router = useRouter();
-  const { profileId } = useSelector(selectUser);
   const { favoriteIds, isSuccess: isFavoritesSuccess } =
-    useGetFavoriteMentorsQuery(profileId!);
+    useGetFavoriteMentorsQuery();
 
   if (mentors.length === 0)
     return (
