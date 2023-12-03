@@ -1,4 +1,4 @@
-"use cient";
+"use client";
 
 import Button from "@/ui/atoms/Button";
 import Chip from "@/ui/atoms/Chip";
@@ -8,44 +8,32 @@ import theme from "@/ui/theme";
 import FilledLike from "@icons/common/filled-like.svg";
 import EmptyLike from "@icons/common/empty-like.svg";
 import Edit from "@icons/common/edit.svg";
-import { useSelector } from "react-redux";
-import { selectUser, setUser } from "@/features/user/userSlice";
 import { likeMentor, unLikeMentor } from "@/api/mentorApi";
-import { setLocalUser } from "@/utils/tempUser";
 import { useEffect, useState } from "react";
 
 const Header = ({
   edit,
-  mentor,
   mentorId,
   favorites,
   applicationDate,
 }: {
   edit?: boolean;
-  mentor?: boolean;
   mentorId?: number;
   favorites?: number[];
   applicationDate?: string;
 }) => {
-  const user = useSelector(selectUser);
-  const [localFavorites, setLocalFavorites] = useState<number[]>([]);
+  const [localFavoriteState, setLocalFavoriteState] = useState(false);
   const toggleLikeMentor = async () => {
-    if (localFavorites?.includes(mentorId!) === true) {
-      const { status } = await unLikeMentor(user?.profileId!, mentorId!);
-      if (status === 200)
-        setLocalFavorites((prev) =>
-          prev.filter((favorite) => favorite !== mentorId)
-        );
+    if (localFavoriteState) {
+      await unLikeMentor(mentorId!);
     } else {
-      const { status } = await likeMentor(user?.profileId!, mentorId!);
-      if (status === 200) {
-        setLocalFavorites((prev) => prev.concat(mentorId!));
-      }
+      await likeMentor(mentorId!);
     }
+    setLocalFavoriteState((prev) => !prev);
   };
 
   useEffect(() => {
-    setLocalFavorites(favorites!);
+    setLocalFavoriteState(favorites?.includes(mentorId!)!);
   }, [favorites]);
   return (
     <FlexBox justifyContent="space-between">
@@ -66,17 +54,9 @@ const Header = ({
             onClick={toggleLikeMentor}
             variant="round"
             width="48px"
-            color={
-              localFavorites?.includes(mentorId!)
-                ? theme.colors.info
-                : theme.colors.white
-            }
+            color={localFavoriteState ? theme.colors.info : theme.colors.white}
           >
-            {localFavorites?.includes(mentorId!) ? (
-              <FilledLike />
-            ) : (
-              <EmptyLike />
-            )}
+            {localFavoriteState ? <FilledLike /> : <EmptyLike />}
           </Button>
         ))}
     </FlexBox>
