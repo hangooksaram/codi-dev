@@ -6,9 +6,7 @@ import { useGetMentorQuery } from "@/queries/mentorQuery";
 import { useSelector } from "react-redux";
 
 const MentorProfilePage = () => {
-  const { mentorId } = useSelector(selectUser);
-
-  return <MentorProfile mentorId={mentorId!} />;
+  return <MentorProfile />;
 };
 
 export default MentorProfilePage;
