@@ -15,10 +15,10 @@ import forNotMentor from "../../../../public/images/for-not-mentor.png";
 
 const MentorCenterPage = () => {
   const router = useRouter();
-  const mentorId = useSelector(selectUser).mentorId;
+  const user = useSelector(selectUser);
 
   useEffect(() => {
-    if (mentorId) router.replace("/myInfo/mentorCenter/profile/");
+    if (user.isMentor) router.replace("/myInfo/mentorCenter/profile/");
   }, []);
   return (
     <FlexBox direction="column" rowGap="20px" {...{ minHeight: "500px" }}>

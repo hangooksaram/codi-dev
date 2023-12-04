@@ -22,10 +22,10 @@ const MentorProfile = ({
   mentorId,
   pageParams,
 }: {
-  mentorId: number;
+  mentorId?: number;
   pageParams?: ReadonlyURLSearchParams;
 }) => {
-  const { data: mentor } = useGetMentorQuery(mentorId!);
+  const { data: mentor } = useGetMentorQuery(mentorId);
   const router = useRouter();
   const isMentoringApply = pageParams?.get("mentoringApply");
   const isMentoring = pageParams?.get("mentoringId");

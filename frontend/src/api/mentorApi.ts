@@ -72,8 +72,8 @@ export const getMentors = async (
   ).data;
 };
 
-export const getMentor = async (mentorId: number) => {
-  return (await customAxios.get(`/mentors/${mentorId}`)).data!;
+export const getMentor = async (mentorId?: number) => {
+  return (await customAxios.get(`/mentors/${mentorId ?? ""}`)).data!;
 };
 
 export const likeMentor = async (mentorId: number) => {

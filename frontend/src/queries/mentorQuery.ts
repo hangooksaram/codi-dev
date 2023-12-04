@@ -65,10 +65,10 @@ export const useGetRecommendationMentorsQuery = (
     }
   );
 
-export const useGetFavoriteMentorsQuery = (profileId: number) => {
+export const useGetFavoriteMentorsQuery = () => {
   const { data, isSuccess } = useQuery<Mentor[]>(
     GET_FAVORITE_MENTORS_KEY,
-    () => getFavoriteMentors(profileId),
+    () => getFavoriteMentors(),
     {
       staleTime: STALE_TIME.OFTEN,
     }
@@ -78,12 +78,11 @@ export const useGetFavoriteMentorsQuery = (profileId: number) => {
   return { data, isSuccess, favoriteIds };
 };
 
-export const useGetMentorQuery = (mentorId: number) => {
+export const useGetMentorQuery = (mentorId?: number) => {
   const { data, isLoading, isSuccess } = useQuery<Mentor>(
     GET_MENTOR_KEY,
     () => getMentor(mentorId),
     {
-      enabled: mentorId !== undefined && mentorId !== 0,
       staleTime: STALE_TIME.VERY_OFTEN,
     }
   );
