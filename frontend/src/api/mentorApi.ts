@@ -27,12 +27,11 @@ export const registerMentor = async (
 };
 
 export const editMentor = async (
-  mentorId: number,
   mentor: FormData
 ): Promise<CommonApiResponse<RegisterMentorResponse>> => {
   try {
     const { data, status }: AxiosResponse<RegisterMentorResponse> =
-      await customAxios.patch(`/mentors/${mentorId}`, mentor, {
+      await customAxios.patch(`/mentors/`, mentor, {
         headers: {
           "Content-Type": "multitype/form-data",
         },
