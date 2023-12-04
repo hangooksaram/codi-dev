@@ -56,13 +56,7 @@ const MentorProfile = ({
           career={mentor?.career}
           width="313px"
           height="477px"
-          link={`/mentorRegisterForm?edit=${true}&company=${
-            mentor?.company
-          }&introduction=${mentor?.introduction}&jobName=${
-            mentor?.jobName
-          }&job=${mentor?.job}&career=${mentor?.career}&inOffice=${
-            mentor?.inOffice
-          }&mentoringCategories=${mentor?.mentoringCategories}`}
+          link={`/mentorRegisterForm?edit=${true}`}
         >
           {isMentoringApply ? (
             <Button
