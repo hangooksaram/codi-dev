@@ -28,7 +28,7 @@ const AppBar = () => {
   const user = useSelector(selectUser);
 
   const goToApply = () => {
-    if (!user?.profileId)
+    if (!user?.isProfile)
       alert(
         "아직 프로필이 작성되어있지 않습니다. 프로필 작성 페이지로 이동하시겠습니까?"
       );
@@ -45,16 +45,15 @@ const AppBar = () => {
         }, 400);
       } else
         router.push(
-          PROFILE_MENU(user.profileId !== null).find(
-            (menu) => menu.name === selected
-          )!.href!
+          PROFILE_MENU(user.isProfile!).find((menu) => menu.name === selected)!
+            .href!
         );
     }
     return () => setSelected(undefined);
   }, [selected]);
-  console.log(path);
 
   if (NOT_SHOWING_LIST.includes(path)) return;
+
   return (
     domLoaded && (
       <>
@@ -72,22 +71,22 @@ const AppBar = () => {
                 <Alarm />
                 <Dropdown
                   type="menu"
-                  categories={PROFILE_MENU(user.profileId !== null).map(
+                  categories={PROFILE_MENU(user.isProfile !== null).map(
                     ({ name }) => name
                   )}
                   selectedCategory={selected!}
                   setSelectedCategory={setSelected}
                   left
                 >
-                  {user.imgUrl ? (
+                  {/* {user.imgUrl ? (
                     <AppBarProfile src={user.imgUrl!} />
                   ) : (
                     <AppBarProfile>
                       <Profile fill={theme.colors.white} />
                     </AppBarProfile>
-                  )}
+                  )} */}
                 </Dropdown>
-                {!user.mentorId ? (
+                {!user.isMentor ? (
                   <Button
                     size="small"
                     variant="default"
