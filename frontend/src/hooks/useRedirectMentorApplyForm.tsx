@@ -10,7 +10,7 @@ const useRedirectMentorRegisterForm = () => {
   useEffect(() => {
     if (!user.id) {
       router.replace("/signin");
-    } else if (!user.profileId) router.replace("/profileForm");
+    } else if (!user.isProfile) router.replace("/profileForm");
   }, []);
 };
 
