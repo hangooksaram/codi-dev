@@ -17,7 +17,6 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 
 const UpdateMyInfoPage = () => {
-  const { id } = useSelector(selectUser);
   const router = useRouter();
   const [passwordInfo, setPasswordInfo] = useState<UpdatePasswordBody>({
     oldPassword: "",
@@ -25,7 +24,7 @@ const UpdateMyInfoPage = () => {
   });
 
   const updatePassWord = async () => {
-    const { status } = await patchUpdatePassword(id!, {
+    const { status } = await patchUpdatePassword({
       oldPassword: passwordInfo.oldPassword,
       newPassword: passwordInfo.newPassword,
     });

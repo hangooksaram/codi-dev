@@ -54,14 +54,10 @@ export const searchUniv = async () => {
 };
 
 export const updatePassword = async (
-  memberId: string,
   passwordInfo: UpdatePasswordBody
 ): Promise<CommonApiResponse> => {
   try {
-    const { data, status } = await customAxios.patch(
-      `/members/${memberId}`,
-      passwordInfo
-    );
+    const { data, status } = await customAxios.patch(`/members/`, passwordInfo);
     return { data, status };
   } catch (e) {
     return handleApiError(e);
