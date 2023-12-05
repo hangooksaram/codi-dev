@@ -22,9 +22,9 @@ export const signUp = async (
   }
 };
 
-export const signIn = async (
+export const signIn = async <T>(
   SignInBody: SignInBody
-): Promise<CommonApiResponse> => {
+): Promise<CommonApiResponse<T>> => {
   try {
     const res = await customAxios.post(`/auth/login`, SignInBody);
     const { data, status } = res;

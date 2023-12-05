@@ -9,20 +9,19 @@ import StyledLink from "@/ui/atoms/Link";
 import FlexBox from "@/ui/atoms/FlexBox";
 import Typography from "@/ui/atoms/Typography";
 import Container from "@/ui/atoms/Container";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import StyledImage from "@/ui/atoms/StyledImage";
 import styled from "@emotion/styled";
 import Image from "next/image";
 import Card from "@/ui/atoms/Card";
 import Input from "@/ui/atoms/Input";
 import { signIn } from "@/api/signApi";
-import { localUser, setLocalUser } from "@/utils/tempUser";
 import { useDispatch } from "react-redux";
-import { setUser } from "@/features/user/userSlice";
+import { UserSliceState, setUser } from "@/features/user/userSlice";
 import ImageComponent from "@/ui/atoms/ImageComponent";
 import signInImage from "@images/signin-image.png";
 import usePressEnterKey from "@/hooks/usePressEnterKey";
+import useGetProfileQuery from "@/queries/profileQuery";
 
 const SignInPage = () => {
   const router = useRouter();
@@ -30,12 +29,28 @@ const SignInPage = () => {
     id: "",
     password: "",
   });
+  const [isSignInSuccess, setIsSignInSuccess] = useState(false);
+
+  const {
+    data: profile,
+    isSuccess,
+    isFetching,
+  } = useGetProfileQuery(isSignInSuccess);
+
   const dispatch = useDispatch();
   const login = async () => {
-    const { data, status } = await signIn(loginInfo);
+    const { data, status } = await signIn<UserSliceState>(loginInfo);
+    const { id, isProfile, isMentor } = data!;
     if (status === 200) {
-      setLocalUser(data!);
-      dispatch(setUser(localUser()));
+      setIsSignInSuccess(true);
+
+      if (isSuccess) {
+        console.log("성공 후", id, isProfile, isMentor, profile?.imgUrl);
+        dispatch(
+          setUser({ id, isProfile, isMentor, profileImage: profile?.imgUrl })
+        );
+      }
+
       router.push("/");
     } else {
       alert("로그인이 실패했습니다.");

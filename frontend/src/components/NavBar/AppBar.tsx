@@ -16,7 +16,6 @@ import MobileAppBar from "./MobileAppBar";
 import { useSelector } from "react-redux";
 import { selectUser } from "@/features/user/userSlice";
 import { backgroundImage } from "@/ui/atoms/BackgroundImage";
-import { logout } from "@/utils/tempUser";
 
 const NOT_SHOWING_LIST = ["/signin/", "/account/findId/", "/account/findPw/"];
 
@@ -35,11 +34,13 @@ const AppBar = () => {
     router.push("/mentorRegisterForm");
   };
 
+  console.log(user);
+
   useEffect(() => {
     setDomLoaded(true);
     if (selected) {
       if (selected === "로그아웃") {
-        logout();
+        // logout();
         setTimeout(() => {
           window.location.reload();
         }, 400);
@@ -78,13 +79,13 @@ const AppBar = () => {
                   setSelectedCategory={setSelected}
                   left
                 >
-                  {/* {user.imgUrl ? (
-                    <AppBarProfile src={user.imgUrl!} />
+                  {user.profileImage ? (
+                    <AppBarProfile src={user.profileImage!} />
                   ) : (
                     <AppBarProfile>
                       <Profile fill={theme.colors.white} />
                     </AppBarProfile>
-                  )} */}
+                  )}
                 </Dropdown>
                 {!user.isMentor ? (
                   <Button

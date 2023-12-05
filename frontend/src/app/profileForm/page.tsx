@@ -30,7 +30,6 @@ import { handleApiCallback } from "@/utils/api";
 import JobSelector from "@/components/Job/JopSelector";
 import { useSelector } from "react-redux";
 import { selectUser, setUser } from "@/features/user/userSlice";
-import { setLocalUser, localUser } from "@/utils/tempUser";
 import { RegisterProfileResponse } from "@/types/api/profile";
 import { useDispatch } from "react-redux";
 import ContentTextContainer from "@/ui/molecules/Container/ContentTextContainer";
@@ -191,9 +190,10 @@ const ProfileFormPage = () => {
     type: "register" | "edit",
     data: RegisterProfileResponse
   ) => {
-    const { id, imgUrl } = data!;
-    setLocalUser({ profileId: id, imgUrl });
-    dispatch(setUser(localUser()));
+    const { imgUrl } = data;
+
+    dispatch(setUser({ profileImage: imgUrl }));
+
     if (type === "register") {
       if (submitType === "complete") {
         router.push("/");

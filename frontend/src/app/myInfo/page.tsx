@@ -11,13 +11,13 @@ import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 
 const MyInfoPage = () => {
-  const profileId = useSelector(selectUser).isProfile;
+  const isProfile = useSelector(selectUser).isProfile;
   const { data: profile, isLoading, isError } = useGetProfileQuery();
 
   const router = useRouter();
 
   if (isLoading) {
-    if (profileId === null) {
+    if (!isProfile) {
       return (
         <FlexBox direction="column" rowGap="30px">
           <Typography variant="div" color={theme.colors.gray.main}>
@@ -35,7 +35,7 @@ const MyInfoPage = () => {
     return <>error</>;
   }
 
-  return <MenteeProfile profileId={profileId!} />;
+  return <MenteeProfile />;
 };
 
 export default MyInfoPage;
