@@ -4,19 +4,17 @@ import type { RootState } from "../../store/store";
 // Define a type for the slice state
 export interface UserSliceState {
   id?: string;
-  imgUrl?: string;
-  mentorId?: number;
-  profileId?: number;
-  favorites?: number[];
+  isMentor?: boolean;
+  isProfile?: boolean;
+  profileImage?: string;
 }
 
 // Define the initial state using that type
 const initialState: UserSliceState = {
   id: undefined,
-  imgUrl: undefined,
-  mentorId: undefined,
-  profileId: undefined,
-  favorites: undefined,
+  isMentor: false,
+  isProfile: false,
+  profileImage: "",
 };
 
 export const userSlice = createSlice({
@@ -24,9 +22,10 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action) => {
-      state = Object.assign(state, action.payload);
+      const { payload } = action;
+      const newState = { ...state, ...payload };
 
-      return state;
+      return newState;
     },
   },
 });
