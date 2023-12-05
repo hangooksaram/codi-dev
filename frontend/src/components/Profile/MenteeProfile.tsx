@@ -26,7 +26,7 @@ const MenteeProfile = ({
   profileId,
   pageParams,
 }: {
-  profileId: number;
+  profileId?: number;
   pageParams?: ReadonlyURLSearchParams;
 }) => {
   const { data: profile } = useGetProfileQuery();

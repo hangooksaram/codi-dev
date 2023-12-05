@@ -22,9 +22,9 @@ export const signUp = async (
   }
 };
 
-export const signIn = async (
+export const signIn = async <T>(
   SignInBody: SignInBody
-): Promise<CommonApiResponse> => {
+): Promise<CommonApiResponse<T>> => {
   try {
     const res = await customAxios.post(`/auth/login`, SignInBody);
     const { data, status } = res;
@@ -54,14 +54,10 @@ export const searchUniv = async () => {
 };
 
 export const updatePassword = async (
-  memberId: string,
   passwordInfo: UpdatePasswordBody
 ): Promise<CommonApiResponse> => {
   try {
-    const { data, status } = await customAxios.patch(
-      `/members/${memberId}`,
-      passwordInfo
-    );
+    const { data, status } = await customAxios.patch(`/members/`, passwordInfo);
     return { data, status };
   } catch (e) {
     return handleApiError(e);

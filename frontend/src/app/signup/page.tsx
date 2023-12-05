@@ -25,7 +25,7 @@ import { DATE } from "@/constants";
 
 import { handleApiCallback } from "@/utils/api";
 import { SignUpBody } from "@/types/api/sign";
-import { setLocalUser } from "@/utils/tempUser";
+
 import { useDispatch } from "react-redux";
 import { setUser } from "@/features/user/userSlice";
 import Label from "@/ui/atoms/Label";
@@ -106,12 +106,10 @@ const SignUpPage = () => {
     handleApiCallback(
       status!,
       async () => {
-        const { data } = await signIn({
+        await signIn({
           id: values.id,
           password: values.password,
         });
-        setLocalUser(data!);
-        dispatch(setUser(data));
 
         router.push("complete");
       },

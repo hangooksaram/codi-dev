@@ -72,7 +72,6 @@ const JobSelector = ({
           color={theme.colors.white}
           invalid={invalid}
           onClick={() => {
-            console.log(open);
             setOpen((prev) => !prev);
           }}
         >
