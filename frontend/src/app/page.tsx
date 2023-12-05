@@ -15,6 +15,8 @@ import { BackgroundImage } from "@/ui/molecules/Image/BackgroundImage";
 import Footer from "@/components/pages/main/Footer";
 import Dropdown from "@/ui/atoms/Dropdown";
 import { useState } from "react";
+import Input from "@/ui/atoms/Input";
+import { MOBILE_NAVIGATION_HEIGHT } from "@/constants";
 
 const MainLandingPage = () => {
   const router = useRouter();
@@ -24,16 +26,16 @@ const MainLandingPage = () => {
 
   return (
     <>
-      <FlexBox {...{ height: "auto" }} direction="column" rowGap="20px">
-        <Dropdown
-          id="career"
-          width="50%"
-          type="form"
-          title="경력"
-          categories={[1, 2, 3]}
-          selectedCategory={test}
-          setSelectedCategory={setTest}
-        />
+      <FlexBox
+        {...{
+          height: "auto",
+          [device("tablet")]: {
+            paddingBottom: `${MOBILE_NAVIGATION_HEIGHT}px`,
+          },
+        }}
+        direction="column"
+        rowGap="20px"
+      >
         <BackgroundImage
           image={{
             width: "100%",
