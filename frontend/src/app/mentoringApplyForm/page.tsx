@@ -34,19 +34,16 @@ const MentoringApplyFormPage = () => {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [month, setMonth] = useState<string>();
   const param = useSearchParams();
-  const { profileId } = useSelector(selectUser);
-  const mutation = useApplyMentoringMutation(
-    profileId!,
-    parseInt(param.get("mentorId")!)
-  );
+
+  const mutation = useApplyMentoringMutation(parseInt(param.get("mentorId")!));
   const { data } = useDailySchedulesQuery(
-    parseInt(param.get("mentorId")!),
-    formattedDate(date)
+    formattedDate(date),
+    parseInt(param.get("mentorId")!)
   );
 
   const { data: monthlySchedules } = useMonthlySchedulesQuery(
-    parseInt(param.get("mentorId")!)!,
-    formattedMonth(new Date())
+    formattedMonth(new Date()),
+    parseInt(param.get("mentorId")!)!
   );
   const router = useRouter();
 

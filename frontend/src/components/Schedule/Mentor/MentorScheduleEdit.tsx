@@ -23,12 +23,11 @@ const MentorScheduleEdit = ({
   refetchMonthlySchedule: () => void;
 }) => {
   const [selecteds, setSelecteds] = useState<ScheduleTime[]>([]);
-  const { mentorId } = useSelector(selectUser);
 
   useEffect(() => {
     setSelecteds(schedules?.times!);
   }, [date, schedules?.times]);
-  const addSchedule = useScheduleMutation(mentorId!);
+  const addSchedule = useScheduleMutation();
   const selected = (time: string) => {
     return selecteds?.find(({ time: selectedTime }) => selectedTime === time);
   };

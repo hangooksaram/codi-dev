@@ -30,22 +30,17 @@ import Mentorings from "@/components/Mentoring/Mentorings";
 const SchedulePage = () => {
   const [date, setDate] = useState<Date>();
   const [month, setMonth] = useState<string>();
-  const { mentorId } = useSelector(selectUser);
+
   const [type, setType] = useState<"mentor" | "mentee">("mentee");
   const [isEdit, setIsEdit] = useState(false);
-  const { data: dailySchedules } = useDailySchedulesQuery(
-    mentorId!,
-    formattedDate(date)
-  );
+  const { data: dailySchedules } = useDailySchedulesQuery(formattedDate(date));
   const { data: monthlySchedules, refetch: refetchMonthlySchedule } =
-    useMonthlySchedulesQuery(mentorId!, formattedMonth(new Date()));
+    useMonthlySchedulesQuery(formattedMonth(new Date()));
 
   const { data: mentoringsData } = useMonthlyMentoringsQuery({
-    mentorId: mentorId!,
     month: month ?? formattedMonth(new Date()),
   });
   const { data: dailyMentoringData } = useDailyMentoringsQuery({
-    mentorId: mentorId!,
     date: formattedDate(date),
   });
 
