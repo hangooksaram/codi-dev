@@ -14,35 +14,32 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 export const GET_DAILY_SCHEDULES_KEY = ["dailyScheules"];
 export const GET_MONTHLY_SCHEDULES_KEY = ["monthlyScheules"];
 export const ADD_SCHEDULES_KEY = ["addSchedule"];
-const useDailySchedulesQuery = (mentorId: number, date: string) => {
+const useDailySchedulesQuery = (date: string, mentorId?: number) => {
   return useQuery<GetDailySchedulesResponse>(
     GET_DAILY_SCHEDULES_KEY.concat(date),
-    () => getDailySchedules(mentorId, date),
+    () => getDailySchedules(date, mentorId!),
     {
-      enabled: mentorId !== undefined && date !== "",
+      enabled: date !== "",
       retry: false,
       staleTime: STALE_TIME.OFTEN,
     }
   );
 };
 
-export const useMonthlySchedulesQuery = (mentorId: number, month: string) => {
+export const useMonthlySchedulesQuery = (month: string, mentorId?: number) => {
   return useQuery<GetMonthlySchedulesResponse>(
     GET_MONTHLY_SCHEDULES_KEY.concat(month),
-    () => getMonthlySchedules(mentorId, month),
+    () => getMonthlySchedules(month, mentorId!),
     {
-      enabled: mentorId !== undefined && month !== undefined,
+      enabled: month !== undefined,
       staleTime: STALE_TIME.OFTEN,
     }
   );
 };
 
-export const useScheduleMutation = (
-  mentorId: number,
-  refetchMonthlySchedule?: Function
-) => {
+export const useScheduleMutation = (refetchMonthlySchedule?: Function) => {
   return useMutation({
-    mutationFn: (schedule: Schedule) => addSchedule(mentorId, schedule),
+    mutationFn: (schedule: Schedule) => addSchedule(schedule),
     onSuccess: () => {
       if (refetchMonthlySchedule) refetchMonthlySchedule!();
     },
