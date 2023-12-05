@@ -13,7 +13,7 @@ export const BackgroundImage = ({
   children: ReactNode;
 }) => {
   const { width, height } = image;
-  console.log(style);
+
   return (
     <BackgroundImageContainer width={width} height={height} style={style}>
       <ImageComponent {...image}></ImageComponent>

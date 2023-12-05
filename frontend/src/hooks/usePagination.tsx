@@ -58,7 +58,6 @@ const usePagination = (
   }, [...apiDependencies]);
 
   useEffect(() => {
-    console.log(range);
     setCurrentPages(
       Array.from({ length: range.end - range.start + 1 }).map(
         (page, index) => (page = range.start + index)
