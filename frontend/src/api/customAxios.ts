@@ -8,7 +8,9 @@ const instance = () => {
   return axios.create({
     baseURL: BASE_URL,
     headers: {
-      Authorization: getTokenFormLocalStorage()?.access.value,
+      Authorization: getTokenFormLocalStorage()?.access.value
+        ? getTokenFormLocalStorage()?.access.value
+        : "",
     },
   });
 };
