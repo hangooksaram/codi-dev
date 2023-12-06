@@ -9,7 +9,7 @@ import StyledLink from "@/ui/atoms/Link";
 import FlexBox from "@/ui/atoms/FlexBox";
 import Typography from "@/ui/atoms/Typography";
 import Container from "@/ui/atoms/Container";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import styled from "@emotion/styled";
 import Image from "next/image";
@@ -22,6 +22,7 @@ import ImageComponent from "@/ui/atoms/ImageComponent";
 import signInImage from "@images/signin-image.png";
 import usePressEnterKey from "@/hooks/usePressEnterKey";
 import useGetProfileQuery from "@/queries/profileQuery";
+import { setIsLoggedIn } from "@/features/auth/authSlice";
 
 const SignInPage = () => {
   const router = useRouter();
@@ -29,28 +30,13 @@ const SignInPage = () => {
     id: "",
     password: "",
   });
-  const [isSignInSuccess, setIsSignInSuccess] = useState(false);
-
-  const {
-    data: profile,
-    isSuccess,
-    isFetching,
-  } = useGetProfileQuery(isSignInSuccess);
-
   const dispatch = useDispatch();
   const login = async () => {
     const { data, status } = await signIn<UserSliceState>(loginInfo);
-    const { id, isProfile, isMentor } = data!;
+    const { id } = data!;
+    dispatch(setIsLoggedIn(id !== undefined));
+
     if (status === 200) {
-      setIsSignInSuccess(true);
-
-      if (isSuccess) {
-        console.log("성공 후", id, isProfile, isMentor, profile?.imgUrl);
-        dispatch(
-          setUser({ id, isProfile, isMentor, profileImage: profile?.imgUrl })
-        );
-      }
-
       router.push("/");
     } else {
       alert("로그인이 실패했습니다.");

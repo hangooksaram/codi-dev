@@ -1,6 +1,6 @@
 "use client";
 
-import { findId } from "@/api/signApi";
+import { findId } from "@/api/accountApi";
 import Button from "@/ui/atoms/Button";
 import Container from "@/ui/atoms/Container";
 import FlexBox from "@/ui/atoms/FlexBox";

@@ -31,7 +31,7 @@ export const useMonthlySchedulesQuery = (month: string, mentorId?: number) => {
     GET_MONTHLY_SCHEDULES_KEY.concat(month),
     () => getMonthlySchedules(month, mentorId!),
     {
-      enabled: mentorId != undefined && month !== undefined,
+      enabled: month !== undefined,
       staleTime: STALE_TIME.OFTEN,
     }
   );

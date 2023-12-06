@@ -1,6 +1,6 @@
 "use client";
 
-import { updatePassword as patchUpdatePassword } from "@/api/signApi";
+import { updatePassword as patchUpdatePassword } from "@/api/accountApi";
 import { selectUser } from "@/features/user/userSlice";
 import { UpdatePasswordBody } from "@/types/api/sign";
 import Button from "@/ui/atoms/Button";

@@ -11,7 +11,7 @@ export const getDailyMentorings = async ({
 }: GetDailyMentoringsParams) => {
   return (
     await customAxios.get(
-      `${getMentoringsUri("daily", profileId, mentorId)}?date=${date}`
+      `${mentoringApiEndpoint("daily", profileId, mentorId)}?date=${date}`
     )
   ).data;
 };
@@ -23,12 +23,12 @@ export const getMonthlyMentorings = async ({
 }: GetMonthlyMentoringsParams) => {
   return (
     await customAxios.get(
-      `${getMentoringsUri("monthly", profileId, mentorId)}?month=${month}`
+      `${mentoringApiEndpoint("monthly", profileId, mentorId)}?month=${month}`
     )
   ).data;
 };
 
-const getMentoringsUri = (
+const mentoringApiEndpoint = (
   type: string,
   profileId?: number,
   mentorId?: number

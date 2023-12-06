@@ -12,9 +12,8 @@ import Button from "@/ui/atoms/Button";
 import Dropdown from "@/ui/atoms/Dropdown";
 import Checkbox from "@/ui/atoms/Checkbox";
 import Textarea from "@/ui/atoms/Textarea";
-import useForm from "@/hooks/useForm";
 import useUploadFile from "@/hooks/useUploadFile";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 import MentoringCategoriesSelector, {
   MENTOR_CATEGORIES,
 } from "@/components/Mentoring/MentoringCategory/MentoringCategoriesSelector";
@@ -27,10 +26,8 @@ import { selectUser, setUser } from "@/features/user/userSlice";
 import JobSelector from "@/components/Job/JopSelector";
 import { useDispatch } from "react-redux";
 import useRedirectMentorRegisterForm from "@/hooks/useRedirectMentorApplyForm";
-import { localUser, setLocalUser } from "@/utils/tempUser";
 import { handleApiCallback } from "@/utils/api";
 import { useRouter, useSearchParams } from "next/navigation";
-import useInitiallizeFormValues from "@/hooks/useInitiallizeFormValues";
 import { CAREERS } from "@/constants";
 import useNewForm, {
   FormPropertyType,
@@ -42,7 +39,7 @@ const MentorRegisterForm = () => {
   useRedirectMentorRegisterForm();
   const router = useRouter();
   const dispatch = useDispatch();
-  const { id: memberId, mentorId } = useSelector(selectUser);
+  const { id: memberId } = useSelector(selectUser);
   const { file, onUploadFile } = useUploadFile();
   const isEdit = useSearchParams().get("edit");
   const [openJobSelector, setOpenJobSelector] = useState(false);
@@ -97,7 +94,7 @@ const MentorRegisterForm = () => {
     },
   };
 
-  const { data } = useGetMentorQuery(mentorId!);
+  const { data } = useGetMentorQuery();
 
   const isCertificate = data?.fileUrl;
 
@@ -139,9 +136,8 @@ const MentorRegisterForm = () => {
   };
 
   const registerMentor = async () => {
-    const { data, status } = await postRegisterMentor(memberId!, formData);
-    setLocalUser({ mentorId: data?.id! });
-    dispatch(setUser(localUser()));
+    const { status } = await postRegisterMentor(memberId!, formData);
+
     handleApiCallback(
       status!,
       () => {
@@ -154,7 +150,7 @@ const MentorRegisterForm = () => {
   };
 
   const editMentor = async () => {
-    const { status } = await patchEditMentor(mentorId!, formData);
+    const { status } = await patchEditMentor(formData);
     handleApiCallback(
       status!,
       () => {

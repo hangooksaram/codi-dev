@@ -1,3 +1,4 @@
+import authSlice from "@/features/auth/authSlice";
 import userSlice from "@/features/user/userSlice";
 import webAccessibilitySlice from "@/features/webAccessibility/webAccessibilitySlice";
 
@@ -8,6 +9,7 @@ export const store = configureStore({
   reducer: {
     webAccessibility: webAccessibilitySlice,
     user: userSlice,
+    auth: authSlice,
   },
 });
 

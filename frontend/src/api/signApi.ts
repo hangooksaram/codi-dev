@@ -34,6 +34,10 @@ export const signIn = async <T>(
     return handleApiError(e);
   }
 };
+
+export const signOut = () => {
+  localStorage.removeItem("signin-token");
+};
 export const checkDuplicateId = async <T>(
   id: string
 ): Promise<CommonApiResponse<T>> => {
@@ -51,41 +55,4 @@ export const searchUniv = async () => {
     "https://career.go.kr/cnet/openapi/getOpenApi?apiKey=5ae9204a5c24d7c8d88317b2e1135255&svcType=api&svcCode=SCHOOL&contentType=json&gubun=elem_list";
 
   return await customAxios.get(URL);
-};
-
-export const updatePassword = async (
-  passwordInfo: UpdatePasswordBody
-): Promise<CommonApiResponse> => {
-  try {
-    const { data, status } = await customAxios.patch(`/members/`, passwordInfo);
-    return { data, status };
-  } catch (e) {
-    return handleApiError(e);
-  }
-};
-
-export const findId = async (email: string): Promise<CommonApiResponse> => {
-  try {
-    const { data, status } = await customAxios.post(`/account/find-id`, {
-      email,
-    });
-    return { data, status };
-  } catch (e) {
-    return handleApiError(e);
-  }
-};
-
-export const findPassword = async (
-  email: string,
-  id: string
-): Promise<CommonApiResponse> => {
-  try {
-    const { data, status } = await customAxios.post(`/account/find-pw`, {
-      email,
-      id,
-    });
-    return { data, status };
-  } catch (e) {
-    return handleApiError(e);
-  }
 };

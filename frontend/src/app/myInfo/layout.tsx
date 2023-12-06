@@ -16,7 +16,7 @@ export default function MyInfoLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const mentorId = useSelector(selectUser).mentorId;
+  const isMentor = useSelector(selectUser).isMentor;
   const navigators = [
     {
       iconComponent: <Profile fill={theme.colors.gray.main} />,
@@ -36,7 +36,7 @@ export default function MyInfoLayout({
       nestedParentIconComponent: <Link fill={theme.colors.primary} />,
       name: "멘토 센터",
       href: "/myInfo/mentorCenter/",
-      nested: mentorId
+      nested: isMentor
         ? [
             { name: "멘토 프로필", href: "/myInfo/mentorCenter/profile/" },
             {
