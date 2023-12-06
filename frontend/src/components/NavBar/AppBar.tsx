@@ -79,8 +79,8 @@ const AppBar = () => {
                   setSelectedCategory={setSelected}
                   left
                 >
-                  {user.profileImage ? (
-                    <AppBarProfile src={user.profileImage!} />
+                  {user.profileImageUrl ? (
+                    <AppBarProfile src={user.profileImageUrl!} />
                   ) : (
                     <AppBarProfile>
                       <Profile fill={theme.colors.white} />

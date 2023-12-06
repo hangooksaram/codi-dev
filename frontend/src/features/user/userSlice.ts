@@ -6,7 +6,7 @@ export interface UserSliceState {
   id?: string;
   isMentor?: boolean;
   isProfile?: boolean;
-  profileImage?: string;
+  profileImageUrl?: string;
 }
 
 // Define the initial state using that type
@@ -14,7 +14,7 @@ const initialState: UserSliceState = {
   id: undefined,
   isMentor: false,
   isProfile: false,
-  profileImage: "",
+  profileImageUrl: "",
 };
 
 export const userSlice = createSlice({
