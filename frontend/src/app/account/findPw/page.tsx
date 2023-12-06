@@ -1,6 +1,6 @@
 "use client";
 
-import { findPassword } from "@/api/signApi";
+import { findPassword } from "@/api/accountApi";
 import Button from "@/ui/atoms/Button";
 import Input from "@/ui/atoms/Input";
 import { FormEvent, useState } from "react";
