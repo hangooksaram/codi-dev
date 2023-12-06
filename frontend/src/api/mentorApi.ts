@@ -66,7 +66,7 @@ export const getMentors = async (
 
   return (
     await customAxios.get(
-      `/mentor/search?page=${page}&size=${size}&job=${job}&career=${career}&disability=${disability}&keyword=${keyword}`
+      `/mentors/search?page=${page}&size=${size}&job=${job}&career=${career}&disability=${disability}&keyword=${keyword}`
     )
   ).data;
 };
