@@ -34,6 +34,10 @@ export const signIn = async <T>(
     return handleApiError(e);
   }
 };
+
+export const signOut = () => {
+  localStorage.removeItem("signin-token");
+};
 export const checkDuplicateId = async <T>(
   id: string
 ): Promise<CommonApiResponse<T>> => {
