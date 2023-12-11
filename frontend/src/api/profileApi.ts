@@ -4,12 +4,11 @@ import { CommonApiResponse } from "@/types/api/common";
 import { AxiosResponse } from "axios";
 
 export const registerProfile = async <T>(
-  memberId: string,
   profile: FormData
 ): Promise<CommonApiResponse<T>> => {
   try {
     const { data, status }: AxiosResponse<T> = await customAxios.post(
-      `/profiles/${memberId}`,
+      `/profiles`,
       profile,
       {
         headers: {
@@ -42,6 +41,6 @@ export const editProfile = async <T>(
   }
 };
 
-export const getProfile = async () => {
-  return (await customAxios.get(`/profiles/`)).data!;
+export const getProfile = async (profileId?: string) => {
+  return (await customAxios.get(`/profiles/${profileId ?? ""}`)).data!;
 };

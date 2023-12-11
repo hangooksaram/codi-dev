@@ -160,7 +160,7 @@ const ProfileFormPage = () => {
 
   const registerProfile = async () => {
     const { data, status, errorMessage } =
-      await postRegisterProfile<RegisterProfileResponse>(memberId!, formData);
+      await postRegisterProfile<RegisterProfileResponse>(formData);
 
     handleApiCallback(
       status!,
