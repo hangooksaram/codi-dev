@@ -12,25 +12,18 @@ export const GET_MENTORING_APPLIES = ["mentoringApplies"];
 export const ACCEPT_MENTORING = ["acceptMentoring"];
 export const REJECT_MENTORING = ["rejectMentoring"];
 
-export const useMentoringApplies = (mentorId: number) => {
+export const useMentoringApplies = () => {
   return useQuery<GetMentoringAppliesResponse>(
     GET_MENTORING_APPLIES,
-    () => getMentoringApplies(mentorId),
+    () => getMentoringApplies(),
     {
-      enabled: mentorId !== undefined,
       staleTime: STALE_TIME.SOMETIMES,
     }
   );
 };
 
-export const useMentoringAcceptMutation = (
-  mentorId: number,
-  mentoringId: number
-) =>
-  useMutation(ACCEPT_MENTORING, () => acceptMentoring(mentorId, mentoringId));
+export const useMentoringAcceptMutation = (mentoringId: number) =>
+  useMutation(ACCEPT_MENTORING, () => acceptMentoring(mentoringId));
 
-export const useMentoringRejectMutation = (
-  mentorId: number,
-  mentoringId: number
-) =>
-  useMutation(REJECT_MENTORING, () => rejectMentoring(mentorId, mentoringId));
+export const useMentoringRejectMutation = (mentoringId: number) =>
+  useMutation(REJECT_MENTORING, () => rejectMentoring(mentoringId));

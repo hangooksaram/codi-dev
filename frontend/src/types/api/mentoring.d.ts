@@ -12,18 +12,16 @@ export interface ApplyMentoringBody {
   date: string;
   time: string;
 }
+type GetMentoringType = "mentees" | "mentors";
 
-export interface GetMentoringsParams {
-  profileId?: number;
-  mentorId?: number;
-}
-
-export interface GetDailyMentoringsParams extends GetMentoringsParams {
+export interface GetDailyMentoringsParams {
   date: string;
+  type: GetMentoringType;
 }
 
-export interface GetMonthlyMentoringsParams extends GetMentoringsParams {
+export interface GetMonthlyMentoringsParams {
   month: string;
+  type: GetMentoringType;
 }
 
 export interface GetMentoringAppliesResponse {

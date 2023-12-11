@@ -39,9 +39,13 @@ const SchedulePage = () => {
 
   const { data: mentoringsData } = useMonthlyMentoringsQuery({
     month: month ?? formattedMonth(new Date()),
+    type: "mentors",
   });
+
+  console.log(mentoringsData);
   const { data: dailyMentoringData } = useDailyMentoringsQuery({
     date: formattedDate(date),
+    type: "mentors",
   });
 
   const mentoringSchedules = mentoringsData?.monthlyMentoringMembers!.map(

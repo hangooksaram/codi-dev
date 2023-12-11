@@ -2,16 +2,13 @@
 
 import MentorCenterApplyCard from "@/components/pages/mentorCenter/ApplyCard";
 import MyInfoCommonContainerCard from "@/components/pages/myInfoCommon/MyInfoCommonContainerCard";
-import { selectUser } from "@/features/user/userSlice";
 import { useMentoringApplies } from "@/queries/mentoring/mentorMentoringQuery";
 import Typography from "@/ui/atoms/Typography";
 import LabelBox from "@/ui/molecules/LabelBox";
 import theme from "@/ui/theme";
-import { useSelector } from "react-redux";
 
 const ApplyPage = () => {
-  const { mentorId } = useSelector(selectUser);
-  const { data, isLoading } = useMentoringApplies(mentorId!);
+  const { data, isLoading } = useMentoringApplies();
 
   if (data?.data.length === 0) {
     return (

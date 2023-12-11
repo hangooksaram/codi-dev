@@ -1,7 +1,6 @@
 "use client";
 
 import ProfileCard from "@/components/Profile/ProfileCard";
-import { selectUser } from "@/features/user/userSlice";
 import {
   useMentoringAcceptMutation,
   useMentoringRejectMutation,
@@ -16,7 +15,6 @@ import LabelBox from "@/ui/molecules/LabelBox";
 import theme, { device } from "@/ui/theme";
 import { css } from "@emotion/css";
 import { useRouter } from "next/navigation";
-import { useSelector } from "react-redux";
 import MyInfoCard from "../myInfoCommon/MyInfoCard";
 
 const MentorCenterApplyCard = ({
@@ -35,9 +33,8 @@ const MentorCenterApplyCard = ({
     profileId,
     imgUrl,
   } = menteeInfo;
-  const { mentorId } = useSelector(selectUser);
-  const acceptMutation = useMentoringAcceptMutation(mentorId!, mentoringId!);
-  const rejectMutation = useMentoringRejectMutation(mentorId!, mentoringId!);
+  const acceptMutation = useMentoringAcceptMutation(mentoringId!);
+  const rejectMutation = useMentoringRejectMutation(mentoringId!);
   return (
     <FlexBox
       justifyContent="space-between"
@@ -103,7 +100,7 @@ const MentorCenterApplyCard = ({
               variant="default"
               onClick={() =>
                 router.push(
-                  `/menteeProfile?profileId=${profileId}&mentoringApply=${true}&mentorId=${mentorId}&mentoringId=${mentoringId}`
+                  `/mentoringAppliedMenteeProfile?profileId=${profileId}&mentoringApply=${true}&mentoringId=${mentoringId}`
                 )
               }
               {...{
