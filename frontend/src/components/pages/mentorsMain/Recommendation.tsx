@@ -6,8 +6,6 @@ import { usePathname, useRouter } from "next/navigation";
 import TitleSection from "./TitleSection";
 import Button from "@/ui/atoms/Button";
 import MentorList from "@/components/Mentor/Mentors/MentorList";
-import { useSelector } from "react-redux";
-import { selectUser } from "@/features/user/userSlice";
 import { useJobRanksQuery } from "@/queries/jobQuery";
 import { useGetRecommendationMentorsQuery } from "@/queries/mentorQuery";
 import ApplyAndShareButtons from "./ApplyAndShareButtons";
@@ -15,8 +13,7 @@ import ApplyAndShareButtons from "./ApplyAndShareButtons";
 const Recommendation = () => {
   const router = useRouter();
   const isMainPage = !usePathname().includes("mentorsMain");
-  const { id } = useSelector(selectUser);
-  const { data: jobRanks } = useJobRanksQuery(id!);
+  const { data: jobRanks } = useJobRanksQuery();
   const {
     data: recommendationMentors,
     isSuccess: isRecommendationMentorsSuccess,

@@ -1,8 +1,7 @@
 import { CommonApiResponse } from "@/types/api/common";
 import customAxios from "./customAxios";
 import { handleApiError } from "@/utils/api";
-import { Jobs } from "@/components/Job/JopSelector";
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 
 export const getJobCategories = async <T>(): Promise<CommonApiResponse<T>> => {
   try {
@@ -15,5 +14,4 @@ export const getJobCategories = async <T>(): Promise<CommonApiResponse<T>> => {
   }
 };
 
-export const getJobRanks = async (memberId: string) =>
-  (await customAxios.get(`/rank/${memberId ?? ""}`)).data;
+export const getJobRanks = async () => (await customAxios.get("/rank/")).data;
