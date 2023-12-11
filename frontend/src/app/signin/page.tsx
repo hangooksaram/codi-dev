@@ -9,7 +9,7 @@ import StyledLink from "@/ui/atoms/Link";
 import FlexBox from "@/ui/atoms/FlexBox";
 import Typography from "@/ui/atoms/Typography";
 import Container from "@/ui/atoms/Container";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import styled from "@emotion/styled";
 import Image from "next/image";
@@ -21,7 +21,6 @@ import { UserSliceState, setUser } from "@/features/user/userSlice";
 import ImageComponent from "@/ui/atoms/ImageComponent";
 import signInImage from "@images/signin-image.png";
 import usePressEnterKey from "@/hooks/usePressEnterKey";
-import useGetProfileQuery from "@/queries/profileQuery";
 import { setIsLoggedIn } from "@/features/auth/authSlice";
 
 const SignInPage = () => {
