@@ -45,7 +45,7 @@ const MentoringCard = ({
   );
   const router = useRouter();
   const mentorProfileUrl = `/mentorProfile?mentorId=${mentorId}&mentoringId=${mentoringId}`;
-  const menteeProfileUrl = `/menteeProfile?profileId=${profileId}&mentoringId=${mentoringId}&platform=${platform}`;
+  const menteeProfileUrl = `/mentoringMenteeProfile?profileId=${profileId}&mentoringId=${mentoringId}&platform=${platform}`;
 
   return (
     <StyledCard>

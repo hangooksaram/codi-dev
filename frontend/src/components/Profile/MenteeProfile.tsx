@@ -22,22 +22,24 @@ import { useMentoringAcceptMutation } from "@/queries/mentoring/mentorMentoringQ
 import MyInfoCommonContainerCard from "../pages/myInfoCommon/MyInfoCommonContainerCard";
 import MyInfoCard from "../pages/myInfoCommon/MyInfoCard";
 
+interface MenteeProfilePageParams {
+  profileId?: string;
+  mentoringId?: string;
+  isMentoringApply?: boolean;
+  platform?: string;
+}
+
 const MenteeProfile = ({
   profileId,
-  pageParams,
-}: {
-  profileId?: number;
-  pageParams?: ReadonlyURLSearchParams;
-}) => {
-  const { data: profile } = useGetProfileQuery();
+  mentoringId,
+  isMentoringApply,
+  platform,
+}: MenteeProfilePageParams) => {
+  const { data: profile } = useGetProfileQuery(profileId!);
   const router = useRouter();
-  const acceptMutation = useMentoringAcceptMutation(
-    parseInt(pageParams?.get("mentorId")!),
-    parseInt(pageParams?.get("mentoringId")!)
-  );
-  const isMentoring = pageParams?.get("mentoringId");
-  const isMentoringApply = pageParams?.get("mentoringApply");
+  const acceptMutation = useMentoringAcceptMutation(parseInt(mentoringId!));
   const [openModal, setOpenModal] = useState(false);
+
   return (
     <MyInfoCommonContainerCard>
       <FlexBox
@@ -51,7 +53,7 @@ const MenteeProfile = ({
         }}
       >
         <ProfileCard
-          edit={isMentoring ? false : true}
+          edit={mentoringId ? false : true}
           name={profile?.name}
           imgUrl={profile?.imgUrl}
           employmentStatus={profile?.employmentStatus}
@@ -67,8 +69,7 @@ const MenteeProfile = ({
           disability={profile?.disability}
           severity={profile?.disability}
         >
-          {pageParams?.get("platform") &&
-          !pageParams?.get("platform")?.includes("No") ? (
+          {platform && platform?.includes("No") ? (
             <>
               <Button
                 onClick={() => setOpenModal(true)}
@@ -79,7 +80,7 @@ const MenteeProfile = ({
                 멘토링 링크 수정
               </Button>
               <MentoringPlatformModal
-                mentoringId={parseInt(pageParams?.get("mentoringId")!)}
+                mentoringId={parseInt(mentoringId!)}
                 open={openModal}
                 setOpen={setOpenModal}
               />

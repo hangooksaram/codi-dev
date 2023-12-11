@@ -6,28 +6,17 @@ import customAxios from "../customAxios";
 
 export const getDailyMentorings = async ({
   date,
+  type,
 }: GetDailyMentoringsParams) => {
-  return (
-    await customAxios.get(
-      // `${mentoringApiEndpoint("daily", profileId, mentorId)}?date=${date}`
-      `/mentees/mentoring/daily?date=${date}`
-    )
-  ).data;
+  return (await customAxios.get(`/${type}/mentoring/daily?date=${date}`)).data;
 };
 
 export const getMonthlyMentorings = async ({
   month,
+  type,
 }: GetMonthlyMentoringsParams) => {
-  return (
-    await customAxios.get(
-      // `${mentoringApiEndpoint(
-      //   "monthly",
-      //   profileId,
-      //   mentorId
-      // )}?month=${month}`
-      `/mentees/mentoring/monthly?month=${month}`
-    )
-  ).data;
+  return (await customAxios.get(`/${type}/mentoring/monthly?month=${month}`))
+    .data;
 };
 
 const mentoringApiEndpoint = (

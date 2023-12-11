@@ -18,20 +18,21 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 const MyCodiPage = () => {
-  const { profileId } = useSelector(selectUser);
   const [date, setDate] = useState<Date>();
   const [type, setType] = useState<"mentor" | "mentee">("mentee");
 
   const [month, setMonth] = useState<string>();
 
   const { data: mentoringsData } = useMonthlyMentoringsQuery({
-    profileId: profileId!,
     month: month ?? formattedMonth(new Date()),
+    type: "mentees",
   });
 
+  console.log(mentoringsData);
+
   const { data: dailyMentoringData } = useDailyMentoringsQuery({
-    profileId: profileId!,
     date: formattedDate(date),
+    type: "mentees",
   });
 
   const mentoringSchedules = mentoringsData?.monthlyMentoringMembers!.map(
