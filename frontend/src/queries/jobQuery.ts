@@ -5,9 +5,8 @@ import { useQuery } from "@tanstack/react-query";
 
 const JOB_RANKS = ["jobRanks"];
 
-export const useJobRanksQuery = (memberId: string) => {
-  return useQuery<JobRanks>(JOB_RANKS, () => getJobRanks(memberId), {
-    enabled: memberId !== undefined,
+export const useJobRanksQuery = () => {
+  return useQuery<JobRanks>(JOB_RANKS, () => getJobRanks(), {
     staleTime: STALE_TIME.SOMETIMES,
   });
 };

@@ -8,7 +8,7 @@ import { copyText } from "@/utils/clipboard";
 import { useEffect } from "react";
 
 const ApplyAndShareButtons = () => {
-  const { mentorId, id } = useSelector(selectUser);
+  const { isMentor, id } = useSelector(selectUser);
   const router = useRouter();
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const ApplyAndShareButtons = () => {
 
   return (
     <FlexBox>
-      {!mentorId && (
+      {!isMentor && (
         <StyledImage
           width="651px"
           height="251px"

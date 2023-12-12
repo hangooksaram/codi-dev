@@ -48,12 +48,11 @@ export const useMonthlyMentoringsQuery = ({
   );
 };
 
-export const useTodayMentoringsQuery = (profileId: number) => {
+export const useTodayMentoringsQuery = (isProfile: boolean) => {
   return useQuery<GetTodayMentoringsResponse[]>(
-    GET_TODAY_MENTORINGS_KEY,
-    () => getTodayMentorings(profileId!),
+    [...GET_TODAY_MENTORINGS_KEY, isProfile],
+    () => getTodayMentorings(),
     {
-      enabled: profileId !== undefined,
       staleTime: STALE_TIME.SOMETIMES,
     }
   );

@@ -20,14 +20,7 @@ const AuthContainer = ({ children }: { children: ReactNode }) => {
     (async () => {
       if (auth.isLoggedIn) {
         const { data } = await checkLoginInfo();
-        dispatch(
-          setUser({
-            id: data?.id,
-            isMentor: data?.isMentor,
-            isProfile: data?.isProfile,
-            profileImageUrl: data?.imgUrl,
-          })
-        );
+        dispatch(setUser({ ...data }));
       }
     })();
   }, [auth.isLoggedIn]);

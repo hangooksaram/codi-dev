@@ -29,6 +29,7 @@ import { SignUpBody } from "@/types/api/sign";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/features/user/userSlice";
 import Label from "@/ui/atoms/Label";
+import { setIsLoggedIn } from "@/features/auth/authSlice";
 
 const signUpFormValueProps = {
   birth: "",
@@ -106,11 +107,11 @@ const SignUpPage = () => {
     handleApiCallback(
       status!,
       async () => {
-        await signIn({
+        const { data } = await signIn({
           id: values.id,
           password: values.password,
         });
-
+        if (data) dispatch(setIsLoggedIn(true));
         router.push("complete");
       },
       () => alert(`호출 실패 : ${errorMessage}`)

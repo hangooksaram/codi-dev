@@ -10,9 +10,9 @@ import { useSelector } from "react-redux";
 import { selectUser } from "@/features/user/userSlice";
 
 const JobRank = () => {
-  const { id, profileId } = useSelector(selectUser);
+  const { id, isProfile } = useSelector(selectUser);
   const { data: jobRanks, isSuccess: isJobRanksQuerySuccess } =
-    useJobRanksQuery(id!);
+    useJobRanksQuery();
 
   return (
     <PageComponentLayout>
@@ -27,7 +27,7 @@ const JobRank = () => {
             확인해보세요!
           </div>
         )}
-        {id && !profileId && (
+        {id && !isProfile && (
           <div>
             프로필을 작성하여 공공데이터를 기반으로한 추천 직무들을
             확인해보세요!

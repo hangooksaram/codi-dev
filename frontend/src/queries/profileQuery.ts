@@ -6,11 +6,9 @@ import { useState } from "react";
 
 export const GET_MENTORS_KEY = ["mentors"];
 
-const useGetProfileQuery = (enabledDependency?: boolean) => {
+const useGetProfileQuery = (profileId?: string) => {
   const { data, isSuccess, isLoading, isError, isFetching } =
-    useQuery<MenteeProfile>([...GET_MENTORS_KEY, enabledDependency], () =>
-      getProfile()
-    );
+    useQuery<MenteeProfile>(GET_MENTORS_KEY, () => getProfile(profileId));
 
   return { data, isSuccess, isError, isLoading, isFetching };
 };

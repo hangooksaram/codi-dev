@@ -14,9 +14,9 @@ import Button from "@/ui/atoms/Button";
 import { useRouter } from "next/navigation";
 
 const TodayMentoring = () => {
-  const { profileId } = useSelector(selectUser);
+  const { isProfile } = useSelector(selectUser);
   const { data: dailyMentoringData, isSuccess } = useTodayMentoringsQuery(
-    profileId!
+    isProfile!
   );
   const mentors: Mentor[] = [];
   const router = useRouter();

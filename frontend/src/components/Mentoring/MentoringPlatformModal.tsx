@@ -27,9 +27,9 @@ const MentoringPlatformModal = ({
 }) => {
   const [platform, setPlatform] = useState<MentoringPlatform>("Google Meeting");
   const linkRef = useRef<HTMLTextAreaElement>(null);
-  const { mentorId } = useSelector(selectUser);
+
   const addMentoringlink = async () => {
-    await addMentoringLink(mentorId!, mentoringId, {
+    await addMentoringLink(mentoringId, {
       link: linkRef?.current?.value!,
       platform,
     });
