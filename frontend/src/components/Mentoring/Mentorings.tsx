@@ -28,7 +28,6 @@ const Mentorings = ({
           >
             {date}
           </Chip>
-
           <FlexBox
             justifyContent="flex-start"
             isWrap
