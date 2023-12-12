@@ -10,6 +10,7 @@ import EmptyLike from "@icons/common/empty-like.svg";
 import Edit from "@icons/common/edit.svg";
 import { likeMentor, unLikeMentor } from "@/api/mentorApi";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 const Header = ({
   edit,
@@ -45,9 +46,11 @@ const Header = ({
         </Chip>
       )}
       {(edit && (
-        <Button variant="round" width="48px" color={theme.colors.info}>
-          <Edit />
-        </Button>
+        <Link href={"/profileForm?edit=true"}>
+          <Button variant="round" width="48px" color={theme.colors.info}>
+            <Edit />
+          </Button>
+        </Link>
       )) ||
         (favorites && (
           <Button
