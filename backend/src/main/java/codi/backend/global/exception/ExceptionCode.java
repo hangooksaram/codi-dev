@@ -52,7 +52,8 @@ public enum ExceptionCode {
 
     // Auth
     REFRESH_TOKEN_NOT_FOUND(404, "Refresh Token not found."),
-    REFRESH_TOKEN_EXPIRED(401, "Refresh Token expired.");
+    REFRESH_TOKEN_EXPIRED(401, "Refresh Token expired."),
+    ACCESS_TOKEN_EXPIRED(401, "Access Token expired");
     @Getter
     private final int status;
 

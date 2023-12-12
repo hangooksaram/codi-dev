@@ -42,7 +42,7 @@ public class MentorController {
     }
 
     // 멘토 등록
-    @ApiOperation(value = "멘토 등록", notes = "직업 증명 파일(재직증명서, 경력기술서), 직무, 회사 이름, 멘토 소개를 작성해서 멘토가 될 수 있다.")
+    @ApiOperation(value = "멘토 등록", notes = "직업 증명 파일(재직증명서, 경력기술서), 직무, 회사 이름, 멘토 소개를 작성해서 멘토가 될 수 있다. 생성 성공시 Access Token을 새로 발급하기 때문에 헤더에 있는 Authorization을 새로 저장해주어야 한다.")
     @PostMapping
     public ResponseEntity createMentor(@AuthenticationPrincipal CustomUserDetails principal,
                                        @Valid @RequestPart(value = "mentor") MentorDto.MentorPost mentorPostDto,
@@ -53,7 +53,7 @@ public class MentorController {
         String newAccessToken = authService.reissueAccessTokenByMemberId(principal.getUsername());
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add("new-access-token", "Bearer " + newAccessToken);
+        headers.add("Authorization", "Bearer " + newAccessToken);
 
         return new ResponseEntity<>(response, headers, HttpStatus.CREATED);
     }

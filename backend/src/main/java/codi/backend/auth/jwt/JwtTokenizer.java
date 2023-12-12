@@ -2,13 +2,12 @@ package codi.backend.auth.jwt;
 
 import codi.backend.auth.userdetails.CustomUserDetails;
 import codi.backend.auth.userdetails.CustomUserDetailsService;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -19,6 +18,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
+@Slf4j
 @Component
 public class JwtTokenizer {
     @Getter
@@ -100,5 +100,31 @@ public class JwtTokenizer {
         Key key = Keys.hmacShaKeyFor(keyBytes);
 
         return key;
+    }
+
+    // Bearer 제거하기
+    public String removeBearer(String accessToken) {
+        return accessToken.replace("Bearer ", "");
+    }
+
+    // 토큰 유효성 확인
+    public boolean isTokenValid(String jws, String base64EncodedSecretKey) {
+        try {
+            Jws<Claims> claims = getClaims(jws, base64EncodedSecretKey);
+            return !checkTokenExpiration(claims.getBody().getExpiration());
+        } catch (ExpiredJwtException ex) {
+            log.info("Token is expired!");
+            return false;
+        } catch (JwtException ex) {
+            log.info("Jwt Exception!");
+            return false;
+        } catch (IllegalArgumentException ex) {
+            log.info("JWT String argument cannot be null or empty.");
+            return false;
+        }
+    }
+
+    private boolean checkTokenExpiration(Date expiration) {
+        return expiration.before(new Date());
     }
 }

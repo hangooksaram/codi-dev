@@ -1,5 +1,6 @@
 package codi.backend.auth.service;
 
+import codi.backend.auth.dto.AuthDto;
 import codi.backend.auth.entity.RefreshToken;
 import codi.backend.auth.jwt.JwtTokenizer;
 import codi.backend.auth.repository.RefreshTokenRepository;
@@ -7,7 +8,8 @@ import codi.backend.domain.member.entity.Member;
 import codi.backend.domain.member.repository.MemberRepository;
 import codi.backend.global.exception.BusinessLogicException;
 import codi.backend.global.exception.ExceptionCode;
-import org.springframework.security.core.parameters.P;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -62,9 +64,9 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public String reissueAccessTokenByMemberId(String username) {
+    public String reissueAccessTokenByMemberId(String memberId) {
         // username으로 refresh token을 찾는다.
-        RefreshToken refresh = refreshTokenRepository.findByMemberId(username)
+        RefreshToken refresh = refreshTokenRepository.findByMemberId(memberId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.REFRESH_TOKEN_NOT_FOUND));
 
         // 토큰의 유효기간이 유효한지 확인
@@ -79,14 +81,13 @@ public class AuthServiceImpl implements AuthService {
     }
 
     private String generateAccessTokenFromRefreshToken(RefreshToken refreshToken) {
-        Member member = memberRepository.findById(refreshToken.getMemberId())
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        Member member = findMember(refreshToken.getMemberId());
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("username", member.getId());
         claims.put("roles", member.getRoles());
-        claims.put("profileId", member.getProfile().getId());
-        claims.put("mentorId", member.getMentor().getId());
+        claims.put("profileId", member.getProfile() != null ? member.getProfile().getId() : null);
+        claims.put("mentorId", member.getMentor() != null ? member.getMentor().getId() : null);
 
         String subject = member.getId();
         Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
@@ -95,5 +96,49 @@ public class AuthServiceImpl implements AuthService {
         String accessToken = jwtTokenizer.generateAccessToken(claims, subject, expiration, base64EncodedSecretKey);
 
         return accessToken;
+    }
+
+    private Member findMember(String memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+    }
+
+    @Override
+    public AuthDto.CheckToken checkAccessToken(String accessToken) {
+        String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
+        String jws = jwtTokenizer.removeBearer(accessToken);
+
+        AuthDto.CheckToken checkToken = new AuthDto.CheckToken();
+        checkToken.setIsLoggedIn(jwtTokenizer.isTokenValid(jws, base64EncodedSecretKey));
+
+        return checkToken;
+    }
+
+    @Override
+    public AuthDto.CheckLoginInfo checkLoginInfo(String accessToken) {
+        String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
+        String jws = jwtTokenizer.removeBearer(accessToken);
+
+        // Access Token이 유효하지 않으면 클라이언트에서 다른 api 요청
+        if (!jwtTokenizer.isTokenValid(jws, base64EncodedSecretKey)) {
+            throw new BusinessLogicException(ExceptionCode.ACCESS_TOKEN_EXPIRED);
+        }
+
+        // claim에서 memberId 추출
+        Jws<Claims> claims = jwtTokenizer.getClaims(jws, base64EncodedSecretKey);
+        Member member = findMember(claims.getBody().getSubject());
+
+        // 통과 했으면 정상적으로 객체 생성하기
+        AuthDto.CheckLoginInfo checkLoginInfo = new AuthDto.CheckLoginInfo();
+        checkLoginInfo.setId(member.getId());
+        checkLoginInfo.setIsProfile(member.getProfile() != null);
+        checkLoginInfo.setIsMentor(member.getMentor() != null);
+        if (member.getProfile() != null) {
+            checkLoginInfo.setProfileImageUrl(member.getProfile().getImgUrl());
+        } else {
+            checkLoginInfo.setProfileImageUrl(null);
+        }
+
+        return checkLoginInfo;
     }
 }

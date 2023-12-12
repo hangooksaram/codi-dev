@@ -3,6 +3,8 @@ package codi.backend.domain.schedule.controller;
 import codi.backend.auth.userdetails.CustomUserDetails;
 import codi.backend.domain.schedule.dto.ScheduleDto;
 import codi.backend.domain.schedule.service.ScheduleService;
+import codi.backend.global.exception.BusinessLogicException;
+import codi.backend.global.exception.ExceptionCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Api(tags = { "Schedule" })
 @RestController
@@ -35,18 +38,30 @@ public class ScheduleController {
     }
 
     // 스케줄 조회(일별) GET
-    @ApiOperation(value = "Schedule 일별 조회", notes = "멘토가 특정 날짜의 스케줄을 조회할 수 있다.")
-    @GetMapping("/daily")
-    public ResponseEntity getDailySchedule(@AuthenticationPrincipal CustomUserDetails principal, @Valid ScheduleDto.DailyRequest dailyRequest) {
-        ScheduleDto.ScheduleDailyResponse response = scheduleService.findDailySchedules(principal.getMentorId(), dailyRequest.getDate());
+    @ApiOperation(value = "Schedule 일별 조회", notes = "특정 날짜의 스케줄을 조회할 수 있다.")
+    @GetMapping(value = {"/daily", "/daily/{mentor-id}"})
+    public ResponseEntity getDailySchedule(@AuthenticationPrincipal CustomUserDetails principal, @PathVariable(name = "mentor-id", required = false) Long mentorId, @Valid ScheduleDto.DailyRequest dailyRequest) {
+        Long curMentorId = validateAndGetMentorId(principal, mentorId);
+        ScheduleDto.ScheduleDailyResponse response = scheduleService.findDailySchedules(principal.getProfileId(), curMentorId, dailyRequest.getDate());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // 스케줄 조회(월별) GET
-    @ApiOperation(value = "Schedule 월별 조회", notes = "멘토가 한 달간의 스케줄을 조회할 수 있다.")
-    @GetMapping("/monthly")
-    public ResponseEntity getMonthlySchedule(@AuthenticationPrincipal CustomUserDetails principal, @Valid ScheduleDto.MonthlyRequest monthlyRequest) {
-        ScheduleDto.ScheduleMonthlyResponse response = scheduleService.findMonthlySchedules(principal.getMentorId(), monthlyRequest.getMonth());
+    @ApiOperation(value = "Schedule 월별 조회", notes = "한 달간의 스케줄을 조회할 수 있다.")
+    @GetMapping(value = {"/monthly", "/monthly/{mentor-id}"})
+    public ResponseEntity getMonthlySchedule(@AuthenticationPrincipal CustomUserDetails principal, @PathVariable(name = "mentor-id", required = false) Long mentorId, @Valid ScheduleDto.MonthlyRequest monthlyRequest) {
+        Long curMentorId = validateAndGetMentorId(principal, mentorId);
+        ScheduleDto.ScheduleMonthlyResponse response = scheduleService.findMonthlySchedules(principal.getProfileId(), curMentorId, monthlyRequest.getMonth());
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    private Long validateAndGetMentorId(CustomUserDetails principal, Long mentorId) {
+        if (principal.getProfileId() == null) {
+            throw new BusinessLogicException(ExceptionCode.NOT_PROFILE_ERROR);
+        }
+        if (mentorId == null && principal.getMentorId() == null) {
+            throw new BusinessLogicException(ExceptionCode.NOT_MENTOR_ERROR);
+        }
+        return Optional.ofNullable(mentorId).orElse(principal.getMentorId());
     }
 }

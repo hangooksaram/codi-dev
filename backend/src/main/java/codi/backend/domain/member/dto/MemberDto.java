@@ -14,7 +14,7 @@ public class MemberDto {
     @Builder
     public static class MemberPost {
         @NotBlank
-        @Pattern(regexp = "^[a-z]{4,}$", message = "ID는 최소 4글자 이상의 소문자만 포함해야 합니다")
+        @Pattern(regexp = "^[a-z0-9]{4,}$", message = "ID는 최소 4글자 이상의 소문자와 숫자만 포함해야 합니다.")
         @ApiModelProperty(example = "회원 ID")
         private String id;
 

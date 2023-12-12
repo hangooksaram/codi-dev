@@ -59,7 +59,7 @@ public class MenteeMentoringController {
     }
 
     // 월별 멘토링 조회 GET
-    @ApiOperation(value = "Mentor의 Mentoring 월별 조회", notes = "멘티가 한 달간의 멘토링을 조회한다.")
+    @ApiOperation(value = "Mentee의 Mentoring 월별 조회", notes = "멘티가 한 달간의 멘토링을 조회한다.")
     @GetMapping("/monthly")
     public ResponseEntity getMonthlyMentoring(@AuthenticationPrincipal CustomUserDetails principal, @Valid MentoringDto.MonthlyRequest monthlyRequest) {
         MentoringDto.MentoringMonthlyMentorsResponse response = mentoringService.findMonthlyMentoringsOfMentee(principal.getProfileId(), monthlyRequest.getMonth());

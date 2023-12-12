@@ -29,7 +29,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
         ObjectNode json = objectMapper.createObjectNode();
         json.put("id", userDetails.getId());
-        json.put("roles", String.join(",", userDetails.getRoles()));
+        json.put("isProfile", userDetails.getProfileId() != null);
+        json.put("isMentor", userDetails.getMentorId() != null);
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.getWriter().write(json.toString());

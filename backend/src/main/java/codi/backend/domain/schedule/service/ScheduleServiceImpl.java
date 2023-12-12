@@ -127,7 +127,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Transactional(readOnly = true)
     @Override
-    public ScheduleDto.ScheduleDailyResponse findDailySchedules(Long mentorId, String date) {
+    public ScheduleDto.ScheduleDailyResponse findDailySchedules(Long profileId, Long mentorId, String date) {
         Mentor mentor = mentorService.findMentor(mentorId);
         LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy/MM/dd"));
         return scheduleRepository.findDailySchedules(mentor, localDate);
@@ -135,7 +135,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Transactional(readOnly = true)
     @Override
-    public ScheduleDto.ScheduleMonthlyResponse findMonthlySchedules(Long mentorId, String month) {
+    public ScheduleDto.ScheduleMonthlyResponse findMonthlySchedules(Long profileId, Long mentorId, String month) {
         Mentor mentor = mentorService.findMentor(mentorId);
         LocalDate localDateMonth = LocalDate.parse(month + "/01", DateTimeFormatter.ofPattern("yyyy/MM/dd"));
         return scheduleRepository.findMonthlySchedules(mentor, localDateMonth);
