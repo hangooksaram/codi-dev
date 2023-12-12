@@ -195,6 +195,9 @@ public class MentorDto {
 
     @Schema(description = "멘토 검색 결과 응답 DTO")
     @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
     @Builder
     public static class SearchMentorResponse {
         @ApiModelProperty(example = "회원 ID")

@@ -17,7 +17,8 @@ import java.io.IOException;
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        ErrorResponder.sendErrorResponse(response, HttpStatus.FORBIDDEN, request.getRequestURI());
+        String detailedMessage = "접근 권한이 없습니다. 요청할 작업에 대한 권한을 확인하세요.";
+        ErrorResponder.sendErrorResponse(response, HttpStatus.FORBIDDEN, request.getRequestURI(), detailedMessage);
         log.warn("Forbidden error happened: {}", accessDeniedException.getMessage());
     }
 }

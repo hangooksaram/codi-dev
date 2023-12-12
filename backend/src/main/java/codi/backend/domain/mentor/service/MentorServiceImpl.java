@@ -65,7 +65,7 @@ public class MentorServiceImpl implements MentorService{
         return mentorRepository.save(mentor);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public Mentor findMentor(Long mentorId) {
         return verifyMentor(mentorId);
@@ -98,7 +98,7 @@ public class MentorServiceImpl implements MentorService{
 
         try {
             if (file != null && !file.isEmpty()) {
-                // 파일을 업로드하고 기존 이미지가 있으면 삭제합니다.
+                // 파일을 업로드하고 기존 파일이 있으면 삭제합니다.
                 String newFileUrl = s3Service.upload(file, "mentor");
                 findMentor.setFileUrl(newFileUrl);
 

@@ -9,10 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class ErrorResponder {
-    public static void sendErrorResponse(HttpServletResponse response, HttpStatus status, String path) throws IOException {
+    public static void sendErrorResponse(HttpServletResponse response, HttpStatus status, String path, String detailedMessage) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        ErrorResponse errorResponse = ErrorResponse.of(status.value(), status.getReasonPhrase(), path);
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        ErrorResponse errorResponse = ErrorResponse.of(status.value(), status.getReasonPhrase(), path, detailedMessage);
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8");
         response.setStatus(status.value());
         response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
     }

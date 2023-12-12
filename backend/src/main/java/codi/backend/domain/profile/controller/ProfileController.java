@@ -37,14 +37,20 @@ public class ProfileController {
     }
 
     // 프로필 등록
-    @ApiOperation(value = "프로필 등록", notes = "프로필 이미지, 직무, 경력, 학력, 장애 구분, 중증도, 장애 기간을 입력해서 프로필을 작성한다.")
+    @ApiOperation(value = "프로필 등록", notes = "프로필 이미지, 직무, 경력, 학력, 장애 구분, 중증도, 장애 기간을 입력해서 프로필을 작성한다. 생성 성공시 Access Token을 새로 발급하기 때문에 헤더에 있는 Authorization을 새로 저장해주어야 한다.")
     @PostMapping
     public ResponseEntity createProfile(@AuthenticationPrincipal CustomUserDetails principal,
                                         @Valid @RequestPart(value = "profile") ProfileDto.ProfilePost profilePostDto,
                                         @RequestPart(value = "file", required = false) MultipartFile file) {
         Profile profile = profileService.createProfile(principal.getUsername(), profileMapper.profilePostDtoToProfile(profilePostDto), file);
         ProfileDto.ProfileResponse response = profileMapper.profileToProfileResponse(profile);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+
+        String newAccessToken = authService.reissueAccessTokenByMemberId(principal.getUsername());
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + newAccessToken);
+
+        return new ResponseEntity<>(response, headers, HttpStatus.CREATED);
     }
 
     // 프로필 정보 수정
@@ -67,9 +73,10 @@ public class ProfileController {
 
     // 프로필 정보 조회
     @ApiOperation(value = "프로필 페이지 조회", notes = "프로필 페이지에 입력한 정보를 조회할 수 있다.")
-    @GetMapping
-    public ResponseEntity getProfile(@AuthenticationPrincipal CustomUserDetails principal) {
-        ProfileDto.ProfileResponse profile = profileMapper.profileToProfileResponse(profileService.findProfile(principal.getProfileId()));
+    @GetMapping(value = {"", "/{profile-id}"})
+    public ResponseEntity getProfile(@AuthenticationPrincipal CustomUserDetails principal, @PathVariable(name = "profile-id", required = false) Long profileId) {
+        Long curProfileId = (profileId != null) ? profileId : principal.getProfileId();
+        ProfileDto.ProfileResponse profile = profileMapper.profileToProfileResponse(profileService.findProfile(curProfileId));
         return new ResponseEntity<>(profile, HttpStatus.OK);
     }
 }

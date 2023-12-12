@@ -8,11 +8,12 @@ import codi.backend.auth.handler.CustomAuthenticationFailureHandler;
 import codi.backend.auth.handler.CustomAuthenticationSuccessHandler;
 import codi.backend.auth.jwt.JwtTokenizer;
 import codi.backend.auth.service.AuthService;
-import codi.backend.auth.utils.CustomAuthorityUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -20,10 +21,17 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+    private static final String HTTP_SERVER_DOMAIN = "http://codi-frontend.s3-website-ap-northeast-1.amazonaws.com";
+    private static final String LOCALHOST = "http://localhost:3000";
     private final JwtTokenizer jwtTokenizer;
     private final AuthService authService;
 
@@ -38,6 +46,8 @@ public class SecurityConfig {
                 .headers().frameOptions().disable()
                 .and()
                 .csrf().disable()
+                .cors().configurationSource(corsConfigurationSource())
+                .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .formLogin().disable()
@@ -75,11 +85,27 @@ public class SecurityConfig {
 
                         // schedule
                         .antMatchers(HttpMethod.POST, "/api/v1/schedule").hasRole("MENTOR")
-                        .antMatchers(HttpMethod.GET, "/api/v1/schedule/**").hasRole("MENTOR")
+                        .antMatchers(HttpMethod.GET, "/api/v1/schedule/**").hasRole("MENTEE")
 
                         .anyRequest().permitAll()
                 );
         return http.build();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(List.of(HTTP_SERVER_DOMAIN, LOCALHOST));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"));
+        config.setExposedHeaders(List.of("Refresh", "Authorization"));
+        config.setAllowedHeaders(List.of("*"));
+        config.addExposedHeader("*");
+        config.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+
+        return source;
     }
 
     @Bean
@@ -93,7 +119,7 @@ public class SecurityConfig {
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
 
             JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer, authService);
-            jwtAuthenticationFilter.setFilterProcessesUrl("/api/v1/login");
+            jwtAuthenticationFilter.setFilterProcessesUrl("/api/v1/auth/login");
             jwtAuthenticationFilter.setAuthenticationSuccessHandler(new CustomAuthenticationSuccessHandler());
             jwtAuthenticationFilter.setAuthenticationFailureHandler(new CustomAuthenticationFailureHandler());
 

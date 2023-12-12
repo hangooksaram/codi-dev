@@ -18,7 +18,8 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         Exception exception = (Exception) request.getAttribute("exception");
-        ErrorResponder.sendErrorResponse(response, HttpStatus.UNAUTHORIZED, request.getRequestURI());
+        String detailedMessage = "인증에 실패하였습니다. JWT 토큰이 유효한지 확인하세요.";
+        ErrorResponder.sendErrorResponse(response, HttpStatus.UNAUTHORIZED, request.getRequestURI(), detailedMessage);
 
         logExceptionMessage(authException, exception);
     }

@@ -54,13 +54,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        CustomUserDetails customUserDetails = (CustomUserDetails) authResult.getPrincipal();
+        CustomUserDetails userDetails = (CustomUserDetails) authResult.getPrincipal();
 
-        String accessToken = delegateAccessToken(customUserDetails);
-        String refreshToken = delegateRefreshToken(customUserDetails);
+        String accessToken = delegateAccessToken(userDetails);
+        String refreshToken = delegateRefreshToken(userDetails);
 
         // refresh token을 DB에 저장
-        RefreshToken token = refreshTokenInfo(customUserDetails, accessToken, refreshToken);
+        RefreshToken token = refreshTokenInfo(userDetails, accessToken, refreshToken);
         authService.login(token);
 
         response.setHeader("Authorization", "Bearer " + accessToken);
@@ -69,14 +69,14 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         this.getSuccessHandler().onAuthenticationSuccess(request, response, authResult);
     }
 
-    private String delegateAccessToken(CustomUserDetails customUserDetails) {
+    private String delegateAccessToken(CustomUserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("username", customUserDetails.getUsername());
-        claims.put("roles", customUserDetails.getRoles());
-        claims.put("profileId", customUserDetails.getProfileId());
-        claims.put("mentorId", customUserDetails.getMentorId());
+        claims.put("username", userDetails.getUsername());
+        claims.put("roles", userDetails.getRoles());
+        claims.put("profileId", userDetails.getProfileId());
+        claims.put("mentorId", userDetails.getMentorId());
 
-        String subject = customUserDetails.getUsername();
+        String subject = userDetails.getUsername();
         Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
 
@@ -85,8 +85,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         return accessToken;
     }
 
-    private String delegateRefreshToken(CustomUserDetails customUserDetails) {
-        String subject = customUserDetails.getUsername();
+    private String delegateRefreshToken(CustomUserDetails userDetails) {
+        String subject = userDetails.getUsername();
         Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getRefreshTokenExpirationMinutes());
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
 
@@ -96,12 +96,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     }
 
     // refresh token 저장용 jwt 정보 뽑아내기 메서드
-    private RefreshToken refreshTokenInfo(CustomUserDetails customUserDetails, String accessToken, String refreshToken) {
+    private RefreshToken refreshTokenInfo(CustomUserDetails userDetails, String accessToken, String refreshToken) {
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
         Jws<Claims> claims = jwtTokenizer.getClaims(accessToken, base64EncodedSecretKey);
 
         RefreshToken refresh = new RefreshToken();
-        refresh.setMemberId(customUserDetails.getUsername());
+        refresh.setMemberId(userDetails.getUsername());
         refresh.setRefreshToken(refreshToken);
         refresh.setExpiryDate(claims.getBody().getExpiration());
 
