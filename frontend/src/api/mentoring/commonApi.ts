@@ -29,8 +29,7 @@ const mentoringApiEndpoint = (
   }`;
 };
 
-export const getTodayMentorings = async (profileId: number) => {
-  return (
-    await customAxios.get(`/mentees/mentoring/mentoring-schedules/${profileId}`)
-  ).data;
+export const getTodayMentorings = async () => {
+  return (await customAxios.get(`/mentees/mentoring/mentoring-schedules/`))
+    .data;
 };
