@@ -12,6 +12,7 @@ const Button = styled.button(
     fontSize,
     children,
     outline,
+    hoverDisabled,
     ...rest
   }: {
     variant: Button;
@@ -21,6 +22,7 @@ const Button = styled.button(
     children?: ReactNode;
     fontSize?: ThemeFontSize;
     outline?: boolean;
+    hoverDisabled?: boolean;
   }) => ({
     width: width ?? "fit-content",
     minWidth: "39px",
@@ -28,6 +30,7 @@ const Button = styled.button(
     borderRadius: borderRadius(variant),
     height: height(variant, width, size),
     color: fontColor(color),
+    fontWeight: fontWeight(size),
     border: outline ? `1px solid ${theme.colors.gray.main}` : "none",
     padding: variant === "round" ? "0px" : "0px 20px",
     fontSize: fontSize ? theme.fonts.size[fontSize] : theme.fonts.size.sm,
@@ -36,16 +39,17 @@ const Button = styled.button(
     alignItems: "center",
     cursor: "pointer",
     outline: "none",
-    ...rest,
     ":disabled": {
       backgroundColor: theme.colors.gray.dark,
       color: theme.colors.white,
       cursor: "default",
     },
+    ":hover": !hoverDisabled ? hover(size) : {},
     [device("mobile")]: {
       fontSize: theme.fonts.size.xs,
       padding: variant === "round" ? "0px" : "0px 12px",
     },
+    ...rest,
   })
 );
 
@@ -66,11 +70,33 @@ const height = (variant: Button, width?: string, size?: string) => {
   } else if (size === "big") return "70px";
   switch (variant) {
     case "default":
+      return "50px";
     case "square":
       return "50px";
     case "round":
       return width;
   }
+};
+
+const fontWeight = (size?: string) => {
+  if (size === "small") return theme.fonts.weight.regular;
+  return theme.fonts.weight.extraBold;
+};
+
+const hover = (size?: string) => {
+  if (size === "small")
+    return {
+      border: `2px solid ${theme.colors.primary}`,
+      fontWeight: theme.fonts.weight.bold,
+      backgroundColor: theme.colors.white,
+      color: theme.colors.primary,
+    };
+  return {
+    border: `2px solid ${theme.colors.primary}`,
+    fontWeight: theme.fonts.weight.regular,
+    backgroundColor: theme.colors.white,
+    color: theme.colors.primary,
+  };
 };
 
 const fontColor = (color?: string) => {

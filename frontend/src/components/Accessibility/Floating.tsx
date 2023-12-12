@@ -45,6 +45,7 @@ const Floating = () => {
         variant="round"
         width="110px"
         color={theme.colors.primary}
+        hoverDisabled
       >
         <FloatIcon />
       </StyledFloating.OpenButton>

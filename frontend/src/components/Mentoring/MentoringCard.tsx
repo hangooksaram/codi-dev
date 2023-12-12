@@ -99,6 +99,7 @@ const MentoringCard = ({
           }}
           width="42px"
           variant="round"
+          hoverDisabled
           color={
             platform === "No Selection."
               ? theme.colors.gray.main
