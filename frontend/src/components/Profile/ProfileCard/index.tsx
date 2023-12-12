@@ -44,7 +44,6 @@ const ProfileCard = ({
         <Header
           favorites={favorites}
           edit={edit}
-          mentor={mentor}
           mentorId={mentorId}
           applicationDate={applicationDate}
         />
