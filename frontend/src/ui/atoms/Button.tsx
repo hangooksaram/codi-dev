@@ -25,13 +25,16 @@ const Button = styled.button(
     hoverDisabled?: boolean;
   }) => ({
     width: width ?? "fit-content",
+    maxWidth: width ?? "fit-content",
     minWidth: "39px",
     backgroundColor: color ?? theme.colors.primary,
     borderRadius: borderRadius(variant),
     height: height(variant, width, size),
     color: fontColor(color),
     fontWeight: fontWeight(size),
-    border: outline ? `1px solid ${theme.colors.gray.main}` : "none",
+    border: outline
+      ? `1px solid ${theme.colors.gray.main}`
+      : "2px solid transparent",
     padding: variant === "round" ? "0px" : "0px 20px",
     fontSize: fontSize ? theme.fonts.size[fontSize] : theme.fonts.size.sm,
     display: "flex",
@@ -44,7 +47,7 @@ const Button = styled.button(
       color: theme.colors.white,
       cursor: "default",
     },
-    ":hover": !hoverDisabled ? hover(size) : {},
+    ":hover:enabled": !hoverDisabled ? hover(size) : {},
     [device("mobile")]: {
       fontSize: theme.fonts.size.xs,
       padding: variant === "round" ? "0px" : "0px 12px",
