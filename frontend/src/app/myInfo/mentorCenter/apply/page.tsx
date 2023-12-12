@@ -13,7 +13,7 @@ const ApplyPage = () => {
   if (data?.data.length === 0) {
     return (
       <Typography variant="div" color={theme.colors.gray.main}>
-        아직 신청한 멘토링이 없어요.
+        아직 들어온 멘토링 요청이 없어요
       </Typography>
     );
   } else
