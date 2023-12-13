@@ -57,6 +57,7 @@ const MentorCategoriesSelector = ({
                 !mentoringCategories?.includes(text) &&
                 mentoringCategories?.length > 3
               }
+              hoverDisabled
             >
               <IconComponent
                 fill={

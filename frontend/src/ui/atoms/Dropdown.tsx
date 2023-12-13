@@ -50,6 +50,7 @@ const Dropdown = ({
             variant="square"
             type="button"
             role="tab"
+            hoverDisabled
           >
             {selectedCategory ? selectedCategory : title}
             <OpenDropdown />
