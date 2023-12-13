@@ -10,12 +10,11 @@ import { handleApiError } from "@/utils/api";
 import { CommonApiResponse } from "@/types/api/common";
 
 export const registerMentor = async (
-  memberId: string,
   mentor: FormData
 ): Promise<CommonApiResponse<RegisterMentorResponse>> => {
   try {
     const { data, status }: AxiosResponse<RegisterMentorResponse> =
-      await customAxios.post(`/mentors/${memberId}`, mentor, {
+      await customAxios.post(`/mentors/`, mentor, {
         headers: {
           "Content-Type": "multitype/form-data",
         },

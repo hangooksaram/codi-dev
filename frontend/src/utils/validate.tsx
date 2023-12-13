@@ -31,7 +31,11 @@ export const invalid = <T,>(
 
 export const validate = <T,>(value: T) => {
   return {
-    isRequired: () => value !== "" && value !== null && value !== undefined,
+    isRequired: () =>
+      value !== null &&
+      value !== undefined &&
+      ((typeof value === "string" && value !== "") ||
+        (Array.isArray(value) && value.length > 0)),
     isRegexCorrect: (regex: RegExp) => new RegExp(regex!).test(value as string),
     isMin: (min: number) => typeof value === "number" && value > min!,
     isMax: (max: number) => typeof value === "number" && value < max!,
