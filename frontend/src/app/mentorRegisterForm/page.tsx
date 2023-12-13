@@ -83,14 +83,13 @@ const MentorRegisterForm = () => {
       },
     },
     inOffice: {
-      validCondition: {
-        required: true,
-      },
+      validCondition: {},
     },
     mentoringCategories: {
       validCondition: {
         required: true,
       },
+      initialValue: [],
     },
   };
 
@@ -123,7 +122,6 @@ const MentorRegisterForm = () => {
 
   const handleMentorProfileSubmit = async (e: FormEvent) => {
     e.preventDefault();
-
     const isFormValid = validateAllFormValues();
 
     if (isFormValid) {
@@ -136,7 +134,7 @@ const MentorRegisterForm = () => {
   };
 
   const registerMentor = async () => {
-    const { status } = await postRegisterMentor(memberId!, formData);
+    const { status } = await postRegisterMentor(formData);
 
     handleApiCallback(
       status!,

@@ -3,15 +3,19 @@ import { SetState } from "..";
 
 const useClickOutOfInput = (elementId: string, setOpen: SetState<boolean>) => {
   const addClickOutOfInputHandler = (e: MouseEvent) => {
-    if (elementId !== (e.target! as HTMLElement).id) {
+    const targetEl = e.target! as HTMLElement;
+
+    if (elementId !== targetEl.parentElement?.id && elementId !== targetEl.id) {
       setOpen(false);
+      return;
     }
   };
 
   useEffect(() => {
     document.addEventListener("click", addClickOutOfInputHandler);
 
-    return document.removeEventListener("click", addClickOutOfInputHandler);
+    return () =>
+      document.removeEventListener("click", addClickOutOfInputHandler);
   }, []);
 };
 

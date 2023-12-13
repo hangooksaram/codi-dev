@@ -71,6 +71,7 @@ const AppBar = () => {
               <FlexBox justifyContent="flex-end" columnGap="30px">
                 <Alarm />
                 <Dropdown
+                  id="profile-menu"
                   type="menu"
                   categories={PROFILE_MENU(user.isProfile !== null).map(
                     ({ name }) => name

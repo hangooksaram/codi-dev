@@ -39,7 +39,9 @@ const Dropdown = ({
     <>
       <DropDownListContainer width={width}>
         {type === "menu" ? (
-          <div onClick={() => setOpen((prev) => !prev)}>{children}</div>
+          <div id={id} onClick={() => setOpen((prev) => !prev)}>
+            {children}
+          </div>
         ) : (
           <DropdownButton
             id={id}
@@ -50,6 +52,7 @@ const Dropdown = ({
             variant="square"
             type="button"
             role="tab"
+            hoverDisabled
           >
             {selectedCategory ? selectedCategory : title}
             <OpenDropdown />
