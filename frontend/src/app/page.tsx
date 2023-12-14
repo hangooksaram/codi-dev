@@ -13,16 +13,11 @@ import TodayMentoring from "@/components/pages/main/TodayMentoring";
 import landingBanner from "../../public/images/landing-banner.png";
 import { BackgroundImage } from "@/ui/molecules/Image/BackgroundImage";
 import Footer from "@/components/pages/main/Footer";
-import Dropdown from "@/ui/atoms/Dropdown";
-import { useState } from "react";
-import Input from "@/ui/atoms/Input";
 import { MOBILE_NAVIGATION_HEIGHT } from "@/constants";
 
 const MainLandingPage = () => {
   const router = useRouter();
   const user = useSelector(selectUser);
-
-  const [test, setTest] = useState<string>("");
 
   return (
     <>
@@ -77,7 +72,7 @@ const MainLandingPage = () => {
             <Typography variant="div" {...{ marginBottom: "40px" }}>
               나와 같은 어려움을 겪고 있는 멘티의 멘토가 되어주세요.
             </Typography>
-            {!user.mentorId ? (
+            {!user.isMentor ? (
               <Button
                 onClick={() => {
                   router.push("/mentorRegisterForm");
