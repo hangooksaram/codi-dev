@@ -81,10 +81,13 @@ const AppBar = () => {
                   left
                 >
                   {user.profileImageUrl ? (
-                    <AppBarProfile src={user.profileImageUrl!} />
+                    <AppBarProfile
+                      id="profile-menu"
+                      src={user.profileImageUrl!}
+                    />
                   ) : (
                     <AppBarProfile>
-                      <Profile fill={theme.colors.white} />
+                      <Profile id="profile-menu" fill={theme.colors.white} />
                     </AppBarProfile>
                   )}
                 </Dropdown>

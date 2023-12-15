@@ -1,7 +1,5 @@
 "use client";
 
-import * as Yup from "yup";
-import { useFormik } from "formik";
 import { FormContainer } from "@/ui/atoms/Container";
 import Typography from "@/ui/atoms/Typography";
 import theme from "@/ui/theme";
@@ -11,7 +9,7 @@ import IconInputContainer from "@/ui/molecules/Input/IconInput";
 import Input from "@/ui/atoms/Input";
 import FlexBox from "@/ui/atoms/FlexBox";
 import Dropdown from "@/ui/atoms/Dropdown";
-import { useState } from "react";
+import { FormEvent, use, useEffect, useState } from "react";
 import IdIcon from "@icons/common/id.svg";
 import PasswordIcon from "@icons/common/password.svg";
 import TagIcon from "@icons/common/tag.svg";
@@ -27,11 +25,11 @@ import { handleApiCallback } from "@/utils/api";
 import { SignUpBody } from "@/types/api/sign";
 
 import { useDispatch } from "react-redux";
-import { setUser } from "@/features/user/userSlice";
 import Label from "@/ui/atoms/Label";
 import { setIsLoggedIn } from "@/features/auth/authSlice";
+import useForm from "@/hooks/useNewForm/useForm";
 
-const signUpFormValueProps = {
+const signUpFormValues = {
   birth: "",
   email: "",
   id: "",
@@ -40,17 +38,22 @@ const signUpFormValueProps = {
   password: "",
 };
 
-const SignupSchema = Yup.object({
-  id: Yup.string().required("Required"),
-  password: Yup.string()
-    .required("Required")
-    .matches(
-      /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/,
-      "확인 요망"
-    ),
-  name: Yup.string().required("Required"),
-  email: Yup.string().required("Required"),
-});
+const signUpFormValidation = {
+  id: {
+    required: true,
+    regex: /^(?=.*[a-zA-Z0-9])[a-zA-Z0-9]{4,12}$/,
+  },
+  email: {
+    required: true,
+  },
+  password: {
+    required: true,
+    regex: /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/,
+  },
+  name: {
+    required: true,
+  },
+};
 
 const GENDER_LIST = [
   { name: "남자", key: "MAN" },
@@ -60,15 +63,21 @@ const GENDER_LIST = [
 
 const SignUpPage = () => {
   const [emailType, setEmailType] = useState("gmail.com");
-  const [gender, setGender] = useState({
-    name: "선택하지 않음",
-    key: "NOT_CHECKED",
-  });
+  const [gender, setGender] = useState(GENDER_LIST[2]);
   const [birth, setBirth] = useState({
     year: 1990,
     month: 1,
     day: 1,
   });
+
+  const {
+    form,
+    setForm,
+    handleFormValueChange,
+    validateAllFormValues,
+    setIsSubmitted,
+    convertToFormData,
+  } = useForm(signUpFormValues, signUpFormValidation);
 
   const [isIdDuplicated, setIsIdDuplicated] = useState<Boolean | undefined>(
     undefined
@@ -78,7 +87,7 @@ const SignUpPage = () => {
 
   const checkDuplicateId = async () => {
     const { data, status, errorMessage } = await postCheckDuplicateId<boolean>(
-      formik.values.id
+      form.id.value
     );
     handleApiCallback(
       status!,
@@ -88,43 +97,63 @@ const SignUpPage = () => {
   };
 
   const dispatch = useDispatch();
-  const processedValues = (values: SignUpBody) => {
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+
+    const isFormValid = validateAllFormValues();
+
+    if (isFormValid) {
+      const formData = convertToFormData();
+
+      const { status, errorMessage } = await signUp({
+        ...formData,
+        email: `${form.email.value}@${emailType}`,
+      } as SignUpBody);
+
+      handleApiCallback(
+        status!,
+        async () => {
+          const { data } = await signIn({
+            id: form.id.value,
+            password: form.password.value,
+          });
+          if (data) dispatch(setIsLoggedIn(true));
+          router.push("complete");
+        },
+        () => alert(`호출 실패 : ${errorMessage}`)
+      );
+    }
+  };
+
+  useEffect(() => {
+    setForm((prevForm) => {
+      return {
+        ...prevForm,
+        gender: {
+          ...form["gender"],
+          value: gender.key,
+        },
+      };
+    });
+  }, [gender]);
+
+  useEffect(() => {
     const { year, month, day } = birth;
-    const stringFiedBirth = `${year}/${month < 10 ? "0" : null}${month}/${
+    const stringifiedBirth = `${year}/${month < 10 ? "0" : null}${month}/${
       day < 10 ? "0" : null
     }${day}`;
-    return {
-      ...values,
-      gender: gender.key,
-      birth: stringFiedBirth,
-      email: `${values.email}@${emailType}`,
-    };
-  };
+    setForm((prevForm) => {
+      return {
+        ...prevForm,
+        birth: {
+          ...form["birth"],
+          value: stringifiedBirth,
+        },
+      };
+    });
+  }, [birth]);
 
-  const handleSubmit = async (values: SignUpBody) => {
-    const { status, errorMessage } = await signUp(processedValues(values));
-
-    handleApiCallback(
-      status!,
-      async () => {
-        const { data } = await signIn({
-          id: values.id,
-          password: values.password,
-        });
-        if (data) dispatch(setIsLoggedIn(true));
-        router.push("complete");
-      },
-      () => alert(`호출 실패 : ${errorMessage}`)
-    );
-  };
-
-  const formik = useFormik({
-    initialValues: signUpFormValueProps,
-    onSubmit: (values: SignUpBody) => {
-      handleSubmit(values);
-    },
-    validationSchema: SignupSchema,
-  });
   return (
     <FormContainer>
       <Typography
@@ -137,9 +166,12 @@ const SignUpPage = () => {
         새로운 계정 생성
       </Typography>
 
-      <form onSubmit={formik.handleSubmit}>
+      <form onSubmit={(e) => handleSubmit(e)}>
         <FlexBox direction="column" rowGap="50px">
-          <ContentTextContainer text="아이디">
+          <ContentTextContainer
+            text="아이디"
+            helpText="영어, 숫자를 포함, 특수문자를 제외한 4 - 12 자리의 아이디를 입력해주세요."
+          >
             <FlexBox direction="column" alignItems="flex-start" rowGap="10px">
               <FlexBox>
                 <IconInputContainer iconComponent={<IdIcon />}>
@@ -147,13 +179,9 @@ const SignUpPage = () => {
                   <Input
                     id="id"
                     name="id"
-                    onChange={formik.handleChange}
-                    value={formik.values.id}
-                    invalid={
-                      formik.touched.id &&
-                      (formik.errors.id !== undefined ||
-                        formik.values.id === "")
-                    }
+                    onChange={handleFormValueChange}
+                    value={form.id.value}
+                    invalid={form.id.isValid === "invalid"}
                     outline
                   />
                 </IconInputContainer>
@@ -164,7 +192,7 @@ const SignUpPage = () => {
                   variant="square"
                   type="button"
                   {...{ marginLeft: "10px" }}
-                  disabled={formik.values.id === ""}
+                  disabled={form.id.isValid === "invalid"}
                 >
                   중복확인
                 </Button>
@@ -186,12 +214,9 @@ const SignUpPage = () => {
               <Input
                 id="password"
                 name="password"
-                onChange={formik.handleChange}
-                value={formik.values.password}
-                invalid={
-                  formik.errors.password !== undefined &&
-                  formik.touched.password
-                }
+                onChange={handleFormValueChange}
+                value={form.password.value}
+                invalid={form.password.isValid === "invalid"}
                 type="password"
                 outline
               />
@@ -203,11 +228,9 @@ const SignUpPage = () => {
               <Input
                 id="name"
                 name="name"
-                onChange={formik.handleChange}
-                value={formik.values.name}
-                invalid={
-                  formik.errors.name !== undefined && formik.touched.name
-                }
+                onChange={handleFormValueChange}
+                value={form.name.value}
+                invalid={form.name.isValid === "invalid"}
                 outline
               />
             </IconInputContainer>
@@ -272,11 +295,9 @@ const SignUpPage = () => {
               <Input
                 id="email"
                 name="email"
-                onChange={formik.handleChange}
-                value={formik.values.email}
-                invalid={
-                  formik.errors.email !== undefined && formik.touched.email
-                }
+                onChange={handleFormValueChange}
+                value={form.email.value}
+                invalid={form.email.isValid === "invalid"}
                 outline
               />
               @

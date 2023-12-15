@@ -28,8 +28,6 @@ const MyCodiPage = () => {
     type: "mentees",
   });
 
-  console.log(mentoringsData);
-
   const { data: dailyMentoringData } = useDailyMentoringsQuery({
     date: formattedDate(date),
     type: "mentees",
