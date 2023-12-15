@@ -42,7 +42,6 @@ const SchedulePage = () => {
     type: "mentors",
   });
 
-  console.log(mentoringsData);
   const { data: dailyMentoringData } = useDailyMentoringsQuery({
     date: formattedDate(date),
     type: "mentors",
