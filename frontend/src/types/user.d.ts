@@ -1,8 +1,8 @@
 export interface User {
-  id: string;
-  imgUrl: string;
-  mentorId: string;
-  profileId: string;
+  id?: string;
+  isMentor?: boolean;
+  isProfile?: boolean;
+  profileImageUrl?: string;
 }
 
 export interface Token {

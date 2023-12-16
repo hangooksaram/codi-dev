@@ -1,16 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { RootState } from "../../store/store";
+import { User } from "@/types/user";
 
-// Define a type for the slice state
-export interface UserSliceState {
-  id?: string;
-  isMentor?: boolean;
-  isProfile?: boolean;
-  profileImageUrl?: string;
-}
-
-// Define the initial state using that type
-const initialState: UserSliceState = {
+const initialState: User = {
   id: undefined,
   isMentor: false,
   isProfile: false,
