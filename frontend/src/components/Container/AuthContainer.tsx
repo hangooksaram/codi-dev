@@ -1,13 +1,17 @@
 import { checkAccessToken, checkLoginInfo } from "@/api/authApi";
 import { selectAuth, setIsLoggedIn } from "@/features/auth/authSlice";
-import { setUser } from "@/features/user/userSlice";
+import { selectUser, setUser } from "@/features/user/userSlice";
+import useRedirectOnUnverified from "@/hooks/redirect/useRedirectOnUnverified";
 import { ReactNode, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
+/** 초기 페이지 진입 시, 토큰 확인 */
 const AuthContainer = ({ children }: { children: ReactNode }) => {
   const dispatch = useDispatch();
   const auth = useSelector(selectAuth);
+
+  const redirect = useRedirectOnUnverified();
 
   useEffect(() => {
     (async () => {
@@ -22,6 +26,7 @@ const AuthContainer = ({ children }: { children: ReactNode }) => {
         const { data } = await checkLoginInfo();
         dispatch(setUser({ ...data }));
       }
+      redirect();
     })();
   }, [auth.isLoggedIn]);
   return <>{children}</>;

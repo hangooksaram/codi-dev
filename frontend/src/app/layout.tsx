@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { ReactNode, useEffect } from "react";
 import "./globals.css";
 import { Provider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -23,15 +23,13 @@ export default function RootLayout({
       <body suppressHydrationWarning={true}>
         <ThemeProvider theme={theme}>
           <Provider store={store}>
-            <AuthContainer>
-              <QueryClientProvider client={queryClient}>
-                <AccessibilityLayout>
-                  <AppBar />
-                  {children}
-                  <Floating />
-                </AccessibilityLayout>
-              </QueryClientProvider>
-            </AuthContainer>
+            <QueryClientProvider client={queryClient}>
+              <AccessibilityLayout>
+                <AppBar />
+                {children}
+                <Floating />
+              </AccessibilityLayout>
+            </QueryClientProvider>
           </Provider>
         </ThemeProvider>
       </body>
