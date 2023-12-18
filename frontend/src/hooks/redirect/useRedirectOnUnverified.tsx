@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 type RedirectCondition = "user" | "profile";
 
 interface RedirectRoutes {
-  condition: RedirectCondition;
+  allowed: RedirectCondition;
   currentRoute: string;
   redirectRoute: string;
 }
@@ -14,17 +14,17 @@ const redirectRoutes: RedirectRoutes[] = [
   {
     currentRoute: "/mentorRegisterForm/",
     redirectRoute: "/profileForm",
-    condition: "profile",
+    allowed: "profile",
   },
   {
     currentRoute: "/mentorRegisterForm/",
     redirectRoute: "/signin",
-    condition: "user",
+    allowed: "user",
   },
   {
     currentRoute: "/profileForm/",
     redirectRoute: "/signin",
-    condition: "user",
+    allowed: "user",
   },
 ];
 
@@ -32,18 +32,21 @@ const useRedirectOnUnverified = () => {
   const router = useRouter();
   const pathname = usePathname();
   const user = useSelector(selectUser);
-
-  const checkRedirectRoutes = () => {
+  const checkRedirectRoutes = (id?: string, isProfile?: boolean) => {
+    const userId = id ?? user.id;
+    const isUserProfile = isProfile ?? user.isProfile;
+    console.log(pathname);
     if (!isRedirectPage(pathname)) {
       return;
     }
 
     for (let route of redirectRoutes) {
       if (pathname.includes(route.currentRoute)) {
-        if (
-          (!user.id && route.condition === "user") ||
-          (!user.isProfile && route.condition === "profile")
-        ) {
+        if (!userId && route.allowed === "user") {
+          router.replace(route.redirectRoute);
+          return;
+        }
+        if (!isUserProfile && route.allowed === "profile") {
           router.replace(route.redirectRoute);
           return;
         }

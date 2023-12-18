@@ -25,8 +25,11 @@ const AuthContainer = ({ children }: { children: ReactNode }) => {
       if (auth.isLoggedIn) {
         const { data } = await checkLoginInfo();
         dispatch(setUser({ ...data }));
+        redirect(data?.id, data?.isProfile);
+        return;
+      } else if (auth.isLoggedIn === false) {
+        redirect();
       }
-      redirect();
     })();
   }, [auth.isLoggedIn]);
   return <>{children}</>;
