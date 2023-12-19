@@ -43,36 +43,10 @@ const MentorList = ({ mentors }: { mentors: Mentor[] }) => {
       columnGap="20px"
       rowGap="20px"
     >
-      {mentors!.map(
-        ({
-          mentorId,
-          name,
-          job,
-          disability,
-          severity,
-          star,
-          isCertificate,
-          mentees,
-          imgUrl,
-          career,
-          applicationDate,
-        }) => (
-          <ProfileCard
-            key={mentorId}
-            name={name}
-            job={job}
-            disability={disability}
-            severity={severity}
-            edit={false}
-            career={career}
-            star={star}
-            isCertificate={isCertificate}
-            mentees={mentees}
-            imgUrl={imgUrl}
-            mentorId={mentorId}
-            favorites={favoriteIds}
-            applicationDate={applicationDate}
-          >
+      {mentors!.map((mentor) => {
+        const { mentorId } = mentor;
+        return (
+          <ProfileCard key={mentorId} {...mentor}>
             <Button
               onClick={() =>
                 router.push(
@@ -86,8 +60,8 @@ const MentorList = ({ mentors }: { mentors: Mentor[] }) => {
               멘토프로필 보기
             </Button>
           </ProfileCard>
-        )
-      )}
+        );
+      })}
     </Grid>
   );
 };

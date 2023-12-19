@@ -1,7 +1,5 @@
-"use client";
-
 import MentorProfile from "@/components/Profile/MentorProfile";
-import { useParams, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 const MentorProfilePage = () => {
   const param = useSearchParams();

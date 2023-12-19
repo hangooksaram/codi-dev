@@ -8,9 +8,6 @@ import { device } from "@/ui/theme";
 import StyledImage from "@/ui/atoms/StyledImage";
 
 const ProfileCard = ({
-  width,
-  height,
-  edit,
   mentor,
   name,
   job,
@@ -23,11 +20,14 @@ const ProfileCard = ({
   mentees,
   mentorId,
   employmentStatus,
-  link,
-  pageQueryInfo,
-  children,
   career,
   favorites,
+  link,
+  width,
+  height,
+  edit,
+  pageQueryInfo,
+  children,
 }: ProfileCard) => {
   return (
     <CardContainer
