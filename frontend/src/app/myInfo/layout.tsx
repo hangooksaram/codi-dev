@@ -24,12 +24,12 @@ export default function MyInfoLayout({
       name: "마이페이지",
       href: "/myInfo/",
     },
-    {
-      iconComponent: <Verified fill={theme.colors.gray.main} />,
-      currentIconComponent: <Verified fill={theme.colors.white} />,
-      name: "코디 뱃지",
-      href: "/myInfo/badges/",
-    },
+    // {
+    //   iconComponent: <Verified fill={theme.colors.gray.main} />,
+    //   currentIconComponent: <Verified fill={theme.colors.white} />,
+    //   name: "코디 뱃지",
+    //   href: "/myInfo/badges/",
+    // },
     {
       iconComponent: <Link fill={theme.colors.gray.main} />,
       currentIconComponent: <Link fill={theme.colors.white} />,
