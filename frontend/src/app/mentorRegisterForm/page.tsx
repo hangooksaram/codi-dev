@@ -86,6 +86,7 @@ const MentorRegisterForm = () => {
     },
     inOffice: {
       validCondition: {},
+      initialValue: false,
     },
     mentoringCategories: {
       validCondition: {
