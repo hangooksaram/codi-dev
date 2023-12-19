@@ -3,11 +3,9 @@ import Button from "@/ui/atoms/Button";
 import FlexBox from "@/ui/atoms/FlexBox";
 import theme, { device } from "@/ui/theme";
 import styled from "@emotion/styled";
-import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import Menu from "@icons/mobile/mobile-menu.svg";
-import { useCheckDeviceWidth } from "@/hooks/useCheckDeviceWidth";
+import { SetState } from "@/index";
+import useSideBar from "@/hooks/useSideBar";
 
 interface SideBarNavigator {
   iconComponent?: React.JSX.Element;
@@ -21,108 +19,79 @@ interface SideBarNavigators extends SideBarNavigator {
   nested?: SideBarNavigator[];
 }
 
-const SideBar = ({ navigators }: { navigators: SideBarNavigators[] }) => {
-  const [current, setCurrent] = useState<string>();
-  const [nestedParent, setNestedParent] = useState<string>();
-  const [open, setOpen] = useState(true);
+const SideBar = ({
+  navigators,
+  open,
+  setOpen,
+}: {
+  navigators: SideBarNavigators[];
+  open: boolean;
+  setOpen: SetState<boolean>;
+}) => {
   const router = useRouter();
-  const path = usePathname();
-
-  const isBelow = useCheckDeviceWidth(theme.breakpoints.smWeb);
-
-  useEffect(() => {
-    setOpen(!isBelow);
-  }, [!isBelow]);
-
-  useEffect(() => {
-    navigators.forEach((navigator) => {
-      navigator.nested?.forEach((nestedNavigator) => {
-        if (nestedNavigator.href === path) {
-          setNestedParent(navigator.href);
-        }
-      });
-    });
-    setCurrent(path);
-
-    return () => setNestedParent("");
-  }, [path]);
-
+  const { setNestedParent, setCurrent, current, nestedParent, path } =
+    useSideBar(navigators, setOpen);
   return (
-    <>
-      <>
-        <SideBarOverlay open={open} onClick={() => setOpen(false)} />
-        <MobileMenuButton
-          variant="square"
-          onClick={() => setOpen((prev) => !prev)}
-          color={theme.colors.gray.main}
-        >
-          <Menu />
-        </MobileMenuButton>
-      </>
+    <Container open={open}>
+      <FlexBox direction="column">
+        {navigators.map(
+          (
+            {
+              name,
+              href,
+              iconComponent,
+              currentIconComponent,
+              nestedParentIconComponent,
+              nested,
+            },
+            index
+          ) => {
+            return (
+              <>
+                <ListItem
+                  onClick={() => {
+                    setNestedParent(nested ? href : "");
+                    setCurrent(href);
+                    router.push(href);
+                  }}
+                  current={current === href && nestedParent !== href}
+                  nestedParent={nestedParent === href}
+                  key={index}
+                >
+                  <FlexBox justifyContent="flex-start" columnGap="10px">
+                    {nestedParent === href && nestedParentIconComponent}
+                    {nestedParent !== href &&
+                      (current === href ? currentIconComponent : iconComponent)}
 
-      <Container open={open}>
-        <FlexBox direction="column">
-          {navigators.map(
-            (
-              {
-                name,
-                href,
-                iconComponent,
-                currentIconComponent,
-                nestedParentIconComponent,
-                nested,
-              },
-              index
-            ) => {
-              return (
-                <>
-                  <ListItem
-                    onClick={() => {
-                      setNestedParent(nested ? href : "");
-                      setCurrent(href);
-                      router.push(href);
-                    }}
-                    current={current === href && nestedParent !== href}
-                    nestedParent={nestedParent === href}
-                    key={index}
-                  >
-                    <FlexBox justifyContent="flex-start" columnGap="10px">
-                      {nestedParent === href && nestedParentIconComponent}
-                      {nestedParent !== href &&
-                        (current === href
-                          ? currentIconComponent
-                          : iconComponent)}
-
-                      {name}
-                    </FlexBox>
-                  </ListItem>
-                  {nested?.map(
-                    ({ name: nestedName, href: nestedHref }, index) => {
-                      return (
-                        <ListItem
-                          onClick={() => {
-                            if (!nestedParent) {
-                              setNestedParent(href);
-                            }
-                            setCurrent(nestedHref);
-                            router.push(nestedHref);
-                          }}
-                          current={path === nestedHref}
-                          nested={2}
-                          key={index}
-                        >
-                          {nestedName}
-                        </ListItem>
-                      );
-                    }
-                  )}
-                </>
-              );
-            }
-          )}
-        </FlexBox>
-      </Container>
-    </>
+                    {name}
+                  </FlexBox>
+                </ListItem>
+                {nested?.map(
+                  ({ name: nestedName, href: nestedHref }, index) => {
+                    return (
+                      <ListItem
+                        onClick={() => {
+                          if (!nestedParent) {
+                            setNestedParent(href);
+                          }
+                          setCurrent(nestedHref);
+                          router.push(nestedHref);
+                        }}
+                        current={path === nestedHref}
+                        nested={2}
+                        key={index}
+                      >
+                        {nestedName}
+                      </ListItem>
+                    );
+                  }
+                )}
+              </>
+            );
+          }
+        )}
+      </FlexBox>
+    </Container>
   );
 };
 
@@ -171,15 +140,17 @@ const ListItem = styled.div(
   })
 );
 
-const SideBarOverlay = styled(Overlay)(({ open }: { open: boolean }) => ({
-  backgroundColor: "rgba(0, 0, 0, 0.20)",
-  display: "none",
-  [device("smWeb")]: {
-    display: open ? "block" : "none",
-  },
-}));
+export const SideBarOverlay = styled(Overlay)(
+  ({ open }: { open: boolean }) => ({
+    backgroundColor: "rgba(0, 0, 0, 0.20)",
+    display: "none",
+    [device("smWeb")]: {
+      display: open ? "block" : "none",
+    },
+  })
+);
 
-const MobileMenuButton = styled(Button)({
+export const MobileMenuButton = styled(Button)({
   position: "fixed",
   top: "20px",
   left: "20px",
