@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import SideBar from "@/components/NavBar/SideBar";
+import SideBar from "@/components/NavBar/SideBar/SideBar";
 import Profile from "@icons/common/profile.svg";
 import Verified from "@icons/common/verified.svg";
 import Link from "@icons/common/link.svg";

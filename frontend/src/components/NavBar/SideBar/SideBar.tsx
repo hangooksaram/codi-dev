@@ -49,14 +49,16 @@ const SideBar = ({ navigators }: { navigators: SideBarNavigators[] }) => {
 
   return (
     <>
-      <SideBarOverlay open={open} onClick={() => setOpen(false)} />
-      <MobileMenuButton
-        variant="square"
-        onClick={() => setOpen((prev) => !prev)}
-        color={theme.colors.gray.main}
-      >
-        <Menu />
-      </MobileMenuButton>
+      <>
+        <SideBarOverlay open={open} onClick={() => setOpen(false)} />
+        <MobileMenuButton
+          variant="square"
+          onClick={() => setOpen((prev) => !prev)}
+          color={theme.colors.gray.main}
+        >
+          <Menu />
+        </MobileMenuButton>
+      </>
 
       <Container open={open}>
         <FlexBox direction="column">
@@ -132,6 +134,7 @@ const Container = styled.nav(({ open }: { open: boolean }) => ({
   alignSelf: "flex-start",
   left: "0px",
   top: "59px",
+
   background: theme.colors.white,
   boxShadow: "0px 2px 4px 0px rgba(22, 23, 24, 0.08)",
   [device("smWeb")]: {

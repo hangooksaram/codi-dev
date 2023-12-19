@@ -7,7 +7,7 @@ import { store } from "@/store/store";
 import AccessibilityLayout from "@/components/Layout/AccessibilityLayout";
 import { ThemeProvider } from "@emotion/react";
 import theme from "@/ui/theme";
-import AppBar from "@/components/NavBar/AppBar";
+import AppBar from "@/components/NavBar/AppBar/AppBar";
 import Floating from "@/components/Accessibility/Floating";
 import { ReactNode } from "react";
 /**create new client */

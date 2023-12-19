@@ -12,7 +12,7 @@ import Link from "next/link";
 import MobileAppBar from "./MobileAppBar";
 import { useSelector } from "react-redux";
 import { selectUser } from "@/features/user/userSlice";
-import AppBarProfile from "../Profile/AppBarProfile";
+import AppBarProfile from "../../Profile/AppBarProfile";
 import { selectAuth } from "@/features/auth/authSlice";
 
 const NOT_SHOWING_LIST = ["/signin/", "/account/findId/", "/account/findPw/"];
