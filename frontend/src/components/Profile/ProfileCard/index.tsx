@@ -8,7 +8,13 @@ import { device } from "@/ui/theme";
 import StyledImage from "@/ui/atoms/StyledImage";
 
 const ProfileCard = ({
-  mentor,
+  width,
+  height,
+  isMentorProfile,
+  isMyPage,
+  edit,
+  link,
+  pageQueryInfo,
   name,
   job,
   disability,
@@ -22,11 +28,6 @@ const ProfileCard = ({
   employmentStatus,
   career,
   favorites,
-  link,
-  width,
-  height,
-  edit,
-  pageQueryInfo,
   children,
 }: ProfileCard) => {
   return (
@@ -46,6 +47,7 @@ const ProfileCard = ({
           edit={edit}
           mentorId={mentorId}
           applicationDate={applicationDate}
+          isMyPage={isMyPage}
         />
         <Content
           name={name}
@@ -54,7 +56,7 @@ const ProfileCard = ({
           severity={severity}
           edit={edit}
           star={star}
-          mentor={mentor}
+          isMentorProfile={isMentorProfile}
           mentees={mentees}
           isCertificate={isCertificate}
           mentorId={mentorId}
