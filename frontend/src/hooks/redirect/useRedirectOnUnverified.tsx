@@ -13,11 +13,6 @@ interface RedirectRoutes {
 const redirectRoutes: RedirectRoutes[] = [
   {
     currentRoute: "/mentorRegisterForm/",
-    redirectRoute: "/profileForm",
-    allowed: "profile",
-  },
-  {
-    currentRoute: "/mentorRegisterForm/",
     redirectRoute: "/signin",
     allowed: "user",
   },
@@ -25,6 +20,11 @@ const redirectRoutes: RedirectRoutes[] = [
     currentRoute: "/profileForm/",
     redirectRoute: "/signin",
     allowed: "user",
+  },
+  {
+    currentRoute: "/mentorRegisterForm/",
+    redirectRoute: "/profileForm",
+    allowed: "profile",
   },
 ];
 
