@@ -26,7 +26,7 @@ const Content = ({
   star,
   mentees,
   isCertificate,
-  mentor,
+  isMentorProfile,
   mentorId,
   employmentStatus,
   link,
@@ -47,7 +47,7 @@ const Content = ({
       >
         {name!}
       </Typography>
-      {!mentor && (
+      {!isMentorProfile && (
         <Typography
           variant="div"
           color={theme.colors.white}
@@ -65,7 +65,7 @@ const Content = ({
       >
         {job!}
       </Typography>
-      {mentor && (
+      {isMentorProfile && (
         <FlexBox {...{ marginBottom: "20px" }}>
           <Star />
           <Typography

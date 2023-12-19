@@ -48,7 +48,7 @@ const MentorCenterApplyCard = ({
         <ProfileCard
           width="293px"
           height="400px"
-          mentor={false}
+          isMentorProfile={false}
           edit={false}
           {...menteeInfo}
         />

@@ -1,7 +1,7 @@
 import MentorProfile from "@/components/Profile/MentorProfile";
 
 const MentorProfilePage = () => {
-  return <MentorProfile />;
+  return <MentorProfile isMyPage />;
 };
 
 export default MentorProfilePage;

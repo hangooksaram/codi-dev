@@ -23,9 +23,11 @@ import { selectUser } from "@/features/user/userSlice";
 const MentorProfile = ({
   mentorId,
   pageParams,
+  isMyPage,
 }: {
   mentorId?: number;
   pageParams?: ReadonlyURLSearchParams;
+  isMyPage?: boolean;
 }) => {
   const { data: mentor, isSuccess } = useGetMentorQuery(mentorId);
   const router = useRouter();
@@ -49,9 +51,10 @@ const MentorProfile = ({
           <ProfileCard
             width="313px"
             height="477px"
-            mentor={true}
+            isMentorProfile={true}
             link={`/mentorRegisterForm?edit=${true}`}
             edit={isMentoringApply || isMentoring ? false : true}
+            isMyPage={isMyPage}
             {...mentor}
           >
             {isMentoringApply ? (

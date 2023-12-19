@@ -53,6 +53,7 @@ const MenteeProfile = ({
             width="313px"
             height="477px"
             edit={!mentoringId}
+            isMyPage
             {...profile}
           >
             {platform && platform?.includes("No") ? (

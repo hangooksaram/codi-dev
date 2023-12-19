@@ -34,9 +34,9 @@ export interface ProfileCard extends Mentor {
   height?: string;
   mentorId?: number;
   link?: string;
-
   edit?: boolean;
-  mentor?: boolean;
+  isMentorProfile?: boolean;
+  isMyPage?: boolean;
   pageQueryInfo?: object;
   favorites?: number[];
   children?: ReactNode;
