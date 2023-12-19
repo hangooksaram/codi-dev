@@ -1,3 +1,5 @@
+"use client";
+
 import MentorProfile from "@/components/Profile/MentorProfile";
 import { useSearchParams } from "next/navigation";
 
