@@ -35,7 +35,7 @@ const useRedirectOnUnverified = () => {
   const checkRedirectRoutes = (id?: string, isProfile?: boolean) => {
     const userId = id ?? user.id;
     const isUserProfile = isProfile ?? user.isProfile;
-    console.log(pathname);
+
     if (!isRedirectPage(pathname)) {
       return;
     }

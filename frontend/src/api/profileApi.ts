@@ -1,13 +1,14 @@
 import { handleApiError } from "@/utils/api";
 import customAxios from "./customAxios";
 import { CommonApiResponse } from "@/types/api/common";
-import { AxiosResponse } from "axios";
+import { AxiosResponse, AxiosResponseHeaders } from "axios";
+import { getToken, setTokenToLocalStorage } from "@/utils/auth";
 
 export const registerProfile = async <T>(
   profile: FormData
 ): Promise<CommonApiResponse<T>> => {
   try {
-    const { data, status }: AxiosResponse<T> = await customAxios.post(
+    const { data, status, headers }: AxiosResponse<T> = await customAxios.post(
       `/profiles`,
       profile,
       {
@@ -16,6 +17,7 @@ export const registerProfile = async <T>(
         },
       }
     );
+    setTokenToLocalStorage(getToken(headers as AxiosResponseHeaders)!);
     return { data, status };
   } catch (e) {
     return handleApiError(e);
