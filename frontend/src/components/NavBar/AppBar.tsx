@@ -36,7 +36,6 @@ const AppBar = () => {
   };
 
   useEffect(() => {
-    console.log("this iss user", user);
     setDomLoaded(true);
     if (selected) {
       if (selected === "로그아웃") {
@@ -44,11 +43,12 @@ const AppBar = () => {
         setTimeout(() => {
           window.location.reload();
         }, 400);
-      } else
+      } else {
         router.push(
           PROFILE_MENU(user.isProfile!).find((menu) => menu.name === selected)!
             .href!
         );
+      }
     }
     return () => setSelected(undefined);
   }, [selected]);
@@ -73,7 +73,7 @@ const AppBar = () => {
                 <Dropdown
                   id="profile-menu"
                   type="menu"
-                  categories={PROFILE_MENU(user.isProfile !== null).map(
+                  categories={PROFILE_MENU(user.isProfile !== false).map(
                     ({ name }) => name
                   )}
                   selectedCategory={selected!}
