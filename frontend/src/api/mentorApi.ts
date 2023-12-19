@@ -5,20 +5,23 @@ import {
   RegisterMentorResponse,
 } from "@/types/api/mentor";
 import customAxios from "./customAxios";
-import { AxiosResponse } from "axios";
+import { AxiosResponse, AxiosResponseHeaders } from "axios";
 import { handleApiError } from "@/utils/api";
 import { CommonApiResponse } from "@/types/api/common";
+import { getToken, setTokenToLocalStorage } from "@/utils/auth";
 
 export const registerMentor = async (
   mentor: FormData
 ): Promise<CommonApiResponse<RegisterMentorResponse>> => {
   try {
-    const { data, status }: AxiosResponse<RegisterMentorResponse> =
+    const { data, status, headers }: AxiosResponse<RegisterMentorResponse> =
       await customAxios.post(`/mentors/`, mentor, {
         headers: {
           "Content-Type": "multitype/form-data",
         },
       });
+
+    setTokenToLocalStorage(getToken(headers as AxiosResponseHeaders)!);
     return { data: data!, status };
   } catch (e) {
     return handleApiError(e);

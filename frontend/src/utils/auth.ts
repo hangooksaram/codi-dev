@@ -6,7 +6,7 @@ const refreshTokenKeyName = "refresh";
 const localAuthorizationKey = "signin-token";
 
 export const getToken = (headers: AxiosResponseHeaders): Token | undefined => {
-  if (accessTokenKeyName in headers && refreshTokenKeyName in headers) {
+  if (accessTokenKeyName in headers || refreshTokenKeyName in headers) {
     return {
       access: { value: headers[accessTokenKeyName] as string, expiredTime: 0 },
       refresh: {

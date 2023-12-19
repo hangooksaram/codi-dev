@@ -25,7 +25,7 @@ import { useSelector } from "react-redux";
 import { selectUser, setUser } from "@/features/user/userSlice";
 import JobSelector from "@/components/Job/JopSelector";
 import { useDispatch } from "react-redux";
-import useRedirectMentorRegisterForm from "@/hooks/useRedirectMentorApplyForm";
+
 import { handleApiCallback } from "@/utils/api";
 import { useRouter, useSearchParams } from "next/navigation";
 import { CAREERS } from "@/constants";
@@ -34,12 +34,14 @@ import useNewForm, {
   FormType,
 } from "@/hooks/useNewForm/useNewForm";
 import { useGetMentorQuery } from "@/queries/mentorQuery";
+import useRedirectOnUnverified from "@/hooks/redirect/useRedirectOnUnverified";
 
 const MentorRegisterForm = () => {
-  useRedirectMentorRegisterForm();
   const router = useRouter();
   const dispatch = useDispatch();
-  const { id: memberId } = useSelector(selectUser);
+  const { id, isProfile } = useSelector(selectUser);
+  const checkRedirect = useRedirectOnUnverified();
+
   const { file, onUploadFile } = useUploadFile();
   const isEdit = useSearchParams().get("edit");
   const [openJobSelector, setOpenJobSelector] = useState(false);
@@ -84,6 +86,7 @@ const MentorRegisterForm = () => {
     },
     inOffice: {
       validCondition: {},
+      initialValue: false,
     },
     mentoringCategories: {
       validCondition: {

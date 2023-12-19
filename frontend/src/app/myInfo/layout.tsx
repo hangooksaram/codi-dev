@@ -1,6 +1,9 @@
 "use client";
-import React from "react";
-import SideBar from "@/components/NavBar/SideBar";
+import React, { useState } from "react";
+import SideBar, {
+  MobileMenuButton,
+  SideBarOverlay,
+} from "@/components/NavBar/SideBar/SideBar";
 import Profile from "@icons/common/profile.svg";
 import Verified from "@icons/common/verified.svg";
 import Link from "@icons/common/link.svg";
@@ -10,12 +13,14 @@ import styled from "@emotion/styled";
 import LayoutWithSideBar from "@/components/Layout/LayoutWithSideBar";
 import { useSelector } from "react-redux";
 import { selectUser } from "@/features/user/userSlice";
+import Menu from "@icons/mobile/mobile-menu.svg";
 
 export default function MyInfoLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const [open, setOpen] = useState(false);
   const isMentor = useSelector(selectUser).isMentor;
   const navigators = [
     {
@@ -24,12 +29,12 @@ export default function MyInfoLayout({
       name: "마이페이지",
       href: "/myInfo/",
     },
-    {
-      iconComponent: <Verified fill={theme.colors.gray.main} />,
-      currentIconComponent: <Verified fill={theme.colors.white} />,
-      name: "코디 뱃지",
-      href: "/myInfo/badges/",
-    },
+    // {
+    //   iconComponent: <Verified fill={theme.colors.gray.main} />,
+    //   currentIconComponent: <Verified fill={theme.colors.white} />,
+    //   name: "코디 뱃지",
+    //   href: "/myInfo/badges/",
+    // },
     {
       iconComponent: <Link fill={theme.colors.gray.main} />,
       currentIconComponent: <Link fill={theme.colors.white} />,
@@ -50,7 +55,17 @@ export default function MyInfoLayout({
   ];
   return (
     <FlexBox justifyContent="flex-start" alignItems="flex-start">
-      <SideBar navigators={navigators} />
+      <>
+        <SideBarOverlay open={open} onClick={() => setOpen(false)} />
+        <MobileMenuButton
+          variant="square"
+          onClick={() => setOpen((prev) => !prev)}
+          color={theme.colors.gray.main}
+        >
+          <Menu />
+        </MobileMenuButton>
+      </>
+      <SideBar navigators={navigators} open={open} setOpen={setOpen} />
       <LayoutWithSideBar>{children}</LayoutWithSideBar>
     </FlexBox>
   );

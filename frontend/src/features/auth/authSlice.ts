@@ -3,12 +3,12 @@ import type { RootState } from "../../store/store";
 
 // Define a type for the slice state
 export interface AuthSliceState {
-  isLoggedIn: boolean;
+  isLoggedIn: boolean | undefined;
 }
 
 // Define the initial state using that type
 const initialState: AuthSliceState = {
-  isLoggedIn: false,
+  isLoggedIn: undefined,
 };
 
 export const authSlice = createSlice({

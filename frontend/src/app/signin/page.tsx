@@ -17,11 +17,12 @@ import Card from "@/ui/atoms/Card";
 import Input from "@/ui/atoms/Input";
 import { signIn } from "@/api/signApi";
 import { useDispatch } from "react-redux";
-import { UserSliceState, setUser } from "@/features/user/userSlice";
+
 import ImageComponent from "@/ui/atoms/ImageComponent";
 import signInImage from "@images/signin-image.png";
 import usePressEnterKey from "@/hooks/usePressEnterKey";
 import { setIsLoggedIn } from "@/features/auth/authSlice";
+import { User } from "@/types/user";
 
 const SignInPage = () => {
   const router = useRouter();
@@ -31,7 +32,7 @@ const SignInPage = () => {
   });
   const dispatch = useDispatch();
   const login = async () => {
-    const { data, status } = await signIn<UserSliceState>(loginInfo);
+    const { data, status } = await signIn<User>(loginInfo);
     const { id } = data!;
     dispatch(setIsLoggedIn(id !== undefined));
 
