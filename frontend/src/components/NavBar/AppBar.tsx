@@ -1,3 +1,5 @@
+"use client";
+
 import theme, { device } from "@/ui/theme";
 import styled from "@emotion/styled";
 import Logo from "@icons/logo/logo-primary.svg";

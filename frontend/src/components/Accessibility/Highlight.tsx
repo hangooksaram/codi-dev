@@ -1,3 +1,5 @@
+"use client";
+
 import { setHighlight } from "@/features/webAccessibility/webAccessibilitySlice";
 import styled from "@emotion/styled";
 import React, { useState, useEffect } from "react";

@@ -1,3 +1,5 @@
+"use client";
+
 import Button from "@/ui/atoms/Button";
 import FloatIcon from "@icons/common/float.svg";
 import theme, { device } from "@/ui/theme";
