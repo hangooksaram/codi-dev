@@ -44,8 +44,6 @@ const JobSelector = ({
     { name: string }[] | undefined
   >([]);
 
-  useClickOutOfInput(id!, setOpen);
-
   useEffect(() => {
     (async () => {
       const { data } = await getJobCategories<Jobs[]>();
@@ -55,7 +53,7 @@ const JobSelector = ({
   }, []);
   useEffect(() => {
     setCategorizedJobs(
-      jobs!.find((item, index) => {
+      jobs!.find((_, index) => {
         return index === selectedTab;
       })?.jobs
     );
@@ -74,6 +72,7 @@ const JobSelector = ({
           onClick={() => {
             setOpen((prev) => !prev);
           }}
+          hoverDisabled
         >
           <Truncate id={id}>{selected ? selected : "직무 카테고리"}</Truncate>
 
@@ -132,6 +131,7 @@ const Tabs = ({
               selectedTab === index ? theme.colors.primary : theme.colors.white
             }
             width="20%"
+            hoverDisabled
           >
             {category}
           </TabButton>
@@ -169,6 +169,7 @@ const TabContent = ({
             color={
               selected === name ? theme.colors.secondary : theme.colors.white
             }
+            hoverDisabled
           >
             {name}
           </Button>
