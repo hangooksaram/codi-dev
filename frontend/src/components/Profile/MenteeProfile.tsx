@@ -1,20 +1,16 @@
-import Card from "@/ui/atoms/Card";
+"use client";
+
 import FlexBox from "@/ui/atoms/FlexBox";
 import theme, { device } from "@/ui/theme";
 import ProfileCard from "./ProfileCard";
 import { css } from "@emotion/css";
 import LabelBox from "@/ui/molecules/LabelBox";
 import Grid from "@/ui/atoms/Grid";
-import Typography from "@/ui/atoms/Typography";
 import Chip from "@/ui/atoms/Chip";
 import useGetProfileQuery from "@/queries/profileQuery";
 import ProfileLabelText from "./ProfileLabelText";
 import styled from "@emotion/styled";
-import {
-  ReadonlyURLSearchParams,
-  useRouter,
-  useSearchParams,
-} from "next/navigation";
+import { useRouter } from "next/navigation";
 import Button from "@/ui/atoms/Button";
 import MentoringPlatformModal from "../Mentoring/MentoringPlatformModal";
 import { useState } from "react";
@@ -35,7 +31,7 @@ const MenteeProfile = ({
   isMentoringApply,
   platform,
 }: MenteeProfilePageParams) => {
-  const { data: profile } = useGetProfileQuery(profileId!);
+  const { data: profile, isSuccess } = useGetProfileQuery(profileId!);
   const router = useRouter();
   const acceptMutation = useMentoringAcceptMutation(parseInt(mentoringId!));
   const [openModal, setOpenModal] = useState(false);
@@ -52,54 +48,47 @@ const MenteeProfile = ({
           },
         }}
       >
-        <ProfileCard
-          edit={mentoringId ? false : true}
-          name={profile?.name}
-          imgUrl={profile?.imgUrl}
-          employmentStatus={profile?.employmentStatus}
-          width="313px"
-          height="477px"
-          link={`/profileForm?edit=${true}&job=${profile?.job}&education=${
-            profile?.education
-          }&disability=${profile?.disability}&employmentStatus=${
-            profile?.employmentStatus
-          }&severity=${profile?.severity}&introduction=${
-            profile?.introduction
-          }&desiredJob=${profile?.desiredJob}&imgUrl=${profile?.imgUrl}`}
-          disability={profile?.disability}
-          severity={profile?.disability}
-        >
-          {platform && platform?.includes("No") ? (
-            <>
+        {isSuccess && (
+          <ProfileCard
+            width="313px"
+            height="477px"
+            edit={!mentoringId}
+            isMyPage
+            {...profile}
+          >
+            {platform && platform?.includes("No") ? (
+              <>
+                <Button
+                  onClick={() => setOpenModal(true)}
+                  size="small"
+                  variant="default"
+                  color={theme.colors.secondary}
+                >
+                  멘토링 링크 수정
+                </Button>
+                <MentoringPlatformModal
+                  mentoringId={parseInt(mentoringId!)}
+                  open={openModal}
+                  setOpen={setOpenModal}
+                />
+              </>
+            ) : null}
+            {isMentoringApply && (
               <Button
-                onClick={() => setOpenModal(true)}
+                onClick={() => {
+                  acceptMutation.mutate();
+                  router.back();
+                }}
                 size="small"
                 variant="default"
                 color={theme.colors.secondary}
               >
-                멘토링 링크 수정
+                멘토링 수락 하기
               </Button>
-              <MentoringPlatformModal
-                mentoringId={parseInt(mentoringId!)}
-                open={openModal}
-                setOpen={setOpenModal}
-              />
-            </>
-          ) : null}
-          {isMentoringApply && (
-            <Button
-              onClick={() => {
-                acceptMutation.mutate();
-                router.back();
-              }}
-              size="small"
-              variant="default"
-              color={theme.colors.secondary}
-            >
-              멘토링 수락 하기
-            </Button>
-          )}
-        </ProfileCard>
+            )}
+          </ProfileCard>
+        )}
+
         <MyInfoCard
           className={css({
             minHeight: "477px",

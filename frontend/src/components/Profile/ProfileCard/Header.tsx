@@ -17,11 +17,13 @@ const Header = ({
   mentorId,
   favorites,
   applicationDate,
+  isMyPage,
 }: {
   edit?: boolean;
   mentorId?: number;
   favorites?: number[];
   applicationDate?: string;
+  isMyPage?: boolean;
 }) => {
   const [localFavoriteState, setLocalFavoriteState] = useState(false);
   const toggleLikeMentor = async () => {
@@ -37,7 +39,7 @@ const Header = ({
     setLocalFavoriteState(favorites?.includes(mentorId!)!);
   }, [favorites]);
   return (
-    <FlexBox justifyContent="space-between">
+    <FlexBox justifyContent="space-between" {...{ position: "relative" }}>
       {applicationDate && (
         <Chip>
           <Typography variant="span" size="sm">
@@ -45,23 +47,24 @@ const Header = ({
           </Typography>
         </Chip>
       )}
-      {(edit && (
+      {edit && (
         <Link href={"/profileForm?edit=true"}>
           <Button variant="round" width="48px" color={theme.colors.info}>
             <Edit />
           </Button>
         </Link>
-      )) ||
-        (favorites && (
-          <Button
-            onClick={toggleLikeMentor}
-            variant="round"
-            width="48px"
-            color={localFavoriteState ? theme.colors.info : theme.colors.white}
-          >
-            {localFavoriteState ? <FilledLike /> : <EmptyLike />}
-          </Button>
-        ))}
+      )}
+      {!isMyPage && (
+        <Button
+          onClick={toggleLikeMentor}
+          variant="round"
+          width="48px"
+          color={localFavoriteState ? theme.colors.info : theme.colors.white}
+          {...{ position: "absolute", top: "0px", right: "0px" }}
+        >
+          {localFavoriteState ? <FilledLike /> : <EmptyLike />}
+        </Button>
+      )}
     </FlexBox>
   );
 };

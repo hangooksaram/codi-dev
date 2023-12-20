@@ -24,15 +24,7 @@ const MentorCenterApplyCard = ({
   applicationReason,
 }: GetMentoringAppliesResponseData) => {
   const router = useRouter();
-  const {
-    name,
-    disability,
-    desiredJob,
-    severity,
-    employmentStatus,
-    profileId,
-    imgUrl,
-  } = menteeInfo;
+  const { profileId } = menteeInfo;
   const acceptMutation = useMentoringAcceptMutation(mentoringId!);
   const rejectMutation = useMentoringRejectMutation(mentoringId!);
   return (
@@ -56,14 +48,9 @@ const MentorCenterApplyCard = ({
         <ProfileCard
           width="293px"
           height="400px"
-          name={name}
-          disability={disability}
-          desiredJob={desiredJob}
-          severity={severity}
-          employmentStatus={employmentStatus}
-          imgUrl={imgUrl}
-          mentor={false}
+          isMentorProfile={false}
           edit={false}
+          {...menteeInfo}
         />
       </div>
       <MyInfoCard width="100%" height="400px" padding="45px !important">

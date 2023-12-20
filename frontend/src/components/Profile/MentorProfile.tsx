@@ -1,3 +1,5 @@
+"use client";
+
 import Card from "@/ui/atoms/Card";
 import FlexBox from "@/ui/atoms/FlexBox";
 import theme, { device } from "@/ui/theme";
@@ -21,11 +23,13 @@ import { selectUser } from "@/features/user/userSlice";
 const MentorProfile = ({
   mentorId,
   pageParams,
+  isMyPage,
 }: {
   mentorId?: number;
   pageParams?: ReadonlyURLSearchParams;
+  isMyPage?: boolean;
 }) => {
-  const { data: mentor } = useGetMentorQuery(mentorId);
+  const { data: mentor, isSuccess } = useGetMentorQuery(mentorId);
   const router = useRouter();
   const isMentoringApply = pageParams?.get("mentoringApply");
   const isMentoring = pageParams?.get("mentoringId");
@@ -43,36 +47,31 @@ const MentorProfile = ({
           },
         }}
       >
-        <ProfileCard
-          edit={isMentoringApply || isMentoring ? false : true}
-          name={mentor?.name}
-          mentor={true}
-          star={mentor?.star}
-          mentees={mentor?.mentees}
-          disability={mentor?.disability}
-          severity={mentor?.severity}
-          desiredJob={mentor?.desiredJob}
-          imgUrl={mentor?.imgUrl}
-          career={mentor?.career}
-          width="313px"
-          height="477px"
-          link={`/mentorRegisterForm?edit=${true}`}
-        >
-          {isMentoringApply ? (
-            <Button
-              onClick={() =>
-                router.push(
-                  id ? `/mentoringApplyForm?mentorId=${mentorId}` : `/signin`
-                )
-              }
-              size="small"
-              variant="default"
-              color={theme.colors.secondary}
-            >
-              멘토링 신청하기
-            </Button>
-          ) : null}
-        </ProfileCard>
+        {isSuccess && (
+          <ProfileCard
+            width="313px"
+            height="477px"
+            isMentorProfile={true}
+            link={`/mentorRegisterForm?edit=${true}`}
+            edit={isMentoringApply || isMentoring ? false : true}
+            isMyPage={isMyPage}
+            {...mentor}
+          >
+            {isMentoringApply ? (
+              <Button
+                onClick={() =>
+                  router.push(`/mentoringApplyForm?mentorId=${mentorId}`)
+                }
+                size="small"
+                variant="default"
+                color={theme.colors.secondary}
+              >
+                멘토링 신청하기
+              </Button>
+            ) : null}
+          </ProfileCard>
+        )}
+
         <MyInfoCard
           className={css({
             minHeight: "477px",
