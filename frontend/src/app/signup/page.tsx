@@ -140,8 +140,8 @@ const SignUpPage = () => {
 
   useEffect(() => {
     const { year, month, day } = birth;
-    const stringifiedBirth = `${year}/${month < 10 ? "0" : null}${month}/${
-      day < 10 ? "0" : null
+    const stringifiedBirth = `${year}/${month < 10 ? "0" : ""}${month}/${
+      day < 10 ? "0" : ""
     }${day}`;
     setForm((prevForm) => {
       return {
