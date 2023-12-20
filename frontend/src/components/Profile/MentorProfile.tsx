@@ -60,9 +60,7 @@ const MentorProfile = ({
             {isMentoringApply ? (
               <Button
                 onClick={() =>
-                  router.push(
-                    id ? `/mentoringApplyForm?mentorId=${mentorId}` : `/signin`
-                  )
+                  router.push(`/mentoringApplyForm?mentorId=${mentorId}`)
                 }
                 size="small"
                 variant="default"
