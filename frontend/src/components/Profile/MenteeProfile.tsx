@@ -33,7 +33,12 @@ const MenteeProfile = ({
 }: MenteeProfilePageParams) => {
   const { data: profile, isSuccess } = useGetProfileQuery(profileId!);
   const router = useRouter();
-  const acceptMutation = useMentoringAcceptMutation(parseInt(mentoringId!));
+  const acceptMutation = useMentoringAcceptMutation(
+    parseInt(mentoringId!),
+    () => {
+      router.replace("/myInfo/mentorCenter/apply/");
+    }
+  );
   const [openModal, setOpenModal] = useState(false);
 
   return (
@@ -77,7 +82,6 @@ const MenteeProfile = ({
               <Button
                 onClick={() => {
                   acceptMutation.mutate();
-                  router.back();
                 }}
                 size="small"
                 variant="default"

@@ -1,17 +1,19 @@
 "use client";
-import React from "react";
-import SideBar from "@/components/NavBar/SideBar/SideBar";
+import React, { useState } from "react";
+import SideBar, {
+  MobileMenuButton,
+  SideBarOverlay,
+} from "@/components/NavBar/SideBar/SideBar";
 import Profile from "@icons/common/profile.svg";
 import Verified from "@icons/common/verified.svg";
-import Link from "@icons/common/link.svg";
 import theme from "@/ui/theme";
 import FlexBox from "@/ui/atoms/FlexBox";
-import styled from "@emotion/styled";
 import LayoutWithSideBar from "@/components/Layout/LayoutWithSideBar";
 import { useSelector } from "react-redux";
 import { selectUser } from "@/features/user/userSlice";
 import Typography from "@/ui/atoms/Typography";
 import Button from "@/ui/atoms/Button";
+import Menu from "@icons/mobile/mobile-menu.svg";
 import { useRouter } from "next/navigation";
 
 export default function MyCodiLayout({
@@ -21,10 +23,21 @@ export default function MyCodiLayout({
 }) {
   const userId = useSelector(selectUser).id;
   const router = useRouter();
+  const [open, setOpen] = useState(false);
 
   return (
     <FlexBox justifyContent="flex-start" alignItems="flex-start">
-      <SideBar navigators={navigators} />
+      <>
+        <SideBarOverlay open={open} onClick={() => setOpen(false)} />
+        <MobileMenuButton
+          variant="square"
+          onClick={() => setOpen((prev) => !prev)}
+          color={theme.colors.gray.main}
+        >
+          <Menu />
+        </MobileMenuButton>
+      </>
+      <SideBar navigators={navigators} open={open} setOpen={setOpen} />
       <LayoutWithSideBar>
         {userId ? (
           children

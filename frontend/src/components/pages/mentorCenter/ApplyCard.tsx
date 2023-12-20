@@ -16,17 +16,41 @@ import theme, { device } from "@/ui/theme";
 import { css } from "@emotion/css";
 import { useRouter } from "next/navigation";
 import MyInfoCard from "../myInfoCommon/MyInfoCard";
+import { SetState } from "@/index";
+import { useEffect } from "react";
+
+interface MentorCenterApplyCardProps extends GetMentoringAppliesResponseData {
+  setApplies: SetState<GetMentoringAppliesResponseData[] | undefined>;
+}
 
 const MentorCenterApplyCard = ({
   mentoringId,
   applicationDate,
   menteeInfo,
   applicationReason,
-}: GetMentoringAppliesResponseData) => {
+  setApplies,
+}: MentorCenterApplyCardProps) => {
   const router = useRouter();
   const { profileId } = menteeInfo;
-  const acceptMutation = useMentoringAcceptMutation(mentoringId!);
-  const rejectMutation = useMentoringRejectMutation(mentoringId!);
+
+  const onSuccess = () => {
+    setApplies((prev) => prev!.filter((p) => p.mentoringId !== mentoringId));
+  };
+  const onError = () => {
+    alert("멘토링 수락에 실패했습니다. 다시 시도해주세요.");
+  };
+
+  const acceptMutation = useMentoringAcceptMutation(
+    mentoringId!,
+    onSuccess,
+    onError
+  );
+  const rejectMutation = useMentoringRejectMutation(
+    mentoringId!,
+    onSuccess,
+    onError
+  );
+
   return (
     <FlexBox
       justifyContent="space-between"
