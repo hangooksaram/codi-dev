@@ -45,6 +45,7 @@ const MentorList = ({ mentors }: { mentors: Mentor[] }) => {
     >
       {mentors!.map((mentor) => {
         const { mentorId } = mentor;
+        console.log(mentor.imgUrl);
         return (
           <ProfileCard key={mentorId} {...mentor}>
             <Button

@@ -3,14 +3,27 @@
 import MentorCenterApplyCard from "@/components/pages/mentorCenter/ApplyCard";
 import MyInfoCommonContainerCard from "@/components/pages/myInfoCommon/MyInfoCommonContainerCard";
 import { useMentoringApplies } from "@/queries/mentoring/mentorMentoringQuery";
+import { GetMentoringAppliesResponseData } from "@/types/api/mentoring";
 import Typography from "@/ui/atoms/Typography";
 import LabelBox from "@/ui/molecules/LabelBox";
 import theme from "@/ui/theme";
+import { useEffect, useState } from "react";
 
 const ApplyPage = () => {
-  const { data, isLoading } = useMentoringApplies();
+  const { data } = useMentoringApplies();
 
-  if (data?.data.length === 0) {
+  const [applies, setApplies] = useState<
+    GetMentoringAppliesResponseData[] | undefined
+  >([]);
+
+  useEffect(() => {
+    if (data) {
+      console.log("excuted", data);
+      setApplies([...data.data]);
+    }
+  }, [data]);
+
+  if (applies?.length === 0) {
     return (
       <Typography variant="div" color={theme.colors.gray.main}>
         아직 들어온 멘토링 요청이 없어요
@@ -20,7 +33,7 @@ const ApplyPage = () => {
     return (
       <LabelBox text="멘토링요청">
         <MyInfoCommonContainerCard>
-          {data?.data.map(
+          {applies?.map(
             (
               { applicationDate, applicationReason, menteeInfo, mentoringId },
               index
@@ -32,6 +45,7 @@ const ApplyPage = () => {
                     applicationReason={applicationReason!}
                     menteeInfo={menteeInfo!}
                     mentoringId={mentoringId}
+                    setApplies={setApplies}
                   />
                 </div>
               );
