@@ -3,7 +3,6 @@
 import { PROFILE_MENU } from "@/constants";
 import FlexBox from "@/ui/atoms/FlexBox";
 
-import Alarm from "@icons/common/alarm.svg";
 import Profile from "@icons/common/profile.svg";
 import { useSelector } from "react-redux";
 import { selectUser } from "@/features/user/userSlice";
@@ -15,6 +14,7 @@ import { useRouter } from "next/navigation";
 import styled from "@emotion/styled";
 import { backgroundImage } from "@/ui/atoms/BackgroundImage";
 import { signOut } from "@/api/signApi";
+import Notification from "../NavBar/Notification/Notification";
 
 const AppBarProfile = () => {
   const [selected, setSelected] = useState();
@@ -47,7 +47,7 @@ const AppBarProfile = () => {
   };
   return (
     <FlexBox justifyContent="flex-end" columnGap="30px">
-      <Alarm />
+      <Notification />
       <Dropdown
         id="profile-menu"
         type="menu"
@@ -90,6 +90,7 @@ const StyledAppBarProfile = styled.div(({ src }: { src?: string }) => ({
   alignItems: "center",
   backgroundColor: `${theme.colors.gray.light}`,
   borderRadius: "100%",
+  cursor: "pointer",
 }));
 
 export default AppBarProfile;
