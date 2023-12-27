@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import { selectUser } from "@/features/user/userSlice";
 import AppBarProfile from "../../Profile/AppBarProfile";
 import { selectAuth } from "@/features/auth/authSlice";
+import Notification from "../Notification/Notification";
 
 const NOT_SHOWING_LIST = ["/signin/", "/account/findId/", "/account/findPw/"];
 
@@ -23,6 +24,14 @@ const AppBar = () => {
 
   const user = useSelector(selectUser);
   const auth = useSelector(selectAuth);
+
+  const goToApply = () => {
+    if (!user?.isProfile)
+      alert(
+        "아직 프로필이 작성되어있지 않습니다. 프로필 작성 페이지로 이동하시겠습니까?"
+      );
+    router.push("/mentorRegisterForm");
+  };
 
   if (NOT_SHOWING_LIST.includes(path)) return;
 
@@ -34,10 +43,37 @@ const AppBar = () => {
             <Link href={"/"}>
               <Logo width="108px" height="26px" />
             </Link>
-            <StyledLink href="/mentorsMain">멘토 페이지</StyledLink>
-            <StyledLink href="/myCodi">마이코디</StyledLink>
+            <StyledLink href="/mentorsMain">멘토 찾기</StyledLink>
+            <StyledLink href="/myCodi">멘티 센터</StyledLink>
           </FlexBox>
-          {auth?.isLoggedIn && user.id && <AppBarProfile />}
+          {auth?.isLoggedIn && user.id && (
+            <FlexBox justifyContent="flex-end" columnGap="30px">
+              {user.isMentor && (
+                <Button
+                  size="small"
+                  variant="default"
+                  color={theme.colors.primary}
+                  {...{ height: "39px" }}
+                  onClick={() => router.push("/mentorCenter")}
+                >
+                  멘토 센터
+                </Button>
+              )}
+              <Notification />
+              <AppBarProfile />
+              {!user.isMentor && (
+                <Button
+                  size="small"
+                  variant="default"
+                  color={theme.colors.primary}
+                  {...{ height: "39px" }}
+                  onClick={() => goToApply()}
+                >
+                  멘토 신청
+                </Button>
+              )}
+            </FlexBox>
+          )}
           {auth?.isLoggedIn === false && (
             <FlexBox justifyContent="flex-end" columnGap="30px">
               <StyledLink href="/signup">

@@ -89,7 +89,7 @@ const MOBILE_APPBAR_LINKS = [
   },
   {
     icon: MentorPage,
-    text: "멘토 페이지",
+    text: "멘토 찾기",
     link: "/mentorsMain",
   },
   {

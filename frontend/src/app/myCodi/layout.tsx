@@ -68,7 +68,7 @@ const navigators = [
   {
     iconComponent: <Profile fill={theme.colors.gray.main} />,
     currentIconComponent: <Profile fill={theme.colors.white} />,
-    name: "멘토링 일정 관리",
+    name: "일정 관리",
     href: "/myCodi/",
   },
   {
@@ -77,4 +77,10 @@ const navigators = [
     name: "관심 멘토",
     href: "/myCodi/favorites/",
   },
+  // {
+  //   iconComponent: <Verified fill={theme.colors.gray.main} />,
+  //   currentIconComponent: <Verified fill={theme.colors.white} />,
+  //   name: "코디 뱃지",
+  //   href: "/myInfo/badges/",
+  // },
 ];

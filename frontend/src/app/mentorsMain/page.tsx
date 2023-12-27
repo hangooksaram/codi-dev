@@ -11,27 +11,31 @@ import TitleSection from "@/components/pages/mentorsMain/TitleSection";
 import Logo from "@icons/logo/recommend-icon.svg";
 import Mentors from "@/components/Mentor/Mentors";
 import Recommendation from "@/components/pages/mentorsMain/Recommendation";
+import ContainerWithBackground from "@/ui/molecules/Container/ContainerWithBackground";
 
 const MentorsPage = () => {
   const ref = useRef<HTMLDivElement>(null);
   const params = useSearchParams();
-  const router = useRouter();
-
-  const goToMentorsPage = () => {
-    router.push("/mentors");
-  };
 
   useEffect(() => {
-    if (params.get("fromRecommendation")) goToMentorsPage();
+    if (params.get("fromRecommendation")) {
+      ref.current?.scrollIntoView();
+    }
   }, []);
 
   return (
     <main style={{ backgroundColor: theme.colors.background }}>
       <FlexBox direction="column" rowGap="20px">
-        <MentorsBanner goToMentorsPage={goToMentorsPage} />
+        {/* <MentorsBanner goToMentorsPage={goToMentorsPage} /> */}
         <JobRank />
 
         <Recommendation />
+        <PageComponentLayout>
+          <div ref={ref}>
+            <TitleSection title="멘토리스트" logo={<Logo />} />
+            <Mentors />
+          </div>
+        </PageComponentLayout>
       </FlexBox>
     </main>
   );
