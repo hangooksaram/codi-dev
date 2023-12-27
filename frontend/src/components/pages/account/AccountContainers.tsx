@@ -16,8 +16,8 @@ export const SignImageContainer = styled.div(
 
 export const SignInputFormContainer = styled(FlexBox)(({}) => ({
   [device("mdWeb")]: {
-    padding: "40px 100px 32px 100px",
+    padding: "40px 10% 32px 10%",
   },
 
-  padding: "40px 265px 32px 265px",
+  padding: "40px 20% 32px 20%",
 }));

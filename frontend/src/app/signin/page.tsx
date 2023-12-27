@@ -17,12 +17,13 @@ import Card from "@/ui/atoms/Card";
 import Input from "@/ui/atoms/Input";
 import { signIn } from "@/api/signApi";
 import { useDispatch } from "react-redux";
-
-import ImageComponent from "@/ui/atoms/ImageComponent";
-import signInImage from "@images/signin-image.png";
 import usePressEnterKey from "@/hooks/usePressEnterKey";
 import { setIsLoggedIn } from "@/features/auth/authSlice";
 import { User } from "@/types/user";
+import {
+  SignImageContainer,
+  SignInputFormContainer,
+} from "@/components/pages/account/AccountContainers";
 
 const SignInPage = () => {
   const router = useRouter();
@@ -48,31 +49,15 @@ const SignInPage = () => {
 
   return (
     <FlexBox {...{ height: "100%" }}>
-      <SignInImageCard width="40%" color={theme.colors.primary}>
-        <SecondaryLogo />
-        <SignInTitle>
-          <Typography
-            variant="h1"
-            size={theme.fonts.size.xl}
-            color={theme.colors.white}
-          >
-            SHARE THE SAME EXPERIENCE
-          </Typography>
-        </SignInTitle>
+      <SignImageContainer backgroundImageSrc="/images/signin-image.png"></SignImageContainer>
 
-        <div
-          style={{ width: "100%", position: "absolute", top: 120, right: 0 }}
+      <Container width="55.5%">
+        <SignInputFormContainer
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+          rowGap="40px"
         >
-          <ImageComponent
-            alt="sign-in-image"
-            width="100%"
-            height="600px"
-            src={signInImage}
-          />
-        </div>
-      </SignInImageCard>
-      <SignInRightArea>
-        <Container width="70%">
           <FlexBox justifyContent="center">
             <PrimaryLogo width="200px" height="50px" />
           </FlexBox>
@@ -126,8 +111,8 @@ const SignInPage = () => {
             </Typography>
             <Link href="/signup">회원가입</Link>
           </FlexBox>
-        </Container>
-      </SignInRightArea>
+        </SignInputFormContainer>
+      </Container>
     </FlexBox>
   );
 };
@@ -148,10 +133,6 @@ const SignInTitle = styled("div")`
   z-index: 2;
   word-break: break-word;
   max-width: 310px;
-`;
-
-const SignInRightArea = styled.div`
-  width: 60%;
 `;
 
 const SignInInput = styled(Input)`
