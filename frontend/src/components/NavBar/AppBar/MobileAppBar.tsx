@@ -21,6 +21,7 @@ const MobileAppBar = () => {
             const current = link === "/" ? path === "/" : path.includes(link);
             return (
               <MobileMenuButton
+                width="69px"
                 variant="default"
                 key={index}
                 onClick={() => router.push(link)}
@@ -66,7 +67,6 @@ const MobileAppBarContent = styled(Card)({
 
 const MobileMenuButton = styled(Button)(
   ({ selected }: { selected: boolean }) => ({
-    width: "69px",
     height: "67px",
     borderRadius: "20px",
     background: selected ? theme.colors.background : theme.colors.white,
