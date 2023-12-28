@@ -30,7 +30,7 @@ const Mentors = () => {
           refetch={refetch}
           setSearched={setSearched}
         />
-        <div className={css({ marginTop: "40px" })}>
+        <div className={css({ margin: "40px 0px" })}>
           <MentorList mentors={mentors} />
         </div>
         <Pagination

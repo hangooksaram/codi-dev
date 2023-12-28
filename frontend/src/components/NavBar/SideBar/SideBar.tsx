@@ -6,8 +6,9 @@ import styled from "@emotion/styled";
 import { useRouter } from "next/navigation";
 import { SetState } from "@/index";
 import useSideBar from "@/hooks/useSideBar";
+import { SideNavigator } from "@/ui/atoms/Navigator";
 
-interface SideBarNavigator {
+interface SideBarSideNavigator {
   iconComponent?: React.JSX.Element;
   currentIconComponent?: React.JSX.Element;
   nestedParentIconComponent?: React.JSX.Element;
@@ -15,8 +16,8 @@ interface SideBarNavigator {
   href: string;
 }
 
-interface SideBarNavigators extends SideBarNavigator {
-  nested?: SideBarNavigator[];
+interface SideBarSideNavigators extends SideBarSideNavigator {
+  nested?: SideBarSideNavigator[];
 }
 
 const SideBar = ({
@@ -24,7 +25,7 @@ const SideBar = ({
   open,
   setOpen,
 }: {
-  navigators: SideBarNavigators[];
+  navigators: SideBarSideNavigators[];
   open: boolean;
   setOpen: SetState<boolean>;
 }) => {
@@ -48,14 +49,14 @@ const SideBar = ({
           ) => {
             return (
               <>
-                <ListItem
+                <SideNavigator
                   onClick={() => {
                     setNestedParent(nested ? href : "");
                     setCurrent(href);
-                    router.push(href);
                   }}
                   current={current === href && nestedParent !== href}
                   nestedParent={nestedParent === href}
+                  href={href!}
                   key={index}
                 >
                   <FlexBox justifyContent="flex-start" columnGap="10px">
@@ -65,24 +66,24 @@ const SideBar = ({
 
                     {name}
                   </FlexBox>
-                </ListItem>
+                </SideNavigator>
                 {nested?.map(
                   ({ name: nestedName, href: nestedHref }, index) => {
                     return (
-                      <ListItem
+                      <SideNavigator
                         onClick={() => {
                           if (!nestedParent) {
                             setNestedParent(href);
                           }
-                          setCurrent(nestedHref);
-                          router.push(nestedHref);
+                          setCurrent(nestedHref!);
                         }}
                         current={path === nestedHref}
                         nested={2}
                         key={index}
+                        href={nestedHref!}
                       >
                         {nestedName}
-                      </ListItem>
+                      </SideNavigator>
                     );
                   }
                 )}
@@ -112,33 +113,6 @@ const Container = styled.nav(({ open }: { open: boolean }) => ({
     top: "0px",
   },
 }));
-
-const ListItem = styled.div(
-  ({
-    current,
-    nested,
-    nestedParent,
-  }: {
-    current: boolean;
-    nested?: number;
-    nestedParent?: boolean;
-  }) => ({
-    display: "flex",
-    width: "244px",
-    height: "64px",
-    cursor: "pointer",
-    paddingLeft: nested ? `${40 * nested}px` : "40px",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "flex-start",
-    backgroundColor: current ? theme.colors.primary : theme.colors.white,
-    color: nestedParent
-      ? theme.colors.primary
-      : current
-      ? theme.colors.white
-      : theme.colors.gray.main,
-  })
-);
 
 export const SideBarOverlay = styled(Overlay)(
   ({ open }: { open: boolean }) => ({

@@ -31,10 +31,7 @@ const Notification = () => {
           setSelectedCategory(notification);
         }}
       >
-        <Alarm
-          id="notification"
-          style={{ position: "absolute", right: "0px", top: "10px" }}
-        />
+        <Alarm id="notification" />
       </Dropdown>
     </StyledNotificationIcon>
   );
@@ -44,7 +41,8 @@ export default Notification;
 
 const StyledNotificationIcon = styled.div(({}: {}) => ({
   cursor: "pointer",
-  position: "relative",
-  width: "300px",
   height: "42px",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
 }));

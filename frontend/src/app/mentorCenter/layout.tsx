@@ -15,7 +15,7 @@ import { useSelector } from "react-redux";
 import { selectUser } from "@/features/user/userSlice";
 import Menu from "@icons/mobile/mobile-menu.svg";
 
-export default function MyInfoLayout({
+export default function MentorCenterLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -26,8 +26,20 @@ export default function MyInfoLayout({
     {
       iconComponent: <Profile fill={theme.colors.gray.main} />,
       currentIconComponent: <Profile fill={theme.colors.white} />,
-      name: "마이페이지",
-      href: "/myInfo/",
+      name: "일정 관리",
+      href: "/mentorCenter/schedule/",
+    },
+    {
+      iconComponent: <Profile fill={theme.colors.gray.main} />,
+      currentIconComponent: <Profile fill={theme.colors.white} />,
+      name: "요청 리스트",
+      href: "/mentorCenter/apply/",
+    },
+    {
+      iconComponent: <Profile fill={theme.colors.gray.main} />,
+      currentIconComponent: <Profile fill={theme.colors.white} />,
+      name: "프로필 수정",
+      href: "/mentorCenter/profile/",
     },
   ];
   return (

@@ -14,7 +14,6 @@ import { useRouter } from "next/navigation";
 import styled from "@emotion/styled";
 import { backgroundImage } from "@/ui/atoms/BackgroundImage";
 import { signOut } from "@/api/signApi";
-import Notification from "../NavBar/Notification/Notification";
 
 const AppBarProfile = () => {
   const [selected, setSelected] = useState();
@@ -38,46 +37,25 @@ const AppBarProfile = () => {
     return () => setSelected(undefined);
   }, [selected]);
 
-  const goToApply = () => {
-    if (!user?.isProfile)
-      alert(
-        "아직 프로필이 작성되어있지 않습니다. 프로필 작성 페이지로 이동하시겠습니까?"
-      );
-    router.push("/mentorRegisterForm");
-  };
   return (
-    <FlexBox justifyContent="flex-end" columnGap="30px">
-      <Notification />
-      <Dropdown
-        id="profile-menu"
-        type="menu"
-        categories={PROFILE_MENU(user.isProfile !== false).map(
-          ({ name }) => name
-        )}
-        selectedCategory={selected!}
-        setSelectedCategory={setSelected}
-        left
-      >
-        {user.profileImageUrl ? (
-          <StyledAppBarProfile id="profile-menu" src={user.profileImageUrl!} />
-        ) : (
-          <StyledAppBarProfile>
-            <Profile id="profile-menu" fill={theme.colors.white} />
-          </StyledAppBarProfile>
-        )}
-      </Dropdown>
-      {!user.isMentor && (
-        <Button
-          size="small"
-          variant="default"
-          color={theme.colors.primary}
-          {...{ height: "39px" }}
-          onClick={() => goToApply()}
-        >
-          멘토 신청
-        </Button>
+    <Dropdown
+      id="profile-menu"
+      type="menu"
+      categories={PROFILE_MENU(user.isProfile !== false).map(
+        ({ name }) => name
       )}
-    </FlexBox>
+      selectedCategory={selected!}
+      setSelectedCategory={setSelected}
+      left
+    >
+      {user.profileImageUrl ? (
+        <StyledAppBarProfile id="profile-menu" src={user.profileImageUrl!} />
+      ) : (
+        <StyledAppBarProfile>
+          <Profile id="profile-menu" fill={theme.colors.white} />
+        </StyledAppBarProfile>
+      )}
+    </Dropdown>
   );
 };
 

@@ -36,7 +36,7 @@ const MenteeProfile = ({
   const acceptMutation = useMentoringAcceptMutation(
     parseInt(mentoringId!),
     () => {
-      router.replace("/myInfo/mentorCenter/apply/");
+      router.replace("/mentorCenter/apply/");
     }
   );
   const [openModal, setOpenModal] = useState(false);

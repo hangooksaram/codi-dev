@@ -50,11 +50,11 @@ const Recommendation = () => {
             variant="default"
             color={theme.colors.primary}
           >
-            멘토전체보기
+            멘토 전체 보기
           </MoreMentorsButton>
         )}
       </div>
-      <ApplyAndShareButtons />
+      {/* <ApplyAndShareButtons /> */}
     </PageComponentLayout>
   );
 };

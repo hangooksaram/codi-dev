@@ -11,14 +11,14 @@ import { useRouter } from "next/navigation";
 
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import forNotMentor from "../../../../public/images/for-not-mentor.png";
+import forNotMentor from "../../../public/images/for-not-mentor.png";
 
 const MentorCenterPage = () => {
   const router = useRouter();
   const user = useSelector(selectUser);
 
   useEffect(() => {
-    if (user.isMentor) router.replace("/myInfo/mentorCenter/profile/");
+    if (user.isMentor) router.replace("/mentorCenter/schedule/");
   }, []);
   return (
     <FlexBox direction="column" rowGap="20px" {...{ minHeight: "500px" }}>

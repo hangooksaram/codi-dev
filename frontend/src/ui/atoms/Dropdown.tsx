@@ -1,21 +1,10 @@
-import {
-  MouseEventHandler,
-  Ref,
-  RefObject,
-  forwardRef,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { RefObject, forwardRef } from "react";
 import theme from "@/ui/theme";
 import { Dropdown } from "@/types/ui";
 import styled from "@emotion/styled";
 import OpenDropdown from "@icons/common/expand-open.svg";
 import Card from "./Card";
-import Checkbox from "./Checkbox";
 import Button from "./Button";
-import FlexBox from "./FlexBox";
-import Overlay from "./BackgroundOverlay";
 import { useDropdown } from "@/hooks/useDropdown";
 import useClickOutOfInput from "@/hooks/useClickOutOfInput";
 
@@ -82,22 +71,22 @@ const DropdownGridContent = forwardRef<HTMLDivElement, DropdownContentProps>(
   ({ categories, setCategory }, ref) => {
     return (
       <DropdownGridCard ref={ref!}>
-        <FlexBox
+        {/* <FlexBox
           justifyContent="flex-start"
           width="100%"
           isWrap
           columnGap="80px"
           rowGap="22px"
         >
-          {/* {categories.map((category, index) => (
+          {categories.map((category, index) => (
             <Checkbox
               width="20%"
               label={category}
               key={`${index}-${category}`}
               handleClick={setCategory}
             />
-          ))} */}
-        </FlexBox>
+          ))}
+        </FlexBox> */}
       </DropdownGridCard>
     );
   }
@@ -149,14 +138,14 @@ const DropDownList = styled.ul(
     width: width ?? "100%",
     minWidth: "fit-content",
     maxHeight: "250px",
-    height: "250px",
+    // height: "250px",
     overflow: "auto",
     position: "absolute",
     zIndex: 1,
     top: "70px",
 
     right: left ? "0px" : "0px",
-    padding: "0px 10px",
+
     marginBottom: "20px",
     backgroundColor: theme.colors.white,
     borderRadius: "10px",
@@ -190,8 +179,7 @@ const DropdownItem = styled.button`
   border: none;
   cursor: pointer;
   :hover {
-    background-color: ${theme.colors.primary};
-    color: ${theme.colors.white};
+    background-color: ${theme.colors.background};
   }
   :focus {
     background-color: ${theme.colors.primary};
