@@ -94,7 +94,7 @@ const MOBILE_APPBAR_LINKS = [
   },
   {
     icon: MyCodi,
-    text: "마이코디",
+    text: "멘티 센터",
     link: "/myCodi",
   },
   {

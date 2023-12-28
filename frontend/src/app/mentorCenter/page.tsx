@@ -18,7 +18,7 @@ const MentorCenterPage = () => {
   const user = useSelector(selectUser);
 
   useEffect(() => {
-    if (user.isMentor) router.replace("/mentorCenter/profile/");
+    if (user.isMentor) router.replace("/mentorCenter/schedule/");
   }, []);
   return (
     <FlexBox direction="column" rowGap="20px" {...{ minHeight: "500px" }}>
