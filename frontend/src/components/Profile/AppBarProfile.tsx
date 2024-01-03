@@ -69,6 +69,9 @@ const StyledAppBarProfile = styled.div(({ src }: { src?: string }) => ({
   backgroundColor: `${theme.colors.gray.light}`,
   borderRadius: "100%",
   cursor: "pointer",
+  ":hover": {
+    outline: `4px solid #F7C863`,
+  },
 }));
 
 export default AppBarProfile;

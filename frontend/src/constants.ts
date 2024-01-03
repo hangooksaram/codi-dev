@@ -105,8 +105,8 @@ export const DATE = {
 export const PROFILE_MENU = (isUser: boolean) => {
   return [
     {
-      name: `${isUser ? "프로필 수정" : "프로필 작성"}`,
-      href: `/profileForm${isUser ? `?edit=${true}` : ""}`,
+      name: `${isUser ? "내 프로필" : "프로필 작성하기"}`,
+      href: `${isUser ? "/myInfo" : "profileForm"}`,
     },
     {
       name: "비밀번호 수정",

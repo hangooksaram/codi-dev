@@ -18,10 +18,9 @@ const Notification = () => {
       ]);
   }, [data]);
 
-  useEffect(() => {}, [selectedCategory]);
-
   return (
     <StyledNotificationIcon>
+      {notifications.length > 0 && <NewNotificationBadge />}
       <Dropdown
         id="notification"
         type="menu"
@@ -40,9 +39,21 @@ const Notification = () => {
 export default Notification;
 
 const StyledNotificationIcon = styled.div(({}: {}) => ({
+  position: "relative",
   cursor: "pointer",
   height: "42px",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
+}));
+
+const NewNotificationBadge = styled.div(({}: {}) => ({
+  position: "absolute",
+  top: "8px",
+  right: "5px",
+  width: "7px",
+  zIndex: "1",
+  height: "7px",
+  backgroundColor: "#E0291D",
+  borderRadius: "50%",
 }));
