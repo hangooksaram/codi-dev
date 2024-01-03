@@ -14,6 +14,7 @@ interface SideBarSideNavigator {
   nestedParentIconComponent?: React.JSX.Element;
   name: string;
   href: string;
+  adornment?: React.JSX.Element;
 }
 
 interface SideBarSideNavigators extends SideBarSideNavigator {
@@ -44,6 +45,7 @@ const SideBar = ({
               currentIconComponent,
               nestedParentIconComponent,
               nested,
+              adornment,
             },
             index
           ) => {
@@ -65,6 +67,7 @@ const SideBar = ({
                       (current === href ? currentIconComponent : iconComponent)}
 
                     {name}
+                    {adornment}
                   </FlexBox>
                 </SideNavigator>
                 {nested?.map(

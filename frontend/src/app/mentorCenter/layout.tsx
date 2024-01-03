@@ -17,6 +17,8 @@ import Schedule from "@icons/calendar/calendar-schedule.svg";
 import Hamburger from "@icons/mentorCenter/hamburger.svg";
 import MentorProfile from "@icons/mentorCenter/mentor-profile.svg";
 import Menu from "@icons/mobile/mobile-menu.svg";
+import NewApplyBadge from "@/components/Badge/NewApplyBadge";
+import { useMentoringApplies } from "@/queries/mentoring/mentorMentoringQuery";
 
 export default function MentorCenterLayout({
   children,
@@ -25,6 +27,7 @@ export default function MentorCenterLayout({
 }) {
   const [open, setOpen] = useState(false);
   const isMentor = useSelector(selectUser).isMentor;
+  const { data } = useMentoringApplies();
   const navigators = [
     {
       iconComponent: <Schedule fill={theme.colors.gray.main} />,
@@ -37,6 +40,7 @@ export default function MentorCenterLayout({
       currentIconComponent: <Hamburger fill={theme.colors.white} />,
       name: "요청 리스트",
       href: "/mentorCenter/apply/",
+      adornment: data!.data.length > 0 ? <NewApplyBadge /> : undefined,
     },
     {
       iconComponent: <MentorProfile fill={theme.colors.gray.main} />,
