@@ -1,5 +1,7 @@
+import NewNotificationBadge from "@/components/Badge/NewNotificationBadge";
 import { useMentoringApplies } from "@/queries/mentoring/mentorMentoringQuery";
 import Dropdown from "@/ui/atoms/Dropdown";
+import Label from "@/ui/atoms/Label";
 import styled from "@emotion/styled";
 import Alarm from "@icons/common/alarm.svg";
 import { useEffect, useState } from "react";
@@ -18,10 +20,19 @@ const Notification = () => {
       ]);
   }, [data]);
 
-  useEffect(() => {}, [selectedCategory]);
-
   return (
-    <StyledNotificationIcon>
+    <StyledNotificationIcon id="notification-icon" tabIndex={1}>
+      {notifications.length > 0 ? (
+        <>
+          <Label
+            htmlFor="notification-icon"
+            text="읽지 않은 새로운 알림이 있습니다. 알림 확인하기"
+          />
+          <NewNotificationBadge />
+        </>
+      ) : (
+        <Label htmlFor="notification-icon" text="알림 확인하기" />
+      )}
       <Dropdown
         id="notification"
         type="menu"
@@ -40,6 +51,7 @@ const Notification = () => {
 export default Notification;
 
 const StyledNotificationIcon = styled.div(({}: {}) => ({
+  position: "relative",
   cursor: "pointer",
   height: "42px",
   display: "flex",

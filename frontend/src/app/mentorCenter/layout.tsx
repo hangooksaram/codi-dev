@@ -13,6 +13,9 @@ import styled from "@emotion/styled";
 import LayoutWithSideBar from "@/components/Layout/LayoutWithSideBar";
 import { useSelector } from "react-redux";
 import { selectUser } from "@/features/user/userSlice";
+import Schedule from "@icons/calendar/calendar-schedule.svg";
+import Hamburger from "@icons/mentorCenter/hamburger.svg";
+import MentorProfile from "@icons/mentorCenter/mentor-profile.svg";
 import Menu from "@icons/mobile/mobile-menu.svg";
 
 export default function MentorCenterLayout({
@@ -24,21 +27,21 @@ export default function MentorCenterLayout({
   const isMentor = useSelector(selectUser).isMentor;
   const navigators = [
     {
-      iconComponent: <Profile fill={theme.colors.gray.main} />,
-      currentIconComponent: <Profile fill={theme.colors.white} />,
+      iconComponent: <Schedule fill={theme.colors.gray.main} />,
+      currentIconComponent: <Schedule fill={theme.colors.white} />,
       name: "일정 관리",
       href: "/mentorCenter/schedule/",
     },
     {
-      iconComponent: <Profile fill={theme.colors.gray.main} />,
-      currentIconComponent: <Profile fill={theme.colors.white} />,
+      iconComponent: <Hamburger fill={theme.colors.gray.main} />,
+      currentIconComponent: <Hamburger fill={theme.colors.white} />,
       name: "요청 리스트",
       href: "/mentorCenter/apply/",
     },
     {
-      iconComponent: <Profile fill={theme.colors.gray.main} />,
-      currentIconComponent: <Profile fill={theme.colors.white} />,
-      name: "프로필 수정",
+      iconComponent: <MentorProfile fill={theme.colors.gray.main} />,
+      currentIconComponent: <MentorProfile fill={theme.colors.white} />,
+      name: "멘토 프로필",
       href: "/mentorCenter/profile/",
     },
   ];
