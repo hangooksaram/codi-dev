@@ -1,7 +1,7 @@
 import { getTokenFormLocalStorage } from "@/utils/auth";
 import axios, { AxiosRequestConfig } from "axios";
 
-export const BASE_URL = "https://codisabled.com/api/v1";
+export const BASE_URL = "https://api.codisabled.com/api/v1";
 
 const instance = () => {
   return axios.create({
