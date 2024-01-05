@@ -27,7 +27,8 @@ export default function MentorCenterLayout({
 }) {
   const [open, setOpen] = useState(false);
   const isMentor = useSelector(selectUser).isMentor;
-  const { data } = useMentoringApplies();
+  // const { data } = useMentoringApplies();
+
   const navigators = [
     {
       iconComponent: <Schedule fill={theme.colors.gray.main} />,
@@ -40,7 +41,7 @@ export default function MentorCenterLayout({
       currentIconComponent: <Hamburger fill={theme.colors.white} />,
       name: "요청 리스트",
       href: "/mentorCenter/apply/",
-      adornment: data!.data.length > 0 ? <NewApplyBadge /> : undefined,
+      // adornment: data!.data.length > 0 ? <NewApplyBadge /> : undefined,
     },
     {
       iconComponent: <MentorProfile fill={theme.colors.gray.main} />,
