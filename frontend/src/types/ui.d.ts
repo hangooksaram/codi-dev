@@ -83,7 +83,6 @@ export interface Dropdown {
   width?: string;
   title?: string;
   type?: "menu" | "form";
-  contentType?: "list" | "grid";
   categories: string[] | number[];
   invalid?: boolean | undefined;
   selectedCategory: string | number;

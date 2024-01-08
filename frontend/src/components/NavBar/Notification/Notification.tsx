@@ -1,24 +1,32 @@
 import NewNotificationBadge from "@/components/Badge/NewNotificationBadge";
-import { useMentoringApplies } from "@/queries/mentoring/mentorMentoringQuery";
-import Dropdown from "@/ui/atoms/Dropdown";
 import Label from "@/ui/atoms/Label";
 import styled from "@emotion/styled";
-import Alarm from "@icons/common/alarm.svg";
 import { useEffect, useState } from "react";
+import NotificationDropdown, {
+  Divider,
+  NotificationDropdownItem,
+} from "./NotificationDropdown";
+import Typography from "@/ui/atoms/Typography";
+import theme from "@/ui/theme";
+
+interface Notification {
+  userName: string;
+  content: string;
+  date: string;
+}
 
 const Notification = () => {
-  const [notifications, setNotifications] = useState<string[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string>();
-  const { data } = useMentoringApplies();
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  // const { mentoringQuery, applyNotifications } = useApplyNotifications();
+  const mock = [
+    { userName: "오현재", content: " 께서 어쩌구 했습니다.", date: "오늘" },
+    { userName: "오현재2", content: " 께서 어쩌구 했습니다.", date: "어제" },
+    { userName: "오현재3", content: " 께서 어쩌구 했습니다.", date: "어제" },
+  ];
 
   useEffect(() => {
-    if (data)
-      setNotifications([
-        ...data!.data.map(({ menteeInfo }) => {
-          return `${menteeInfo.name}님 이 멘토링을 신청하셨습니다.`;
-        })!,
-      ]);
-  }, [data]);
+    setNotifications(mock);
+  }, []);
 
   return (
     <StyledNotificationIcon id="notification-icon" tabIndex={1}>
@@ -33,17 +41,28 @@ const Notification = () => {
       ) : (
         <Label htmlFor="notification-icon" text="알림 확인하기" />
       )}
-      <Dropdown
-        id="notification"
-        type="menu"
-        categories={notifications}
-        selectedCategory={selectedCategory!}
-        setSelectedCategory={(notification) => {
-          setSelectedCategory(notification);
-        }}
-      >
-        <Alarm id="notification" />
-      </Dropdown>
+
+      <NotificationDropdown notifications={mock}>
+        {notifications.map(({ userName, content, date }, index) => (
+          <div key={`${index}-${userName}`}>
+            <NotificationDropdownItem>
+              <Typography variant="span" weight={theme.fonts.weight.bold}>
+                {`${userName} 님`}
+              </Typography>
+              <Typography variant="span">{content}</Typography>
+
+              <Typography
+                variant="div"
+                color={theme.colors.gray.main}
+                {...{ marginTop: "8px" }}
+              >
+                {date}
+              </Typography>
+            </NotificationDropdownItem>
+            {index < notifications.length - 1 && <Divider />}
+          </div>
+        ))}
+      </NotificationDropdown>
     </StyledNotificationIcon>
   );
 };
