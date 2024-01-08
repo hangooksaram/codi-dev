@@ -53,6 +53,7 @@ const AppBar = () => {
           <TopNavigator current={path.includes("/myCodi")} href="/myCodi">
             멘티 센터
           </TopNavigator>
+          <Notification />
         </FlexBox>
         {auth?.isLoggedIn && user.id && (
           <FlexBox justifyContent="flex-end" columnGap="30px">

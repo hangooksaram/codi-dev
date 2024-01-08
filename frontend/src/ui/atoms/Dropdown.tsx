@@ -13,7 +13,6 @@ const Dropdown = ({
   width,
   title,
   type,
-  contentType = "list",
   categories,
   invalid,
   selectedCategory,
@@ -26,7 +25,7 @@ const Dropdown = ({
   useClickOutOfInput(id!, setOpen);
   return (
     <>
-      <DropDownListContainer width={width}>
+      <DropdownContainer width={width}>
         {type === "menu" ? (
           <div id={id} onClick={() => setOpen((prev) => !prev)}>
             {children}
@@ -48,73 +47,42 @@ const Dropdown = ({
           </DropdownButton>
         )}
 
-        {open &&
-          (contentType === "list" ? (
-            <DropdownListContent
-              ref={ref! as RefObject<HTMLUListElement>}
-              categories={categories}
-              setCategory={setCategory}
-            />
-          ) : (
-            <DropdownGridContent
-              ref={ref! as RefObject<HTMLDivElement>}
-              categories={categories}
-              setCategory={setCategory}
-            />
-          ))}
-      </DropDownListContainer>
+        {open && (
+          <DropdownContentContainer
+            ref={ref! as RefObject<HTMLUListElement>}
+            categories={categories}
+            setCategory={setCategory}
+          />
+        )}
+      </DropdownContainer>
     </>
   );
 };
 
-const DropdownGridContent = forwardRef<HTMLDivElement, DropdownContentProps>(
-  ({ categories, setCategory }, ref) => {
-    return (
-      <DropdownGridCard ref={ref!}>
-        {/* <FlexBox
-          justifyContent="flex-start"
-          width="100%"
-          isWrap
-          columnGap="80px"
-          rowGap="22px"
-        >
-          {categories.map((category, index) => (
-            <Checkbox
-              width="20%"
-              label={category}
-              key={`${index}-${category}`}
-              handleClick={setCategory}
-            />
-          ))}
-        </FlexBox> */}
-      </DropdownGridCard>
-    );
-  }
-);
-
 interface DropdownContentProps {
   categories: string[] | number[];
-  setCategory: Function;
+  setCategory?: Function;
 }
 
-const DropdownListContent = forwardRef<HTMLUListElement, DropdownContentProps>(
-  ({ categories, setCategory }, ref) => {
-    return (
-      <DropDownList ref={ref} width="100%">
-        {categories.map((category, index) => (
-          <div key={`${index}-${category}`}>
-            <DropdownItem onClick={() => setCategory(category)}>
-              {category}
-            </DropdownItem>
-            {index < categories.length - 1 && <Divider />}
-          </div>
-        ))}
-      </DropDownList>
-    );
-  }
-);
+export const DropdownContentContainer = forwardRef<
+  HTMLUListElement,
+  DropdownContentProps
+>(({ categories, setCategory }, ref) => {
+  return (
+    <DropdownContent ref={ref} width="100%">
+      {categories.map((category, index) => (
+        <div key={`${index}-${category}`}>
+          <DropdownItem onClick={() => setCategory!(category)}>
+            {category}
+          </DropdownItem>
+          {index < categories.length - 1 && <Divider />}
+        </div>
+      ))}
+    </DropdownContent>
+  );
+});
 
-export const DropDownListContainer = styled.div(
+export const DropdownContainer = styled.div(
   ({ width }: { width?: string }) => ({
     width: width,
     minWidth: "fit-content",
@@ -133,7 +101,7 @@ export const DropdownButton = styled(Button)(
   })
 );
 
-const DropDownList = styled.ul(
+const DropdownContent = styled.ul(
   ({ width, left }: { width?: string; left?: boolean }) => ({
     width: width ?? "100%",
     minWidth: "fit-content",
@@ -154,16 +122,6 @@ const DropDownList = styled.ul(
     overscrollBehavior: "none",
   })
 );
-
-const DropdownGridCard = styled(Card)(() => ({
-  width: "100%",
-  height: "auto",
-  minWidth: "fit-content",
-  position: "absolute",
-  zIndex: 1,
-  top: "70px",
-  padding: "40px",
-}));
 
 const DropdownItem = styled.button`
   height: 50px;
@@ -187,7 +145,7 @@ const DropdownItem = styled.button`
   }
 `;
 
-const Divider = styled.div`
+export const Divider = styled.div`
   width: 90%;
   margin: 0 auto;
   height: 2px;
