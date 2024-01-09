@@ -1,5 +1,5 @@
 import Container from "@/ui/atoms/Container";
-import theme from "@/ui/theme";
+import theme, { device } from "@/ui/theme";
 import styled from "@emotion/styled";
 import { ReactNode } from "react";
 
@@ -19,7 +19,15 @@ export const PageComponentLayout = ({
 }) => {
   return (
     <Layout color={color}>
-      <Container>{children}</Container>
+      <StyledPageComponentLayout>{children}</StyledPageComponentLayout>
     </Layout>
   );
 };
+
+const StyledPageComponentLayout = styled.div(() => ({
+  width: "69%",
+  margin: "0 auto",
+  [device("tablet")]: {
+    width: "90%",
+  },
+}));
