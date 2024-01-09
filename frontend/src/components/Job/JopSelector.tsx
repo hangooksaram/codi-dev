@@ -13,7 +13,7 @@ import Button from "@/ui/atoms/Button";
 import { getJobCategories } from "@/api/jobApi";
 import { SetState } from "@/index";
 import Overlay from "@/ui/atoms/BackgroundOverlay";
-import { DropDownListContainer, DropdownButton } from "@/ui/atoms/Dropdown";
+import { DropdownContainer, DropdownButton } from "@/ui/atoms/Dropdown";
 import Add from "@icons/common/add.svg";
 import useClickOutOfInput from "@/hooks/useClickOutOfInput";
 export interface Jobs {
@@ -61,7 +61,7 @@ const JobSelector = ({
 
   return (
     <>
-      <DropDownListContainer width="40%">
+      <DropdownContainer width="40%">
         <DropdownButton
           id={id}
           width="100%"
@@ -92,7 +92,7 @@ const JobSelector = ({
             </FlexBox>
           </Container>
         )}
-      </DropDownListContainer>
+      </DropdownContainer>
     </>
   );
 };
