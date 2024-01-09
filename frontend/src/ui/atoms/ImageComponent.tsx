@@ -15,7 +15,6 @@ const ImageComponent = ({
     alt={alt}
     style={{ width: width, height: height }}
     sizes={sizes}
-    unoptimized={true}
     {...rest}
   />
 );
