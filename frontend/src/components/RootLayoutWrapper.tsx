@@ -10,6 +10,7 @@ import theme from "@/ui/theme";
 import AppBar from "@/components/NavBar/AppBar/AppBar";
 import Floating from "@/components/Accessibility/Floating";
 import { ReactNode } from "react";
+import MobileAppBar from "./NavBar/AppBar/MobileAppBar";
 /**create new client */
 const queryClient = new QueryClient();
 
@@ -19,6 +20,7 @@ const RootLayoutWrapper = ({ children }: { children: ReactNode }) => (
       <QueryClientProvider client={queryClient}>
         <AccessibilityLayout>
           <AppBar />
+          <MobileAppBar />
           {children}
           <Floating />
         </AccessibilityLayout>
