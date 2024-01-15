@@ -18,7 +18,6 @@ const ApplyPage = () => {
 
   useEffect(() => {
     if (data) {
-      console.log("excuted", data);
       setApplies([...data.data]);
     }
   }, [data]);

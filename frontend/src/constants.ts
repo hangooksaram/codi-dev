@@ -1,3 +1,8 @@
+import Home from "@icons/mobile/appbar/home.svg";
+import MentorPage from "@icons/mobile/appbar/mentor-page.svg";
+import MyCodi from "@icons/mobile/appbar/my-codi.svg";
+import MyInfo from "@icons/mobile/appbar/my-info.svg";
+
 export const HOMEPAGE_URL =
   "http://codi-frontend.s3-website-ap-northeast-1.amazonaws.com/";
 
@@ -161,3 +166,32 @@ export const STALE_TIME = {
 };
 
 export const MOBILE_NAVIGATION_HEIGHT = 128;
+
+export const APPBAR_NOT_SHOWING_PAGES = [
+  "/signin",
+  "/account/findId",
+  "/account/findPw",
+];
+
+export const MOBILE_APPBAR_LINKS = [
+  {
+    icon: Home,
+    text: "홈",
+    link: "/",
+  },
+  {
+    icon: MentorPage,
+    text: "멘토 찾기",
+    link: "/mentorsMain",
+  },
+  {
+    icon: MyCodi,
+    text: "멘티 센터",
+    link: "/myCodi",
+  },
+  {
+    icon: MyInfo,
+    text: "내 정보",
+    link: "/myInfo",
+  },
+];

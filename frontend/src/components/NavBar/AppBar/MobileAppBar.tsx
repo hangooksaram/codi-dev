@@ -1,13 +1,9 @@
-import { MOBILE_NAVIGATION_HEIGHT } from "@/constants";
+import { MOBILE_APPBAR_LINKS, MOBILE_NAVIGATION_HEIGHT } from "@/constants";
 import Button from "@/ui/atoms/Button";
 import Card from "@/ui/atoms/Card";
 import FlexBox from "@/ui/atoms/FlexBox";
 import theme, { device } from "@/ui/theme";
 import styled from "@emotion/styled";
-import Home from "@icons/mobile/appbar/home.svg";
-import MentorPage from "@icons/mobile/appbar/mentor-page.svg";
-import MyCodi from "@icons/mobile/appbar/my-codi.svg";
-import MyInfo from "@icons/mobile/appbar/my-info.svg";
 import { usePathname, useRouter } from "next/navigation";
 
 const MobileAppBar = () => {
@@ -81,26 +77,4 @@ const MobileMenuButton = styled(Button)(
   })
 );
 
-const MOBILE_APPBAR_LINKS = [
-  {
-    icon: Home,
-    text: "홈",
-    link: "/",
-  },
-  {
-    icon: MentorPage,
-    text: "멘토 찾기",
-    link: "/mentorsMain",
-  },
-  {
-    icon: MyCodi,
-    text: "멘티 센터",
-    link: "/myCodi",
-  },
-  {
-    icon: MyInfo,
-    text: "내 정보",
-    link: "/myInfo",
-  },
-];
 export default MobileAppBar;

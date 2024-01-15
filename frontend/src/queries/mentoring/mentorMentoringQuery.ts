@@ -3,18 +3,23 @@ import {
   getMentoringApplies,
   rejectMentoring,
 } from "@/api/mentoring/mentorApi";
-import { STALE_TIME } from "@/constants";
+import { selectUser } from "@/features/user/userSlice";
 import { GetMentoringAppliesResponse } from "@/types/api/mentoring";
 
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { useSelector } from "react-redux";
 
 export const GET_MENTORING_APPLIES = ["mentoringApplies"];
 export const ACCEPT_MENTORING = ["acceptMentoring"];
 export const REJECT_MENTORING = ["rejectMentoring"];
 
 export const useMentoringApplies = () => {
-  return useQuery<GetMentoringAppliesResponse>(GET_MENTORING_APPLIES, () =>
-    getMentoringApplies()
+  const { isMentor } = useSelector(selectUser);
+
+  return useQuery<GetMentoringAppliesResponse>(
+    GET_MENTORING_APPLIES,
+    () => getMentoringApplies(),
+    { enabled: isMentor }
   );
 };
 

@@ -3,62 +3,39 @@ import theme from "@/ui/theme";
 import styled from "@emotion/styled";
 import useClickOutOfInput from "@/hooks/useClickOutOfInput";
 import Alarm from "@icons/common/alarm.svg";
-import Notification from "./Notification";
 import Button from "@/ui/atoms/Button";
 
-interface NotificationNotificationDropdown {
-  notifications: Notification[];
-  children: ReactNode;
-}
-
-interface NotificationDropdownContentProps {
-  children: ReactNode;
-}
-
-const NotificationDropdown = ({
-  children,
-}: NotificationNotificationDropdown) => {
+const NotificationDropdown = ({ children }: { children: ReactNode }) => {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLUListElement>(null);
   useClickOutOfInput("notification", setOpen);
   return (
-    <>
-      <NotificationDropdownContainer width="100%">
-        <Button
-          id={"notification"}
-          width="100%"
-          color={theme.colors.white}
-          onClick={() => setOpen((prev) => !prev)}
-          variant="square"
-          type="button"
-          role="tab"
-          hoverDisabled
-        >
-          <Alarm id="notification" />
-        </Button>
+    <NotificationDropdownContainer width="100%">
+      <NotificationButton
+        id={"notification"}
+        width="100%"
+        color={theme.colors.white}
+        onClick={() => setOpen((prev) => !prev)}
+        variant="square"
+        type="button"
+        role="tab"
+        hoverDisabled
+      >
+        <Alarm id="notification" />
+      </NotificationButton>
 
-        {open && (
-          <NotificationDropdownContentContainer
-            ref={ref! as RefObject<HTMLUListElement>}
-          >
-            {children}
-          </NotificationDropdownContentContainer>
-        )}
-      </NotificationDropdownContainer>
-    </>
+      {open && (
+        <NotificationDropdownContent ref={ref} width="100%">
+          {children}
+        </NotificationDropdownContent>
+      )}
+    </NotificationDropdownContainer>
   );
 };
 
-export const NotificationDropdownContentContainer = forwardRef<
-  HTMLUListElement,
-  NotificationDropdownContentProps
->(({ children }, ref) => {
-  return (
-    <NotificationDropdownContent ref={ref} width="100%">
-      {children}
-    </NotificationDropdownContent>
-  );
-});
+const NotificationButton = styled(Button)`
+  padding: 0px;
+`;
 
 export const NotificationDropdownContainer = styled.div(
   ({ width }: { width?: string }) => ({

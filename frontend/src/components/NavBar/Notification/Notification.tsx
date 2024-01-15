@@ -8,6 +8,7 @@ import NotificationDropdown, {
 } from "./NotificationDropdown";
 import Typography from "@/ui/atoms/Typography";
 import theme from "@/ui/theme";
+import { useMentoringApplies } from "@/queries/mentoring/mentorMentoringQuery";
 
 interface Notification {
   userName: string;
@@ -17,16 +18,20 @@ interface Notification {
 
 const Notification = () => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
-  // const { mentoringQuery, applyNotifications } = useApplyNotifications();
-  const mock = [
-    { userName: "오현재", content: " 께서 어쩌구 했습니다.", date: "오늘" },
-    { userName: "오현재2", content: " 께서 어쩌구 했습니다.", date: "어제" },
-    { userName: "오현재3", content: " 께서 어쩌구 했습니다.", date: "어제" },
-  ];
+  const { data, isSuccess } = useMentoringApplies();
 
   useEffect(() => {
-    setNotifications(mock);
-  }, []);
+    if (data)
+      setNotifications([
+        ...data!.data.map(({ menteeInfo, applicationDate }) => {
+          return {
+            userName: menteeInfo.name,
+            content: `께서 멘토링을 신청했습니다.`,
+            date: applicationDate,
+          };
+        }),
+      ]);
+  }, [data]);
 
   return (
     <StyledNotificationIcon id="notification-icon" tabIndex={1}>
@@ -42,26 +47,32 @@ const Notification = () => {
         <Label htmlFor="notification-icon" text="알림 확인하기" />
       )}
 
-      <NotificationDropdown notifications={mock}>
-        {notifications.map(({ userName, content, date }, index) => (
-          <div key={`${index}-${userName}`}>
-            <NotificationDropdownItem>
-              <Typography variant="span" weight={theme.fonts.weight.bold}>
-                {`${userName} 님`}
-              </Typography>
-              <Typography variant="span">{content}</Typography>
+      <NotificationDropdown>
+        {notifications.length > 0 ? (
+          notifications.map(({ userName, content, date }, index) => (
+            <div key={`${index}-${userName}`}>
+              <NotificationDropdownItem>
+                <Typography variant="span" weight={theme.fonts.weight.bold}>
+                  {`${userName} 님`}
+                </Typography>
+                <Typography variant="span">{content}</Typography>
 
-              <Typography
-                variant="div"
-                color={theme.colors.gray.main}
-                {...{ marginTop: "8px" }}
-              >
-                {date}
-              </Typography>
-            </NotificationDropdownItem>
-            {index < notifications.length - 1 && <Divider />}
-          </div>
-        ))}
+                <Typography
+                  variant="div"
+                  color={theme.colors.gray.main}
+                  {...{ marginTop: "8px" }}
+                >
+                  {date}
+                </Typography>
+              </NotificationDropdownItem>
+              {index < notifications.length - 1 && <Divider />}
+            </div>
+          ))
+        ) : (
+          <NotificationDropdownItem>
+            새로운 알림이 없습니다.
+          </NotificationDropdownItem>
+        )}
       </NotificationDropdown>
     </StyledNotificationIcon>
   );

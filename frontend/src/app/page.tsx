@@ -49,6 +49,12 @@ const MainLandingPage = () => {
             direction="column"
             justifyContent="center"
             alignItems="center"
+            {...{
+              [device("tablet")]: {
+                width: "90%",
+                margin: "0 auto",
+              },
+            }}
           >
             <Typography
               variant="h1"
@@ -61,6 +67,8 @@ const MainLandingPage = () => {
                 [device("tablet")]: {
                   minWidth: "fit-content",
                   width: "auto",
+                  fontSize: `${theme.fonts.size.lg}`,
+                  marginBottom: "10px",
                 },
               }}
               wordBreak="keep-all"
@@ -69,7 +77,16 @@ const MainLandingPage = () => {
               SHARE THE SAME EXPERIENCE
             </Typography>
 
-            <Typography variant="div" {...{ marginBottom: "40px" }}>
+            <Typography
+              variant="div"
+              align="center"
+              {...{
+                marginBottom: "40px",
+                [device("tablet")]: {
+                  marginBottom: "0px",
+                },
+              }}
+            >
               나와 같은 어려움을 겪고 있는 멘티의 멘토가 되어주세요.
             </Typography>
             {!user.isMentor ? (
