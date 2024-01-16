@@ -5,11 +5,13 @@ import Card from "@/ui/atoms/Card";
 import Typography from "@/ui/atoms/Typography";
 import styled from "@emotion/styled";
 import FlexBox from "@/ui/atoms/FlexBox";
-import ProfileCard from "@/components/Profile/ProfileCard";
+import ProfileCard, { Footer } from "@/components/Profile/ProfileCard";
 import { Mentor } from "@/types/profile";
 import Button from "@/ui/atoms/Button";
 import { useRouter } from "next/navigation";
 import { useGetFavoriteMentorsQuery } from "@/queries/mentorQuery";
+import Header from "@/components/Profile/ProfileCard/Header";
+import Content from "@/components/Profile/ProfileCard/Content";
 
 const MentorList = ({ mentors }: { mentors: Mentor[] }) => {
   const router = useRouter();
@@ -48,18 +50,35 @@ const MentorList = ({ mentors }: { mentors: Mentor[] }) => {
 
         return (
           <ProfileCard key={mentorId} {...mentor}>
-            <Button
-              onClick={() =>
-                router.push(
-                  `/mentorProfile?mentorId=${mentorId!}&mentoringApply=${true}`
-                )
-              }
-              size="small"
-              variant="default"
-              color={theme.colors.secondary}
-            >
-              멘토프로필 보기
-            </Button>
+            <Header.Container>
+              <Header.Like />
+            </Header.Container>
+            <Content.Container>
+              <Content.Avatar imgUrl={mentor.imgUrl} />
+              <Content.Name name={mentor.name!} />
+              <Content.Job job={mentor.job!} />
+              <Content.Rating star={mentor.star!} mentees={mentor.mentees!} />
+              <Content.Tags
+                career={mentor.career}
+                disability={mentor.disability!}
+                severity={mentor.severity!}
+              />
+            </Content.Container>
+
+            <Footer>
+              <Button
+                onClick={() =>
+                  router.push(
+                    `/mentorProfile?mentorId=${mentorId!}&mentoringApply=${true}`
+                  )
+                }
+                size="small"
+                variant="default"
+                color={theme.colors.secondary}
+              >
+                멘토프로필 보기
+              </Button>
+            </Footer>
           </ProfileCard>
         );
       })}

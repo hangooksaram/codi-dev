@@ -22,8 +22,8 @@ const ProfileLabelText = ({
     <Typography
       variant="div"
       {...{
-        minWidth: "240px",
-        width: "240px",
+        minWidth: "200px",
+        width: "200px",
       }}
     >
       {!value ? "-" : value}
