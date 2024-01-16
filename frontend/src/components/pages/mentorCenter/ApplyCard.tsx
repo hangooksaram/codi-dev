@@ -18,6 +18,7 @@ import { useRouter } from "next/navigation";
 import MyInfoCard from "../myInfoCommon/MyInfoCard";
 import { SetState } from "@/index";
 import { useEffect } from "react";
+import Content from "@/components/Profile/ProfileCard/Content";
 
 interface MentorCenterApplyCardProps extends GetMentoringAppliesResponseData {
   setApplies: SetState<GetMentoringAppliesResponseData[] | undefined>;
@@ -69,13 +70,19 @@ const MentorCenterApplyCard = ({
           },
         })}
       >
-        <ProfileCard
-          width="293px"
-          height="400px"
-          isMentorProfile={false}
-          edit={false}
-          {...menteeInfo}
-        />
+        <ProfileCard width="293px" height="400px">
+          <Content.Container>
+            <Content.Avatar imgUrl={menteeInfo.imgUrl} />
+            <Content.Name name={menteeInfo.name} />
+            <Content.EmploymentStatus
+              employmentStatus={menteeInfo.employmentStatus}
+            />
+            <Content.Tags
+              disability={menteeInfo.disability}
+              severity={menteeInfo.severity}
+            />
+          </Content.Container>
+        </ProfileCard>
       </div>
       <MyInfoCard width="100%" height="400px" padding="45px !important">
         <FlexBox

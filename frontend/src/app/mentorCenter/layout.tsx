@@ -48,7 +48,11 @@ export default function MentorCenterLayout({
     },
   ];
   return (
-    <FlexBox justifyContent="flex-start" alignItems="flex-start">
+    <FlexBox
+      justifyContent="flex-start"
+      alignItems="flex-start"
+      {...{ backgroundColor: "#ECF1F6" }}
+    >
       <>
         <SideBarOverlay open={open} onClick={() => setOpen(false)} />
         <MobileMenuButton

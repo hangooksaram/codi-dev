@@ -14,6 +14,7 @@ import LayoutWithSideBar from "@/components/Layout/LayoutWithSideBar";
 import { useSelector } from "react-redux";
 import { selectUser } from "@/features/user/userSlice";
 import Menu from "@icons/mobile/mobile-menu.svg";
+import { css } from "@emotion/css";
 
 export default function MyInfoLayout({
   children,
@@ -31,19 +32,20 @@ export default function MyInfoLayout({
     },
   ];
   return (
-    <FlexBox justifyContent="flex-start" alignItems="flex-start">
-      <>
-        <SideBarOverlay open={open} onClick={() => setOpen(false)} />
-        <MobileMenuButton
-          variant="square"
-          onClick={() => setOpen((prev) => !prev)}
-          color={theme.colors.gray.main}
-        >
-          <Menu />
-        </MobileMenuButton>
-      </>
-      <SideBar navigators={navigators} open={open} setOpen={setOpen} />
-      <LayoutWithSideBar>{children}</LayoutWithSideBar>
-    </FlexBox>
+    <>{children}</>
+    // <FlexBox justifyContent="flex-start" alignItems="flex-start">
+    //   <>
+    //     <SideBarOverlay open={open} onClick={() => setOpen(false)} />
+    //     <MobileMenuButton
+    //       variant="square"
+    //       onClick={() => setOpen((prev) => !prev)}
+    //       color={theme.colors.gray.main}
+    //     >
+    //       <Menu />
+    //     </MobileMenuButton>
+    //   </>
+    //   <SideBar navigators={navigators} open={open} setOpen={setOpen} />
+    //   <LayoutWithSideBar>{children}</LayoutWithSideBar>
+    // </FlexBox>
   );
 }

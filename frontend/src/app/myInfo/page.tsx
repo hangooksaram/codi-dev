@@ -1,6 +1,9 @@
 "use client";
 
 import MenteeProfile from "@/components/Profile/MenteeProfile";
+import ProfileCard, { Footer } from "@/components/Profile/ProfileCard";
+import Content from "@/components/Profile/ProfileCard/Content";
+import Header from "@/components/Profile/ProfileCard/Header";
 import { selectUser } from "@/features/user/userSlice";
 import useGetProfileQuery from "@/queries/profileQuery";
 import Button from "@/ui/atoms/Button";
@@ -35,7 +38,30 @@ const MyInfoPage = () => {
     return <>error</>;
   }
 
-  return <MenteeProfile />;
+  return (
+    <MenteeProfile profile={profile}>
+      <ProfileCard width="313px" height="477px">
+        <Content.Container>
+          <Content.Avatar imgUrl={profile?.imgUrl} />
+          <Content.Name name={profile?.name!} />
+          <Content.EmploymentStatus
+            employmentStatus={profile?.employmentStatus!}
+          />
+          <Content.Job job={profile?.job!} />
+        </Content.Container>
+        <Footer>
+          <Button
+            onClick={() => router.push("/profileForm?edit=true")}
+            size="small"
+            variant="default"
+            color={theme.colors.secondary}
+          >
+            프로필 수정하기
+          </Button>
+        </Footer>
+      </ProfileCard>
+    </MenteeProfile>
+  );
 };
 
 export default MyInfoPage;
