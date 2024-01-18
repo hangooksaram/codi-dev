@@ -128,7 +128,9 @@ const Tabs = ({
             variant="square"
             key={index}
             color={
-              selectedTab === index ? theme.colors.primary : theme.colors.white
+              selectedTab === index
+                ? theme.colors.primary.main
+                : theme.colors.white
             }
             width="20%"
             hoverDisabled
@@ -167,7 +169,9 @@ const TabContent = ({
             outline
             key={index}
             color={
-              selected === name ? theme.colors.secondary : theme.colors.white
+              selected === name
+                ? theme.colors.secondary.main
+                : theme.colors.white
             }
             hoverDisabled
           >
@@ -195,7 +199,7 @@ const TabButton = styled(Button)(({}) => ({
   borderRadius: "10px",
   borderBottomLeftRadius: "0px",
   borderBottomRightRadius: "0px",
-  borderBottom: `2px solid ${theme.colors.primary}`,
+  borderBottom: `2px solid ${theme.colors.primary.main}`,
 }));
 
 const Truncate = styled.div({

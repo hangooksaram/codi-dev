@@ -24,7 +24,7 @@ const MentorStatus = () => (
           <Typography
             variant="div"
             size={theme.fonts.size.md}
-            color={theme.colors.primary}
+            color={theme.colors.primary.main}
             weight={theme.fonts.weight.extraBold}
           >
             {value}

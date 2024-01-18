@@ -24,7 +24,9 @@ const MobileAppBar = () => {
                 selected={current}
               >
                 <Icon
-                  fill={current ? theme.colors.primary : theme.colors.gray.main}
+                  fill={
+                    current ? theme.colors.primary.main : theme.colors.gray.main
+                  }
                 />
                 {text}
               </MobileMenuButton>
@@ -67,7 +69,7 @@ const MobileMenuButton = styled(Button)(
     borderRadius: "20px",
     background: selected ? theme.colors.background : theme.colors.white,
     border: "none",
-    color: selected ? theme.colors.primary : theme.colors.gray.main,
+    color: selected ? theme.colors.primary.main : theme.colors.gray.main,
     fontSize: theme.fonts.size.xs,
     display: "flex",
     flexDirection: "column",

@@ -46,7 +46,7 @@ const Floating = () => {
         onClick={() => setOpen((prev) => !prev)}
         variant="round"
         width="110px"
-        color={theme.colors.primary}
+        color={theme.colors.primary.main}
         hoverDisabled
       >
         <FloatIcon />
@@ -82,7 +82,7 @@ const FloatingMenu = ({ setOpen }: { setOpen: SetState<boolean> }) => {
     dispatch(initializeAll());
   };
   return (
-    <StyledFloating.Menu color={theme.colors.primary}>
+    <StyledFloating.Menu color={theme.colors.primary.main}>
       <FlexBox direction="column" rowGap="40px" alignItems="flex-start">
         <Typography
           variant="div"
@@ -113,7 +113,7 @@ const FloatingMenu = ({ setOpen }: { setOpen: SetState<boolean> }) => {
           <FlexBox columnGap="21px">
             <StyledFloating.Button
               variant="default"
-              color={highlight ? theme.colors.white : theme.colors.primary}
+              color={highlight ? theme.colors.white : theme.colors.primary.main}
               onClick={() => applyOption("하이라이터")}
             >
               <ImageComponent
@@ -126,7 +126,7 @@ const FloatingMenu = ({ setOpen }: { setOpen: SetState<boolean> }) => {
             </StyledFloating.Button>
             <StyledFloating.Button
               variant="default"
-              color={focused ? theme.colors.white : theme.colors.primary}
+              color={focused ? theme.colors.white : theme.colors.primary.main}
               onClick={() => applyOption("포커싱박스")}
             >
               <ImageComponent
@@ -159,7 +159,7 @@ const FloatingMenu = ({ setOpen }: { setOpen: SetState<boolean> }) => {
                 color={
                   letterSpacing === "initial"
                     ? theme.colors.white
-                    : theme.colors.primary
+                    : theme.colors.primary.main
                 }
                 onClick={() => dispatch(setLetterSpacing("initial"))}
               >
@@ -171,7 +171,7 @@ const FloatingMenu = ({ setOpen }: { setOpen: SetState<boolean> }) => {
                 color={
                   letterSpacing === "1px"
                     ? theme.colors.white
-                    : theme.colors.primary
+                    : theme.colors.primary.main
                 }
                 onClick={() => dispatch(setLetterSpacing("1px"))}
                 variant="default"
@@ -191,7 +191,9 @@ const FloatingMenu = ({ setOpen }: { setOpen: SetState<boolean> }) => {
                 outline
                 size="small"
                 color={
-                  lineHeight === 1 ? theme.colors.white : theme.colors.primary
+                  lineHeight === 1
+                    ? theme.colors.white
+                    : theme.colors.primary.main
                 }
                 onClick={() => dispatch(setLineHeight(1))}
                 variant="default"
@@ -202,7 +204,9 @@ const FloatingMenu = ({ setOpen }: { setOpen: SetState<boolean> }) => {
                 outline
                 size="small"
                 color={
-                  lineHeight !== 1 ? theme.colors.white : theme.colors.primary
+                  lineHeight !== 1
+                    ? theme.colors.white
+                    : theme.colors.primary.main
                 }
                 onClick={() => dispatch(setLineHeight(1.2))}
                 variant="default"
@@ -221,7 +225,9 @@ const FloatingMenu = ({ setOpen }: { setOpen: SetState<boolean> }) => {
               <Button
                 outline
                 size="small"
-                color={zoom === 1 ? theme.colors.white : theme.colors.primary}
+                color={
+                  zoom === 1 ? theme.colors.white : theme.colors.primary.main
+                }
                 onClick={() => dispatch(setZoom(1))}
                 variant="default"
               >
@@ -230,7 +236,9 @@ const FloatingMenu = ({ setOpen }: { setOpen: SetState<boolean> }) => {
               <Button
                 outline
                 size="small"
-                color={zoom === 1.1 ? theme.colors.white : theme.colors.primary}
+                color={
+                  zoom === 1.1 ? theme.colors.white : theme.colors.primary.main
+                }
                 onClick={() => dispatch(setZoom(1.1))}
                 variant="default"
               >
@@ -239,7 +247,9 @@ const FloatingMenu = ({ setOpen }: { setOpen: SetState<boolean> }) => {
               <Button
                 outline
                 size="small"
-                color={zoom === 1.2 ? theme.colors.white : theme.colors.primary}
+                color={
+                  zoom === 1.2 ? theme.colors.white : theme.colors.primary.main
+                }
                 onClick={() => dispatch(setZoom(1.2))}
                 variant="default"
               >

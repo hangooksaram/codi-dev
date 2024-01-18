@@ -63,7 +63,7 @@ const MentorCategoriesSelector = ({
                 fill={
                   mentoringCategories?.includes(text)
                     ? theme.colors.white
-                    : theme.colors.primary
+                    : theme.colors.primary.main
                 }
               />
               {text}

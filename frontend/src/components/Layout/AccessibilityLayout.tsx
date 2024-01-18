@@ -29,12 +29,12 @@ const StyledLayout = styled.body(
 
     input: {
       ":hover": {
-        border: focused ? `4px solid ${theme.colors.secondary}` : "",
+        border: focused ? `4px solid ${theme.colors.secondary.main}` : "",
       },
     },
     button: {
       ":hover": {
-        border: focused ? `4px solid ${theme.colors.secondary}` : "",
+        border: focused ? `4px solid ${theme.colors.secondary.main}` : "",
       },
     },
   })

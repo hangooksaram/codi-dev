@@ -12,9 +12,9 @@ const MentorCategoryButton = styled(Button)(
     gap: "10px",
     borderRadius: "10px",
     border: `1px solid ${theme.colors.gray.light}`,
-    background: selected ? theme.colors.primary : theme.colors.white,
+    background: selected ? theme.colors.primary.main : theme.colors.white,
     boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.04)",
-    color: selected ? theme.colors.white : theme.colors.primary,
+    color: selected ? theme.colors.white : theme.colors.primary.main,
     [device("tablet")]: {
       width: "90px",
       height: "90px",

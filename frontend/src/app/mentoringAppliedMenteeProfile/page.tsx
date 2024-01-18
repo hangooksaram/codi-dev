@@ -49,7 +49,7 @@ const MentoringAppliedMenteeProfilePage = () => {
             }}
             size="small"
             variant="default"
-            color={theme.colors.secondary}
+            color={theme.colors.secondary.main}
           >
             멘토링 수락 하기
           </Button>

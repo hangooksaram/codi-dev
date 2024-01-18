@@ -246,7 +246,7 @@ const SignUpPage = () => {
                   variant="square"
                   color={
                     genderType.name === gender.name
-                      ? theme.colors.primary
+                      ? theme.colors.primary.main
                       : theme.colors.white
                   }
                   type="button"

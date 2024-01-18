@@ -73,7 +73,9 @@ const MentorScheduleEdit = ({
           {SCHEDULE_TIME_TABLE.map((time, index) => (
             <Button
               onClick={() => handleClickTime(time)}
-              color={selected(time) ? theme.colors.primary : theme.colors.white}
+              color={
+                selected(time) ? theme.colors.primary.main : theme.colors.white
+              }
               variant="default"
               size="small"
               outline

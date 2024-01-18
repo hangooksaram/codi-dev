@@ -114,7 +114,7 @@ const MentorCenterApplyCard = ({
           >
             <Button
               size="small"
-              color={theme.colors.secondary}
+              color={theme.colors.secondary.main}
               variant="default"
               onClick={() =>
                 router.push(
@@ -139,7 +139,7 @@ const MentorCenterApplyCard = ({
             >
               <Button
                 size="small"
-                color={theme.colors.primary}
+                color={theme.colors.primary.main}
                 variant="default"
                 {...{
                   marginRight: "24px",

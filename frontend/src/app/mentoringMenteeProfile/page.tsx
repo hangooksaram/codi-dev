@@ -39,7 +39,7 @@ const MentoringMenteeProfilePage = ({}) => {
                 onClick={() => setOpenModal(true)}
                 size="small"
                 variant="default"
-                color={theme.colors.secondary}
+                color={theme.colors.secondary.main}
               >
                 멘토링 링크 수정
               </Button>

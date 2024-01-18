@@ -282,7 +282,7 @@ const ProfileFormPage = () => {
                 type="button"
                 color={
                   form.severity.value === severity
-                    ? theme.colors.primary
+                    ? theme.colors.primary.main
                     : theme.colors.white
                 }
                 variant="square"

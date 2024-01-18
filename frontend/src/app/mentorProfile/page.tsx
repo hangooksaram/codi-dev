@@ -43,7 +43,7 @@ const MentorProfilePage = () => {
               }
               size="small"
               variant="default"
-              color={theme.colors.secondary}
+              color={theme.colors.secondary.main}
               {...{ marginTop: "20px" }}
             >
               멘토링 신청하기

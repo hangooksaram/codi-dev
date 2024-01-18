@@ -41,9 +41,22 @@ export interface CustomTheme {
 const theme = {
   colors: {
     black: "#161718",
-    secondary: "#F7C863",
-    primary: "#334259",
-    info: "#4C9DF8",
+    secondary: {
+      main: "#4C9DF8",
+      light: "#8DC1FA",
+      lighter: "#4C9DF8",
+      lightest: "#F8FBFF",
+    },
+    primary: {
+      main: "#334259",
+      light: "#7D8695",
+    },
+    info: {
+      main: "#F7C863",
+      light: "#FADC9B",
+      lighter: "#FDF1D8",
+      lightest: "#FFFDF9",
+    },
     error: "#E0291D",
     gray: {
       dark: "#a8a9af",
@@ -52,6 +65,7 @@ const theme = {
     },
     background: "#ecf1f6",
     white: "#fcfcfc",
+    notice: "#E0291D",
   },
   fonts: {
     size: {

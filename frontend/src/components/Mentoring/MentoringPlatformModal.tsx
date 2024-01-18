@@ -66,13 +66,13 @@ const MentoringPlatformModal = ({
                   key={index}
                   color={
                     text === platform
-                      ? theme.colors.primary
+                      ? theme.colors.primary.main
                       : theme.colors.background
                   }
                   fontColor={
                     text === platform
                       ? theme.colors.white
-                      : theme.colors.primary
+                      : theme.colors.primary.main
                   }
                 >
                   <FlexBox alignItems="center" justifyContent="flex-start">

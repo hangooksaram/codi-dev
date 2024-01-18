@@ -32,7 +32,7 @@ export const CustomDayContent = ({
           fill={
             date.getDate() === selected?.getDate()
               ? theme.colors.white
-              : theme.colors.primary
+              : theme.colors.primary.main
           }
         />
       );

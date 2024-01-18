@@ -30,7 +30,7 @@ const Like = ({
       onClick={toggleLikeMentor}
       variant="round"
       width="48px"
-      color={localFavoriteState ? theme.colors.info : theme.colors.white}
+      color={localFavoriteState ? theme.colors.info.main : theme.colors.white}
       {...{ position: "absolute", top: "0px", right: "0px" }}
     >
       {localFavoriteState ? <FilledLike /> : <EmptyLike />}

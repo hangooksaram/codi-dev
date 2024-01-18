@@ -93,7 +93,7 @@ export const NotificationDropdownItem = styled.button`
     background-color: ${theme.colors.background};
   }
   :focus {
-    background-color: ${theme.colors.primary};
+    background-color: ${theme.colors.primary.main};
     color: ${theme.colors.white};
   }
 `;

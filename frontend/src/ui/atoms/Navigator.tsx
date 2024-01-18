@@ -8,12 +8,12 @@ const Navigator = styled(Link)(({ current }: { current?: boolean }) => ({
   flexDirection: "column",
   justifyContent: "center",
   alignItems: "flex-start",
-  backgroundColor: current ? theme.colors.primary : theme.colors.white,
+  backgroundColor: current ? theme.colors.primary.main : theme.colors.white,
 
   ":hover": !current
     ? {
         backgroundColor: theme.colors.background,
-        color: theme.colors.primary,
+        color: theme.colors.primary.main,
       }
     : {},
 }));
@@ -40,7 +40,7 @@ export const SideNavigator = styled(Navigator)(
     height: "64px",
     paddingLeft: nested ? `${40 * nested}px` : "40px",
     color: nestedParent
-      ? theme.colors.primary
+      ? theme.colors.primary.main
       : current
       ? theme.colors.white
       : theme.colors.gray.main,

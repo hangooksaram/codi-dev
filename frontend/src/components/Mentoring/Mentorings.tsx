@@ -23,8 +23,12 @@ const Mentorings = ({
           key={index}
         >
           <Chip
-            color={today(date) ? theme.colors.primary : theme.colors.gray.main}
-            fontColor={today(date) ? theme.colors.white : theme.colors.primary}
+            color={
+              today(date) ? theme.colors.primary.main : theme.colors.gray.main
+            }
+            fontColor={
+              today(date) ? theme.colors.white : theme.colors.primary.main
+            }
           >
             {date}
           </Chip>
@@ -71,13 +75,13 @@ const Mentorings = ({
           <Chip
             color={
               today(mentorings?.date)
-                ? theme.colors.primary
+                ? theme.colors.primary.main
                 : theme.colors.gray.main
             }
             fontColor={
               today(mentorings?.date)
                 ? theme.colors.white
-                : theme.colors.primary
+                : theme.colors.primary.main
             }
           >
             {mentorings?.date}
@@ -127,7 +131,7 @@ const Mentorings = ({
 };
 
 const chipColor = (today: boolean) => {
-  return today ? theme.colors.primary : theme.colors.gray.main;
+  return today ? theme.colors.primary.main : theme.colors.gray.main;
 };
 
 export default Mentorings;

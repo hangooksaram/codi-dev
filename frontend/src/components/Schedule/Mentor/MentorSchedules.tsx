@@ -36,7 +36,9 @@ const MonthlySchedules = ({ schedules }: { schedules: Schedule[] }) => {
             >
               {times.map(({ time, enabled }) => (
                 <Chip
-                  color={enabled ? theme.colors.white : theme.colors.primary}
+                  color={
+                    enabled ? theme.colors.white : theme.colors.primary.main
+                  }
                   fontColor={
                     enabled ? theme.colors.gray.main : theme.colors.white
                   }
@@ -68,7 +70,7 @@ const DailySchedules = ({ schedules }: { schedules?: Schedule }) => {
         >
           {schedules?.times.map(({ time, enabled }, index) => (
             <Chip
-              color={enabled ? theme.colors.white : theme.colors.primary}
+              color={enabled ? theme.colors.white : theme.colors.primary.main}
               fontColor={enabled ? theme.colors.gray.main : theme.colors.white}
               outline
               key={index}

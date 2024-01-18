@@ -48,7 +48,7 @@ const Recommendation = () => {
               router.push(`/mentorsMain?fromRecommendation=${true}`)
             }
             variant="default"
-            color={theme.colors.primary}
+            color={theme.colors.primary.main}
           >
             멘토 전체 보기
           </MoreMentorsButton>

@@ -102,7 +102,7 @@ const MentoringApplyFormPage = () => {
                         scheduled
                           ? theme.colors.white
                           : time === form.time
-                          ? theme.colors.primary
+                          ? theme.colors.primary.main
                           : theme.colors.background
                       }
                       key={index}

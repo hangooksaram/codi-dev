@@ -90,7 +90,7 @@ const MentorProfile = ({
                   key={text}
                   hoverDisabled
                 >
-                  <IconComponent fill={theme.colors.primary} />
+                  <IconComponent fill={theme.colors.primary.main} />
                   {text}
                 </MentorCategoryButton>
               ))}

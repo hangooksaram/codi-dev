@@ -27,7 +27,7 @@ const Button = styled.button(
     width: width ?? "fit-content",
     maxWidth: width ?? "fit-content",
     minWidth: "39px",
-    backgroundColor: color ?? theme.colors.primary,
+    backgroundColor: color ?? theme.colors.primary.main,
     borderRadius: borderRadius(variant),
     height: height(variant, width, size),
     color: fontColor(color),
@@ -89,16 +89,16 @@ const fontWeight = (size?: string) => {
 const hover = (size?: string) => {
   if (size === "small")
     return {
-      border: `2px solid ${theme.colors.primary}`,
+      border: `2px solid ${theme.colors.primary.main}`,
       fontWeight: theme.fonts.weight.bold,
       backgroundColor: theme.colors.white,
-      color: theme.colors.primary,
+      color: theme.colors.primary.main,
     };
   return {
-    border: `2px solid ${theme.colors.primary}`,
+    border: `2px solid ${theme.colors.primary.main}`,
     fontWeight: theme.fonts.weight.regular,
     backgroundColor: theme.colors.white,
-    color: theme.colors.primary,
+    color: theme.colors.primary.main,
   };
 };
 
@@ -106,10 +106,10 @@ const fontColor = (color?: string) => {
   switch (color) {
     case theme.colors.white:
       return theme.colors.gray.dark;
-    case theme.colors.secondary:
-      return theme.colors.black;
+    case theme.colors.secondary.main:
+      return theme.colors.white;
     case theme.colors.background:
-      return theme.colors.primary;
+      return theme.colors.primary.main;
     default:
       return theme.colors.white;
   }

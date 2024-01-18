@@ -32,7 +32,7 @@ const CompletePage = () => {
             router.push("/profileForm");
           }}
           variant="default"
-          color={theme.colors.primary}
+          color={theme.colors.primary.main}
         >
           프로필 작성하기
         </Button>

@@ -75,7 +75,7 @@ const JobRank = () => {
 const Bar = styled.div(({ first }: { first: boolean }) => ({
   width: first ? "771px" : "709px",
   height: first ? "56px" : "39px",
-  backgroundColor: first ? theme.colors.secondary : theme.colors.white,
+  backgroundColor: first ? theme.colors.info.main : theme.colors.white,
   display: "flex",
   alignItems: "center",
   borderRadius: "43px",

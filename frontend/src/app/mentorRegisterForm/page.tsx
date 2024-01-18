@@ -178,7 +178,7 @@ const MentorRegisterForm = () => {
       <form onSubmit={(e) => handleMentorProfileSubmit(e)}>
         <FlexBox direction="column" rowGap="50px">
           <ContentTextContainer
-            labelColor={theme.colors.secondary}
+            labelColor={theme.colors.secondary.main}
             text="직무경력"
           >
             <FlexBox direction="column" rowGap="14px">
@@ -242,7 +242,7 @@ const MentorRegisterForm = () => {
 
           <ContentTextContainer
             text="직무명 입력"
-            labelColor={theme.colors.secondary}
+            labelColor={theme.colors.secondary.main}
           >
             <Input
               id="jobName"
@@ -257,7 +257,7 @@ const MentorRegisterForm = () => {
           <ContentTextContainer
             text="재직증명서 제출"
             helpText="(선택)"
-            labelColor={theme.colors.secondary}
+            labelColor={theme.colors.secondary.main}
           >
             <FlexBox columnGap="8px">
               <IconInputContainer iconComponent={<ProfileImage />}>
@@ -295,7 +295,7 @@ const MentorRegisterForm = () => {
           </ContentTextContainer>
           <ContentTextContainer
             text="자기 소개"
-            labelColor={theme.colors.secondary}
+            labelColor={theme.colors.secondary.main}
           >
             <Textarea
               as="textarea"

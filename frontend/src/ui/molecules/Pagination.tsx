@@ -44,7 +44,9 @@ const Pagination = ({
         <PageButton
           variant="square"
           key={page}
-          color={page === current ? theme.colors.primary : theme.colors.white}
+          color={
+            page === current ? theme.colors.primary.main : theme.colors.white
+          }
           onClick={() => {
             setCurrent(page);
             onClickCurrentPage(page);

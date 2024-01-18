@@ -25,7 +25,7 @@ const UserAppBarMenu = () => {
         <Button
           size="small"
           variant="default"
-          color={theme.colors.primary}
+          color={theme.colors.primary.main}
           {...{ height: "39px" }}
           onClick={() => router.push("/mentorCenter")}
         >
@@ -38,7 +38,7 @@ const UserAppBarMenu = () => {
         <Button
           size="small"
           variant="default"
-          color={theme.colors.primary}
+          color={theme.colors.primary.main}
           {...{ height: "39px" }}
           onClick={() => goToApplyPage()}
         >

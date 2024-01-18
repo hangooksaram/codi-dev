@@ -5,7 +5,7 @@ import EditIcon from "@icons/common/edit.svg";
 
 const Edit = () => (
   <Link href={"/profileForm?edit=true"}>
-    <Button variant="round" width="48px" color={theme.colors.info}>
+    <Button variant="round" width="48px" color={theme.colors.info.main}>
       <EditIcon />
     </Button>
   </Link>

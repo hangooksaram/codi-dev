@@ -74,7 +74,7 @@ const MentorList = ({ mentors }: { mentors: Mentor[] }) => {
                 }
                 size="small"
                 variant="default"
-                color={theme.colors.secondary}
+                color={theme.colors.secondary.main}
               >
                 멘토프로필 보기
               </Button>
