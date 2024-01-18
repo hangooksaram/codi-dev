@@ -8,6 +8,7 @@ import Chip from "@/ui/atoms/Chip";
 import { device } from "@/ui/theme";
 import styled from "@emotion/styled";
 import Grid from "@/ui/atoms/Grid";
+import Typography from "@/ui/atoms/Typography";
 
 const MenteeProfileInformation = ({ profile }: { profile: MenteeProfile }) => (
   <MyInfoCard
@@ -49,7 +50,7 @@ const MenteeProfileInformation = ({ profile }: { profile: MenteeProfile }) => (
         </LabelBox>
       </FlexBox>
       <LabelBox text="자기소개">
-        <p>{profile?.introduction}</p>
+        <Typography variant="div">{profile?.introduction!}</Typography>
       </LabelBox>
     </FlexBox>
   </MyInfoCard>
