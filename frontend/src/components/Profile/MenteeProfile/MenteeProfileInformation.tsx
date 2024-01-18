@@ -18,7 +18,10 @@ const MenteeProfileInformation = ({ profile }: { profile: MenteeProfile }) => (
   >
     <FlexBox direction="column" rowGap="60px">
       <LabelBox text="멘티정보">
-        <ReactiveGrid1 gridTemplateColumns="1fr 1fr" rowGap="10px">
+        <ReactiveGrid1
+          gridTemplateColumns="repeat(auto-fit, minmax(300px, 2fr))"
+          rowGap="10px"
+        >
           <ProfileLabelText name="이름" value={profile?.name} />
           <ProfileLabelText name="최종학력" value={profile?.education} />
           <ProfileLabelText name="나이" value={`${profile?.age}세`} />

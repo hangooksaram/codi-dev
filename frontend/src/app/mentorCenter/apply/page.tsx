@@ -31,26 +31,24 @@ const ApplyPage = () => {
   } else
     return (
       <LabelBox text="멘토링요청">
-        <MyInfoCommonContainerCard>
-          {applies?.map(
-            (
-              { applicationDate, applicationReason, menteeInfo, mentoringId },
-              index
-            ) => {
-              return (
-                <div key={index} style={{ marginBottom: "20px" }}>
-                  <MentorCenterApplyCard
-                    applicationDate={applicationDate!}
-                    applicationReason={applicationReason!}
-                    menteeInfo={menteeInfo!}
-                    mentoringId={mentoringId}
-                    setApplies={setApplies}
-                  />
-                </div>
-              );
-            }
-          )}
-        </MyInfoCommonContainerCard>
+        {applies?.map(
+          (
+            { applicationDate, applicationReason, menteeInfo, mentoringId },
+            index
+          ) => {
+            return (
+              <div key={index} style={{ marginBottom: "20px" }}>
+                <MentorCenterApplyCard
+                  applicationDate={applicationDate!}
+                  applicationReason={applicationReason!}
+                  menteeInfo={menteeInfo!}
+                  mentoringId={mentoringId}
+                  setApplies={setApplies}
+                />
+              </div>
+            );
+          }
+        )}
       </LabelBox>
     );
 };

@@ -114,7 +114,7 @@ const MentorCenterApplyCard = ({
           >
             <Button
               size="small"
-              color={theme.colors.secondary.main}
+              color={theme.colors.info.main}
               variant="default"
               onClick={() =>
                 router.push(

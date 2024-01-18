@@ -1,7 +1,8 @@
 "use client";
 
+import SinglePageLayout from "@/components/Layout/SinglePageLayout";
 import MentoringPlatformModal from "@/components/Mentoring/MentoringPlatformModal";
-import MenteeProfile from "@/components/Profile/MenteeProfile";
+import MenteeProfile from "@/components/Profile/MenteeProfile/MenteeProfile";
 import ProfileCard, { Footer } from "@/components/Profile/ProfileCard";
 import Content from "@/components/Profile/ProfileCard/Content";
 import useGetProfileQuery from "@/queries/profileQuery";
@@ -18,41 +19,43 @@ const MentoringMenteeProfilePage = ({}) => {
   const { data: profile } = useGetProfileQuery(profileId!);
   const [openModal, setOpenModal] = useState(false);
   return (
-    <MenteeProfile profile={profile}>
-      <ProfileCard width="313px" height="477px">
-        <Content.Container>
-          <Content.Avatar imgUrl={profile?.imgUrl} />
-          <Content.Name name={profile?.name!} />
-          <Content.EmploymentStatus
-            employmentStatus={profile?.employmentStatus!}
-          />
-          <Content.Job job={profile?.job!} />
-          <Content.Tags
-            disability={profile?.disability!}
-            severity={profile?.severity!}
-          ></Content.Tags>
-        </Content.Container>
-        <Footer>
-          {!platform?.includes("No") && (
-            <>
-              <Button
-                onClick={() => setOpenModal(true)}
-                size="small"
-                variant="default"
-                color={theme.colors.secondary.main}
-              >
-                멘토링 링크 수정
-              </Button>
-              <MentoringPlatformModal
-                mentoringId={parseInt(mentoringId!)}
-                open={openModal}
-                setOpen={setOpenModal}
-              />
-            </>
-          )}
-        </Footer>
-      </ProfileCard>
-    </MenteeProfile>
+    <SinglePageLayout>
+      <MenteeProfile profile={profile}>
+        <ProfileCard width="313px">
+          <Content.Container>
+            <Content.Avatar imgUrl={profile?.imgUrl} />
+            <Content.Name name={profile?.name!} />
+            <Content.EmploymentStatus
+              employmentStatus={profile?.employmentStatus!}
+            />
+            <Content.Job job={profile?.job!} />
+            <Content.Tags
+              disability={profile?.disability!}
+              severity={profile?.severity!}
+            ></Content.Tags>
+          </Content.Container>
+          <Footer>
+            {!platform?.includes("No") && (
+              <>
+                <Button
+                  onClick={() => setOpenModal(true)}
+                  size="small"
+                  variant="default"
+                  color={theme.colors.secondary.main}
+                >
+                  멘토링 링크 수정
+                </Button>
+                <MentoringPlatformModal
+                  mentoringId={parseInt(mentoringId!)}
+                  open={openModal}
+                  setOpen={setOpenModal}
+                />
+              </>
+            )}
+          </Footer>
+        </ProfileCard>
+      </MenteeProfile>
+    </SinglePageLayout>
   );
 };
 

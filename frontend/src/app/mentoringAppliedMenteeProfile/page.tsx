@@ -1,4 +1,5 @@
 "use client";
+import SinglePageLayout from "@/components/Layout/SinglePageLayout";
 import MentoringPlatformModal from "@/components/Mentoring/MentoringPlatformModal";
 import MenteeProfile from "@/components/Profile/MenteeProfile/MenteeProfile";
 import ProfileCard, { Footer } from "@/components/Profile/ProfileCard";
@@ -28,34 +29,36 @@ const MentoringAppliedMenteeProfilePage = () => {
   );
 
   return (
-    <MenteeProfile profile={profile}>
-      <ProfileCard width="313px" height="477px">
-        <Content.Container>
-          <Content.Avatar imgUrl={profile?.imgUrl} />
-          <Content.Name name={profile?.name!} />
-          <Content.EmploymentStatus
-            employmentStatus={profile?.employmentStatus!}
-          />
-          <Content.Job job={profile?.job!} />
-          <Content.Tags
-            disability={profile?.disability!}
-            severity={profile?.severity!}
-          ></Content.Tags>
-        </Content.Container>
-        <Footer>
-          <Button
-            onClick={() => {
-              acceptMutation.mutate();
-            }}
-            size="small"
-            variant="default"
-            color={theme.colors.secondary.main}
-          >
-            멘토링 수락 하기
-          </Button>
-        </Footer>
-      </ProfileCard>
-    </MenteeProfile>
+    <SinglePageLayout>
+      <MenteeProfile profile={profile}>
+        <ProfileCard width="313px" height="477px">
+          <Content.Container>
+            <Content.Avatar imgUrl={profile?.imgUrl} />
+            <Content.Name name={profile?.name!} />
+            <Content.EmploymentStatus
+              employmentStatus={profile?.employmentStatus!}
+            />
+            <Content.Job job={profile?.job!} />
+            <Content.Tags
+              disability={profile?.disability!}
+              severity={profile?.severity!}
+            ></Content.Tags>
+          </Content.Container>
+          <Footer>
+            <Button
+              onClick={() => {
+                acceptMutation.mutate();
+              }}
+              size="small"
+              variant="default"
+              color={theme.colors.secondary.main}
+            >
+              멘토링 수락 하기
+            </Button>
+          </Footer>
+        </ProfileCard>
+      </MenteeProfile>
+    </SinglePageLayout>
   );
 };
 
