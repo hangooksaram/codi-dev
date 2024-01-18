@@ -110,6 +110,8 @@ const fontColor = (color?: string) => {
       return theme.colors.white;
     case theme.colors.background:
       return theme.colors.primary.main;
+    case theme.colors.info.main:
+      return theme.colors.black;
     default:
       return theme.colors.white;
   }
