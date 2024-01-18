@@ -69,13 +69,13 @@ const navigators = [
     iconComponent: <Profile fill={theme.colors.gray.main} />,
     currentIconComponent: <Profile fill={theme.colors.white} />,
     name: "일정 관리",
-    href: "/myCodi/",
+    href: "/myCodi",
   },
   {
     iconComponent: <Verified fill={theme.colors.gray.main} />,
     currentIconComponent: <Verified fill={theme.colors.white} />,
     name: "관심 멘토",
-    href: "/myCodi/favorites/",
+    href: "/myCodi/favorites",
   },
   // {
   //   iconComponent: <Verified fill={theme.colors.gray.main} />,

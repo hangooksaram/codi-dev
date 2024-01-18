@@ -30,9 +30,9 @@ const SideBar = ({
   open: boolean;
   setOpen: SetState<boolean>;
 }) => {
-  const router = useRouter();
   const { setNestedParent, setCurrent, current, nestedParent, path } =
     useSideBar(navigators, setOpen);
+
   return (
     <Container open={open}>
       <FlexBox direction="column">

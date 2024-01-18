@@ -31,20 +31,20 @@ export default function MentorCenterLayout({
       iconComponent: <Schedule fill={theme.colors.gray.main} />,
       currentIconComponent: <Schedule fill={theme.colors.white} />,
       name: "일정 관리",
-      href: "/mentorCenter/schedule/",
+      href: "/mentorCenter/schedule",
     },
     {
       iconComponent: <Hamburger fill={theme.colors.gray.main} />,
       currentIconComponent: <Hamburger fill={theme.colors.white} />,
       name: "요청 리스트",
-      href: "/mentorCenter/apply/",
+      href: "/mentorCenter/apply",
       // adornment: data!.data.length > 0 ? <NewApplyBadge /> : undefined,
     },
     {
       iconComponent: <MentorProfile fill={theme.colors.gray.main} />,
       currentIconComponent: <MentorProfile fill={theme.colors.white} />,
       name: "멘토 프로필",
-      href: "/mentorCenter/profile/",
+      href: "/mentorCenter/profile",
     },
   ];
   return (
