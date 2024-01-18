@@ -1,32 +1,33 @@
-"use client";
-import SinglePageLayout from "@/components/Layout/SinglePageLayout";
-import MentoringPlatformModal from "@/components/Mentoring/MentoringPlatformModal";
-import MenteeProfile from "@/components/Profile/MenteeProfile/MenteeProfile";
-import ProfileCard, { Footer } from "@/components/Profile/ProfileCard";
-import Content from "@/components/Profile/ProfileCard/Content";
-import Header from "@/components/Profile/ProfileCard/Header";
-import { useMentoringAcceptMutation } from "@/queries/mentoring/mentorMentoringQuery";
-import useGetProfileQuery from "@/queries/profileQuery";
-import Button from "@/ui/atoms/Button";
-import theme from "@/ui/theme";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+'use client'
 
-const MentoringAppliedMenteeProfilePage = () => {
-  const router = useRouter();
-  const param = useSearchParams();
-  const mentoringId = param.get("mentoringId");
-  const profileId = param.get("profileId");
-  const isMentoringApply = Boolean(param.get("mentoringApply"))!;
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useState } from 'react'
+import SinglePageLayout from '@/components/Layout/SinglePageLayout'
+import MentoringPlatformModal from '@/components/Mentoring/MentoringPlatformModal'
+import MenteeProfile from '@/components/Profile/MenteeProfile/MenteeProfile'
+import ProfileCard, { Footer } from '@/components/Profile/ProfileCard'
+import Content from '@/components/Profile/ProfileCard/Content'
+import Header from '@/components/Profile/ProfileCard/Header'
+import { useMentoringAcceptMutation } from '@/queries/mentoring/mentorMentoringQuery'
+import useGetProfileQuery from '@/queries/profileQuery'
+import Button from '@/ui/atoms/Button'
+import theme from '@/ui/theme'
 
-  const { data: profile, isSuccess } = useGetProfileQuery(profileId!);
+function MentoringAppliedMenteeProfilePage() {
+  const router = useRouter()
+  const param = useSearchParams()
+  const mentoringId = param.get('mentoringId')
+  const profileId = param.get('profileId')
+  const isMentoringApply = Boolean(param.get('mentoringApply'))!
+
+  const { data: profile, isSuccess } = useGetProfileQuery(profileId!)
 
   const acceptMutation = useMentoringAcceptMutation(
     parseInt(mentoringId!),
     () => {
-      router.replace("/mentorCenter/apply/");
-    }
-  );
+      router.replace('/mentorCenter/apply/')
+    },
+  )
 
   return (
     <SinglePageLayout>
@@ -42,12 +43,12 @@ const MentoringAppliedMenteeProfilePage = () => {
             <Content.Tags
               disability={profile?.disability!}
               severity={profile?.severity!}
-            ></Content.Tags>
+            />
           </Content.Container>
           <Footer>
             <Button
               onClick={() => {
-                acceptMutation.mutate();
+                acceptMutation.mutate()
               }}
               size="small"
               variant="default"
@@ -59,7 +60,7 @@ const MentoringAppliedMenteeProfilePage = () => {
         </ProfileCard>
       </MenteeProfile>
     </SinglePageLayout>
-  );
-};
+  )
+}
 
-export default MentoringAppliedMenteeProfilePage;
+export default MentoringAppliedMenteeProfilePage

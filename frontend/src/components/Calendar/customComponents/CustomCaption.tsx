@@ -1,22 +1,22 @@
-import { SetState } from "@/index";
-import { formattedMonth } from "@/utils/dateFormat";
-import { CaptionProps, useNavigation } from "react-day-picker";
-import { CustomCaptionNavigation, CustomContentDates } from "../style";
-import LeftIcon from "@icons/common/left-arrow.svg";
-import RightIcon from "@icons/common/right-arrow.svg";
-import theme from "@/ui/theme";
+import { CaptionProps, useNavigation } from 'react-day-picker'
+import LeftIcon from '@icons/common/left-arrow.svg'
+import RightIcon from '@icons/common/right-arrow.svg'
+import { SetState } from '@/index'
+import { formattedMonth } from '@/utils/dateFormat'
+import { CustomCaptionNavigation, CustomContentDates } from '../style'
+import theme from '@/ui/theme'
 
 interface CustomCaptionProps extends CaptionProps {
-  setMonth: SetState<string | undefined>;
+  setMonth: SetState<string | undefined>
 }
 
-export const CustomCaption = (props: CustomCaptionProps) => {
-  const { goToMonth, nextMonth, previousMonth } = useNavigation();
+export function CustomCaption(props: CustomCaptionProps) {
+  const { goToMonth, nextMonth, previousMonth } = useNavigation()
   const handleGoToMonth = (direction: Date) => {
-    if (direction === previousMonth) previousMonth && goToMonth(previousMonth);
-    else nextMonth && goToMonth(nextMonth);
-    props.setMonth(formattedMonth(direction));
-  };
+    if (direction === previousMonth) previousMonth && goToMonth(previousMonth)
+    else nextMonth && goToMonth(nextMonth)
+    props.setMonth(formattedMonth(direction))
+  }
   return (
     <CustomContentDates>
       <CustomCaptionNavigation
@@ -38,5 +38,5 @@ export const CustomCaption = (props: CustomCaptionProps) => {
         <RightIcon width={24} height={24} fill={theme.colors.gray.main} />
       </CustomCaptionNavigation>
     </CustomContentDates>
-  );
-};
+  )
+}

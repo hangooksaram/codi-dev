@@ -1,22 +1,22 @@
-"use client";
+'use client'
 
-import SinglePageLayout from "@/components/Layout/SinglePageLayout";
-import MentorProfile from "@/components/Profile/MentorProfile/MentorProfile";
-import ProfileCard from "@/components/Profile/ProfileCard";
-import Content from "@/components/Profile/ProfileCard/Content";
-import { useGetMentorQuery } from "@/queries/mentorQuery";
-import Button from "@/ui/atoms/Button";
-import theme, { device } from "@/ui/theme";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from 'next/navigation'
+import SinglePageLayout from '@/components/Layout/SinglePageLayout'
+import MentorProfile from '@/components/Profile/MentorProfile/MentorProfile'
+import ProfileCard from '@/components/Profile/ProfileCard'
+import Content from '@/components/Profile/ProfileCard/Content'
+import { useGetMentorQuery } from '@/queries/mentorQuery'
+import Button from '@/ui/atoms/Button'
+import theme, { device } from '@/ui/theme'
 
-const MentorProfilePage = () => {
-  const router = useRouter();
-  const param = useSearchParams();
+function MentorProfilePage() {
+  const router = useRouter()
+  const param = useSearchParams()
 
-  const mentorId = parseInt(param.get("mentorId")!);
-  const isMentoringApplied = param.get("mentoringId");
+  const mentorId = parseInt(param.get('mentorId')!)
+  const isMentoringApplied = param.get('mentoringId')
 
-  const { data: mentor, isSuccess } = useGetMentorQuery(mentorId);
+  const { data: mentor, isSuccess } = useGetMentorQuery(mentorId)
   return (
     isSuccess && (
       <SinglePageLayout>
@@ -41,7 +41,7 @@ const MentorProfilePage = () => {
                 size="small"
                 variant="default"
                 color={theme.colors.secondary.main}
-                {...{ marginTop: "20px" }}
+                {...{ marginTop: '20px' }}
               >
                 멘토링 신청하기
               </Button>
@@ -50,7 +50,7 @@ const MentorProfilePage = () => {
         </MentorProfile>
       </SinglePageLayout>
     )
-  );
-};
+  )
+}
 
-export default MentorProfilePage;
+export default MentorProfilePage

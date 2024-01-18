@@ -16,15 +16,15 @@
     "incremental": true,
     "plugins": [
       {
-        "name": "next"
-      }
+        "name": "next",
+      },
     ],
     "paths": {
       "@/*": ["./src/*"],
       "@icons/*": ["./public/icons/*"],
       "@pages/*": ["./src/app/*"],
-      "@images/*": ["./public/images/*"]
-    }
+      "@images/*": ["./public/images/*"],
+    },
   },
   "include": [
     "next-env.d.ts",
@@ -33,7 +33,7 @@
     ".next/types/**/*.ts",
     "src/app/updateMyInfo",
     "jest.config.js",
-    "./jest.setup.ts"
+    "./jest.setup.ts",
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
 }

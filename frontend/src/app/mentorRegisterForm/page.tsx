@@ -1,60 +1,59 @@
-"use client";
+'use client'
 
-import ContentTextContainer from "@/ui/molecules/Container/ContentTextContainer";
-import IconInputContainer from "@/ui/molecules/Input/IconInput";
-import Input from "@/ui/atoms/Input";
-import { FormContainer } from "@/ui/atoms/Container";
-import FlexBox from "@/ui/atoms/FlexBox";
-import Typography from "@/ui/atoms/Typography";
-import theme from "@/ui/theme";
-import ProfileImage from "@icons/common/profile-image.svg";
-import Button from "@/ui/atoms/Button";
-import Dropdown from "@/ui/atoms/Dropdown";
-import Checkbox from "@/ui/atoms/Checkbox";
-import Textarea from "@/ui/atoms/Textarea";
-import useUploadFile from "@/hooks/useUploadFile";
-import { FormEvent, useState } from "react";
+import ProfileImage from '@icons/common/profile-image.svg'
+import { FormEvent, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { useRouter, useSearchParams } from 'next/navigation'
+import ContentTextContainer from '@/ui/molecules/Container/ContentTextContainer'
+import IconInputContainer from '@/ui/molecules/Input/IconInput'
+import Input from '@/ui/atoms/Input'
+import { FormContainer } from '@/ui/atoms/Container'
+import FlexBox from '@/ui/atoms/FlexBox'
+import Typography from '@/ui/atoms/Typography'
+import theme from '@/ui/theme'
+import Button from '@/ui/atoms/Button'
+import Dropdown from '@/ui/atoms/Dropdown'
+import Checkbox from '@/ui/atoms/Checkbox'
+import Textarea from '@/ui/atoms/Textarea'
+import useUploadFile from '@/hooks/useUploadFile'
 import MentoringCategoriesSelector, {
   MENTOR_CATEGORIES,
-} from "@/components/Mentoring/MentoringCategory/MentoringCategoriesSelector";
+} from '@/components/Mentoring/MentoringCategory/MentoringCategoriesSelector'
 import {
   registerMentor as postRegisterMentor,
   editMentor as patchEditMentor,
-} from "@/api/mentorApi";
-import { useSelector } from "react-redux";
-import { selectUser, setUser } from "@/features/user/userSlice";
-import JobSelector from "@/components/Job/JopSelector";
-import { useDispatch } from "react-redux";
+} from '@/api/mentorApi'
+import { selectUser, setUser } from '@/features/user/userSlice'
+import JobSelector from '@/components/Job/JopSelector'
 
-import { handleApiCallback } from "@/utils/api";
-import { useRouter, useSearchParams } from "next/navigation";
-import { CAREERS } from "@/constants";
+import { handleApiCallback } from '@/utils/api'
+import { CAREERS } from '@/constants'
 import useNewForm, {
   FormPropertyType,
   FormType,
-} from "@/hooks/useNewForm/useNewForm";
-import { useGetMentorQuery } from "@/queries/mentorQuery";
-import useRedirectOnUnverified from "@/hooks/redirect/useRedirectOnUnverified";
+} from '@/hooks/useNewForm/useNewForm'
+import { useGetMentorQuery } from '@/queries/mentorQuery'
+import useRedirectOnUnverified from '@/hooks/redirect/useRedirectOnUnverified'
 
-const MentorRegisterForm = () => {
-  const router = useRouter();
-  const dispatch = useDispatch();
-  const { id, isProfile } = useSelector(selectUser);
-  const checkRedirect = useRedirectOnUnverified();
+function MentorRegisterForm() {
+  const router = useRouter()
+  const dispatch = useDispatch()
+  const { id, isProfile } = useSelector(selectUser)
+  const checkRedirect = useRedirectOnUnverified()
 
-  const { file, onUploadFile } = useUploadFile();
-  const isEdit = useSearchParams().get("edit");
-  const [openJobSelector, setOpenJobSelector] = useState(false);
-  const formData = new FormData();
+  const { file, onUploadFile } = useUploadFile()
+  const isEdit = useSearchParams().get('edit')
+  const [openJobSelector, setOpenJobSelector] = useState(false)
+  const formData = new FormData()
 
   interface MentorRegisterFormValuesType extends FormType {
-    company: FormPropertyType<string>;
-    introduction: FormPropertyType<string>;
-    jobName: FormPropertyType<string>;
-    job: FormPropertyType<string>;
-    career: FormPropertyType<string>;
-    inOffice: FormPropertyType<boolean>;
-    mentoringCategories: FormPropertyType<string[]>;
+    company: FormPropertyType<string>
+    introduction: FormPropertyType<string>
+    jobName: FormPropertyType<string>
+    job: FormPropertyType<string>
+    career: FormPropertyType<string>
+    inOffice: FormPropertyType<boolean>
+    mentoringCategories: FormPropertyType<string[]>
   }
 
   const initialFormValues: MentorRegisterFormValuesType = {
@@ -94,74 +93,74 @@ const MentorRegisterForm = () => {
       },
       initialValue: [],
     },
-  };
+  }
 
-  const { data } = useGetMentorQuery();
+  const { data } = useGetMentorQuery()
 
-  const isCertificate = data?.fileUrl;
+  const isCertificate = data?.fileUrl
 
   const {
     form,
     handleFormValueChange,
     validateAllFormValues,
     convertToFormData,
-  } = useNewForm(initialFormValues, data!);
+  } = useNewForm(initialFormValues, data!)
 
   const processData = () => {
     form.mentoringCategories.value = MENTOR_CATEGORIES.filter((category) =>
-      form.mentoringCategories.value.includes(category.text)
-    ).map((category) => category.value);
-  };
+      form.mentoringCategories.value.includes(category.text),
+    ).map((category) => category.value)
+  }
 
   const createFormData = () => {
-    const formValues = convertToFormData();
+    const formValues = convertToFormData()
 
     const blob = new Blob([JSON.stringify(formValues)], {
-      type: "application/json",
-    });
-    formData.append("mentor", blob);
-    formData.append("file", file.data!);
-  };
+      type: 'application/json',
+    })
+    formData.append('mentor', blob)
+    formData.append('file', file.data!)
+  }
 
   const handleMentorProfileSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    const isFormValid = validateAllFormValues();
+    e.preventDefault()
+    const isFormValid = validateAllFormValues()
 
     if (isFormValid) {
-      processData();
-      createFormData();
+      processData()
+      createFormData()
 
-      if (isEdit) await editMentor();
-      else await registerMentor();
+      if (isEdit) await editMentor()
+      else await registerMentor()
     }
-  };
+  }
 
   const registerMentor = async () => {
-    const { status } = await postRegisterMentor(formData);
+    const { status } = await postRegisterMentor(formData)
 
     handleApiCallback(
       status!,
       () => {
-        router.push("/");
+        router.push('/')
       },
       () => {
-        alert(`멘토 등록이 실패하였습니다. 다시 시도해주세요.`);
-      }
-    );
-  };
+        alert(`멘토 등록이 실패하였습니다. 다시 시도해주세요.`)
+      },
+    )
+  }
 
   const editMentor = async () => {
-    const { status } = await patchEditMentor(formData);
+    const { status } = await patchEditMentor(formData)
     handleApiCallback(
       status!,
       () => {
-        router.back();
+        router.back()
       },
       () => {
-        alert(`멘토 수정이 실패하였습니다. 다시 시도해주세요.`);
-      }
-    );
-  };
+        alert(`멘토 수정이 실패하였습니다. 다시 시도해주세요.`)
+      },
+    )
+  }
 
   return (
     <FormContainer>
@@ -170,9 +169,9 @@ const MentorRegisterForm = () => {
         size={theme.fonts.size.lg}
         weight={theme.fonts.weight.black}
         align="center"
-        {...{ margin: "80px 0px 80px 0px" }}
+        {...{ margin: '80px 0px 80px 0px' }}
       >
-        {isEdit ? "멘토 프로필 수정하기" : "멘토 신청하기"}
+        {isEdit ? '멘토 프로필 수정하기' : '멘토 신청하기'}
       </Typography>
 
       <form onSubmit={(e) => handleMentorProfileSubmit(e)}>
@@ -189,7 +188,7 @@ const MentorRegisterForm = () => {
                 name="company"
                 onChange={handleFormValueChange}
                 value={form.company.value}
-                invalid={form.company.isValid === "invalid"}
+                invalid={form.company.isValid === 'invalid'}
               />
               <FlexBox justifyContent="space-between" columnGap="10px">
                 <FlexBox
@@ -199,10 +198,10 @@ const MentorRegisterForm = () => {
                 >
                   <JobSelector
                     id="job"
-                    invalid={form.job.isValid === "invalid"}
+                    invalid={form.job.isValid === 'invalid'}
                     selected={form.job.value}
                     setSelected={(job) =>
-                      handleFormValueChange({ name: "job", value: job })
+                      handleFormValueChange({ name: 'job', value: job })
                     }
                     open={openJobSelector}
                     setOpen={setOpenJobSelector}
@@ -216,11 +215,11 @@ const MentorRegisterForm = () => {
                     selectedCategory={form.career.value}
                     setSelectedCategory={(career) =>
                       handleFormValueChange({
-                        name: "career",
+                        name: 'career',
                         value: career,
                       })
                     }
-                    invalid={form.career.isValid === "invalid"}
+                    invalid={form.career.isValid === 'invalid'}
                   />
                 </FlexBox>
 
@@ -230,9 +229,9 @@ const MentorRegisterForm = () => {
                     checked={form.inOffice.value}
                     setChecked={(value) => {
                       handleFormValueChange({
-                        name: "inOffice",
-                        value: value,
-                      });
+                        name: 'inOffice',
+                        value,
+                      })
                     }}
                   />
                 </div>
@@ -251,7 +250,7 @@ const MentorRegisterForm = () => {
               outline
               onChange={handleFormValueChange}
               value={form.jobName.value}
-              invalid={form.jobName.isValid === "invalid"}
+              invalid={form.jobName.isValid === 'invalid'}
             />
           </ContentTextContainer>
           <ContentTextContainer
@@ -262,7 +261,7 @@ const MentorRegisterForm = () => {
             <FlexBox columnGap="8px">
               <IconInputContainer iconComponent={<ProfileImage />}>
                 <Input disabled outline value={file.name} />
-                <div style={{ display: "none" }}>
+                <div style={{ display: 'none' }}>
                   <Input
                     id="certificate"
                     type="file"
@@ -272,12 +271,12 @@ const MentorRegisterForm = () => {
                 </div>
               </IconInputContainer>
               <Button
-                onClick={() => document.getElementById("certificate")?.click()}
+                onClick={() => document.getElementById('certificate')?.click()}
                 type="button"
                 variant="square"
-                {...{ minWidth: "fit-content" }}
+                {...{ minWidth: 'fit-content' }}
               >
-                {isCertificate ? "수정하기" : "등록하기"}
+                {isCertificate ? '수정하기' : '등록하기'}
               </Button>
             </FlexBox>
           </ContentTextContainer>
@@ -287,7 +286,7 @@ const MentorRegisterForm = () => {
               mentoringCategories={form.mentoringCategories.value}
               setMentoringCategories={(category) =>
                 handleFormValueChange({
-                  name: "mentoringCategories",
+                  name: 'mentoringCategories',
                   value: category,
                 })
               }
@@ -305,7 +304,7 @@ const MentorRegisterForm = () => {
               outline
               onChange={handleFormValueChange}
               value={form.introduction.value}
-              invalid={form.introduction.isValid === "invalid"}
+              invalid={form.introduction.isValid === 'invalid'}
             />
           </ContentTextContainer>
           <Button width="100%" variant="square" type="submit">
@@ -314,7 +313,7 @@ const MentorRegisterForm = () => {
         </FlexBox>
       </form>
     </FormContainer>
-  );
-};
+  )
+}
 
-export default MentorRegisterForm;
+export default MentorRegisterForm

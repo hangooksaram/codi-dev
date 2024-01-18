@@ -1,67 +1,65 @@
-"use client";
+'use client'
 
-import SingleCalendar from "@/components/Calendar/SingleCalendar";
+import { css } from '@emotion/css'
+import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import SingleCalendar from '@/components/Calendar/SingleCalendar'
 import MentoringsWithSingleCalendar, {
   SchedulesContainer,
-} from "@/components/Mentoring/MentoringsWithSingleCalendar";
-import MentorScheduleEdit from "@/components/Schedule/Mentor/MentorScheduleEdit";
+} from '@/components/Mentoring/MentoringsWithSingleCalendar'
+import MentorScheduleEdit from '@/components/Schedule/Mentor/MentorScheduleEdit'
 
-import { selectUser } from "@/features/user/userSlice";
+import { selectUser } from '@/features/user/userSlice'
 import {
   useDailyMentoringsQuery,
   useMonthlyMentoringsQuery,
-} from "@/queries/mentoring/commonMentoringQuery";
-import Button from "@/ui/atoms/Button";
+} from '@/queries/mentoring/commonMentoringQuery'
+import Button from '@/ui/atoms/Button'
 
-import LabelBox from "@/ui/molecules/LabelBox";
-import { formattedDate, formattedMonth } from "@/utils/dateFormat";
-import { css } from "@emotion/css";
-
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import LabelBox from '@/ui/molecules/LabelBox'
+import { formattedDate, formattedMonth } from '@/utils/dateFormat'
 
 import useDailySchedulesQuery, {
   useMonthlySchedulesQuery,
-} from "@/queries/scheduleQuery";
-import MentorSchedules from "@/components/Schedule/Mentor/MentorSchedules";
-import CalendarContainer from "@/components/Container/CalendarContainer";
-import Mentorings from "@/components/Mentoring/Mentorings";
+} from '@/queries/scheduleQuery'
+import MentorSchedules from '@/components/Schedule/Mentor/MentorSchedules'
+import CalendarContainer from '@/components/Container/CalendarContainer'
+import Mentorings from '@/components/Mentoring/Mentorings'
 
-const SchedulePage = () => {
-  const [date, setDate] = useState<Date>();
-  const [month, setMonth] = useState<string>();
+function SchedulePage() {
+  const [date, setDate] = useState<Date>()
+  const [month, setMonth] = useState<string>()
 
-  const [type, setType] = useState<"mentor" | "mentee">("mentee");
-  const [isEdit, setIsEdit] = useState(false);
-  const { data: dailySchedules } = useDailySchedulesQuery(formattedDate(date));
+  const [type, setType] = useState<'mentor' | 'mentee'>('mentee')
+  const [isEdit, setIsEdit] = useState(false)
+  const { data: dailySchedules } = useDailySchedulesQuery(formattedDate(date))
   const { data: monthlySchedules, refetch: refetchMonthlySchedule } =
-    useMonthlySchedulesQuery(formattedMonth(new Date()));
+    useMonthlySchedulesQuery(formattedMonth(new Date()))
 
   const { data: mentoringsData } = useMonthlyMentoringsQuery({
     month: month ?? formattedMonth(new Date()),
-    type: "mentors",
-  });
+    type: 'mentors',
+  })
 
   const { data: dailyMentoringData } = useDailyMentoringsQuery({
     date: formattedDate(date),
-    type: "mentors",
-  });
+    type: 'mentors',
+  })
 
   const mentoringSchedules = mentoringsData?.monthlyMentoringMembers!.map(
     ({ date, mentoringStatus }) => ({
       date,
       mentoringStatus,
-    })
-  );
+    }),
+  )
 
   const toggleEditState = () => {
-    setType((prev) => (prev === "mentor" ? "mentee" : "mentor"));
-    setIsEdit((prev) => !prev);
+    setType((prev) => (prev === 'mentor' ? 'mentee' : 'mentor'))
+    setIsEdit((prev) => !prev)
     if (!date) {
-      setDate(new Date());
-      return;
+      setDate(new Date())
     }
-  };
+  }
 
   return (
     <LabelBox
@@ -73,7 +71,7 @@ const SchedulePage = () => {
           onClick={toggleEditState}
           variant="default"
           size="small"
-          {...{ minWidth: "fit-content", marginBottom: "20px" }}
+          {...{ minWidth: 'fit-content', marginBottom: '20px' }}
         >
           일정편집
         </Button>
@@ -107,7 +105,7 @@ const SchedulePage = () => {
           />
         </SchedulesContainer>
       </CalendarContainer>
-      <div className={css({ marginTop: "20px" })}>
+      <div className={css({ marginTop: '20px' })}>
         {isEdit ? (
           <MentorScheduleEdit
             date={formattedDate(date)}
@@ -122,7 +120,7 @@ const SchedulePage = () => {
         )}
       </div>
     </LabelBox>
-  );
-};
+  )
+}
 
-export default SchedulePage;
+export default SchedulePage

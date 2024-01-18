@@ -1,12 +1,12 @@
-import styled from "@emotion/styled";
+import styled from '@emotion/styled'
 
 const Avatar = styled.div(({ imgUrl }: { imgUrl?: string }) => ({
   background: `url(${imgUrl}) `,
-  backgroundSize: "cover",
-  backgroundRepeat: "no-repeat",
+  backgroundSize: 'cover',
+  backgroundRepeat: 'no-repeat',
   aspectRatio: 1 / 1,
-  minWidth: "140px",
-  borderRadius: "50%",
-}));
+  minWidth: '140px',
+  borderRadius: '50%',
+}))
 
-export default Avatar;
+export default Avatar

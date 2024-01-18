@@ -1,22 +1,24 @@
-import Image from "next/image";
-import { LocalImagePropsType, StyledImagePropsType } from "@/types/ui";
+import Image from 'next/image'
+import { LocalImagePropsType, StyledImagePropsType } from '@/types/ui'
 
-const ImageComponent = ({
+function ImageComponent({
   width,
   height,
   src,
   alt,
   sizes,
   ...rest
-}: LocalImagePropsType) => (
-  <Image
-    tabIndex={1}
-    src={src}
-    alt={alt}
-    style={{ width: width, height: height }}
-    sizes={sizes}
-    {...rest}
-  />
-);
+}: LocalImagePropsType) {
+  return (
+    <Image
+      tabIndex={1}
+      src={src}
+      alt={alt}
+      style={{ width, height }}
+      sizes={sizes}
+      {...rest}
+    />
+  )
+}
 
-export default ImageComponent;
+export default ImageComponent

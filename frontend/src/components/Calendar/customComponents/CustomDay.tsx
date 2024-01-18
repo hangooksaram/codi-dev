@@ -1,25 +1,25 @@
-import Label from "@/ui/atoms/Label";
-import { accessibleFormattedDate, formattedDate } from "@/utils/dateFormat";
-import { useRef } from "react";
-import { Button, DayProps, useDayRender } from "react-day-picker";
+import { useRef } from 'react'
+import { Button, DayProps, useDayRender } from 'react-day-picker'
+import Label from '@/ui/atoms/Label'
+import { accessibleFormattedDate, formattedDate } from '@/utils/dateFormat'
 
-export const CustomDay = (props: DayProps) => {
-  const buttonRef = useRef<HTMLButtonElement>(null);
-  const dayRender = useDayRender(props.date, props.displayMonth, buttonRef);
+export function CustomDay(props: DayProps) {
+  const buttonRef = useRef<HTMLButtonElement>(null)
+  const dayRender = useDayRender(props.date, props.displayMonth, buttonRef)
 
   dayRender.buttonProps.style = {
-    backgroundColor: "transparent",
-    border: "none",
-    outline: "none",
-  };
+    backgroundColor: 'transparent',
+    border: 'none',
+    outline: 'none',
+  }
   const handleClick: React.MouseEventHandler<HTMLButtonElement> = (e) => {
-    dayRender.buttonProps?.onClick?.(e);
-  };
+    dayRender.buttonProps?.onClick?.(e)
+  }
   if (dayRender.isHidden) {
-    return <></>;
+    return <></>
   }
   if (!dayRender.isButton) {
-    return <div {...dayRender.divProps} />;
+    return <div {...dayRender.divProps} />
   }
 
   return (
@@ -35,5 +35,5 @@ export const CustomDay = (props: DayProps) => {
         onClick={handleClick}
       />
     </>
-  );
-};
+  )
+}

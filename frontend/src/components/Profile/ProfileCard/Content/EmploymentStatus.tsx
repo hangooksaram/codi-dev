@@ -1,18 +1,16 @@
-import Typography from "@/ui/atoms/Typography";
-import theme from "@/ui/theme";
+import Typography from '@/ui/atoms/Typography'
+import theme from '@/ui/theme'
 
-const EmploymentStatus = ({
-  employmentStatus,
-}: {
-  employmentStatus: string;
-}) => (
-  <Typography
-    variant="div"
-    color={theme.colors.black}
-    {...{ marginTop: "6px" }}
-  >
-    {employmentStatus!}
-  </Typography>
-);
+function EmploymentStatus({ employmentStatus }: { employmentStatus: string }) {
+  return (
+    <Typography
+      variant="div"
+      color={theme.colors.black}
+      {...{ marginTop: '6px' }}
+    >
+      {employmentStatus!}
+    </Typography>
+  )
+}
 
-export default EmploymentStatus;
+export default EmploymentStatus

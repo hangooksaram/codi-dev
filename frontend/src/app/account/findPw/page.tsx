@@ -1,26 +1,26 @@
-"use client";
+'use client'
 
-import { findPassword } from "@/api/accountApi";
-import Button from "@/ui/atoms/Button";
-import Input from "@/ui/atoms/Input";
-import { FormEvent, useState } from "react";
-import FlexBox from "@/ui/atoms/FlexBox";
-import Container from "@/ui/atoms/Container";
-import Typography from "@/ui/atoms/Typography";
-import theme from "@/ui/theme";
+import { FormEvent, useState } from 'react'
+import { findPassword } from '@/api/accountApi'
+import Button from '@/ui/atoms/Button'
+import Input from '@/ui/atoms/Input'
+import FlexBox from '@/ui/atoms/FlexBox'
+import Container from '@/ui/atoms/Container'
+import Typography from '@/ui/atoms/Typography'
+import theme from '@/ui/theme'
 import useNewForm, {
   FormPropertyType,
   FormType,
-} from "@/hooks/useNewForm/useNewForm";
+} from '@/hooks/useNewForm/useNewForm'
 import {
   SignImageContainer,
   SignInputFormContainer,
-} from "@/components/pages/account/AccountContainers";
+} from '@/components/pages/account/AccountContainers'
 
-const FindPwPage = () => {
+function FindPwPage() {
   interface FindPasswordFormValuesType extends FormType {
-    email: FormPropertyType<string>;
-    id: FormPropertyType<string>;
+    email: FormPropertyType<string>
+    id: FormPropertyType<string>
   }
   const initialFormValues: FindPasswordFormValuesType = {
     email: {
@@ -34,37 +34,32 @@ const FindPwPage = () => {
         required: true,
       },
     },
-  };
+  }
 
   const { form, handleFormValueChange, validateAllFormValues } =
-    useNewForm(initialFormValues);
+    useNewForm(initialFormValues)
   const postFindPw = async () => {
-    const { data, status } = await findPassword(
-      form.email.value,
-      form.id.value
-    );
+    const { data, status } = await findPassword(form.email.value, form.id.value)
 
     if (status === 200) {
-      alert("해당 이메일로 임시 비밀번호가 전송되었습니다.");
-
-      return;
+      alert('해당 이메일로 임시 비밀번호가 전송되었습니다.')
     } else {
       alert(
-        "임시 비밀번호 전송이 실패했습니다. 이메일 주소를 다시 한번 확인해주세요."
-      );
+        '임시 비밀번호 전송이 실패했습니다. 이메일 주소를 다시 한번 확인해주세요.',
+      )
     }
-  };
+  }
 
   const handleSubmitFindPwForm = async (e: FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    const isFormValid = validateAllFormValues();
+    const isFormValid = validateAllFormValues()
 
-    if (isFormValid) await postFindPw();
-  };
+    if (isFormValid) await postFindPw()
+  }
   return (
-    <FlexBox {...{ height: "100%" }}>
-      <SignImageContainer backgroundImageSrc="/images/find-pw.png"></SignImageContainer>
+    <FlexBox {...{ height: '100%' }}>
+      <SignImageContainer backgroundImageSrc="/images/find-pw.png" />
       <Container width="55.5%">
         <form onSubmit={(e) => handleSubmitFindPwForm(e)}>
           <SignInputFormContainer
@@ -79,7 +74,7 @@ const FindPwPage = () => {
                 size={theme.fonts.size.lg}
                 weight={theme.fonts.weight.black}
                 align="center"
-                {...{ marginBottom: "10px" }}
+                {...{ marginBottom: '10px' }}
               >
                 비밀번호를 잊어버리셨나요?
               </Typography>
@@ -91,14 +86,14 @@ const FindPwPage = () => {
                 name="email"
                 value={form.email.value}
                 onChange={handleFormValueChange}
-                invalid={form.email.isValid === "invalid"}
+                invalid={form.email.isValid === 'invalid'}
                 placeholder="이메일을 입력해주세요."
               />
               <Input
                 id="id"
                 name="id"
                 value={form.id.value}
-                invalid={form.id.isValid === "invalid"}
+                invalid={form.id.isValid === 'invalid'}
                 onChange={handleFormValueChange}
                 placeholder="아이디를 입력해주세요."
               />
@@ -110,7 +105,7 @@ const FindPwPage = () => {
         </form>
       </Container>
     </FlexBox>
-  );
-};
+  )
+}
 
-export default FindPwPage;
+export default FindPwPage

@@ -1,21 +1,21 @@
-import ClipboardJS from "clipboard";
+import ClipboardJS from 'clipboard'
 
 export const copyText = (
   id: string,
   targetId: string,
-  completedMessage: string
+  completedMessage: string,
 ) => {
-  const clipboard = new ClipboardJS(`#${id}`);
+  const clipboard = new ClipboardJS(`#${id}`)
 
   document
     .getElementById(id)!
-    .setAttribute("data-clipboard-target", `#${targetId}`);
+    .setAttribute('data-clipboard-target', `#${targetId}`)
 
-  clipboard.on("success", () => {
-    alert(`${completedMessage}가 복사되었습니다!`);
-  });
+  clipboard.on('success', () => {
+    alert(`${completedMessage}가 복사되었습니다!`)
+  })
 
-  clipboard.on("error", (e) => {
-    alert(e);
-  });
-};
+  clipboard.on('error', (e) => {
+    alert(e)
+  })
+}

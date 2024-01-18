@@ -1,12 +1,14 @@
-import Chip from "@/ui/atoms/Chip";
-import Typography from "@/ui/atoms/Typography";
+import Chip from '@/ui/atoms/Chip'
+import Typography from '@/ui/atoms/Typography'
 
-const ApplicationDate = ({ applicationDate }: { applicationDate?: string }) => (
-  <Chip>
-    <Typography variant="span" size="sm">
-      {applicationDate!}
-    </Typography>
-  </Chip>
-);
+function ApplicationDate({ applicationDate }: { applicationDate?: string }) {
+  return (
+    <Chip>
+      <Typography variant="span" size="sm">
+        {applicationDate!}
+      </Typography>
+    </Chip>
+  )
+}
 
-export default ApplicationDate;
+export default ApplicationDate

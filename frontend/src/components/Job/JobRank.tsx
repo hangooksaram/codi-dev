@@ -1,24 +1,24 @@
-import FlexBox from "@/ui/atoms/FlexBox";
-import { PageComponentLayout } from "@/components/pages/mentorsMain/PageComonentLayout";
-import Typography from "@/ui/atoms/Typography";
-import theme, { device } from "@/ui/theme";
-import styled from "@emotion/styled";
-import Logo from "@icons/logo/recommendation-page-logo.svg";
-import TitleSection from "../pages/mentorsMain/TitleSection";
-import { useJobRanksQuery } from "@/queries/jobQuery";
-import { useSelector } from "react-redux";
-import { selectUser } from "@/features/user/userSlice";
+import styled from '@emotion/styled'
+import Logo from '@icons/logo/recommendation-page-logo.svg'
+import { useSelector } from 'react-redux'
+import FlexBox from '@/ui/atoms/FlexBox'
+import { PageComponentLayout } from '@/components/pages/mentorsMain/PageComonentLayout'
+import Typography from '@/ui/atoms/Typography'
+import theme, { device } from '@/ui/theme'
+import TitleSection from '../pages/mentorsMain/TitleSection'
+import { useJobRanksQuery } from '@/queries/jobQuery'
+import { selectUser } from '@/features/user/userSlice'
 
-const JobRank = () => {
-  const { id, isProfile } = useSelector(selectUser);
+function JobRank() {
+  const { id, isProfile } = useSelector(selectUser)
   const { data: jobRanks, isSuccess: isJobRanksQuerySuccess } =
-    useJobRanksQuery();
+    useJobRanksQuery()
 
   return (
     <PageComponentLayout>
       <FlexBox direction="column">
         <TitleSection
-          title={`${jobRanks?.disability ?? "지체장애"} 취업 직무순위`}
+          title={`${jobRanks?.disability ?? '지체장애'} 취업 직무순위`}
           logo={<Logo />}
         />
         {!id && (
@@ -69,26 +69,26 @@ const JobRank = () => {
           ))}
       </FlexBox>
     </PageComponentLayout>
-  );
-};
+  )
+}
 
 const Bar = styled.div(({ first }: { first: boolean }) => ({
-  width: first ? "771px" : "709px",
-  height: first ? "56px" : "39px",
+  width: first ? '771px' : '709px',
+  height: first ? '56px' : '39px',
   backgroundColor: first ? theme.colors.info.main : theme.colors.white,
-  display: "flex",
-  alignItems: "center",
-  borderRadius: "43px",
+  display: 'flex',
+  alignItems: 'center',
+  borderRadius: '43px',
   border: `1px solid ${theme.colors.background}`,
-  padding: "0px 20px",
-  boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.04)",
-  marginBottom: "10px",
-  ":last-child": {
-    marginBottom: "0px",
+  padding: '0px 20px',
+  boxShadow: '0px 2px 6px 0px rgba(0, 0, 0, 0.04)',
+  marginBottom: '10px',
+  ':last-child': {
+    marginBottom: '0px',
   },
-  [device("tablet")]: {
-    width: first ? "100%" : "90%",
+  [device('tablet')]: {
+    width: first ? '100%' : '90%',
   },
-}));
+}))
 
-export default JobRank;
+export default JobRank

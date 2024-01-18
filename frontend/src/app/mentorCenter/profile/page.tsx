@@ -1,13 +1,13 @@
-"use client";
+'use client'
 
-import MentorProfile from "@/components/Profile/MentorProfile/MentorProfile";
-import MentorStatus from "@/components/Profile/MentorProfile/MentorStatus";
-import ProfileCard from "@/components/Profile/ProfileCard";
-import Content from "@/components/Profile/ProfileCard/Content";
-import { useGetMentorQuery } from "@/queries/mentorQuery";
+import MentorProfile from '@/components/Profile/MentorProfile/MentorProfile'
+import MentorStatus from '@/components/Profile/MentorProfile/MentorStatus'
+import ProfileCard from '@/components/Profile/ProfileCard'
+import Content from '@/components/Profile/ProfileCard/Content'
+import { useGetMentorQuery } from '@/queries/mentorQuery'
 
-const MentorProfilePage = () => {
-  const { data: mentor, isSuccess } = useGetMentorQuery();
+function MentorProfilePage() {
+  const { data: mentor, isSuccess } = useGetMentorQuery()
   return (
     isSuccess && (
       <MentorProfile mentor={mentor!}>
@@ -27,7 +27,7 @@ const MentorProfilePage = () => {
         </ProfileCard>
       </MentorProfile>
     )
-  );
-};
+  )
+}
 
-export default MentorProfilePage;
+export default MentorProfilePage

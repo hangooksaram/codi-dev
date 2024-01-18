@@ -1,52 +1,52 @@
-import { SCHEDULE_TIME_TABLE } from "@/constants";
-import { selectUser } from "@/features/user/userSlice";
-import { useScheduleMutation } from "@/queries/scheduleQuery";
-import { Schedule, ScheduleTime } from "@/types/schedule";
+import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { SCHEDULE_TIME_TABLE } from '@/constants'
+import { selectUser } from '@/features/user/userSlice'
+import { useScheduleMutation } from '@/queries/scheduleQuery'
+import { Schedule, ScheduleTime } from '@/types/schedule'
 
-import Button from "@/ui/atoms/Button";
-import Card from "@/ui/atoms/Card";
-import FlexBox from "@/ui/atoms/FlexBox";
-import Typography from "@/ui/atoms/Typography";
-import theme from "@/ui/theme";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import Button from '@/ui/atoms/Button'
+import Card from '@/ui/atoms/Card'
+import FlexBox from '@/ui/atoms/FlexBox'
+import Typography from '@/ui/atoms/Typography'
+import theme from '@/ui/theme'
 
-const MentorScheduleEdit = ({
+function MentorScheduleEdit({
   date,
   schedules,
   toggleEditState,
   refetchMonthlySchedule,
 }: {
-  date?: string;
-  schedules?: Schedule;
-  toggleEditState: () => void;
-  refetchMonthlySchedule: () => void;
-}) => {
-  const [selecteds, setSelecteds] = useState<ScheduleTime[]>([]);
+  date?: string
+  schedules?: Schedule
+  toggleEditState: () => void
+  refetchMonthlySchedule: () => void
+}) {
+  const [selecteds, setSelecteds] = useState<ScheduleTime[]>([])
 
   useEffect(() => {
-    setSelecteds(schedules?.times!);
-  }, [date, schedules?.times]);
-  const addSchedule = useScheduleMutation();
+    setSelecteds(schedules?.times!)
+  }, [date, schedules?.times])
+  const addSchedule = useScheduleMutation()
   const selected = (time: string) => {
-    return selecteds?.find(({ time: selectedTime }) => selectedTime === time);
-  };
+    return selecteds?.find(({ time: selectedTime }) => selectedTime === time)
+  }
 
   const handleClickTime = (time: string) => {
     if (selecteds?.find(({ time: selectedTime }) => selectedTime === time)) {
-      setSelecteds((prev) => prev.filter((prevTime) => prevTime.time !== time));
-      return;
+      setSelecteds((prev) => prev.filter((prevTime) => prevTime.time !== time))
+      return
     }
-    setSelecteds([...selecteds, { time: time, enabled: true }]);
-  };
+    setSelecteds([...selecteds, { time, enabled: true }])
+  }
 
   const patchMentorSchedule = () => {
-    toggleEditState();
+    toggleEditState()
     const times: ScheduleTime[] = selecteds.map(({ time }) => {
-      return { time };
-    });
-    addSchedule.mutate({ date: date!, times: times! });
-  };
+      return { time }
+    })
+    addSchedule.mutate({ date: date!, times: times! })
+  }
 
   return (
     <Card padding="45px">
@@ -98,7 +98,7 @@ const MentorScheduleEdit = ({
         </Button>
       </FlexBox>
     </Card>
-  );
-};
+  )
+}
 
-export default MentorScheduleEdit;
+export default MentorScheduleEdit

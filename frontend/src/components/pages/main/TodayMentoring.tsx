@@ -1,30 +1,30 @@
-import MentorList from "@/components/Mentor/Mentors/MentorList";
-import { selectUser } from "@/features/user/userSlice";
-import { useTodayMentoringsQuery } from "@/queries/mentoring/commonMentoringQuery";
-import { Mentor } from "@/types/profile";
-import Logo from "@icons/logo/recommend-icon.svg";
-import { useSelector } from "react-redux";
-import { PageComponentLayout } from "../mentorsMain/PageComonentLayout";
-import TitleSection from "../mentorsMain/TitleSection";
-import styled from "@emotion/styled";
-import Card from "@/ui/atoms/Card";
-import theme from "@/ui/theme";
-import FlexBox from "@/ui/atoms/FlexBox";
-import Button from "@/ui/atoms/Button";
-import { useRouter } from "next/navigation";
+import Logo from '@icons/logo/recommend-icon.svg'
+import { useSelector } from 'react-redux'
+import styled from '@emotion/styled'
+import { useRouter } from 'next/navigation'
+import MentorList from '@/components/Mentor/Mentors/MentorList'
+import { selectUser } from '@/features/user/userSlice'
+import { useTodayMentoringsQuery } from '@/queries/mentoring/commonMentoringQuery'
+import { Mentor } from '@/types/profile'
+import { PageComponentLayout } from '../mentorsMain/PageComonentLayout'
+import TitleSection from '../mentorsMain/TitleSection'
+import Card from '@/ui/atoms/Card'
+import theme from '@/ui/theme'
+import FlexBox from '@/ui/atoms/FlexBox'
+import Button from '@/ui/atoms/Button'
 
-const TodayMentoring = () => {
-  const { isProfile } = useSelector(selectUser);
+function TodayMentoring() {
+  const { isProfile } = useSelector(selectUser)
   const { data: dailyMentoringData, isSuccess } = useTodayMentoringsQuery(
-    isProfile!
-  );
-  const mentors: Mentor[] = [];
-  const router = useRouter();
+    isProfile!,
+  )
+  const mentors: Mentor[] = []
+  const router = useRouter()
 
   dailyMentoringData?.map(({ applicationDate, mentorInfo }) => {
-    const newMentorInfo = { ...mentorInfo, applicationDate };
-    mentors.push(newMentorInfo);
-  });
+    const newMentorInfo = { ...mentorInfo, applicationDate }
+    mentors.push(newMentorInfo)
+  })
 
   return (
     <PageComponentLayout>
@@ -42,7 +42,7 @@ const TodayMentoring = () => {
               <div>예정된 멘토링이 없습니다</div>
               <Button
                 variant="default"
-                onClick={() => router.push("/mentorsMain/")}
+                onClick={() => router.push('/mentorsMain/')}
               >
                 나에게 맞는 멘토 확인하러 가기
               </Button>
@@ -50,15 +50,15 @@ const TodayMentoring = () => {
           </NoContentCard>
         ))}
     </PageComponentLayout>
-  );
-};
+  )
+}
 
 const NoContentCard = styled(Card)({
-  border: "none",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  padding: "30px",
-});
+  border: 'none',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  padding: '30px',
+})
 
-export default TodayMentoring;
+export default TodayMentoring

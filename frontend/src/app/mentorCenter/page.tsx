@@ -1,27 +1,27 @@
-"use client";
+'use client'
 
-import { selectUser } from "@/features/user/userSlice";
-import Button from "@/ui/atoms/Button";
-import FlexBox from "@/ui/atoms/FlexBox";
-import ImageComponent from "@/ui/atoms/ImageComponent";
-import StyledImage from "@/ui/atoms/StyledImage";
-import Typography from "@/ui/atoms/Typography";
-import theme from "@/ui/theme";
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { selectUser } from '@/features/user/userSlice'
+import Button from '@/ui/atoms/Button'
+import FlexBox from '@/ui/atoms/FlexBox'
+import ImageComponent from '@/ui/atoms/ImageComponent'
+import StyledImage from '@/ui/atoms/StyledImage'
+import Typography from '@/ui/atoms/Typography'
+import theme from '@/ui/theme'
 
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
-import forNotMentor from "../../../public/images/for-not-mentor.png";
+import forNotMentor from '../../../public/images/for-not-mentor.png'
 
-const MentorCenterPage = () => {
-  const router = useRouter();
-  const user = useSelector(selectUser);
+function MentorCenterPage() {
+  const router = useRouter()
+  const user = useSelector(selectUser)
 
   useEffect(() => {
-    if (user.isMentor) router.replace("/mentorCenter/schedule/");
-  }, []);
+    if (user.isMentor) router.replace('/mentorCenter/schedule/')
+  }, [])
   return (
-    <FlexBox direction="column" rowGap="20px" {...{ minHeight: "500px" }}>
+    <FlexBox direction="column" rowGap="20px" {...{ minHeight: '500px' }}>
       <ImageComponent
         src={forNotMentor}
         alt="for-not-mentor"
@@ -42,12 +42,12 @@ const MentorCenterPage = () => {
       </Typography>
       <Button
         variant="default"
-        onClick={() => router.push("/mentorRegisterForm")}
+        onClick={() => router.push('/mentorRegisterForm')}
       >
         멘토 신청하기
       </Button>
     </FlexBox>
-  );
-};
+  )
+}
 
-export default MentorCenterPage;
+export default MentorCenterPage

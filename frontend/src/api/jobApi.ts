@@ -1,17 +1,16 @@
-import { CommonApiResponse } from "@/types/api/common";
-import customAxios from "./customAxios";
-import { handleApiError } from "@/utils/api";
-import { AxiosResponse } from "axios";
+import { AxiosResponse } from 'axios'
+import { CommonApiResponse } from '@/types/api/common'
+import customAxios from './customAxios'
+import { handleApiError } from '@/utils/api'
 
 export const getJobCategories = async <T>(): Promise<CommonApiResponse<T>> => {
   try {
-    const { data, status }: AxiosResponse<T> = await customAxios.get(
-      `/job-categories`
-    );
-    return { data };
+    const { data, status }: AxiosResponse<T> =
+      await customAxios.get(`/job-categories`)
+    return { data }
   } catch (e) {
-    return handleApiError(e);
+    return handleApiError(e)
   }
-};
+}
 
-export const getJobRanks = async () => (await customAxios.get("/rank/")).data;
+export const getJobRanks = async () => (await customAxios.get('/rank/')).data

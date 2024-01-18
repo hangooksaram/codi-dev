@@ -1,26 +1,26 @@
-"use client";
+'use client'
 
-import FlexBox from "@/ui/atoms/FlexBox";
-import { css } from "@emotion/css";
-import LabelBox from "@/ui/molecules/LabelBox";
-import Grid from "@/ui/atoms/Grid";
-import Chip from "@/ui/atoms/Chip";
-import ProfileLabelText from "../ProfileLabelText";
-import styled from "@emotion/styled";
-import { useRouter } from "next/navigation";
-import { ReactNode } from "react";
-import MyInfoCommonContainerCard from "../../pages/myInfoCommon/MyInfoCommonContainerCard";
-import MyInfoCard from "../../pages/myInfoCommon/MyInfoCard";
-import { MenteeProfile } from "@/types/profile";
-import { device } from "@/ui/theme";
-import MenteeProfileInformation from "./MenteeProfileInformation";
+import { css } from '@emotion/css'
+import styled from '@emotion/styled'
+import { useRouter } from 'next/navigation'
+import { ReactNode } from 'react'
+import FlexBox from '@/ui/atoms/FlexBox'
+import LabelBox from '@/ui/molecules/LabelBox'
+import Grid from '@/ui/atoms/Grid'
+import Chip from '@/ui/atoms/Chip'
+import ProfileLabelText from '../ProfileLabelText'
+import MyInfoCommonContainerCard from '../../pages/myInfoCommon/MyInfoCommonContainerCard'
+import MyInfoCard from '../../pages/myInfoCommon/MyInfoCard'
+import { MenteeProfile } from '@/types/profile'
+import { device } from '@/ui/theme'
+import MenteeProfileInformation from './MenteeProfileInformation'
 
 interface MenteeProfilePageParams {
-  profile?: MenteeProfile;
-  children?: ReactNode;
+  profile?: MenteeProfile
+  children?: ReactNode
 }
 
-const MenteeProfile = ({ profile, children }: MenteeProfilePageParams) => {
+function MenteeProfile({ profile, children }: MenteeProfilePageParams) {
   return (
     <FlexBox
       justifyContent="space-between"
@@ -28,8 +28,8 @@ const MenteeProfile = ({ profile, children }: MenteeProfilePageParams) => {
       columnGap="20px"
       rowGap="20px"
       {...{
-        [device("tablet")]: {
-          flexDirection: "column",
+        [device('tablet')]: {
+          flexDirection: 'column',
         },
       }}
     >
@@ -37,13 +37,13 @@ const MenteeProfile = ({ profile, children }: MenteeProfilePageParams) => {
 
       <MenteeProfileInformation profile={profile!} />
     </FlexBox>
-  );
-};
+  )
+}
 
 const ReactiveGrid1 = styled(Grid)({
-  [device("tablet")]: {
-    gridTemplateColumns: "1fr",
+  [device('tablet')]: {
+    gridTemplateColumns: '1fr',
   },
-});
+})
 
-export default MenteeProfile;
+export default MenteeProfile

@@ -1,14 +1,14 @@
-import { RefObject, forwardRef } from "react";
-import theme from "@/ui/theme";
-import { Dropdown } from "@/types/ui";
-import styled from "@emotion/styled";
-import OpenDropdown from "@icons/common/expand-open.svg";
-import Card from "./Card";
-import Button from "./Button";
-import { useDropdown } from "@/hooks/useDropdown";
-import useClickOutOfInput from "@/hooks/useClickOutOfInput";
+import { RefObject, forwardRef } from 'react'
+import styled from '@emotion/styled'
+import OpenDropdown from '@icons/common/expand-open.svg'
+import theme from '@/ui/theme'
+import { Dropdown } from '@/types/ui'
+import Card from './Card'
+import Button from './Button'
+import { useDropdown } from '@/hooks/useDropdown'
+import useClickOutOfInput from '@/hooks/useClickOutOfInput'
 
-const Dropdown = ({
+function Dropdown({
   id,
   width,
   title,
@@ -18,50 +18,48 @@ const Dropdown = ({
   selectedCategory,
   children,
   setSelectedCategory,
-}: Dropdown) => {
+}: Dropdown) {
   const { open, setOpen, ref, setCategory, setDropdownContentPosition } =
-    useDropdown(setSelectedCategory, id);
+    useDropdown(setSelectedCategory, id)
 
-  useClickOutOfInput(id!, setOpen);
+  useClickOutOfInput(id!, setOpen)
   return (
-    <>
-      <DropdownContainer width={width}>
-        {type === "menu" ? (
-          <div id={id} onClick={() => setOpen((prev) => !prev)}>
-            {children}
-          </div>
-        ) : (
-          <DropdownButton
-            id={id}
-            invalid={invalid}
-            width="100%"
-            color={theme.colors.white}
-            onClick={setDropdownContentPosition}
-            variant="square"
-            type="button"
-            role="tab"
-            hoverDisabled
-          >
-            {selectedCategory ? selectedCategory : title}
-            <OpenDropdown />
-          </DropdownButton>
-        )}
+    <DropdownContainer width={width}>
+      {type === 'menu' ? (
+        <div id={id} onClick={() => setOpen((prev) => !prev)}>
+          {children}
+        </div>
+      ) : (
+        <DropdownButton
+          id={id}
+          invalid={invalid}
+          width="100%"
+          color={theme.colors.white}
+          onClick={setDropdownContentPosition}
+          variant="square"
+          type="button"
+          role="tab"
+          hoverDisabled
+        >
+          {selectedCategory || title}
+          <OpenDropdown />
+        </DropdownButton>
+      )}
 
-        {open && (
-          <DropdownContentContainer
-            ref={ref! as RefObject<HTMLUListElement>}
-            categories={categories}
-            setCategory={setCategory}
-          />
-        )}
-      </DropdownContainer>
-    </>
-  );
-};
+      {open && (
+        <DropdownContentContainer
+          ref={ref! as RefObject<HTMLUListElement>}
+          categories={categories}
+          setCategory={setCategory}
+        />
+      )}
+    </DropdownContainer>
+  )
+}
 
 interface DropdownContentProps {
-  categories: string[] | number[];
-  setCategory?: Function;
+  categories: string[] | number[]
+  setCategory?: Function
 }
 
 export const DropdownContentContainer = forwardRef<
@@ -79,49 +77,49 @@ export const DropdownContentContainer = forwardRef<
         </div>
       ))}
     </DropdownContent>
-  );
-});
+  )
+})
 
 export const DropdownContainer = styled.div(
   ({ width }: { width?: string }) => ({
-    width: width,
-    minWidth: "fit-content",
-    position: "relative",
-  })
-);
+    width,
+    minWidth: 'fit-content',
+    position: 'relative',
+  }),
+)
 
 export const DropdownButton = styled(Button)(
   ({ invalid }: { invalid: boolean | undefined }) => ({
-    justifyContent: "space-between",
-    border: "1px solid",
+    justifyContent: 'space-between',
+    border: '1px solid',
     borderColor:
       invalid === true && invalid !== undefined
         ? theme.colors.error
         : theme.colors.gray.main,
-  })
-);
+  }),
+)
 
 const DropdownContent = styled.ul(
   ({ width, left }: { width?: string; left?: boolean }) => ({
-    width: width ?? "100%",
-    minWidth: "fit-content",
-    maxHeight: "250px",
+    width: width ?? '100%',
+    minWidth: 'fit-content',
+    maxHeight: '250px',
     // height: "250px",
-    overflow: "auto",
-    position: "absolute",
+    overflow: 'auto',
+    position: 'absolute',
     zIndex: 1,
-    top: "70px",
+    top: '70px',
 
-    right: left ? "0px" : "0px",
+    right: left ? '0px' : '0px',
 
-    marginBottom: "20px",
+    marginBottom: '20px',
     backgroundColor: theme.colors.white,
-    borderRadius: "10px",
-    listStyle: "none",
+    borderRadius: '10px',
+    listStyle: 'none',
     border: `1px solid ${theme.colors.gray.main}`,
-    overscrollBehavior: "none",
-  })
-);
+    overscrollBehavior: 'none',
+  }),
+)
 
 const DropdownItem = styled.button`
   height: 50px;
@@ -143,12 +141,12 @@ const DropdownItem = styled.button`
     background-color: ${theme.colors.primary.main};
     color: ${theme.colors.white};
   }
-`;
+`
 
 export const Divider = styled.div`
   width: 90%;
   margin: 0 auto;
   height: 2px;
   background-color: ${theme.colors.background};
-`;
-export default Dropdown;
+`
+export default Dropdown
