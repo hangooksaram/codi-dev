@@ -1,6 +1,6 @@
 "use client";
 
-import MentorProfile from "@/components/Profile/MentorProfile";
+import MentorProfile from "@/components/Profile/MentorProfile/MentorProfile";
 import MentorStatus from "@/components/Profile/MentorProfile/MentorStatus";
 import ProfileCard from "@/components/Profile/ProfileCard";
 import Content from "@/components/Profile/ProfileCard/Content";

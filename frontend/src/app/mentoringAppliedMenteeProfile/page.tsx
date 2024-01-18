@@ -1,6 +1,6 @@
 "use client";
 import MentoringPlatformModal from "@/components/Mentoring/MentoringPlatformModal";
-import MenteeProfile from "@/components/Profile/MenteeProfile";
+import MenteeProfile from "@/components/Profile/MenteeProfile/MenteeProfile";
 import ProfileCard, { Footer } from "@/components/Profile/ProfileCard";
 import Content from "@/components/Profile/ProfileCard/Content";
 import Header from "@/components/Profile/ProfileCard/Header";

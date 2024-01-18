@@ -5,15 +5,15 @@ import { css } from "@emotion/css";
 import LabelBox from "@/ui/molecules/LabelBox";
 import Grid from "@/ui/atoms/Grid";
 import Chip from "@/ui/atoms/Chip";
-import ProfileLabelText from "./ProfileLabelText";
+import ProfileLabelText from "../ProfileLabelText";
 import styled from "@emotion/styled";
 import { useRouter } from "next/navigation";
 import { ReactNode } from "react";
-import MyInfoCommonContainerCard from "../pages/myInfoCommon/MyInfoCommonContainerCard";
-import MyInfoCard from "../pages/myInfoCommon/MyInfoCard";
+import MyInfoCommonContainerCard from "../../pages/myInfoCommon/MyInfoCommonContainerCard";
+import MyInfoCard from "../../pages/myInfoCommon/MyInfoCard";
 import { MenteeProfile } from "@/types/profile";
 import { device } from "@/ui/theme";
-import MenteeProfileInformation from "./MenteeProfile/MenteeProfileInformation";
+import MenteeProfileInformation from "./MenteeProfileInformation";
 
 interface MenteeProfilePageParams {
   profile?: MenteeProfile;
@@ -23,6 +23,7 @@ interface MenteeProfilePageParams {
 const MenteeProfile = ({ profile, children }: MenteeProfilePageParams) => {
   return (
     <FlexBox
+      justifyContent="space-between"
       alignItems="flex-start"
       columnGap="20px"
       rowGap="20px"

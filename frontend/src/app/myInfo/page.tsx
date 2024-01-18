@@ -1,6 +1,7 @@
 "use client";
 
-import MenteeProfile from "@/components/Profile/MenteeProfile";
+import SinglePageLayout from "@/components/Layout/SinglePageLayout";
+import MenteeProfile from "@/components/Profile/MenteeProfile/MenteeProfile";
 import ProfileCard, { Footer } from "@/components/Profile/ProfileCard";
 import Content from "@/components/Profile/ProfileCard/Content";
 import Header from "@/components/Profile/ProfileCard/Header";
@@ -39,28 +40,30 @@ const MyInfoPage = () => {
   }
 
   return (
-    <MenteeProfile profile={profile}>
-      <ProfileCard width="313px" height="477px">
-        <Content.Container>
-          <Content.Avatar imgUrl={profile?.imgUrl} />
-          <Content.Name name={profile?.name!} />
-          <Content.EmploymentStatus
-            employmentStatus={profile?.employmentStatus!}
-          />
-          <Content.Job job={profile?.job!} />
-        </Content.Container>
-        <Footer>
-          <Button
-            onClick={() => router.push("/profileForm?edit=true")}
-            size="small"
-            variant="default"
-            color={theme.colors.secondary.main}
-          >
-            프로필 수정하기
-          </Button>
-        </Footer>
-      </ProfileCard>
-    </MenteeProfile>
+    <SinglePageLayout>
+      <MenteeProfile profile={profile}>
+        <ProfileCard width="313px" height="477px">
+          <Content.Container>
+            <Content.Avatar imgUrl={profile?.imgUrl} />
+            <Content.Name name={profile?.name!} />
+            <Content.EmploymentStatus
+              employmentStatus={profile?.employmentStatus!}
+            />
+            <Content.Job job={profile?.job!} />
+          </Content.Container>
+          <Footer>
+            <Button
+              onClick={() => router.push("/profileForm?edit=true")}
+              size="small"
+              variant="default"
+              color={theme.colors.secondary.main}
+            >
+              프로필 수정하기
+            </Button>
+          </Footer>
+        </ProfileCard>
+      </MenteeProfile>
+    </SinglePageLayout>
   );
 };
 
