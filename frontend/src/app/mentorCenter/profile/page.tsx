@@ -5,27 +5,31 @@ import MentorStatus from '@/components/Profile/MentorProfile/MentorStatus'
 import ProfileCard from '@/components/Profile/ProfileCard'
 import Content from '@/components/Profile/ProfileCard/Content'
 import { useGetMentorQuery } from '@/queries/mentorQuery'
+import LabelBox from '@/ui/molecules/LabelBox'
 
 function MentorProfilePage() {
   const { data: mentor, isSuccess } = useGetMentorQuery()
   return (
     isSuccess && (
-      <MentorProfile mentor={mentor!}>
-        <ProfileCard width="313px">
-          <Content.Container>
-            <Content.Avatar imgUrl={mentor?.imgUrl} />
-            <Content.Name name={mentor?.name!} />
-            <Content.Job job={mentor?.job!} />
-            <Content.Rating star={mentor?.star!} mentees={mentor?.mentees!} />
-            <Content.Tags
-              career={mentor?.career}
-              disability={mentor?.disability!}
-              severity={mentor?.severity!}
-            />
-          </Content.Container>
-          <MentorStatus />
-        </ProfileCard>
-      </MentorProfile>
+      <>
+        <LabelBox text="멘토 프로필"></LabelBox>
+        <MentorProfile mentor={mentor!}>
+          <ProfileCard width="313px">
+            <Content.Container>
+              <Content.Avatar imgUrl={mentor?.imgUrl} />
+              <Content.Name name={mentor?.name!} />
+              <Content.Job job={mentor?.job!} />
+              <Content.Rating star={mentor?.star!} mentees={mentor?.mentees!} />
+              <Content.Tags
+                career={mentor?.career}
+                disability={mentor?.disability!}
+                severity={mentor?.severity!}
+              />
+            </Content.Container>
+            <MentorStatus />
+          </ProfileCard>
+        </MentorProfile>
+      </>
     )
   )
 }
