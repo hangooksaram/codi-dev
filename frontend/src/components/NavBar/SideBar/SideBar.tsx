@@ -102,7 +102,7 @@ function SideBar({
 const Container = styled.nav(({ open }: { open: boolean }) => ({
   display: open ? 'block' : 'none',
   width: '244px',
-  height: '100vh',
+  height: '93vh',
   position: 'sticky',
   alignSelf: 'flex-start',
   left: '0px',
