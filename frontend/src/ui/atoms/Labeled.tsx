@@ -1,19 +1,21 @@
-import { ReactNode } from "react";
-import Label from "./Label";
+import { ReactNode } from 'react'
+import Label from './Label'
 
-const Labeled = ({
+function Labeled({
   id,
   text,
   children,
 }: {
-  id: string;
-  text: string;
-  children: ReactNode;
-}) => (
-  <>
-    <Label htmlFor={id} text={text} />
-    {children}
-  </>
-);
+  id: string
+  text: string
+  children: ReactNode
+}) {
+  return (
+    <>
+      <Label htmlFor={id} text={text} />
+      {children}
+    </>
+  )
+}
 
-export default Labeled;
+export default Labeled

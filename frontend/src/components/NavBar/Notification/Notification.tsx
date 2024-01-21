@@ -1,24 +1,24 @@
-import NewNotificationBadge from "@/components/Badge/NewNotificationBadge";
-import Label from "@/ui/atoms/Label";
-import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
+import styled from '@emotion/styled'
+import { useEffect, useState } from 'react'
+import NewNotificationBadge from '@/components/Badge/NewNotificationBadge'
+import Label from '@/ui/atoms/Label'
 import NotificationDropdown, {
   Divider,
   NotificationDropdownItem,
-} from "./NotificationDropdown";
-import Typography from "@/ui/atoms/Typography";
-import theme from "@/ui/theme";
-import { useMentoringApplies } from "@/queries/mentoring/mentorMentoringQuery";
+} from './NotificationDropdown'
+import Typography from '@/ui/atoms/Typography'
+import theme from '@/ui/theme'
+import { useMentoringApplies } from '@/queries/mentoring/mentorMentoringQuery'
 
 interface Notification {
-  userName: string;
-  content: string;
-  date: string;
+  userName: string
+  content: string
+  date: string
 }
 
-const Notification = () => {
-  const [notifications, setNotifications] = useState<Notification[]>([]);
-  const { data, isSuccess } = useMentoringApplies();
+function Notification() {
+  const [notifications, setNotifications] = useState<Notification[]>([])
+  const { data, isSuccess } = useMentoringApplies()
 
   useEffect(() => {
     if (data)
@@ -28,10 +28,10 @@ const Notification = () => {
             userName: menteeInfo.name,
             content: `께서 멘토링을 신청했습니다.`,
             date: applicationDate,
-          };
+          }
         }),
-      ]);
-  }, [data]);
+      ])
+  }, [data])
 
   return (
     <StyledNotificationIcon id="notification-icon" tabIndex={1}>
@@ -60,7 +60,7 @@ const Notification = () => {
                 <Typography
                   variant="div"
                   color={theme.colors.gray.main}
-                  {...{ marginTop: "8px" }}
+                  {...{ marginTop: '8px' }}
                 >
                   {date}
                 </Typography>
@@ -75,16 +75,16 @@ const Notification = () => {
         )}
       </NotificationDropdown>
     </StyledNotificationIcon>
-  );
-};
+  )
+}
 
-export default Notification;
+export default Notification
 
 const StyledNotificationIcon = styled.div(({}: {}) => ({
-  position: "relative",
-  cursor: "pointer",
-  height: "42px",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-}));
+  position: 'relative',
+  cursor: 'pointer',
+  height: '42px',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+}))

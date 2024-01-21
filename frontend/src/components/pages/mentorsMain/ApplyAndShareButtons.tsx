@@ -1,19 +1,19 @@
-import { HOMEPAGE_URL } from "@/constants";
-import { selectUser } from "@/features/user/userSlice";
-import FlexBox from "@/ui/atoms/FlexBox";
-import StyledImage from "@/ui/atoms/StyledImage";
-import { useRouter } from "next/navigation";
-import { useSelector } from "react-redux";
-import { copyText } from "@/utils/clipboard";
-import { useEffect } from "react";
+import { useRouter } from 'next/navigation'
+import { useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import { HOMEPAGE_URL } from '@/constants'
+import { selectUser } from '@/features/user/userSlice'
+import FlexBox from '@/ui/atoms/FlexBox'
+import StyledImage from '@/ui/atoms/StyledImage'
+import { copyText } from '@/utils/clipboard'
 
-const ApplyAndShareButtons = () => {
-  const { isMentor, id } = useSelector(selectUser);
-  const router = useRouter();
+function ApplyAndShareButtons() {
+  const { isMentor, id } = useSelector(selectUser)
+  const router = useRouter()
 
   useEffect(() => {
-    copyText("recommend", "homepageUrl", "홈페이지 주소");
-  }, []);
+    copyText('recommend', 'homepageUrl', '홈페이지 주소')
+  }, [])
 
   return (
     <FlexBox>
@@ -23,14 +23,14 @@ const ApplyAndShareButtons = () => {
           height="251px"
           src="/images/main-mentor-apply.png"
           alt="apply-button"
-          {...{ cursor: "pointer" }}
+          {...{ cursor: 'pointer' }}
           onClick={() => router.push(id ? `/mentorApplyForm` : `/signup`)}
         />
       )}
       <input
-        style={{ position: "absolute", top: -200 }}
+        style={{ position: 'absolute', top: -200 }}
         id="homepageUrl"
-        value={"ffff"}
+        value="ffff"
       />
       <StyledImage
         id="recommend"
@@ -38,10 +38,10 @@ const ApplyAndShareButtons = () => {
         height="251px"
         src="/images/main-mentor-recommend.png"
         alt="recommend-button"
-        {...{ cursor: "pointer" }}
+        {...{ cursor: 'pointer' }}
       />
     </FlexBox>
-  );
-};
+  )
+}
 
-export default ApplyAndShareButtons;
+export default ApplyAndShareButtons

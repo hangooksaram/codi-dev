@@ -1,15 +1,14 @@
-"use client";
+'use client'
 
-import Button from "@/ui/atoms/Button";
-import FloatIcon from "@icons/common/float.svg";
-import theme, { device } from "@/ui/theme";
-import styled from "@emotion/styled";
-import Card from "@/ui/atoms/Card";
-import Typography from "@/ui/atoms/Typography";
-import FlexBox from "@/ui/atoms/FlexBox";
-import { useEffect, useLayoutEffect, useState } from "react";
-import { usePathname } from "next/navigation";
-import { useDispatch } from "react-redux";
+import FloatIcon from '@icons/common/float.svg'
+import styled from '@emotion/styled'
+import { useEffect, useLayoutEffect, useState } from 'react'
+import { usePathname } from 'next/navigation'
+import { useDispatch, useSelector } from 'react-redux'
+import { createPortal } from 'react-dom'
+import highlightImage from '@images/webAccessibility/highlight.png'
+import focusingboxImage from '@images/webAccessibility/focusingbox.png'
+import Overlay from '@/ui/atoms/BackgroundOverlay'
 import {
   initializeAll,
   selectFocused,
@@ -22,23 +21,23 @@ import {
   setLetterSpacing,
   setLineHeight,
   setZoom,
-} from "@/features/webAccessibility/webAccessibilitySlice";
-import { createPortal } from "react-dom";
-import { useSelector } from "react-redux";
-import Overlay from "@/ui/atoms/BackgroundOverlay";
-import ImageComponent from "@/ui/atoms/ImageComponent";
-import highlightImage from "@images/webAccessibility/highlight.png";
-import focusingboxImage from "@images/webAccessibility/focusingbox.png";
-import { SetState } from "@/index";
-import { MOBILE_NAVIGATION_HEIGHT } from "@/constants";
+} from '@/features/webAccessibility/webAccessibilitySlice'
+import ImageComponent from '@/ui/atoms/ImageComponent'
+import FlexBox from '@/ui/atoms/FlexBox'
+import Typography from '@/ui/atoms/Typography'
+import Card from '@/ui/atoms/Card'
+import theme, { device } from '@/ui/theme'
+import Button from '@/ui/atoms/Button'
+import { SetState } from '@/index'
+import { MOBILE_NAVIGATION_HEIGHT } from '@/constants'
 
-const BOX_LIST = ["하이라이터", "포커싱 박스"];
+const BOX_LIST = ['하이라이터', '포커싱 박스']
 
-const Floating = () => {
-  const path = usePathname();
-  const [open, setOpen] = useState(false);
+function Floating() {
+  const path = usePathname()
+  const [open, setOpen] = useState(false)
 
-  if (path === "/signin/") return;
+  if (path === '/signin/') return
 
   return (
     <>
@@ -46,7 +45,7 @@ const Floating = () => {
         onClick={() => setOpen((prev) => !prev)}
         variant="round"
         width="110px"
-        color={theme.colors.primary}
+        color={theme.colors.primary.main}
         hoverDisabled
       >
         <FloatIcon />
@@ -54,35 +53,35 @@ const Floating = () => {
       {open && (
         <Overlay
           onClick={() => {
-            setOpen(false);
+            setOpen(false)
           }}
         />
       )}
       {open && <FloatingMenu setOpen={setOpen} />}
     </>
-  );
-};
+  )
+}
 
-const FloatingMenu = ({ setOpen }: { setOpen: SetState<boolean> }) => {
-  const dispatch = useDispatch();
-  const highlight = useSelector(selectHighlight);
-  const focused = useSelector(selectFocused);
-  const letterSpacing = useSelector(selectLetterSpacing);
-  const lineHeight = useSelector(selectLineHeight);
-  const zoom = useSelector(selectZoom);
+function FloatingMenu({ setOpen }: { setOpen: SetState<boolean> }) {
+  const dispatch = useDispatch()
+  const highlight = useSelector(selectHighlight)
+  const focused = useSelector(selectFocused)
+  const letterSpacing = useSelector(selectLetterSpacing)
+  const lineHeight = useSelector(selectLineHeight)
+  const zoom = useSelector(selectZoom)
   const applyOption = (type: string) => {
-    if (type === "하이라이터") {
-      dispatch(setHighlight());
-      return;
+    if (type === '하이라이터') {
+      dispatch(setHighlight())
+      return
     }
-    dispatch(setFocused());
-  };
+    dispatch(setFocused())
+  }
 
   const initializeOption = () => {
-    dispatch(initializeAll());
-  };
+    dispatch(initializeAll())
+  }
   return (
-    <StyledFloating.Menu color={theme.colors.primary}>
+    <StyledFloating.Menu color={theme.colors.primary.main}>
       <FlexBox direction="column" rowGap="40px" alignItems="flex-start">
         <Typography
           variant="div"
@@ -113,28 +112,28 @@ const FloatingMenu = ({ setOpen }: { setOpen: SetState<boolean> }) => {
           <FlexBox columnGap="21px">
             <StyledFloating.Button
               variant="default"
-              color={highlight ? theme.colors.white : theme.colors.primary}
-              onClick={() => applyOption("하이라이터")}
+              color={highlight ? theme.colors.white : theme.colors.primary.main}
+              onClick={() => applyOption('하이라이터')}
             >
               <ImageComponent
                 width="36px"
                 height="auto"
                 alt="하이라이트"
                 src={highlightImage}
-              ></ImageComponent>
+              />
               하이라이터
             </StyledFloating.Button>
             <StyledFloating.Button
               variant="default"
-              color={focused ? theme.colors.white : theme.colors.primary}
-              onClick={() => applyOption("포커싱박스")}
+              color={focused ? theme.colors.white : theme.colors.primary.main}
+              onClick={() => applyOption('포커싱박스')}
             >
               <ImageComponent
                 width="36px"
                 height="auto"
                 alt="하이라이트"
                 src={focusingboxImage}
-              ></ImageComponent>
+              />
               <div>포커싱박스</div>
             </StyledFloating.Button>
           </FlexBox>
@@ -148,7 +147,7 @@ const FloatingMenu = ({ setOpen }: { setOpen: SetState<boolean> }) => {
               <Typography
                 variant="div"
                 color={theme.colors.white}
-                {...{ minWidth: "90px" }}
+                {...{ minWidth: '90px' }}
               >
                 자간
               </Typography>
@@ -157,11 +156,11 @@ const FloatingMenu = ({ setOpen }: { setOpen: SetState<boolean> }) => {
                 variant="default"
                 size="small"
                 color={
-                  letterSpacing === "initial"
+                  letterSpacing === 'initial'
                     ? theme.colors.white
-                    : theme.colors.primary
+                    : theme.colors.primary.main
                 }
-                onClick={() => dispatch(setLetterSpacing("initial"))}
+                onClick={() => dispatch(setLetterSpacing('initial'))}
               >
                 기본값
               </Button>
@@ -169,11 +168,11 @@ const FloatingMenu = ({ setOpen }: { setOpen: SetState<boolean> }) => {
                 outline
                 size="small"
                 color={
-                  letterSpacing === "1px"
+                  letterSpacing === '1px'
                     ? theme.colors.white
-                    : theme.colors.primary
+                    : theme.colors.primary.main
                 }
-                onClick={() => dispatch(setLetterSpacing("1px"))}
+                onClick={() => dispatch(setLetterSpacing('1px'))}
                 variant="default"
               >
                 크게
@@ -183,7 +182,7 @@ const FloatingMenu = ({ setOpen }: { setOpen: SetState<boolean> }) => {
               <Typography
                 variant="div"
                 color={theme.colors.white}
-                {...{ minWidth: "90px" }}
+                {...{ minWidth: '90px' }}
               >
                 행간
               </Typography>
@@ -191,7 +190,9 @@ const FloatingMenu = ({ setOpen }: { setOpen: SetState<boolean> }) => {
                 outline
                 size="small"
                 color={
-                  lineHeight === 1 ? theme.colors.white : theme.colors.primary
+                  lineHeight === 1
+                    ? theme.colors.white
+                    : theme.colors.primary.main
                 }
                 onClick={() => dispatch(setLineHeight(1))}
                 variant="default"
@@ -202,7 +203,9 @@ const FloatingMenu = ({ setOpen }: { setOpen: SetState<boolean> }) => {
                 outline
                 size="small"
                 color={
-                  lineHeight !== 1 ? theme.colors.white : theme.colors.primary
+                  lineHeight !== 1
+                    ? theme.colors.white
+                    : theme.colors.primary.main
                 }
                 onClick={() => dispatch(setLineHeight(1.2))}
                 variant="default"
@@ -214,14 +217,16 @@ const FloatingMenu = ({ setOpen }: { setOpen: SetState<boolean> }) => {
               <Typography
                 variant="div"
                 color={theme.colors.white}
-                {...{ minWidth: "90px" }}
+                {...{ minWidth: '90px' }}
               >
                 페이지확대
               </Typography>
               <Button
                 outline
                 size="small"
-                color={zoom === 1 ? theme.colors.white : theme.colors.primary}
+                color={
+                  zoom === 1 ? theme.colors.white : theme.colors.primary.main
+                }
                 onClick={() => dispatch(setZoom(1))}
                 variant="default"
               >
@@ -230,7 +235,9 @@ const FloatingMenu = ({ setOpen }: { setOpen: SetState<boolean> }) => {
               <Button
                 outline
                 size="small"
-                color={zoom === 1.1 ? theme.colors.white : theme.colors.primary}
+                color={
+                  zoom === 1.1 ? theme.colors.white : theme.colors.primary.main
+                }
                 onClick={() => dispatch(setZoom(1.1))}
                 variant="default"
               >
@@ -239,7 +246,9 @@ const FloatingMenu = ({ setOpen }: { setOpen: SetState<boolean> }) => {
               <Button
                 outline
                 size="small"
-                color={zoom === 1.2 ? theme.colors.white : theme.colors.primary}
+                color={
+                  zoom === 1.2 ? theme.colors.white : theme.colors.primary.main
+                }
                 onClick={() => dispatch(setZoom(1.2))}
                 variant="default"
               >
@@ -251,7 +260,7 @@ const FloatingMenu = ({ setOpen }: { setOpen: SetState<boolean> }) => {
               width="100%"
               color={theme.colors.white}
               onClick={() => {
-                setOpen(false);
+                setOpen(false)
               }}
             >
               닫기
@@ -260,73 +269,73 @@ const FloatingMenu = ({ setOpen }: { setOpen: SetState<boolean> }) => {
         </>
       </FlexBox>
     </StyledFloating.Menu>
-  );
-};
+  )
+}
 
 const StyledFloating = {
   OpenButton: styled(Button)(({}) => ({
-    position: "fixed",
+    position: 'fixed',
     zIndex: 2,
-    bottom: "20px",
-    left: "20px",
-    letterSpacing: "initial !important",
-    lineHeight: "1 !important",
-    zoom: "1 !important",
+    bottom: '20px',
+    left: '20px',
+    letterSpacing: 'initial !important',
+    lineHeight: '1 !important',
+    zoom: '1 !important',
 
-    width: "110px",
-    [device("tablet")]: {
-      width: "84px",
-      height: "84px",
+    width: '110px',
+    [device('tablet')]: {
+      width: '84px',
+      height: '84px',
 
-      bottom: "148px",
+      bottom: '148px',
     },
   })),
   CloseButton: styled(Button)(({}) => ({
-    display: "none",
-    [device("mobile")]: {
-      display: "block",
+    display: 'none',
+    [device('mobile')]: {
+      display: 'block',
     },
   })),
 
   Menu: styled(Card)({
-    position: "absolute",
-    zIndex: "2",
-    width: "420px",
-    height: "auto",
-    bottom: "150px",
-    padding: "30px",
-    left: "20px",
-    overflow: "auto",
-    [device("tablet")]: {
-      position: "fixed",
-      width: "100%",
-      top: "0",
-      left: "0",
+    position: 'absolute',
+    zIndex: '2',
+    width: '420px',
+    height: 'auto',
+    bottom: '150px',
+    padding: '30px',
+    left: '20px',
+    overflow: 'auto',
+    [device('tablet')]: {
+      position: 'fixed',
+      width: '100%',
+      top: '0',
+      left: '0',
       height: `calc(100vh - ${MOBILE_NAVIGATION_HEIGHT}px);`,
-      padding: "30px",
+      padding: '30px',
       borderRadius: 0,
     },
   }),
   Button: styled(Button)({
-    width: "96px",
-    height: "96px",
-    padding: "10px",
-    borderRadius: "20px",
+    width: '96px',
+    height: '96px',
+    padding: '10px',
+    borderRadius: '20px',
     boxShadow: `4px 4px 4px 0px #28364D, 2px 2px 4px 0px #2D3C52 inset, -1px -1px 2px 0px #2E3D53`,
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    [device("mobile")]: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    [device('mobile')]: {
       fontSize: theme.fonts.size.xs,
     },
   }),
   InitializeButton: styled(Button)({
-    position: "absolute",
-    top: "20px",
-    right: "30px",
+    position: 'absolute',
+    top: '20px',
+    right: '30px',
     color: theme.colors.black,
   }),
-};
+}
 
-export default Floating;
+export default Floating

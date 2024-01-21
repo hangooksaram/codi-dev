@@ -1,41 +1,41 @@
-import { addMentoringLink } from "@/api/mentoring/mentorApi";
-import { selectUser } from "@/features/user/userSlice";
-import { SetState } from "@/index";
-import { MentoringPlatform } from "@/types/mentoring";
-import Button from "@/ui/atoms/Button";
-import Card from "@/ui/atoms/Card";
-import Chip from "@/ui/atoms/Chip";
-import FlexBox from "@/ui/atoms/FlexBox";
-import StyledImage from "@/ui/atoms/StyledImage";
-import Textarea from "@/ui/atoms/Textarea";
-import Typography from "@/ui/atoms/Typography";
-import Modal from "@/ui/molecules/Modal";
-import theme, { device } from "@/ui/theme";
-import styled from "@emotion/styled";
-import Close from "@icons/common/close.svg";
-import { useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import styled from '@emotion/styled'
+import Close from '@icons/common/close.svg'
+import { useRef, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { addMentoringLink } from '@/api/mentoring/mentorApi'
+import { selectUser } from '@/features/user/userSlice'
+import { SetState } from '@/index'
+import { MentoringPlatform } from '@/types/mentoring'
+import Button from '@/ui/atoms/Button'
+import Card from '@/ui/atoms/Card'
+import Chip from '@/ui/atoms/Chip'
+import FlexBox from '@/ui/atoms/FlexBox'
+import StyledImage from '@/ui/atoms/StyledImage'
+import Textarea from '@/ui/atoms/Textarea'
+import Typography from '@/ui/atoms/Typography'
+import Modal from '@/ui/molecules/Modal'
+import theme, { device } from '@/ui/theme'
 
-const MentoringPlatformModal = ({
+function MentoringPlatformModal({
   open,
   setOpen,
   mentoringId,
 }: {
-  open: boolean;
-  setOpen: SetState<boolean>;
-  mentoringId: number;
-}) => {
-  const [platform, setPlatform] = useState<MentoringPlatform>("Google Meeting");
-  const linkRef = useRef<HTMLTextAreaElement>(null);
+  open: boolean
+  setOpen: SetState<boolean>
+  mentoringId: number
+}) {
+  const [platform, setPlatform] = useState<MentoringPlatform>('Google Meeting')
+  const linkRef = useRef<HTMLTextAreaElement>(null)
 
   const addMentoringlink = async () => {
     await addMentoringLink(mentoringId, {
       link: linkRef?.current?.value!,
       platform,
-    });
+    })
 
-    setOpen(false);
-  };
+    setOpen(false)
+  }
   return (
     <Modal open={open} setOpen={setOpen}>
       <ModalCard>
@@ -56,7 +56,7 @@ const MentoringPlatformModal = ({
             <Close onClick={() => setOpen(false)} />
           </FlexBox>
           <FlexBox direction="column" alignItems="flex-start">
-            <Typography variant="div" {...{ marginBottom: "10px" }}>
+            <Typography variant="div" {...{ marginBottom: '10px' }}>
               멘토링에 사용할 도구를 선택해주세요.
             </Typography>
             <FlexBox justifyContent="flex-start" columnGap="10px">
@@ -66,13 +66,13 @@ const MentoringPlatformModal = ({
                   key={index}
                   color={
                     text === platform
-                      ? theme.colors.primary
+                      ? theme.colors.primary.main
                       : theme.colors.background
                   }
                   fontColor={
                     text === platform
                       ? theme.colors.white
-                      : theme.colors.primary
+                      : theme.colors.primary.main
                   }
                 >
                   <FlexBox alignItems="center" justifyContent="flex-start">
@@ -96,48 +96,48 @@ const MentoringPlatformModal = ({
         </FlexBox>
       </ModalCard>
     </Modal>
-  );
-};
+  )
+}
 
 const ModalCard = styled(Card)({
-  maxWidth: "708px",
-  width: "90%",
-  height: "362px",
-  padding: "30px 45px",
-  position: "fixed",
-  top: "20%",
-  left: "50%",
-  transform: "translate(-50%, 0)",
+  maxWidth: '708px',
+  width: '90%',
+  height: '362px',
+  padding: '30px 45px',
+  position: 'fixed',
+  top: '20%',
+  left: '50%',
+  transform: 'translate(-50%, 0)',
   zIndex: 2,
 
-  [device("tablet")]: {
-    transform: "translate(-50%, -50%)",
+  [device('tablet')]: {
+    transform: 'translate(-50%, -50%)',
   },
-});
+})
 
 const ModalTextarea = styled(Textarea)({
-  height: "auto",
+  height: 'auto',
   background: theme.colors.gray.light,
   color: theme.colors.gray.dark,
-});
+})
 
 export const MENTORING_PLATFORMS = [
   {
-    iconSrc: "/images/platforms/google.png",
-    text: "Google Meeting" as MentoringPlatform,
+    iconSrc: '/images/platforms/google.png',
+    text: 'Google Meeting' as MentoringPlatform,
   },
   {
-    iconSrc: "/images/platforms/discord.png",
-    text: "Discord" as MentoringPlatform,
+    iconSrc: '/images/platforms/discord.png',
+    text: 'Discord' as MentoringPlatform,
   },
   {
-    iconSrc: "/images/platforms/zoom.png",
-    text: "Zoom" as MentoringPlatform,
+    iconSrc: '/images/platforms/zoom.png',
+    text: 'Zoom' as MentoringPlatform,
   },
   {
-    iconSrc: "/images/platforms/kakaotalk.png",
-    text: "KakaoTalk" as MentoringPlatform,
+    iconSrc: '/images/platforms/kakaotalk.png',
+    text: 'KakaoTalk' as MentoringPlatform,
   },
-];
+]
 
-export default MentoringPlatformModal;
+export default MentoringPlatformModal

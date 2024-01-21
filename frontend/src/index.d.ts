@@ -1,8 +1,8 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from 'react'
 
 export interface FileType {
-  data: File | null;
-  name: string;
+  data: File | null
+  name: string
 }
 
-export type SetState<T> = Dispatch<SetStateAction<T>>;
+export type SetState<T> = Dispatch<SetStateAction<T>>

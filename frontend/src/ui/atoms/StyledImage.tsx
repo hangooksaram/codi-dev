@@ -1,7 +1,7 @@
-import Image from "next/image";
-import { StyledImagePropsType } from "@/types/ui";
+import Image from 'next/image'
+import { StyledImagePropsType } from '@/types/ui'
 
-const StyledImage = ({
+function StyledImage({
   id,
   width,
   height,
@@ -9,20 +9,22 @@ const StyledImage = ({
   alt,
   onClick,
   ...rest
-}: StyledImagePropsType) => (
-  <div
-    onClick={onClick!}
-    style={{ width: width, height: height, position: "relative", ...rest }}
-  >
-    <Image
-      id={id}
-      src={src}
-      alt={alt}
-      fill
-      style={{ objectFit: "contain" }}
-      unoptimized={true}
-    />
-  </div>
-);
+}: StyledImagePropsType) {
+  return (
+    <div
+      onClick={onClick!}
+      style={{ width, height, position: 'relative', ...rest }}
+    >
+      <Image
+        id={id}
+        src={src}
+        alt={alt}
+        fill
+        style={{ objectFit: 'contain' }}
+        unoptimized
+      />
+    </div>
+  )
+}
 
-export default StyledImage;
+export default StyledImage

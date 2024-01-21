@@ -1,55 +1,55 @@
-"use client";
+'use client'
 
-import theme from "@/ui/theme";
-import Button from "@/ui/atoms/Button";
-import PrimaryLogo from "@icons/logo/logo-primary.svg";
-import SecondaryLogo from "@icons/logo/logo-secondary.svg";
-import Link from "next/link";
-import StyledLink from "@/ui/atoms/Link";
-import FlexBox from "@/ui/atoms/FlexBox";
-import Typography from "@/ui/atoms/Typography";
-import Container from "@/ui/atoms/Container";
-import { useRef, useState } from "react";
-import { useRouter } from "next/navigation";
-import styled from "@emotion/styled";
-import Image from "next/image";
-import Card from "@/ui/atoms/Card";
-import Input from "@/ui/atoms/Input";
-import { signIn } from "@/api/signApi";
-import { useDispatch } from "react-redux";
-import usePressEnterKey from "@/hooks/usePressEnterKey";
-import { setIsLoggedIn } from "@/features/auth/authSlice";
-import { User } from "@/types/user";
+import PrimaryLogo from '@icons/logo/logo-primary.svg'
+import SecondaryLogo from '@icons/logo/logo-secondary.svg'
+import Link from 'next/link'
+import { useRef, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import styled from '@emotion/styled'
+import Image from 'next/image'
+import { useDispatch } from 'react-redux'
+import theme from '@/ui/theme'
+import Button from '@/ui/atoms/Button'
+import StyledLink from '@/ui/atoms/Link'
+import FlexBox from '@/ui/atoms/FlexBox'
+import Typography from '@/ui/atoms/Typography'
+import Container from '@/ui/atoms/Container'
+import Card from '@/ui/atoms/Card'
+import Input from '@/ui/atoms/Input'
+import { signIn } from '@/api/signApi'
+import usePressEnterKey from '@/hooks/usePressEnterKey'
+import { setIsLoggedIn } from '@/features/auth/authSlice'
+import { User } from '@/types/user'
 import {
   SignImageContainer,
   SignInputFormContainer,
-} from "@/components/pages/account/AccountContainers";
+} from '@/components/pages/account/AccountContainers'
 
-const SignInPage = () => {
-  const router = useRouter();
+function SignInPage() {
+  const router = useRouter()
   const [loginInfo, setLoginInfo] = useState({
-    id: "",
-    password: "",
-  });
-  const dispatch = useDispatch();
+    id: '',
+    password: '',
+  })
+  const dispatch = useDispatch()
   const login = async () => {
-    const { data, status } = await signIn<User>(loginInfo);
-    const { id } = data!;
-    dispatch(setIsLoggedIn(id !== undefined));
+    const { data, status } = await signIn<User>(loginInfo)
+    const { id } = data!
+    dispatch(setIsLoggedIn(id !== undefined))
 
     if (status === 200) {
-      router.push("/");
+      router.push('/')
     } else {
-      alert("로그인이 실패했습니다.");
+      alert('로그인이 실패했습니다.')
     }
-  };
+  }
 
-  const signInButtonRef = useRef<HTMLButtonElement>(null);
-  usePressEnterKey(signInButtonRef);
+  const signInButtonRef = useRef<HTMLButtonElement>(null)
+  usePressEnterKey(signInButtonRef)
 
   return (
-    <FlexBox {...{ height: "100%" }}>
-      <SignImageContainer backgroundImageSrc="/images/signin-image.png"></SignImageContainer>
+    <FlexBox {...{ height: '100%' }}>
+      <SignImageContainer backgroundImageSrc="/images/signin-image.png" />
 
       <Container width="55.5%">
         <SignInputFormContainer
@@ -64,7 +64,7 @@ const SignInPage = () => {
           <FlexBox
             direction="column"
             rowGap="20px"
-            {...{ margin: "40px 0px 32px 0px" }}
+            {...{ margin: '40px 0px 32px 0px' }}
           >
             <SignInInput
               onChange={(e) =>
@@ -89,7 +89,7 @@ const SignInPage = () => {
               로그인
             </Button>
           </FlexBox>
-          <FlexBox justifyContent="space-between" {...{ marginBottom: "80px" }}>
+          <FlexBox justifyContent="space-between" {...{ marginBottom: '80px' }}>
             <FlexBox width="60%" columnGap="20px" justifyContent="flex-start">
               <StyledLink color={theme.colors.gray.dark} href="/account/findId">
                 아이디 찾기
@@ -105,7 +105,7 @@ const SignInPage = () => {
             <Typography
               variant="span"
               color={theme.colors.gray.dark}
-              {...{ marginRight: "10px" }}
+              {...{ marginRight: '10px' }}
             >
               아직 아이디가 없으신가요?
             </Typography>
@@ -114,8 +114,8 @@ const SignInPage = () => {
         </SignInputFormContainer>
       </Container>
     </FlexBox>
-  );
-};
+  )
+}
 
 const SignInImageCard = styled(Card)`
   display: flex;
@@ -125,35 +125,35 @@ const SignInImageCard = styled(Card)`
   border-bottom-right-radius: 20px;
   position: relative;
   padding: 60px;
-`;
+`
 
-const SignInTitle = styled("div")`
+const SignInTitle = styled('div')`
   position: absolute;
   top: 40%;
   z-index: 2;
   word-break: break-word;
   max-width: 310px;
-`;
+`
 
 const SignInInput = styled(Input)`
   height: 70px;
   background-color: ${theme.colors.gray.light};
   font-size: ${theme.fonts.size.md};
-`;
+`
 
 const SignInTextButton = styled(Button)`
   height: fit-content;
   color: ${theme.colors.gray.dark};
   background-color: transparent;
-`;
+`
 
 const StyledSignInImage = styled(Image)(() => ({
-  maxWidth: "90%",
-  height: "auto",
-  objectFit: "contain",
-  position: "absolute",
+  maxWidth: '90%',
+  height: 'auto',
+  objectFit: 'contain',
+  position: 'absolute',
   right: 0,
   zIndex: 1,
-}));
+}))
 
-export default SignInPage;
+export default SignInPage

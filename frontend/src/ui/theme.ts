@@ -1,65 +1,79 @@
 interface Colors {
-  black: string;
-  secondary: string;
-  primary: string;
-  info: string;
-  error: string;
-  gray: Gray;
-  background: string;
-  white: string;
+  black: string
+  secondary: string
+  primary: string
+  info: string
+  error: string
+  gray: Gray
+  background: string
+  white: string
 }
 
 interface Gray {
-  dark: string;
-  main: string;
-  light: string;
+  dark: string
+  main: string
+  light: string
 }
 
 interface FontSize {
-  xl: string;
-  lg: string;
-  md: string;
-  sm: string;
-  xs: string;
+  xl: string
+  lg: string
+  md: string
+  sm: string
+  xs: string
 }
 
 interface FontWeight {
-  black: number;
-  extraBold: number;
-  bold: number;
-  regular: number;
+  black: number
+  extraBold: number
+  bold: number
+  regular: number
 }
 
 export interface CustomTheme {
-  colors: Colors;
+  colors: Colors
   fonts: {
-    size: FontSize;
-    weight: FontWeight;
-  };
+    size: FontSize
+    weight: FontWeight
+  }
 }
 
 const theme = {
   colors: {
-    black: "#161718",
-    secondary: "#F7C863",
-    primary: "#334259",
-    info: "#4C9DF8",
-    error: "#E0291D",
-    gray: {
-      dark: "#a8a9af",
-      main: "#c8c9d0",
-      light: "#eeeff2",
+    black: '#161718',
+    secondary: {
+      main: '#4C9DF8',
+      light: '#8DC1FA',
+      lighter: '#4C9DF8',
+      lightest: '#F8FBFF',
     },
-    background: "#ecf1f6",
-    white: "#fcfcfc",
+    primary: {
+      main: '#334259',
+      light: '#7D8695',
+    },
+    info: {
+      main: '#F7C863',
+      light: '#FADC9B',
+      lighter: '#FDF1D8',
+      lightest: '#FFFDF9',
+    },
+    error: '#E0291D',
+    gray: {
+      dark: '#a8a9af',
+      main: '#c8c9d0',
+      light: '#eeeff2',
+    },
+    background: '#ecf1f6',
+    white: '#fcfcfc',
+    notice: '#E0291D',
   },
   fonts: {
     size: {
-      xl: "50px",
-      lg: "32px",
-      md: "22px",
-      sm: "16px",
-      xs: "14px",
+      xl: '50px',
+      lg: '32px',
+      md: '22px',
+      sm: '16px',
+      xs: '14px',
     },
     weight: {
       black: 900,
@@ -75,8 +89,8 @@ const theme = {
     tablet: 999,
     mobile: 450,
   },
-};
+}
 
 export const device = (device: keyof typeof theme.breakpoints) =>
-  `@media (max-width: ${theme.breakpoints[device]}px)`;
-export default theme;
+  `@media (max-width: ${theme.breakpoints[device]}px)`
+export default theme

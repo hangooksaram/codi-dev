@@ -1,35 +1,35 @@
-import theme from "@/ui/theme";
-import EmptyCheckbox from "@icons/common/empty-checkbox.svg";
-import FileedCheckbox from "@icons/common/filled-checkbox.svg";
-import { useState } from "react";
-import Typography from "./Typography";
-import FlexBox from "./FlexBox";
-import { SetState } from "@/index";
+import EmptyCheckbox from '@icons/common/empty-checkbox.svg'
+import FileedCheckbox from '@icons/common/filled-checkbox.svg'
+import { useState } from 'react'
+import theme from '@/ui/theme'
+import Typography from './Typography'
+import FlexBox from './FlexBox'
+import { SetState } from '@/index'
 
-const Checkbox = ({
+function Checkbox({
   width,
   label,
   checked,
   setChecked,
 }: {
-  width?: string;
-  label: string | number;
-  checked: boolean;
-  setChecked: SetState<boolean>;
-}) => {
+  width?: string
+  label: string | number
+  checked: boolean
+  setChecked: SetState<boolean>
+}) {
   const toggle = () => {
-    setChecked(!checked);
-  };
+    setChecked(!checked)
+  }
   return (
     <FlexBox
       justifyContent="flex-start"
       alignItems="center"
-      width={width ?? "fit-content"}
+      width={width ?? 'fit-content'}
       columnGap="10px"
-      {...{ minWidth: "150px" }}
+      {...{ minWidth: '150px' }}
       onClick={toggle}
     >
-      <div style={{ width: "24px", height: "24px" }}>
+      <div style={{ width: '24px', height: '24px' }}>
         {checked ? (
           <FileedCheckbox fill={theme.colors.black} />
         ) : (
@@ -45,7 +45,7 @@ const Checkbox = ({
         {label}
       </Typography>
     </FlexBox>
-  );
-};
+  )
+}
 
-export default Checkbox;
+export default Checkbox

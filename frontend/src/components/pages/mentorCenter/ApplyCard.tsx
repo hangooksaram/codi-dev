@@ -1,72 +1,72 @@
-"use client";
+'use client'
 
-import ProfileCard from "@/components/Profile/ProfileCard";
+import { css } from '@emotion/css'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
+import ProfileCard from '@/components/Profile/ProfileCard'
 import {
   useMentoringAcceptMutation,
   useMentoringRejectMutation,
-} from "@/queries/mentoring/mentorMentoringQuery";
-import { GetMentoringAppliesResponseData } from "@/types/api/mentoring";
-import Button from "@/ui/atoms/Button";
-import Card from "@/ui/atoms/Card";
-import Chip from "@/ui/atoms/Chip";
-import FlexBox from "@/ui/atoms/FlexBox";
-import Typography from "@/ui/atoms/Typography";
-import LabelBox from "@/ui/molecules/LabelBox";
-import theme, { device } from "@/ui/theme";
-import { css } from "@emotion/css";
-import { useRouter } from "next/navigation";
-import MyInfoCard from "../myInfoCommon/MyInfoCard";
-import { SetState } from "@/index";
-import { useEffect } from "react";
-import Content from "@/components/Profile/ProfileCard/Content";
+} from '@/queries/mentoring/mentorMentoringQuery'
+import { GetMentoringAppliesResponseData } from '@/types/api/mentoring'
+import Button from '@/ui/atoms/Button'
+import Card from '@/ui/atoms/Card'
+import Chip from '@/ui/atoms/Chip'
+import FlexBox from '@/ui/atoms/FlexBox'
+import Typography from '@/ui/atoms/Typography'
+import LabelBox from '@/ui/molecules/LabelBox'
+import theme, { device } from '@/ui/theme'
+import MyInfoCard from '../myInfoCommon/MyInfoCard'
+import { SetState } from '@/index'
+import Content from '@/components/Profile/ProfileCard/Content'
 
 interface MentorCenterApplyCardProps extends GetMentoringAppliesResponseData {
-  setApplies: SetState<GetMentoringAppliesResponseData[] | undefined>;
+  setApplies: SetState<GetMentoringAppliesResponseData[] | undefined>
 }
 
-const MentorCenterApplyCard = ({
+function MentorCenterApplyCard({
   mentoringId,
   applicationDate,
   menteeInfo,
   applicationReason,
   setApplies,
-}: MentorCenterApplyCardProps) => {
-  const router = useRouter();
-  const { profileId } = menteeInfo;
+}: MentorCenterApplyCardProps) {
+  const router = useRouter()
+  const { profileId } = menteeInfo
 
   const onSuccess = () => {
-    setApplies((prev) => prev!.filter((p) => p.mentoringId !== mentoringId));
-  };
+    setApplies((prev) => prev!.filter((p) => p.mentoringId !== mentoringId))
+  }
   const onError = () => {
-    alert("멘토링 수락에 실패했습니다. 다시 시도해주세요.");
-  };
+    alert('멘토링 수락에 실패했습니다. 다시 시도해주세요.')
+  }
 
   const acceptMutation = useMentoringAcceptMutation(
     mentoringId!,
     onSuccess,
-    onError
-  );
+    onError,
+  )
   const rejectMutation = useMentoringRejectMutation(
     mentoringId!,
     onSuccess,
-    onError
-  );
+    onError,
+  )
 
   return (
     <FlexBox
       justifyContent="space-between"
       columnGap="20px"
       {...{
-        [device("tablet")]: {
-          flexDirection: "column",
-          rowGap: "20px",
+        [device('tablet')]: {
+          flexDirection: 'column',
+          rowGap: '20px',
         },
       }}
     >
       <div
         className={css({
-          [device("tablet")]: {
-            width: "100%",
+          [device('tablet')]: {
+            width: '100%',
           },
         })}
       >
@@ -89,7 +89,7 @@ const MentorCenterApplyCard = ({
           direction="column"
           justifyContent="space-between"
           alignItems="flex-start"
-          {...{ height: "100%" }}
+          {...{ height: '100%' }}
         >
           <FlexBox direction="column" alignItems="flex-start" rowGap="40px">
             <LabelBox text="신청일자" width="50%">
@@ -106,24 +106,24 @@ const MentorCenterApplyCard = ({
           <FlexBox
             justifyContent="space-between"
             {...{
-              [device("tablet")]: {
-                flexDirection: "column",
-                rowGap: "10px",
+              [device('tablet')]: {
+                flexDirection: 'column',
+                rowGap: '10px',
               },
             }}
           >
             <Button
               size="small"
-              color={theme.colors.secondary}
+              color={theme.colors.info.main}
               variant="default"
               onClick={() =>
                 router.push(
-                  `/mentoringAppliedMenteeProfile?profileId=${profileId}&mentoringApply=${true}&mentoringId=${mentoringId}`
+                  `/mentoringAppliedMenteeProfile?profileId=${profileId}&mentoringApply=${true}&mentoringId=${mentoringId}`,
                 )
               }
               {...{
-                [device("tablet")]: {
-                  width: "100%",
+                [device('tablet')]: {
+                  width: '100%',
                 },
               }}
             >
@@ -132,19 +132,19 @@ const MentorCenterApplyCard = ({
             <FlexBox
               width="fit-content"
               {...{
-                [device("tablet")]: {
-                  width: "100%",
+                [device('tablet')]: {
+                  width: '100%',
                 },
               }}
             >
               <Button
                 size="small"
-                color={theme.colors.primary}
+                color={theme.colors.primary.main}
                 variant="default"
                 {...{
-                  marginRight: "24px",
-                  [device("tablet")]: {
-                    width: "100%",
+                  marginRight: '24px',
+                  [device('tablet')]: {
+                    width: '100%',
                   },
                 }}
                 onClick={() => acceptMutation.mutate()}
@@ -158,8 +158,8 @@ const MentorCenterApplyCard = ({
                 variant="default"
                 onClick={() => rejectMutation.mutate()}
                 {...{
-                  [device("tablet")]: {
-                    width: "100%",
+                  [device('tablet')]: {
+                    width: '100%',
                   },
                 }}
               >
@@ -170,7 +170,7 @@ const MentorCenterApplyCard = ({
         </FlexBox>
       </MyInfoCard>
     </FlexBox>
-  );
-};
+  )
+}
 
-export default MentorCenterApplyCard;
+export default MentorCenterApplyCard

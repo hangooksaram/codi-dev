@@ -1,8 +1,8 @@
-import styled from "@emotion/styled";
-import theme from "../theme";
-import { Typography } from "../../types/ui";
+import styled from '@emotion/styled'
+import theme from '../theme'
+import { Typography } from '../../types/ui'
 
-const Typography = ({
+function Typography({
   variant,
   size,
   color,
@@ -11,20 +11,20 @@ const Typography = ({
   children,
   wordBreak,
   ...rest
-}: Typography) => {
+}: Typography) {
   const StyledTypography = styled
     .div(() => ({
-      minWidth: "fit-content",
-      fontSize: size ?? "16px",
+      minWidth: 'fit-content',
+      fontSize: size ?? '16px',
       color: color ?? theme.colors.black,
-      textAlign: align ?? "left",
-      height: "fit-content",
+      textAlign: align ?? 'left',
+      height: 'fit-content',
       fontWeight: weight ?? theme.fonts.weight.regular,
-      wordBreak: wordBreak ?? "break-word",
+      wordBreak: wordBreak ?? 'break-word',
       ...rest,
     }))
-    .withComponent(variant);
-  return <StyledTypography>{children}</StyledTypography>;
-};
+    .withComponent(variant)
+  return <StyledTypography>{children}</StyledTypography>
+}
 
-export default Typography;
+export default Typography

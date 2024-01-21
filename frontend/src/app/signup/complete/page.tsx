@@ -1,21 +1,21 @@
-"use client";
+'use client'
 
-import Container from "@/ui/atoms/Container";
-import Typography from "@/ui/atoms/Typography";
-import Button from "@/ui/atoms/Button";
-import StyledLink from "@/ui/atoms/Link";
-import theme from "@/ui/theme";
-import FlexBox from "@/ui/atoms/FlexBox";
-import { useRouter } from "next/navigation";
-import ImageComponent from "@/ui/atoms/ImageComponent";
-import signUpCompleteImage from "@images/sign-up-complete.png";
+import { useRouter } from 'next/navigation'
+import signUpCompleteImage from '@images/sign-up-complete.png'
+import Container from '@/ui/atoms/Container'
+import Typography from '@/ui/atoms/Typography'
+import Button from '@/ui/atoms/Button'
+import StyledLink from '@/ui/atoms/Link'
+import theme from '@/ui/theme'
+import FlexBox from '@/ui/atoms/FlexBox'
+import ImageComponent from '@/ui/atoms/ImageComponent'
 
-const CompletePage = () => {
-  const router = useRouter();
+function CompletePage() {
+  const router = useRouter()
   return (
     <Container>
       <FlexBox direction="column" alignItems="center" rowGap="20px">
-        <div style={{ width: "70%" }}>
+        <div style={{ width: '70%' }}>
           <ImageComponent
             width="100%"
             height="520px"
@@ -29,17 +29,17 @@ const CompletePage = () => {
         </Typography>
         <Button
           onClick={() => {
-            router.push("/profileForm");
+            router.push('/profileForm')
           }}
           variant="default"
-          color={theme.colors.primary}
+          color={theme.colors.primary.main}
         >
           프로필 작성하기
         </Button>
         <StyledLink href="/">나중에 할게요</StyledLink>
       </FlexBox>
     </Container>
-  );
-};
+  )
+}
 
-export default CompletePage;
+export default CompletePage

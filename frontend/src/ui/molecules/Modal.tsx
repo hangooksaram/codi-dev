@@ -1,31 +1,30 @@
-import { Dispatch, ReactNode, SetStateAction } from "react";
-import Overlay from "../atoms/BackgroundOverlay";
+import { Dispatch, ReactNode, SetStateAction } from 'react'
+import styled from '@emotion/styled'
+import Overlay from '../atoms/BackgroundOverlay'
 
-import styled from "@emotion/styled";
-
-const Modal = ({
+function Modal({
   open,
   setOpen,
   children,
 }: {
-  open: boolean;
-  setOpen: Dispatch<SetStateAction<boolean>>;
-  children: ReactNode;
-}) => {
+  open: boolean
+  setOpen: Dispatch<SetStateAction<boolean>>
+  children: ReactNode
+}) {
   return (
     open && (
       <>
-        <ModalOverlay onClick={() => setOpen(false)}></ModalOverlay>
+        <ModalOverlay onClick={() => setOpen(false)} />
         {children}
       </>
     )
-  );
-};
+  )
+}
 
 const ModalOverlay = styled(Overlay)({
-  backgroundColor: "rgba(0,0,0,0.4)",
+  backgroundColor: 'rgba(0,0,0,0.4)',
 
   zIndex: 1,
-});
+})
 
-export default Modal;
+export default Modal

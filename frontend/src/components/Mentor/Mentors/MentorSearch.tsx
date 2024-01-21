@@ -1,35 +1,35 @@
-import Dropdown from "@/ui/atoms/Dropdown";
-import IconInputContainer from "@/ui/molecules/Input/IconInput";
-import FlexBox from "@/ui/atoms/FlexBox";
-import Search from "@icons/common/search.svg";
-import { Dispatch, SetStateAction, useState } from "react";
-import Input from "@/ui/atoms/Input";
-import Button from "@/ui/atoms/Button";
-import theme, { device } from "@/ui/theme";
-import { CAREERS, DISABILITIES, JOBS } from "@/constants";
-import { GetMentorsParameters } from "@/types/api/mentor";
-import ContentTextContainer from "@/ui/molecules/Container/ContentTextContainer";
-import Labeled from "@/ui/atoms/Labeled";
+import Search from '@icons/common/search.svg'
+import { Dispatch, SetStateAction, useState } from 'react'
+import Dropdown from '@/ui/atoms/Dropdown'
+import IconInputContainer from '@/ui/molecules/Input/IconInput'
+import FlexBox from '@/ui/atoms/FlexBox'
+import Input from '@/ui/atoms/Input'
+import Button from '@/ui/atoms/Button'
+import theme, { device } from '@/ui/theme'
+import { CAREERS, DISABILITIES, JOBS } from '@/constants'
+import { GetMentorsParameters } from '@/types/api/mentor'
+import ContentTextContainer from '@/ui/molecules/Container/ContentTextContainer'
+import Labeled from '@/ui/atoms/Labeled'
 
-const MentorSearch = ({
+function MentorSearch({
   query,
   setQuery,
   refetch,
   setSearched,
 }: {
-  query: GetMentorsParameters;
-  setQuery: (query: GetMentorsParameters) => void;
-  setSearched: Dispatch<SetStateAction<string>>;
-  refetch: () => void;
-}) => {
+  query: GetMentorsParameters
+  setQuery: (query: GetMentorsParameters) => void
+  setSearched: Dispatch<SetStateAction<string>>
+  refetch: () => void
+}) {
   return (
     <FlexBox
       justifyContent="flex-start"
       columnGap="10px"
       {...{
-        [device("tablet")]: {
-          flexDirection: "column",
-          rowGap: "10px",
+        [device('tablet')]: {
+          flexDirection: 'column',
+          rowGap: '10px',
         },
       }}
     >
@@ -37,8 +37,8 @@ const MentorSearch = ({
         width="60%"
         columnGap="10px"
         {...{
-          [device("tablet")]: {
-            width: "100%",
+          [device('tablet')]: {
+            width: '100%',
           },
         }}
       >
@@ -76,8 +76,8 @@ const MentorSearch = ({
         width="40%"
         columnGap="10px"
         {...{
-          [device("tablet")]: {
-            width: "100%",
+          [device('tablet')]: {
+            width: '100%',
           },
         }}
       >
@@ -93,17 +93,17 @@ const MentorSearch = ({
         </Labeled>
         <Button
           onClick={() => {
-            setSearched(JSON.stringify(query));
+            setSearched(JSON.stringify(query))
           }}
           width="40%"
-          color={theme.colors.primary}
+          color={theme.colors.primary.main}
           variant="square"
         >
           검색
         </Button>
       </FlexBox>
     </FlexBox>
-  );
-};
+  )
+}
 
-export default MentorSearch;
+export default MentorSearch

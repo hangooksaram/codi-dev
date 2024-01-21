@@ -1,62 +1,61 @@
-"use client";
+'use client'
 
-import { FormContainer } from "@/ui/atoms/Container";
-import Typography from "@/ui/atoms/Typography";
-import theme from "@/ui/theme";
-import IconInputContainer from "@/ui/molecules/Input/IconInput";
-import Input from "@/ui/atoms/Input";
-import Button from "@/ui/atoms/Button";
-import ProfileImage from "@icons/common/profile-image.svg";
-import Dropdown from "@/ui/atoms/Dropdown";
-import FlexBox from "@/ui/atoms/FlexBox";
-import Search from "@icons/common/search.svg";
-import Textarea from "@/ui/atoms/Textarea";
-import { FormEvent, useEffect, useState } from "react";
-import { searchUniv } from "@/api/signApi";
-import useForm from "@/hooks/useForm";
-import useUploadFile from "@/hooks/useUploadFile";
-import { useRouter, useSearchParams } from "next/navigation";
+import ProfileImage from '@icons/common/profile-image.svg'
+import Search from '@icons/common/search.svg'
+import { FormEvent, useEffect, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useSelector, useDispatch } from 'react-redux'
+import { FormContainer } from '@/ui/atoms/Container'
+import Typography from '@/ui/atoms/Typography'
+import theme from '@/ui/theme'
+import IconInputContainer from '@/ui/molecules/Input/IconInput'
+import Input from '@/ui/atoms/Input'
+import Button from '@/ui/atoms/Button'
+import Dropdown from '@/ui/atoms/Dropdown'
+import FlexBox from '@/ui/atoms/FlexBox'
+import Textarea from '@/ui/atoms/Textarea'
+import { searchUniv } from '@/api/signApi'
+import useForm from '@/hooks/useForm'
+import useUploadFile from '@/hooks/useUploadFile'
 import {
   DISABILITIES,
   EMPLOYMENT_STATUSES,
   EMPLOYMENT_STATUSES_VALUE,
   SEVERITIES,
-} from "@/constants";
+} from '@/constants'
 import {
   editProfile as patchEditProfile,
   registerProfile as postRegisterProfile,
-} from "@/api/profileApi";
-import { handleApiCallback } from "@/utils/api";
-import JobSelector from "@/components/Job/JopSelector";
-import { useSelector } from "react-redux";
-import { selectUser, setUser } from "@/features/user/userSlice";
-import { RegisterProfileResponse } from "@/types/api/profile";
-import { useDispatch } from "react-redux";
-import ContentTextContainer from "@/ui/molecules/Container/ContentTextContainer";
-import Label from "@/ui/atoms/Label";
-import useGetProfileQuery from "@/queries/profileQuery";
+} from '@/api/profileApi'
+import { handleApiCallback } from '@/utils/api'
+import JobSelector from '@/components/Job/JopSelector'
+import { selectUser, setUser } from '@/features/user/userSlice'
+import { RegisterProfileResponse } from '@/types/api/profile'
+import ContentTextContainer from '@/ui/molecules/Container/ContentTextContainer'
+import Label from '@/ui/atoms/Label'
+import useGetProfileQuery from '@/queries/profileQuery'
 import useNewForm, {
   FormType,
   FormPropertyType,
-} from "@/hooks/useNewForm/useNewForm";
+} from '@/hooks/useNewForm/useNewForm'
 
-const ProfileFormPage = () => {
-  const dispatch = useDispatch();
-  const router = useRouter();
-  const isEdit = useSearchParams().get("edit");
-  const formData = new FormData();
+function ProfileFormPage() {
+  const dispatch = useDispatch()
+  const router = useRouter()
+  const isEdit = useSearchParams().get('edit')
+  const formData = new FormData()
 
-  const { id: memberId } = useSelector(selectUser)!;
-  const { data, isFetching } = useGetProfileQuery();
+  const { id: memberId } = useSelector(selectUser)!
+  const { data, isFetching } = useGetProfileQuery()
 
   interface ProfileFormValuesType extends FormType {
-    introduction: FormPropertyType<string>;
-    desiredJob: FormPropertyType<string>;
-    job: FormPropertyType<string>;
-    education: FormPropertyType<string>;
-    disability: FormPropertyType<string>;
-    employmentStatus: FormPropertyType<string>;
-    severity: FormPropertyType<string>;
+    introduction: FormPropertyType<string>
+    desiredJob: FormPropertyType<string>
+    job: FormPropertyType<string>
+    education: FormPropertyType<string>
+    disability: FormPropertyType<string>
+    employmentStatus: FormPropertyType<string>
+    severity: FormPropertyType<string>
   }
 
   const initialFormValues: ProfileFormValuesType = {
@@ -90,125 +89,125 @@ const ProfileFormPage = () => {
       },
     },
     severity: {
-      initialValue: "중증",
+      initialValue: '중증',
       validCondition: {
         required: true,
       },
     },
-  };
+  }
 
   const {
     form,
     handleFormValueChange,
     validateAllFormValues,
     convertToFormData,
-  } = useNewForm(initialFormValues, data!);
+  } = useNewForm(initialFormValues, data!)
 
-  const { file, onUploadFile } = useUploadFile();
-  const [bigEducationCategory, setBigEducationCategory] = useState("");
-  const [job, setJob] = useState("");
-  const [openJobSelector, setOpenJobSelector] = useState(false);
-  const [submitType, setSubmitType] = useState<string>("");
+  const { file, onUploadFile } = useUploadFile()
+  const [bigEducationCategory, setBigEducationCategory] = useState('')
+  const [job, setJob] = useState('')
+  const [openJobSelector, setOpenJobSelector] = useState(false)
+  const [submitType, setSubmitType] = useState<string>('')
 
   useEffect(() => {
     if (isEdit && data) {
-      const { job, education } = data;
-      setJob(job!);
-      if (education === ("초등학교" || "중학교" || "고등학교")) {
-        setBigEducationCategory(education);
-        form.education.value = "";
+      const { job, education } = data
+      setJob(job!)
+      if (education === ('초등학교' || '중학교' || '고등학교')) {
+        setBigEducationCategory(education)
+        form.education.value = ''
       }
     }
-  }, [isFetching]);
+  }, [isFetching])
 
   const processData = () => {
-    if (bigEducationCategory !== "대학교" && bigEducationCategory) {
-      form.education.value = bigEducationCategory;
+    if (bigEducationCategory !== '대학교' && bigEducationCategory) {
+      form.education.value = bigEducationCategory
     }
 
     form.employmentStatus.value = EMPLOYMENT_STATUSES_VALUE.get(
-      form.employmentStatus.value
-    );
-  };
+      form.employmentStatus.value,
+    )
+  }
 
   const createFormData = () => {
-    const formValues = convertToFormData();
+    const formValues = convertToFormData()
 
     const blob = new Blob([JSON.stringify(formValues)], {
-      type: "application/json",
-    });
+      type: 'application/json',
+    })
 
-    formData.append("profile", blob);
-    formData.append("file", file.data!);
-    const imageFormData = new FormData();
-    imageFormData.append("file", file.data!);
-  };
+    formData.append('profile', blob)
+    formData.append('file', file.data!)
+    const imageFormData = new FormData()
+    imageFormData.append('file', file.data!)
+  }
 
   const handleProfileSubmit = async (e: FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    const isFormValid = validateAllFormValues();
+    const isFormValid = validateAllFormValues()
 
     if (isFormValid) {
-      processData();
-      createFormData();
+      processData()
+      createFormData()
       if (isEdit) {
-        await editProfile();
-      } else await registerProfile();
+        await editProfile()
+      } else await registerProfile()
     }
-  };
+  }
 
   const registerProfile = async () => {
     const { data, status, errorMessage } =
-      await postRegisterProfile<RegisterProfileResponse>(formData);
+      await postRegisterProfile<RegisterProfileResponse>(formData)
 
     handleApiCallback(
       status!,
-      () => apiSuccessCallback("register", data!),
+      () => apiSuccessCallback('register', data!),
       () =>
         alert(
-          `프로필 등록이 실패하였습니다. 다시 시도해주세요. error message : ${errorMessage}`
-        )
-    );
-  };
+          `프로필 등록이 실패하였습니다. 다시 시도해주세요. error message : ${errorMessage}`,
+        ),
+    )
+  }
 
   const editProfile = async () => {
     const { data, status, errorMessage } =
-      await patchEditProfile<RegisterProfileResponse>(formData);
+      await patchEditProfile<RegisterProfileResponse>(formData)
 
     handleApiCallback(
       status!,
-      () => apiSuccessCallback("edit", data!),
+      () => apiSuccessCallback('edit', data!),
       () =>
         alert(
-          `프로필 수정이 실패하였습니다. 다시 시도해주세요. error message : ${errorMessage}`
-        )
-    );
-  };
+          `프로필 수정이 실패하였습니다. 다시 시도해주세요. error message : ${errorMessage}`,
+        ),
+    )
+  }
 
   const apiSuccessCallback = (
-    type: "register" | "edit",
-    data: RegisterProfileResponse
+    type: 'register' | 'edit',
+    data: RegisterProfileResponse,
   ) => {
-    const { imgUrl } = data;
+    const { imgUrl } = data
 
-    dispatch(setUser({ profileImage: imgUrl }));
+    dispatch(setUser({ profileImage: imgUrl }))
 
-    if (type === "register") {
-      if (submitType === "complete") {
-        router.push("/");
-        return;
+    if (type === 'register') {
+      if (submitType === 'complete') {
+        router.push('/')
+        return
       }
-      router.push("/mentorRegisterForm");
-      return;
+      router.push('/mentorRegisterForm')
+      return
     }
 
-    router.back();
-  };
+    router.back()
+  }
 
   useEffect(() => {
-    searchUniv();
-  }, []);
+    searchUniv()
+  }, [])
 
   return (
     <FormContainer>
@@ -217,16 +216,16 @@ const ProfileFormPage = () => {
         size={theme.fonts.size.lg}
         weight={theme.fonts.weight.black}
         align="center"
-        {...{ margin: "80px 0px 80px 0px" }}
+        {...{ margin: '80px 0px 80px 0px' }}
       >
-        {isEdit ? "프로필 수정하기" : "프로필 작성하기"}
+        {isEdit ? '프로필 수정하기' : '프로필 작성하기'}
       </Typography>
       <form onSubmit={(e) => handleProfileSubmit(e)}>
         <FlexBox direction="column" rowGap="50px">
           <ContentTextContainer text="프로필 사진" helpText="(선택)">
             <IconInputContainer iconComponent={<ProfileImage />}>
-              <Input outline={true} disabled value={file.name} />
-              <div style={{ display: "none" }}>
+              <Input outline disabled value={file.name} />
+              <div style={{ display: 'none' }}>
                 <Input
                   id="profileImage"
                   name="profileImage"
@@ -245,10 +244,10 @@ const ProfileFormPage = () => {
               width="30%"
               variant="square"
               type="button"
-              onClick={() => document.getElementById("profileImage")?.click()}
-              {...{ marginLeft: "10px" }}
+              onClick={() => document.getElementById('profileImage')?.click()}
+              {...{ marginLeft: '10px' }}
             >
-              {isEdit && data?.imgUrl ? "수정하기" : "등록하기"}
+              {isEdit && data?.imgUrl ? '수정하기' : '등록하기'}
             </Button>
           </ContentTextContainer>
           <ContentTextContainer text="장애 분류">
@@ -257,7 +256,7 @@ const ProfileFormPage = () => {
                 <Label htmlFor="disability" text="장애 분류" />
                 <Dropdown
                   id="disability"
-                  invalid={form.disability.isValid === "invalid"}
+                  invalid={form.disability.isValid === 'invalid'}
                   width="100%"
                   type="form"
                   title="소분류"
@@ -265,11 +264,11 @@ const ProfileFormPage = () => {
                   selectedCategory={form.disability.value!}
                   setSelectedCategory={(disability) =>
                     handleFormValueChange<string>({
-                      name: "disability",
+                      name: 'disability',
                       value: disability,
                     })
                   }
-                ></Dropdown>
+                />
               </FlexBox>
             </FlexBox>
           </ContentTextContainer>
@@ -282,18 +281,18 @@ const ProfileFormPage = () => {
                 type="button"
                 color={
                   form.severity.value === severity
-                    ? theme.colors.primary
+                    ? theme.colors.primary.main
                     : theme.colors.white
                 }
                 variant="square"
                 outline
                 {...{
-                  ":first-child": {
-                    marginRight: "10px",
+                  ':first-child': {
+                    marginRight: '10px',
                   },
                 }}
                 onClick={() =>
-                  handleFormValueChange({ name: "severity", value: severity })
+                  handleFormValueChange({ name: 'severity', value: severity })
                 }
               >
                 {severity}
@@ -312,12 +311,12 @@ const ProfileFormPage = () => {
                 setSelectedCategory={(bigEducation) =>
                   setBigEducationCategory(bigEducation)
                 }
-                categories={["초등학교", "중학교", "고등학교", "대학교"]}
+                categories={['초등학교', '중학교', '고등학교', '대학교']}
               />
               <IconInputContainer iconComponent={<Search />}>
                 <Label htmlFor="education" text="대학교 입력" />
                 <Input
-                  disabled={bigEducationCategory !== "대학교"}
+                  disabled={bigEducationCategory !== '대학교'}
                   id="education"
                   name="education"
                   placeholder="학교명 검색"
@@ -333,10 +332,10 @@ const ProfileFormPage = () => {
               <Label htmlFor="job" text="직무 분류" />
               <JobSelector
                 id="job"
-                invalid={form.job.isValid === "invalid"}
+                invalid={form.job.isValid === 'invalid'}
                 selected={form.job.value}
                 setSelected={(job) =>
-                  handleFormValueChange({ name: "job", value: job })
+                  handleFormValueChange({ name: 'job', value: job })
                 }
                 open={openJobSelector}
                 setOpen={setOpenJobSelector}
@@ -346,12 +345,12 @@ const ProfileFormPage = () => {
                 id="desiredJob"
                 name="desiredJob"
                 value={form.desiredJob.value}
-                outline={true}
+                outline
                 maxLength={10}
                 width="60%"
                 placeholder="정확한 직무를 입력해주세요. 10자 내외."
                 onChange={handleFormValueChange}
-                invalid={form.desiredJob.isValid === "invalid"}
+                invalid={form.desiredJob.isValid === 'invalid'}
               />
             </FlexBox>
           </ContentTextContainer>
@@ -365,13 +364,13 @@ const ProfileFormPage = () => {
               selectedCategory={form.employmentStatus.value!}
               setSelectedCategory={(employmentStatus) =>
                 handleFormValueChange({
-                  name: "employmentStatus",
+                  name: 'employmentStatus',
                   value: employmentStatus,
                 })
               }
-              invalid={form.employmentStatus.isValid === "invalid"}
+              invalid={form.employmentStatus.isValid === 'invalid'}
               categories={EMPLOYMENT_STATUSES}
-            ></Dropdown>
+            />
           </ContentTextContainer>
           <ContentTextContainer text="자기 소개">
             <Label htmlFor="introduction" text="자기 소개" />
@@ -381,7 +380,7 @@ const ProfileFormPage = () => {
               placeholder="최소 50 글자"
               value={form.introduction.value}
               onChange={handleFormValueChange}
-              invalid={form.introduction.isValid === "invalid"}
+              invalid={form.introduction.isValid === 'invalid'}
             />
           </ContentTextContainer>
           <FlexBox
@@ -392,8 +391,8 @@ const ProfileFormPage = () => {
           >
             <Button
               onClick={() => {
-                setSubmitType("complete");
-                validateAllFormValues();
+                setSubmitType('complete')
+                validateAllFormValues()
               }}
               width="100%"
               type="submit"
@@ -404,8 +403,8 @@ const ProfileFormPage = () => {
             {!isEdit && (
               <Button
                 onClick={() => {
-                  setSubmitType("complete-apply");
-                  validateAllFormValues();
+                  setSubmitType('complete-apply')
+                  validateAllFormValues()
                 }}
                 width="100%"
                 type="submit"
@@ -418,17 +417,17 @@ const ProfileFormPage = () => {
         </FlexBox>
       </form>
     </FormContainer>
-  );
-};
-
-interface FormValues {
-  introduction: string;
-  desiredJob: string;
-  job: string;
-  education: string;
-  employmentStatus: string;
-  disability: string;
-  severity: string;
+  )
 }
 
-export default ProfileFormPage;
+interface FormValues {
+  introduction: string
+  desiredJob: string
+  job: string
+  education: string
+  employmentStatus: string
+  disability: string
+  severity: string
+}
+
+export default ProfileFormPage

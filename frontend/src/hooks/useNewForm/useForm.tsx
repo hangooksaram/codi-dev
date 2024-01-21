@@ -1,20 +1,20 @@
-import { ChangeEvent, useEffect, useState } from "react";
-import { ValidType, ValidateConditions, invalid } from "../../utils/validate";
-import { combineValuesWithValidation, getFormattedFormValues } from "./utils";
+import { ChangeEvent, useEffect, useState } from 'react'
+import { ValidType, ValidateConditions, invalid } from '../../utils/validate'
+import { combineValuesWithValidation, getFormattedFormValues } from './utils'
 
 const useForm = (
   initialFormValues: FormValueType,
   formValidation?: FormValidationType,
-  serverData?: object
+  serverData?: object,
 ) => {
   const [form, setForm] = useState<FormType>(
-    combineValuesWithValidation(initialFormValues, formValidation!)
-  );
+    combineValuesWithValidation(initialFormValues, formValidation!),
+  )
 
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false)
 
   const setFormFromServerData = (data: object) => {
-    const formValues = { ...form };
+    const formValues = { ...form }
     Object.keys(data).forEach((key) => {
       if (Object.hasOwn(form, key)) {
         Object.assign(formValues, {
@@ -23,38 +23,38 @@ const useForm = (
             ...formValues[key],
             value: data[key as keyof typeof data],
           },
-        });
+        })
       }
-    });
-    return formValues;
-  };
+    })
+    return formValues
+  }
 
   useEffect(() => {
-    if (serverData) setForm(setFormFromServerData(serverData));
-  }, [serverData]);
+    if (serverData) setForm(setFormFromServerData(serverData))
+  }, [serverData])
 
   const convertToFormData = (): FormValueType => {
-    const formValues = { ...form };
+    const formValues = { ...form }
 
     Object.keys(formValues).forEach((key) => {
-      const formValue = formValues[key];
+      const formValue = formValues[key]
       Object.assign(initialFormValues, {
         ...initialFormValues,
         [key]: formValue.value,
-      });
-    });
+      })
+    })
 
-    return initialFormValues;
-  };
+    return initialFormValues
+  }
 
   /** input 태그 를 사용하지 않을 시, 타입 지정 필요 */
   const handleFormValueChange = <T,>(
     e:
       | ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-      | { name: string; value: T }
+      | { name: string; value: T },
   ) => {
-    const target = "target" in e ? e.target : e;
-    const { name, value } = target;
+    const target = 'target' in e ? e.target : e
+    const { name, value } = target
 
     setForm((prevForm) => {
       return {
@@ -65,16 +65,16 @@ const useForm = (
           isValid:
             isSubmitted && setIsValid<T>(value as T, form[name].validCondition),
         } as FormPropertyType<T>,
-      };
-    });
-  };
+      }
+    })
+  }
 
   const validateFormValue = <T,>(
     formName: keyof typeof form,
-    formValue: FormPropertyType<T>
+    formValue: FormPropertyType<T>,
   ) => {
     if (formValue.validCondition) {
-      const isValid = setIsValid(formValue.value!, formValue.validCondition);
+      const isValid = setIsValid(formValue.value!, formValue.validCondition)
       setForm((prevForm) => {
         return {
           ...prevForm,
@@ -82,36 +82,36 @@ const useForm = (
             ...form[formName],
             isValid,
           } as FormPropertyType<T>,
-        };
-      });
+        }
+      })
 
-      return isValid;
+      return isValid
     }
 
-    return "valid";
-  };
+    return 'valid'
+  }
 
   const validateAllFormValues = () => {
-    let isValid: ValidType[] = [];
+    const isValid: ValidType[] = []
     Object.entries(form).forEach((item) => {
-      const [formName, formValue] = item;
+      const [formName, formValue] = item
       isValid.push(
         validateFormValue<typeof formValue.value>(
           formName as keyof typeof form,
-          formValue
-        )
-      );
-    });
-    setIsSubmitted(true);
+          formValue,
+        ),
+      )
+    })
+    setIsSubmitted(true)
 
-    return !isValid.includes("invalid");
-  };
+    return !isValid.includes('invalid')
+  }
 
   const setIsValid = <T,>(value: T, validCondition: ValidateConditions) => {
-    return invalid(value, validCondition) ? "invalid" : "valid";
-  };
+    return invalid(value, validCondition) ? 'invalid' : 'valid'
+  }
 
-  const getValues = () => {};
+  const getValues = () => {}
 
   return {
     form,
@@ -120,25 +120,25 @@ const useForm = (
     validateAllFormValues,
     setIsSubmitted,
     convertToFormData,
-  };
-};
+  }
+}
 
 export interface FormPropertyType<T> {
-  value?: T;
-  validCondition: ValidateConditions;
-  isValid?: ValidType;
+  value?: T
+  validCondition: ValidateConditions
+  isValid?: ValidType
 }
 
 export interface FormType {
-  [key: string]: FormPropertyType<any>;
+  [key: string]: FormPropertyType<any>
 }
 
 export interface FormValueType {
-  [key: string]: any;
+  [key: string]: any
 }
 
 export interface FormValidationType {
-  [key: string]: ValidateConditions;
+  [key: string]: ValidateConditions
 }
 
-export default useForm;
+export default useForm

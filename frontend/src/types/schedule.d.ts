@@ -1,10 +1,10 @@
 export interface Schedule {
-  date: string;
-  times: ScheduleTime[];
+  date: string
+  times: ScheduleTime[]
 }
 
 export interface ScheduleTime {
-  time: string;
-  enabled?: boolean;
+  time: string
+  enabled?: boolean
 }
-1;
+1

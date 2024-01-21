@@ -1,5 +1,5 @@
-import styled from "@emotion/styled";
-import { FlexBox } from "../../types/ui";
+import styled from '@emotion/styled'
+import { FlexBox } from '../../types/ui'
 
 const FlexBox = styled.div(
   ({
@@ -13,16 +13,16 @@ const FlexBox = styled.div(
     isWrap,
     ...rest
   }: FlexBox) => ({
-    display: "flex",
-    width: width ?? "100%",
-    flexDirection: direction ?? "row",
-    justifyContent: justifyContent ?? "center",
-    alignItems: alignItems ?? "center",
-    flexWrap: isWrap ? "wrap" : "nowrap",
-    rowGap: rowGap,
-    columnGap: columnGap,
+    display: 'flex',
+    width: width ?? '100%',
+    flexDirection: direction ?? 'row',
+    justifyContent: justifyContent ?? 'center',
+    alignItems: alignItems ?? 'center',
+    flexWrap: isWrap ? 'wrap' : 'nowrap',
+    rowGap,
+    columnGap,
     ...rest,
-  })
-);
+  }),
+)
 
-export default FlexBox;
+export default FlexBox
