@@ -21,7 +21,7 @@ function MentorProfilePage() {
     isSuccess && (
       <SinglePageLayout>
         <MentorProfile mentor={mentor!}>
-          <ProfileCard width="313px">
+          <ProfileCard width="322px">
             <Content.Container>
               <Content.Avatar imgUrl={mentor?.imgUrl} />
               <Content.Name name={mentor?.name!} />
