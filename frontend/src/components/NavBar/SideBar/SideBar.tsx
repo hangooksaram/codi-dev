@@ -50,7 +50,7 @@ function SideBar({
             index,
           ) => {
             return (
-              <>
+              <div key={index}>
                 <SideNavigator
                   onClick={() => {
                     setNestedParent(nested ? href : '')
@@ -59,7 +59,7 @@ function SideBar({
                   current={current === href && nestedParent !== href}
                   nestedParent={nestedParent === href}
                   href={href!}
-                  key={index}
+                  key={`${name}_${index}`}
                 >
                   <FlexBox justifyContent="flex-start" columnGap="10px">
                     {nestedParent === href && nestedParentIconComponent}
@@ -82,7 +82,7 @@ function SideBar({
                         }}
                         current={path === nestedHref}
                         nested={2}
-                        key={index}
+                        key={`${name}_${index}`}
                         href={nestedHref!}
                       >
                         {nestedName}
@@ -90,7 +90,7 @@ function SideBar({
                     )
                   },
                 )}
-              </>
+              </div>
             )
           },
         )}
