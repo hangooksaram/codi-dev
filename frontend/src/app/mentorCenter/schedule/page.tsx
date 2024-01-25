@@ -65,7 +65,7 @@ function SchedulePage() {
     <LabelBox
       text="멘토링 일정 관리"
       helpText="멘토링 시간은 2주 전부터 한 달 단위로 설정 가능합니다."
-      adorement={
+      adornment={
         <Button
           disabled={date && date?.getDate() < new Date().getDate()}
           onClick={toggleEditState}
