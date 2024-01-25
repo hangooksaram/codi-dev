@@ -20,7 +20,7 @@ function MonthlySchedules({ schedules }: { schedules: Schedule[] }) {
         return (
           <div
             className={css({ width: '100%', marginBottom: '30px' })}
-            key={index}
+            key={`monthly-schedule-${date}-${index}`}
           >
             <div>{date}</div>
             <FlexBox
@@ -39,7 +39,7 @@ function MonthlySchedules({ schedules }: { schedules: Schedule[] }) {
                     enabled ? theme.colors.gray.main : theme.colors.white
                   }
                   outline
-                  key={index}
+                  key={`monthly-schedule-time-${time}-${index}`}
                 >
                   {time}
                 </Chip>
