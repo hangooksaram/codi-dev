@@ -2,23 +2,15 @@
 
 import { css } from '@emotion/css'
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import SingleCalendar from '@/components/Calendar/SingleCalendar'
-import MentoringsWithSingleCalendar, {
-  SchedulesContainer,
-} from '@/components/Mentoring/MentoringsWithSingleCalendar'
+import { SchedulesContainer } from '@/components/Mentoring/MentoringsWithSingleCalendar'
 import MentorScheduleEdit from '@/components/Schedule/Mentor/MentorScheduleEdit'
-
-import { selectUser } from '@/features/user/userSlice'
 import {
   useDailyMentoringsQuery,
   useMonthlyMentoringsQuery,
 } from '@/queries/mentoring/commonMentoringQuery'
 import Button from '@/ui/atoms/Button'
-
 import LabelBox from '@/ui/molecules/LabelBox'
 import { formattedDate, formattedMonth } from '@/utils/dateFormat'
-
 import useDailySchedulesQuery, {
   useMonthlySchedulesQuery,
 } from '@/queries/scheduleQuery'
@@ -32,7 +24,9 @@ function SchedulePage() {
 
   const [type, setType] = useState<'mentor' | 'mentee'>('mentee')
   const [isEdit, setIsEdit] = useState(false)
-  const { data: dailySchedules } = useDailySchedulesQuery(formattedDate(date))
+  const [isScheduleEdited, setIsScheduleEdited] = useState(false)
+  const { data: dailySchedules, refetch: refetchDailySchedule } =
+    useDailySchedulesQuery(formattedDate(date))
   const { data: monthlySchedules, refetch: refetchMonthlySchedule } =
     useMonthlySchedulesQuery(formattedMonth(new Date()))
 
@@ -61,11 +55,16 @@ function SchedulePage() {
     }
   }
 
+  useEffect(() => {
+    if (isScheduleEdited) refetchDailySchedule()
+    setIsScheduleEdited(false)
+  }, [isScheduleEdited])
+
   return (
     <LabelBox
       text="멘토링 일정 관리"
       helpText="멘토링 시간은 2주 전부터 한 달 단위로 설정 가능합니다."
-      adorement={
+      adornment={
         <Button
           disabled={date && date?.getDate() < new Date().getDate()}
           onClick={toggleEditState}
@@ -111,7 +110,7 @@ function SchedulePage() {
             date={formattedDate(date)}
             schedules={dailySchedules!}
             toggleEditState={toggleEditState}
-            refetchMonthlySchedule={refetchMonthlySchedule}
+            setIsScheduleEdited={setIsScheduleEdited}
           />
         ) : (
           <MentorSchedules

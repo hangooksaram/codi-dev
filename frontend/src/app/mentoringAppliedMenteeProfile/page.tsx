@@ -32,7 +32,7 @@ function MentoringAppliedMenteeProfilePage() {
   return (
     <SinglePageLayout>
       <MenteeProfile profile={profile}>
-        <ProfileCard width="313px" height="477px">
+        <ProfileCard width="322px" height="477px">
           <Content.Container>
             <Content.Avatar imgUrl={profile?.imgUrl} />
             <Content.Name name={profile?.name!} />

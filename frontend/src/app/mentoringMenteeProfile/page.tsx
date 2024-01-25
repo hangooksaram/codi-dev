@@ -10,6 +10,7 @@ import Content from '@/components/Profile/ProfileCard/Content'
 import useGetProfileQuery from '@/queries/profileQuery'
 import Button from '@/ui/atoms/Button'
 import theme from '@/ui/theme'
+import ProfileStatusCard from '@/components/Profile/ProfileStatusCard/ProfileStatusCard'
 
 function MentoringMenteeProfilePage({}) {
   const param = useSearchParams()
@@ -21,7 +22,7 @@ function MentoringMenteeProfilePage({}) {
   return (
     <SinglePageLayout>
       <MenteeProfile profile={profile}>
-        <ProfileCard width="313px">
+        <ProfileCard width="322px">
           <Content.Container>
             <Content.Avatar imgUrl={profile?.imgUrl} />
             <Content.Name name={profile?.name!} />
@@ -54,6 +55,7 @@ function MentoringMenteeProfilePage({}) {
               </>
             )}
           </Footer>
+          <ProfileStatusCard text="희망직무" value={profile?.desiredJob!} />
         </ProfileCard>
       </MenteeProfile>
     </SinglePageLayout>

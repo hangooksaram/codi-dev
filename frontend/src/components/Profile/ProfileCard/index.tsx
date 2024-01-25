@@ -12,6 +12,7 @@ function ProfileCard({ width, height, children }: ProfileCard) {
       <FlexBox
         direction="column"
         justifyContent="space-between"
+        rowGap="24px"
         {...{ height: '100%', position: 'relative' }}
       >
         {children}
@@ -20,7 +21,8 @@ function ProfileCard({ width, height, children }: ProfileCard) {
   )
 }
 
-const CardContainer = styled(Card)(() => ({
+const CardContainer = styled(Card)(({ width }: { width?: string }) => ({
+  minWidth: width!,
   background: theme.colors.white,
   [device('mdWeb')]: {
     backgroundPosition: 'top',

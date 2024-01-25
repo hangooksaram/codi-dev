@@ -10,24 +10,25 @@ import Card from '@/ui/atoms/Card'
 import FlexBox from '@/ui/atoms/FlexBox'
 import Typography from '@/ui/atoms/Typography'
 import theme from '@/ui/theme'
+import { SetState } from '@/index'
 
 function MentorScheduleEdit({
   date,
   schedules,
   toggleEditState,
-  refetchMonthlySchedule,
+  setIsScheduleEdited,
 }: {
   date?: string
   schedules?: Schedule
   toggleEditState: () => void
-  refetchMonthlySchedule: () => void
+  setIsScheduleEdited: SetState<boolean>
 }) {
   const [selecteds, setSelecteds] = useState<ScheduleTime[]>([])
 
   useEffect(() => {
     setSelecteds(schedules?.times!)
   }, [date, schedules?.times])
-  const addSchedule = useScheduleMutation()
+
   const selected = (time: string) => {
     return selecteds?.find(({ time: selectedTime }) => selectedTime === time)
   }
@@ -39,7 +40,9 @@ function MentorScheduleEdit({
     }
     setSelecteds([...selecteds, { time, enabled: true }])
   }
-
+  const addSchedule = useScheduleMutation({
+    onSuccess: () => setIsScheduleEdited(true),
+  })
   const patchMentorSchedule = () => {
     toggleEditState()
     const times: ScheduleTime[] = selecteds.map(({ time }) => {
@@ -79,7 +82,7 @@ function MentorScheduleEdit({
               variant="default"
               size="small"
               outline
-              key={index}
+              key={`${index}-${time}`}
               disabled={
                 selected(time)?.time === time && !selected(time)?.enabled
               }
@@ -89,7 +92,7 @@ function MentorScheduleEdit({
           ))}
         </FlexBox>
         <Button
-          disabled={selecteds?.length === 0}
+          // disabled={selecteds?.length === 0}
           onClick={patchMentorSchedule}
           size="small"
           variant="default"

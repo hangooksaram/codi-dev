@@ -20,7 +20,7 @@ function Mentorings({
       return (
         <div
           className={css({ width: '100%', marginBottom: '30px' })}
-          key={index}
+          key={`mentoring-container-${index}-${new Date().toUTCString()}`}
         >
           <Chip
             color={
@@ -60,7 +60,7 @@ function Mentorings({
                   mentoringJob={mentoringJob}
                   platform={platform}
                   imgUrl={imgUrl}
-                  key={index}
+                  key={`mentoring-member-${mentoringId}-${index}`}
                 />
               ),
             )}

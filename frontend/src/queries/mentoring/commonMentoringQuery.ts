@@ -39,7 +39,7 @@ export const useMonthlyMentoringsQuery = ({
   const querykey = GET_MONTHLY_MENTORINGS_KEY
 
   return useQuery<GetMonthlyMentoringsResponse>(
-    querykey.concat(month),
+    querykey.concat(month, type),
     () => getMonthlyMentorings({ month, type }),
     {
       enabled: month !== undefined,

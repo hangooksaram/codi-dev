@@ -18,7 +18,7 @@ function MentorProfilePage() {
       <>
         <LabelBox text="멘토 프로필"></LabelBox>
         <MentorProfile mentor={mentor!}>
-          <ProfileCard width="313px">
+          <ProfileCard width="322px">
             <Content.Container>
               <Content.Avatar imgUrl={mentor?.imgUrl} />
               <Content.Name name={mentor?.name!} />
@@ -37,7 +37,6 @@ function MentorProfilePage() {
               size="small"
               variant="default"
               color={theme.colors.secondary.main}
-              {...{ marginTop: '16px' }}
             >
               프로필 수정하기
             </Button>

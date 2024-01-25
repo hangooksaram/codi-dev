@@ -21,7 +21,6 @@ const useDailySchedulesQuery = (date: string, mentorId?: number) => {
     {
       enabled: date !== '',
       retry: false,
-      staleTime: STALE_TIME.OFTEN,
     },
   )
 }
@@ -37,12 +36,12 @@ export const useMonthlySchedulesQuery = (month: string, mentorId?: number) => {
   )
 }
 
-export const useScheduleMutation = (refetchMonthlySchedule?: Function) => {
+export const useScheduleMutation = ({onSuccess,
+onError}: {onSuccess?:()=>void, onError? :()=>void}) => {
   return useMutation({
     mutationFn: (schedule: Schedule) => addSchedule(schedule),
-    onSuccess: () => {
-      if (refetchMonthlySchedule) refetchMonthlySchedule!()
-    },
+    onSuccess: onSuccess!,
+    onError: onError!
   })
 }
 

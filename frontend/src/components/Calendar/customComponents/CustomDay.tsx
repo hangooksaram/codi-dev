@@ -4,8 +4,9 @@ import Label from '@/ui/atoms/Label'
 import { accessibleFormattedDate, formattedDate } from '@/utils/dateFormat'
 
 export function CustomDay(props: DayProps) {
-  const buttonRef = useRef<HTMLButtonElement>(null)
-  const dayRender = useDayRender(props.date, props.displayMonth, buttonRef)
+  const ref = useRef<HTMLButtonElement>(null)
+  const dayRender = useDayRender(props.date, props.displayMonth, ref)
+  const id = props.date.toUTCString()
 
   dayRender.buttonProps.style = {
     backgroundColor: 'transparent',
@@ -24,14 +25,11 @@ export function CustomDay(props: DayProps) {
 
   return (
     <>
-      <Label
-        htmlFor={props.date.toString()}
-        text={accessibleFormattedDate(props.date)}
-      />
+      <Label htmlFor={id} text={accessibleFormattedDate(props.date)} />
       <Button
-        id={props.date.toString()}
+        id={id}
         {...dayRender.buttonProps}
-        ref={buttonRef}
+        ref={ref}
         onClick={handleClick}
       />
     </>

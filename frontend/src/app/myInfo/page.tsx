@@ -13,6 +13,7 @@ import Button from '@/ui/atoms/Button'
 import FlexBox from '@/ui/atoms/FlexBox'
 import Typography from '@/ui/atoms/Typography'
 import theme from '@/ui/theme'
+import ProfileStatusCard from '@/components/Profile/ProfileStatusCard/ProfileStatusCard'
 
 function MyInfoPage() {
   const { isProfile } = useSelector(selectUser)
@@ -42,7 +43,7 @@ function MyInfoPage() {
   return (
     <SinglePageLayout>
       <MenteeProfile profile={profile}>
-        <ProfileCard width="313px" height="477px">
+        <ProfileCard width="328px" height="477px">
           <Content.Container>
             <Content.Avatar imgUrl={profile?.imgUrl} />
             <Content.Name name={profile?.name!} />
@@ -61,6 +62,7 @@ function MyInfoPage() {
               프로필 수정하기
             </Button>
           </Footer>
+          <ProfileStatusCard text="희망직무" value={profile?.desiredJob!} />
         </ProfileCard>
       </MenteeProfile>
     </SinglePageLayout>
