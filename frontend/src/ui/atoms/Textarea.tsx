@@ -8,7 +8,10 @@ width: 100%;
 height: 300px;
 padding: 20px;
 border: 1px solid ${theme.colors.gray.main};
-color: ${theme.colors.gray.dark};
+color: ${theme.colors.black};
+::placeholder {
+  color: ${theme.colors.gray.dark};
+}
 font-size: ${theme.fonts.size.sm};
 font-weight: ${theme.fonts.weight.regular};
 resize: none;
