@@ -9,7 +9,7 @@ const useNewForm = (initialFormValues: FormType, serverData?: object) => {
     getFormattedFormValues(initialFormValues),
   );
   const [isSubmitted, setIsSubmitted] = useState(false);
-  if (serverData) useInitializeForm(form, setForm, serverData);
+  useInitializeForm(form, setForm, serverData);
 
   const convertToFormData = () => {
     const formValues = { ...form };

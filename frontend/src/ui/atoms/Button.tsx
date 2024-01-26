@@ -43,8 +43,9 @@ const Button = styled.button(
     cursor: 'pointer',
     outline: 'none',
     ':disabled': {
-      backgroundColor: theme.colors.gray.dark,
-      color: theme.colors.white,
+      backgroundColor: theme.colors.white,
+      color: theme.colors.gray.light,
+      borderColor: theme.colors.gray.light,
       cursor: 'default',
     },
     ':hover:enabled': !hoverDisabled ? hover(size) : {},

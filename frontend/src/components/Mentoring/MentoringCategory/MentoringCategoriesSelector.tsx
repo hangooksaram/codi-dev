@@ -31,6 +31,8 @@ function MentorCategoriesSelector({
   mentoringCategories: string[];
   setMentoringCategories: Dispatch<SetStateAction<string[]>>;
 }) {
+  const disabled = (text: string) =>
+    !mentoringCategories?.includes(text) && mentoringCategories?.length > 3;
   const handleClickMentoringCategory = (text: string) => {
     const copied = [...mentoringCategories];
 
@@ -53,17 +55,16 @@ function MentorCategoriesSelector({
               variant="square"
               type="button"
               selected={mentoringCategories?.includes(text)}
-              disabled={
-                !mentoringCategories?.includes(text) &&
-                mentoringCategories?.length > 3
-              }
+              disabled={disabled(text)}
               hoverDisabled
             >
               <IconComponent
                 fill={
-                  mentoringCategories?.includes(text)
-                    ? theme.colors.white
-                    : theme.colors.primary.main
+                  disabled(text)
+                    ? theme.colors.gray.light
+                    : mentoringCategories?.includes(text)
+                      ? theme.colors.white
+                      : theme.colors.primary.main
                 }
               />
               {text}
