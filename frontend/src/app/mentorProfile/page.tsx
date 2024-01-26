@@ -1,22 +1,22 @@
-'use client'
+'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation'
-import SinglePageLayout from '@/components/Layout/SinglePageLayout'
-import MentorProfile from '@/components/Profile/MentorProfile/MentorProfile'
-import ProfileCard from '@/components/Profile/ProfileCard'
-import Content from '@/components/Profile/ProfileCard/Content'
-import { useGetMentorQuery } from '@/queries/mentorQuery'
-import Button from '@/ui/atoms/Button'
-import theme, { device } from '@/ui/theme'
+import { useRouter, useSearchParams } from 'next/navigation';
+import SinglePageLayout from '@/components/Layout/SinglePageLayout';
+import MentorProfile from '@/components/Profile/MentorProfile/MentorProfile';
+import ProfileCard from '@/components/Profile/ProfileCard';
+import Content from '@/components/Profile/ProfileCard/Content';
+import { useGetMentorQuery } from '@/queries/mentorQuery';
+import Button from '@/ui/atoms/Button';
+import theme, { device } from '@/ui/theme';
 
 function MentorProfilePage() {
-  const router = useRouter()
-  const param = useSearchParams()
+  const router = useRouter();
+  const param = useSearchParams();
 
-  const mentorId = parseInt(param.get('mentorId')!)
-  const isMentoringApplied = param.get('mentoringId')
+  const mentorId = parseInt(param.get('mentorId')!);
+  const isMentoringApplied = param.get('mentoringId');
 
-  const { data: mentor, isSuccess } = useGetMentorQuery(mentorId)
+  const { data: mentor, isSuccess } = useGetMentorQuery(mentorId);
   return (
     isSuccess && (
       <SinglePageLayout>
@@ -50,7 +50,7 @@ function MentorProfilePage() {
         </MentorProfile>
       </SinglePageLayout>
     )
-  )
+  );
 }
 
-export default MentorProfilePage
+export default MentorProfilePage;

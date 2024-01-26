@@ -1,4 +1,4 @@
-import styled from '@emotion/styled'
+import styled from '@emotion/styled';
 
 const Container = styled.div`
   text-align: center;
@@ -6,6 +6,6 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 36px;
-`
+`;
 
-export default Container
+export default Container;

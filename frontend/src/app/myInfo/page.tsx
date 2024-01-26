@@ -1,25 +1,25 @@
-'use client'
+'use client';
 
-import { useRouter } from 'next/navigation'
-import { useSelector } from 'react-redux'
-import SinglePageLayout from '@/components/Layout/SinglePageLayout'
-import MenteeProfile from '@/components/Profile/MenteeProfile/MenteeProfile'
-import ProfileCard, { Footer } from '@/components/Profile/ProfileCard'
-import Content from '@/components/Profile/ProfileCard/Content'
-import Header from '@/components/Profile/ProfileCard/Header'
-import { selectUser } from '@/features/user/userSlice'
-import useGetProfileQuery from '@/queries/profileQuery'
-import Button from '@/ui/atoms/Button'
-import FlexBox from '@/ui/atoms/FlexBox'
-import Typography from '@/ui/atoms/Typography'
-import theme from '@/ui/theme'
-import ProfileStatusCard from '@/components/Profile/ProfileStatusCard/ProfileStatusCard'
+import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
+import SinglePageLayout from '@/components/Layout/SinglePageLayout';
+import MenteeProfile from '@/components/Profile/MenteeProfile/MenteeProfile';
+import ProfileCard, { Footer } from '@/components/Profile/ProfileCard';
+import Content from '@/components/Profile/ProfileCard/Content';
+import Header from '@/components/Profile/ProfileCard/Header';
+import { selectUser } from '@/features/user/userSlice';
+import useGetProfileQuery from '@/queries/profileQuery';
+import Button from '@/ui/atoms/Button';
+import FlexBox from '@/ui/atoms/FlexBox';
+import Typography from '@/ui/atoms/Typography';
+import theme from '@/ui/theme';
+import ProfileStatusCard from '@/components/Profile/ProfileStatusCard/ProfileStatusCard';
 
 function MyInfoPage() {
-  const { isProfile } = useSelector(selectUser)
-  const { data: profile, isLoading, isError } = useGetProfileQuery()
+  const { isProfile } = useSelector(selectUser);
+  const { data: profile, isLoading, isError } = useGetProfileQuery();
 
-  const router = useRouter()
+  const router = useRouter();
 
   if (isLoading) {
     if (!isProfile) {
@@ -32,12 +32,12 @@ function MyInfoPage() {
             프로필 작성하러 가기
           </Button>
         </FlexBox>
-      )
+      );
     }
-    return <>로딩 중</>
+    return <>로딩 중</>;
   }
   if (isError) {
-    return <>error</>
+    return <>error</>;
   }
 
   return (
@@ -66,7 +66,7 @@ function MyInfoPage() {
         </ProfileCard>
       </MenteeProfile>
     </SinglePageLayout>
-  )
+  );
 }
 
-export default MyInfoPage
+export default MyInfoPage;

@@ -1,19 +1,19 @@
-import styled from '@emotion/styled'
-import Logo from '@icons/logo/recommend-icon.svg'
-import { usePathname, useRouter } from 'next/navigation'
-import { PageComponentLayout } from '@/components/pages/mentorsMain/PageComonentLayout'
-import theme from '@/ui/theme'
-import TitleSection from './TitleSection'
-import Button from '@/ui/atoms/Button'
-import MentorList from '@/components/Mentor/Mentors/MentorList'
-import { useJobRanksQuery } from '@/queries/jobQuery'
-import { useGetRecommendationMentorsQuery } from '@/queries/mentorQuery'
-import ApplyAndShareButtons from './ApplyAndShareButtons'
+import styled from '@emotion/styled';
+import Logo from '@icons/logo/recommend-icon.svg';
+import { usePathname, useRouter } from 'next/navigation';
+import { PageComponentLayout } from '@/components/pages/mentorsMain/PageComonentLayout';
+import theme from '@/ui/theme';
+import TitleSection from './TitleSection';
+import Button from '@/ui/atoms/Button';
+import MentorList from '@/components/Mentor/Mentors/MentorList';
+import { useJobRanksQuery } from '@/queries/jobQuery';
+import { useGetRecommendationMentorsQuery } from '@/queries/mentorQuery';
+import ApplyAndShareButtons from './ApplyAndShareButtons';
 
 function Recommendation() {
-  const router = useRouter()
-  const isMainPage = !usePathname().includes('mentorsMain')
-  const { data: jobRanks } = useJobRanksQuery()
+  const router = useRouter();
+  const isMainPage = !usePathname().includes('mentorsMain');
+  const { data: jobRanks } = useJobRanksQuery();
   const {
     data: recommendationMentors,
     isSuccess: isRecommendationMentorsSuccess,
@@ -22,7 +22,7 @@ function Recommendation() {
     firstJob: jobRanks?.infos[0]?.job!,
     secondJob: jobRanks?.infos[1]?.job! ?? '',
     thirdJob: jobRanks?.infos[2]?.job! ?? '',
-  })
+  });
   return (
     <PageComponentLayout>
       <TitleSection
@@ -56,11 +56,11 @@ function Recommendation() {
       </div>
       {/* <ApplyAndShareButtons /> */}
     </PageComponentLayout>
-  )
+  );
 }
 
 const MoreMentorsButton = styled(Button)({
   fontWeight: theme.fonts.weight.black,
-})
+});
 
-export default Recommendation
+export default Recommendation;

@@ -1,24 +1,24 @@
-'use client'
+'use client';
 
-import { useSearchParams } from 'next/navigation'
-import { useState } from 'react'
-import SinglePageLayout from '@/components/Layout/SinglePageLayout'
-import MentoringPlatformModal from '@/components/Mentoring/MentoringPlatformModal'
-import MenteeProfile from '@/components/Profile/MenteeProfile/MenteeProfile'
-import ProfileCard, { Footer } from '@/components/Profile/ProfileCard'
-import Content from '@/components/Profile/ProfileCard/Content'
-import useGetProfileQuery from '@/queries/profileQuery'
-import Button from '@/ui/atoms/Button'
-import theme from '@/ui/theme'
-import ProfileStatusCard from '@/components/Profile/ProfileStatusCard/ProfileStatusCard'
+import { useSearchParams } from 'next/navigation';
+import { useState } from 'react';
+import SinglePageLayout from '@/components/Layout/SinglePageLayout';
+import MentoringPlatformModal from '@/components/Mentoring/MentoringPlatformModal';
+import MenteeProfile from '@/components/Profile/MenteeProfile/MenteeProfile';
+import ProfileCard, { Footer } from '@/components/Profile/ProfileCard';
+import Content from '@/components/Profile/ProfileCard/Content';
+import useGetProfileQuery from '@/queries/profileQuery';
+import Button from '@/ui/atoms/Button';
+import theme from '@/ui/theme';
+import ProfileStatusCard from '@/components/Profile/ProfileStatusCard/ProfileStatusCard';
 
 function MentoringMenteeProfilePage({}) {
-  const param = useSearchParams()
-  const profileId = param.get('profileId')!
-  const mentoringId = param.get('mentoringId')!
-  const platform = param.get('platform')
-  const { data: profile } = useGetProfileQuery(profileId!)
-  const [openModal, setOpenModal] = useState(false)
+  const param = useSearchParams();
+  const profileId = param.get('profileId')!;
+  const mentoringId = param.get('mentoringId')!;
+  const platform = param.get('platform');
+  const { data: profile } = useGetProfileQuery(profileId!);
+  const [openModal, setOpenModal] = useState(false);
   return (
     <SinglePageLayout>
       <MenteeProfile profile={profile}>
@@ -59,7 +59,7 @@ function MentoringMenteeProfilePage({}) {
         </ProfileCard>
       </MenteeProfile>
     </SinglePageLayout>
-  )
+  );
 }
 
-export default MentoringMenteeProfilePage
+export default MentoringMenteeProfilePage;

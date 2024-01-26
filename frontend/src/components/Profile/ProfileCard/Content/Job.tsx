@@ -1,5 +1,5 @@
-import Typography from '@/ui/atoms/Typography'
-import theme from '@/ui/theme'
+import Typography from '@/ui/atoms/Typography';
+import theme from '@/ui/theme';
 
 function Job({ job }: { job: string }) {
   return (
@@ -11,7 +11,7 @@ function Job({ job }: { job: string }) {
     >
       {job!}
     </Typography>
-  )
+  );
 }
 
-export default Job
+export default Job;

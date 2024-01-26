@@ -1,12 +1,12 @@
-import { useRouter } from 'next/navigation'
-import Button from '@/ui/atoms/Button'
-import FlexBox from '@/ui/atoms/FlexBox'
-import StyledLink from '@/ui/atoms/Link'
-import Typography from '@/ui/atoms/Typography'
-import theme from '@/ui/theme'
+import { useRouter } from 'next/navigation';
+import Button from '@/ui/atoms/Button';
+import FlexBox from '@/ui/atoms/FlexBox';
+import StyledLink from '@/ui/atoms/Link';
+import Typography from '@/ui/atoms/Typography';
+import theme from '@/ui/theme';
 
 function NonUserAppBarMenu() {
-  const router = useRouter()
+  const router = useRouter();
 
   return (
     <FlexBox justifyContent="flex-end" columnGap="30px">
@@ -31,7 +31,7 @@ function NonUserAppBarMenu() {
         로그인
       </Button>
     </FlexBox>
-  )
+  );
 }
 
-export default NonUserAppBarMenu
+export default NonUserAppBarMenu;

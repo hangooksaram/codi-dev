@@ -1,16 +1,16 @@
-import styled from '@emotion/styled'
-import theme from '../theme'
-import FlexBox from './FlexBox'
-import Typography from './Typography'
+import styled from '@emotion/styled';
+import theme from '../theme';
+import FlexBox from './FlexBox';
+import Typography from './Typography';
 
 export function ContentText({
   text,
   helpText,
   labelColor,
 }: {
-  text: string
-  helpText?: string
-  labelColor?: string
+  text: string;
+  helpText?: string;
+  labelColor?: string;
 }) {
   return (
     <FlexBox
@@ -30,7 +30,7 @@ export function ContentText({
         {helpText!}
       </Typography>
     </FlexBox>
-  )
+  );
 }
 
 export const ContentTextAdorement = styled.div(
@@ -41,10 +41,10 @@ export const ContentTextAdorement = styled.div(
     marginRight: '15px',
     backgroundColor: color ?? theme.colors.primary.main,
   }),
-)
+);
 
 export const StyledContentText = styled.div`
   min-width: fit-content;
   font-size: ${theme.fonts.size.md};
   font-weight: ${theme.fonts.weight.extraBold};
-`
+`;

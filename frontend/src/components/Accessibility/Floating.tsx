@@ -1,14 +1,14 @@
-'use client'
+'use client';
 
-import FloatIcon from '@icons/common/float.svg'
-import styled from '@emotion/styled'
-import { useEffect, useLayoutEffect, useState } from 'react'
-import { usePathname } from 'next/navigation'
-import { useDispatch, useSelector } from 'react-redux'
-import { createPortal } from 'react-dom'
-import highlightImage from '@images/webAccessibility/highlight.png'
-import focusingboxImage from '@images/webAccessibility/focusingbox.png'
-import Overlay from '@/ui/atoms/BackgroundOverlay'
+import FloatIcon from '@icons/common/float.svg';
+import styled from '@emotion/styled';
+import { useEffect, useLayoutEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
+import { useDispatch, useSelector } from 'react-redux';
+import { createPortal } from 'react-dom';
+import highlightImage from '@images/webAccessibility/highlight.png';
+import focusingboxImage from '@images/webAccessibility/focusingbox.png';
+import Overlay from '@/ui/atoms/BackgroundOverlay';
 import {
   initializeAll,
   selectFocused,
@@ -21,23 +21,23 @@ import {
   setLetterSpacing,
   setLineHeight,
   setZoom,
-} from '@/features/webAccessibility/webAccessibilitySlice'
-import ImageComponent from '@/ui/atoms/ImageComponent'
-import FlexBox from '@/ui/atoms/FlexBox'
-import Typography from '@/ui/atoms/Typography'
-import Card from '@/ui/atoms/Card'
-import theme, { device } from '@/ui/theme'
-import Button from '@/ui/atoms/Button'
-import { SetState } from '@/index'
-import { MOBILE_NAVIGATION_HEIGHT } from '@/constants'
+} from '@/features/webAccessibility/webAccessibilitySlice';
+import ImageComponent from '@/ui/atoms/ImageComponent';
+import FlexBox from '@/ui/atoms/FlexBox';
+import Typography from '@/ui/atoms/Typography';
+import Card from '@/ui/atoms/Card';
+import theme, { device } from '@/ui/theme';
+import Button from '@/ui/atoms/Button';
+import { SetState } from '@/index';
+import { MOBILE_NAVIGATION_HEIGHT } from '@/constants';
 
-const BOX_LIST = ['하이라이터', '포커싱 박스']
+const BOX_LIST = ['하이라이터', '포커싱 박스'];
 
 function Floating() {
-  const path = usePathname()
-  const [open, setOpen] = useState(false)
+  const path = usePathname();
+  const [open, setOpen] = useState(false);
 
-  if (path === '/signin/') return
+  if (path === '/signin/') return;
 
   return (
     <>
@@ -53,33 +53,33 @@ function Floating() {
       {open && (
         <Overlay
           onClick={() => {
-            setOpen(false)
+            setOpen(false);
           }}
         />
       )}
       {open && <FloatingMenu setOpen={setOpen} />}
     </>
-  )
+  );
 }
 
 function FloatingMenu({ setOpen }: { setOpen: SetState<boolean> }) {
-  const dispatch = useDispatch()
-  const highlight = useSelector(selectHighlight)
-  const focused = useSelector(selectFocused)
-  const letterSpacing = useSelector(selectLetterSpacing)
-  const lineHeight = useSelector(selectLineHeight)
-  const zoom = useSelector(selectZoom)
+  const dispatch = useDispatch();
+  const highlight = useSelector(selectHighlight);
+  const focused = useSelector(selectFocused);
+  const letterSpacing = useSelector(selectLetterSpacing);
+  const lineHeight = useSelector(selectLineHeight);
+  const zoom = useSelector(selectZoom);
   const applyOption = (type: string) => {
     if (type === '하이라이터') {
-      dispatch(setHighlight())
-      return
+      dispatch(setHighlight());
+      return;
     }
-    dispatch(setFocused())
-  }
+    dispatch(setFocused());
+  };
 
   const initializeOption = () => {
-    dispatch(initializeAll())
-  }
+    dispatch(initializeAll());
+  };
   return (
     <StyledFloating.Menu color={theme.colors.primary.main}>
       <FlexBox direction="column" rowGap="40px" alignItems="flex-start">
@@ -260,7 +260,7 @@ function FloatingMenu({ setOpen }: { setOpen: SetState<boolean> }) {
               width="100%"
               color={theme.colors.white}
               onClick={() => {
-                setOpen(false)
+                setOpen(false);
               }}
             >
               닫기
@@ -269,7 +269,7 @@ function FloatingMenu({ setOpen }: { setOpen: SetState<boolean> }) {
         </>
       </FlexBox>
     </StyledFloating.Menu>
-  )
+  );
 }
 
 const StyledFloating = {
@@ -336,6 +336,6 @@ const StyledFloating = {
     right: '30px',
     color: theme.colors.black,
   }),
-}
+};
 
-export default Floating
+export default Floating;

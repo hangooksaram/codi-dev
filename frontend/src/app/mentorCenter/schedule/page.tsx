@@ -1,64 +1,64 @@
-'use client'
+'use client';
 
-import { css } from '@emotion/css'
-import { useEffect, useState } from 'react'
-import { SchedulesContainer } from '@/components/Mentoring/MentoringsWithSingleCalendar'
-import MentorScheduleEdit from '@/components/Schedule/Mentor/MentorScheduleEdit'
+import { css } from '@emotion/css';
+import { useEffect, useState } from 'react';
+import { SchedulesContainer } from '@/components/Mentoring/MentoringsWithSingleCalendar';
+import MentorScheduleEdit from '@/components/Schedule/Mentor/MentorScheduleEdit';
 import {
   useDailyMentoringsQuery,
   useMonthlyMentoringsQuery,
-} from '@/queries/mentoring/commonMentoringQuery'
-import Button from '@/ui/atoms/Button'
-import LabelBox from '@/ui/molecules/LabelBox'
-import { formattedDate, formattedMonth } from '@/utils/dateFormat'
+} from '@/queries/mentoring/commonMentoringQuery';
+import Button from '@/ui/atoms/Button';
+import LabelBox from '@/ui/molecules/LabelBox';
+import { formattedDate, formattedMonth } from '@/utils/dateFormat';
 import useDailySchedulesQuery, {
   useMonthlySchedulesQuery,
-} from '@/queries/scheduleQuery'
-import MentorSchedules from '@/components/Schedule/Mentor/MentorSchedules'
-import CalendarContainer from '@/components/Container/CalendarContainer'
-import Mentorings from '@/components/Mentoring/Mentorings'
+} from '@/queries/scheduleQuery';
+import MentorSchedules from '@/components/Schedule/Mentor/MentorSchedules';
+import CalendarContainer from '@/components/Container/CalendarContainer';
+import Mentorings from '@/components/Mentoring/Mentorings';
 
 function SchedulePage() {
-  const [date, setDate] = useState<Date>()
-  const [month, setMonth] = useState<string>()
+  const [date, setDate] = useState<Date>();
+  const [month, setMonth] = useState<string>();
 
-  const [type, setType] = useState<'mentor' | 'mentee'>('mentee')
-  const [isEdit, setIsEdit] = useState(false)
-  const [isScheduleEdited, setIsScheduleEdited] = useState(false)
+  const [type, setType] = useState<'mentor' | 'mentee'>('mentee');
+  const [isEdit, setIsEdit] = useState(false);
+  const [isScheduleEdited, setIsScheduleEdited] = useState(false);
   const { data: dailySchedules, refetch: refetchDailySchedule } =
-    useDailySchedulesQuery(formattedDate(date))
+    useDailySchedulesQuery(formattedDate(date));
   const { data: monthlySchedules, refetch: refetchMonthlySchedule } =
-    useMonthlySchedulesQuery(formattedMonth(new Date()))
+    useMonthlySchedulesQuery(formattedMonth(new Date()));
 
   const { data: mentoringsData } = useMonthlyMentoringsQuery({
     month: month ?? formattedMonth(new Date()),
     type: 'mentors',
-  })
+  });
 
   const { data: dailyMentoringData } = useDailyMentoringsQuery({
     date: formattedDate(date),
     type: 'mentors',
-  })
+  });
 
   const mentoringSchedules = mentoringsData?.monthlyMentoringMembers!.map(
     ({ date, mentoringStatus }) => ({
       date,
       mentoringStatus,
     }),
-  )
+  );
 
   const toggleEditState = () => {
-    setType((prev) => (prev === 'mentor' ? 'mentee' : 'mentor'))
-    setIsEdit((prev) => !prev)
+    setType((prev) => (prev === 'mentor' ? 'mentee' : 'mentor'));
+    setIsEdit((prev) => !prev);
     if (!date) {
-      setDate(new Date())
+      setDate(new Date());
     }
-  }
+  };
 
   useEffect(() => {
-    if (isScheduleEdited) refetchDailySchedule()
-    setIsScheduleEdited(false)
-  }, [isScheduleEdited])
+    if (isScheduleEdited) refetchDailySchedule();
+    setIsScheduleEdited(false);
+  }, [isScheduleEdited]);
 
   return (
     <LabelBox
@@ -119,7 +119,7 @@ function SchedulePage() {
         )}
       </div>
     </LabelBox>
-  )
+  );
 }
 
-export default SchedulePage
+export default SchedulePage;

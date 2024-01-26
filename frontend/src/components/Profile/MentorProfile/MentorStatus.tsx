@@ -1,5 +1,5 @@
-import FlexBox from '@/ui/atoms/FlexBox'
-import ProfileStatusCard from '../ProfileStatusCard/ProfileStatusCard'
+import FlexBox from '@/ui/atoms/FlexBox';
+import ProfileStatusCard from '../ProfileStatusCard/ProfileStatusCard';
 
 function MentorStatus() {
   return (
@@ -16,7 +16,7 @@ function MentorStatus() {
         <ProfileStatusCard text={text} value={value} key={index} />
       ))}
     </FlexBox>
-  )
+  );
 }
 
-export default MentorStatus
+export default MentorStatus;

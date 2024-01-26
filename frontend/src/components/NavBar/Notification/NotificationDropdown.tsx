@@ -1,14 +1,14 @@
-import { ReactNode, RefObject, forwardRef, useRef, useState } from 'react'
-import styled from '@emotion/styled'
-import Alarm from '@icons/common/alarm.svg'
-import theme from '@/ui/theme'
-import useClickOutOfInput from '@/hooks/useClickOutOfInput'
-import Button from '@/ui/atoms/Button'
+import { ReactNode, RefObject, forwardRef, useRef, useState } from 'react';
+import styled from '@emotion/styled';
+import Alarm from '@icons/common/alarm.svg';
+import theme from '@/ui/theme';
+import useClickOutOfInput from '@/hooks/useClickOutOfInput';
+import Button from '@/ui/atoms/Button';
 
 function NotificationDropdown({ children }: { children: ReactNode }) {
-  const [open, setOpen] = useState(false)
-  const ref = useRef<HTMLUListElement>(null)
-  useClickOutOfInput('notification', setOpen)
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLUListElement>(null);
+  useClickOutOfInput('notification', setOpen);
   return (
     <NotificationDropdownContainer width="100%">
       <NotificationButton
@@ -30,12 +30,12 @@ function NotificationDropdown({ children }: { children: ReactNode }) {
         </NotificationDropdownContent>
       )}
     </NotificationDropdownContainer>
-  )
+  );
 }
 
 const NotificationButton = styled(Button)`
   padding: 0px;
-`
+`;
 
 export const NotificationDropdownContainer = styled.div(
   ({ width }: { width?: string }) => ({
@@ -43,7 +43,7 @@ export const NotificationDropdownContainer = styled.div(
     minWidth: 'fit-content',
     position: 'relative',
   }),
-)
+);
 
 export const NotificationDropdownButton = styled(Button)(
   ({ invalid }: { invalid: boolean | undefined }) => ({
@@ -54,7 +54,7 @@ export const NotificationDropdownButton = styled(Button)(
         ? theme.colors.error
         : theme.colors.gray.main,
   }),
-)
+);
 
 const NotificationDropdownContent = styled.ul(
   ({ width, left }: { width?: string; left?: boolean }) => ({
@@ -76,7 +76,7 @@ const NotificationDropdownContent = styled.ul(
     border: `1px solid ${theme.colors.gray.main}`,
     overscrollBehavior: 'none',
   }),
-)
+);
 
 export const NotificationDropdownItem = styled.button`
   text-align: left;
@@ -96,12 +96,12 @@ export const NotificationDropdownItem = styled.button`
     background-color: ${theme.colors.primary.main};
     color: ${theme.colors.white};
   }
-`
+`;
 
 export const Divider = styled.div`
   width: 90%;
   margin: 0 auto;
   height: 2px;
   background-color: ${theme.colors.background};
-`
-export default NotificationDropdown
+`;
+export default NotificationDropdown;

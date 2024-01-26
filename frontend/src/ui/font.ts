@@ -1,4 +1,4 @@
-import localFont from 'next/font/local'
+import localFont from 'next/font/local';
 
 const myFont = localFont({
   src: [
@@ -11,6 +11,6 @@ const myFont = localFont({
     { path: '../../public/fonts/en/Lexend-Bold.ttf', weight: '700' },
     { path: '../../public/fonts/en/Lexend-Black.ttf', weight: '900' },
   ],
-})
+});
 
-export default myFont
+export default myFont;

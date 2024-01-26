@@ -3,58 +3,58 @@ import {
   MentoringMember,
   MentoringMentee,
   MonthlyMentoringMembers,
-} from '../mentoring'
-import { Mentor } from '../profile'
-import { Schedule } from '../schedule'
+} from '../mentoring';
+import { Mentor } from '../profile';
+import { Schedule } from '../schedule';
 
 export interface ApplyMentoringBody {
-  applicationReason: string
-  date: string
-  time: string
+  applicationReason: string;
+  date: string;
+  time: string;
 }
-type GetMentoringType = 'mentees' | 'mentors'
+type GetMentoringType = 'mentees' | 'mentors';
 
 export interface GetDailyMentoringsParams {
-  date: string
-  type: GetMentoringType
+  date: string;
+  type: GetMentoringType;
 }
 
 export interface GetMonthlyMentoringsParams {
-  month: string
-  type: GetMentoringType
+  month: string;
+  type: GetMentoringType;
 }
 
 export interface GetMentoringAppliesResponse {
-  data: GetMentoringAppliesResponseData[]
-  pageInfo: PageInfo
+  data: GetMentoringAppliesResponseData[];
+  pageInfo: PageInfo;
 }
 
 export interface GetMentoringAppliesResponseData {
-  mentoringId: number
+  mentoringId: number;
   menteeInfo: {
-    profileId: number
-    name: string
-    employmentStatus: string
-    desiredJob: string
-    disability: string
-    severity: string
-    imgUrl: string
-  }
-  applicationDate: string
-  applicationReason: string
+    profileId: number;
+    name: string;
+    employmentStatus: string;
+    desiredJob: string;
+    disability: string;
+    severity: string;
+    imgUrl: string;
+  };
+  applicationDate: string;
+  applicationReason: string;
 }
 
 export interface GetMonthlyMentoringsResponse {
-  month: string
-  monthlyMentoringMembers: DailyMentoringMember[]
+  month: string;
+  monthlyMentoringMembers: DailyMentoringMember[];
 }
 
 export interface GetDailyMentoringsResponse {
-  date: string
-  mentoringMembers: MentoringMember[]
+  date: string;
+  mentoringMembers: MentoringMember[];
 }
 
 export interface GetTodayMentoringsResponse {
-  applicationDate: string
-  mentorInfo: Mentor
+  applicationDate: string;
+  mentorInfo: Mentor;
 }

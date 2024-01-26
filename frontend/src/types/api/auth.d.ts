@@ -1,10 +1,10 @@
 export interface CheckAccessTokenResponse {
-  isLoggedIn: boolean
+  isLoggedIn: boolean;
 }
 
 export interface CheckLoginInfoResponse {
-  id?: string
-  isMentor?: boolean
-  isProfile?: boolean
-  profileImageUrl?: string
+  id?: string;
+  isMentor?: boolean;
+  isProfile?: boolean;
+  profileImageUrl?: string;
 }

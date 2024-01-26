@@ -1,24 +1,24 @@
-'use client'
+'use client';
 
-import React, { useState } from 'react'
-import Schedule from '@icons/calendar/calendar-schedule.svg'
-import Hamburger from '@icons/mentorCenter/hamburger.svg'
-import MentorProfile from '@icons/mentorCenter/mentor-profile.svg'
-import Menu from '@icons/mobile/mobile-menu.svg'
+import React, { useState } from 'react';
+import Schedule from '@icons/calendar/calendar-schedule.svg';
+import Hamburger from '@icons/mentorCenter/hamburger.svg';
+import MentorProfile from '@icons/mentorCenter/mentor-profile.svg';
+import Menu from '@icons/mobile/mobile-menu.svg';
 import SideBar, {
   MobileMenuButton,
   SideBarOverlay,
-} from '@/components/NavBar/SideBar/SideBar'
-import theme from '@/ui/theme'
-import FlexBox from '@/ui/atoms/FlexBox'
-import LayoutWithSideBar from '@/components/Layout/LayoutWithSideBar'
+} from '@/components/NavBar/SideBar/SideBar';
+import theme from '@/ui/theme';
+import FlexBox from '@/ui/atoms/FlexBox';
+import LayoutWithSideBar from '@/components/Layout/LayoutWithSideBar';
 
 export default function MentorCenterLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
 
   const navigators = [
     {
@@ -40,7 +40,7 @@ export default function MentorCenterLayout({
       name: '멘토 프로필',
       href: '/mentorCenter/profile',
     },
-  ]
+  ];
   return (
     <FlexBox
       justifyContent="flex-start"
@@ -60,5 +60,5 @@ export default function MentorCenterLayout({
       <SideBar navigators={navigators} open={open} setOpen={setOpen} />
       <LayoutWithSideBar>{children}</LayoutWithSideBar>
     </FlexBox>
-  )
+  );
 }

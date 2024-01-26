@@ -1,33 +1,33 @@
-'use client'
+'use client';
 
-import { FormEvent, use, useEffect, useState } from 'react'
-import IdIcon from '@icons/common/id.svg'
-import PasswordIcon from '@icons/common/password.svg'
-import TagIcon from '@icons/common/tag.svg'
-import { useRouter } from 'next/navigation'
-import { useDispatch } from 'react-redux'
-import { FormContainer } from '@/ui/atoms/Container'
-import Typography from '@/ui/atoms/Typography'
-import theme from '@/ui/theme'
-import Button from '@/ui/atoms/Button'
-import ContentTextContainer from '@/ui/molecules/Container/ContentTextContainer'
-import IconInputContainer from '@/ui/molecules/Input/IconInput'
-import Input from '@/ui/atoms/Input'
-import FlexBox from '@/ui/atoms/FlexBox'
-import Dropdown from '@/ui/atoms/Dropdown'
+import { FormEvent, use, useEffect, useState } from 'react';
+import IdIcon from '@icons/common/id.svg';
+import PasswordIcon from '@icons/common/password.svg';
+import TagIcon from '@icons/common/tag.svg';
+import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
+import { FormContainer } from '@/ui/atoms/Container';
+import Typography from '@/ui/atoms/Typography';
+import theme from '@/ui/theme';
+import Button from '@/ui/atoms/Button';
+import ContentTextContainer from '@/ui/molecules/Container/ContentTextContainer';
+import IconInputContainer from '@/ui/molecules/Input/IconInput';
+import Input from '@/ui/atoms/Input';
+import FlexBox from '@/ui/atoms/FlexBox';
+import Dropdown from '@/ui/atoms/Dropdown';
 import {
   checkDuplicateId as postCheckDuplicateId,
   signIn,
   signUp,
-} from '@/api/signApi'
-import { DATE } from '@/constants'
+} from '@/api/signApi';
+import { DATE } from '@/constants';
 
-import { handleApiCallback } from '@/utils/api'
-import { SignUpBody } from '@/types/api/sign'
+import { handleApiCallback } from '@/utils/api';
+import { SignUpBody } from '@/types/api/sign';
 
-import Label from '@/ui/atoms/Label'
-import { setIsLoggedIn } from '@/features/auth/authSlice'
-import useForm from '@/hooks/useNewForm/useForm'
+import Label from '@/ui/atoms/Label';
+import { setIsLoggedIn } from '@/features/auth/authSlice';
+import useForm from '@/hooks/useNewForm/useForm';
 
 const signUpFormValues = {
   birth: '',
@@ -36,7 +36,7 @@ const signUpFormValues = {
   gender: '선택안함',
   name: '',
   password: '',
-}
+};
 
 const signUpFormValidation = {
   id: {
@@ -53,22 +53,22 @@ const signUpFormValidation = {
   name: {
     required: true,
   },
-}
+};
 
 const GENDER_LIST = [
   { name: '남자', key: 'MAN' },
   { name: '여자', key: 'WOMAN' },
   { name: '선택하지 않음', key: 'NOT_CHECKED' },
-]
+];
 
 function SignUpPage() {
-  const [emailType, setEmailType] = useState('gmail.com')
-  const [gender, setGender] = useState(GENDER_LIST[2])
+  const [emailType, setEmailType] = useState('gmail.com');
+  const [gender, setGender] = useState(GENDER_LIST[2]);
   const [birth, setBirth] = useState({
     year: 1990,
     month: 1,
     day: 1,
-  })
+  });
 
   const {
     form,
@@ -77,39 +77,39 @@ function SignUpPage() {
     validateAllFormValues,
     setIsSubmitted,
     convertToFormData,
-  } = useForm(signUpFormValues, signUpFormValidation)
+  } = useForm(signUpFormValues, signUpFormValidation);
 
   const [isIdDuplicated, setIsIdDuplicated] = useState<Boolean | undefined>(
     undefined,
-  )
+  );
 
-  const router = useRouter()
+  const router = useRouter();
 
   const checkDuplicateId = async () => {
     const { data, status, errorMessage } = await postCheckDuplicateId<boolean>(
       form.id.value,
-    )
+    );
     handleApiCallback(
       status!,
       () => setIsIdDuplicated(data === true),
       () => alert(`호출 실패 : ${errorMessage}`),
-    )
-  }
+    );
+  };
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    const isFormValid = validateAllFormValues()
+    const isFormValid = validateAllFormValues();
 
     if (isFormValid) {
-      const formData = convertToFormData()
+      const formData = convertToFormData();
 
       const { status, errorMessage } = await signUp({
         ...formData,
         email: `${form.email.value}@${emailType}`,
-      } as SignUpBody)
+      } as SignUpBody);
 
       handleApiCallback(
         status!,
@@ -117,14 +117,14 @@ function SignUpPage() {
           const { data } = await signIn({
             id: form.id.value,
             password: form.password.value,
-          })
-          if (data) dispatch(setIsLoggedIn(true))
-          router.push('complete')
+          });
+          if (data) dispatch(setIsLoggedIn(true));
+          router.push('/signup/complete');
         },
         () => alert(`호출 실패 : ${errorMessage}`),
-      )
+      );
     }
-  }
+  };
 
   useEffect(() => {
     setForm((prevForm) => {
@@ -134,15 +134,15 @@ function SignUpPage() {
           ...form.gender,
           value: gender.key,
         },
-      }
-    })
-  }, [gender])
+      };
+    });
+  }, [gender]);
 
   useEffect(() => {
-    const { year, month, day } = birth
+    const { year, month, day } = birth;
     const stringifiedBirth = `${year}/${month < 10 ? '0' : ''}${month}/${
       day < 10 ? '0' : ''
-    }${day}`
+    }${day}`;
     setForm((prevForm) => {
       return {
         ...prevForm,
@@ -150,9 +150,9 @@ function SignUpPage() {
           ...form.birth,
           value: stringifiedBirth,
         },
-      }
-    })
-  }, [birth])
+      };
+    });
+  }, [birth]);
 
   return (
     <FormContainer>
@@ -319,10 +319,10 @@ function SignUpPage() {
         </FlexBox>
       </form>
     </FormContainer>
-  )
+  );
 }
 
-export default SignUpPage
+export default SignUpPage;
 
 {
   /* <FlexBox justifyContent="space-between" columnGap="10px">

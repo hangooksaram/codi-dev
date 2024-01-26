@@ -1,28 +1,28 @@
-import { createSlice } from '@reduxjs/toolkit'
-import type { RootState } from '../../store/store'
-import { User } from '@/types/user'
+import { createSlice } from '@reduxjs/toolkit';
+import type { RootState } from '../../store/store';
+import { User } from '@/types/user';
 
 const initialState: User = {
   id: undefined,
   isMentor: false,
   isProfile: false,
   profileImageUrl: '',
-}
+};
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
     setUser: (state, action) => {
-      const { payload } = action
-      const newState = { ...state, ...payload }
+      const { payload } = action;
+      const newState = { ...state, ...payload };
 
-      return newState
+      return newState;
     },
   },
-})
+});
 
-export const { setUser } = userSlice.actions
-export const selectUser = (state: RootState) => state.user
+export const { setUser } = userSlice.actions;
+export const selectUser = (state: RootState) => state.user;
 
-export default userSlice.reducer
+export default userSlice.reducer;

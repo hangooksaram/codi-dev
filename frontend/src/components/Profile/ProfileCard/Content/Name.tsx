@@ -1,5 +1,5 @@
-import Typography from '@/ui/atoms/Typography'
-import theme from '@/ui/theme'
+import Typography from '@/ui/atoms/Typography';
+import theme from '@/ui/theme';
 
 function Name({ name }: { name: string }) {
   return (
@@ -12,7 +12,7 @@ function Name({ name }: { name: string }) {
     >
       {name!}
     </Typography>
-  )
+  );
 }
 
-export default Name
+export default Name;

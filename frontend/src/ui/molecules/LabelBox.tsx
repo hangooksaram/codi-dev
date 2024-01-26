@@ -1,8 +1,8 @@
-import { ReactNode } from 'react'
-import styled from '@emotion/styled'
-import { ContentText } from '../atoms/ContentText'
-import { device } from '../theme'
-import FlexBox from '../atoms/FlexBox'
+import { ReactNode } from 'react';
+import styled from '@emotion/styled';
+import { ContentText } from '../atoms/ContentText';
+import { device } from '../theme';
+import FlexBox from '../atoms/FlexBox';
 
 function LabelBox({
   width,
@@ -11,11 +11,11 @@ function LabelBox({
   children,
   adornment,
 }: {
-  width?: string
-  text: string
-  helpText?: string
-  children?: ReactNode
-  adornment?: JSX.Element
+  width?: string;
+  text: string;
+  helpText?: string;
+  children?: ReactNode;
+  adornment?: JSX.Element;
 }) {
   return (
     <StyledLabelBox>
@@ -26,7 +26,7 @@ function LabelBox({
 
       {children}
     </StyledLabelBox>
-  )
+  );
 }
 
 const StyledLabelBox = styled.div(({ width }: { width?: string }) => ({
@@ -34,6 +34,6 @@ const StyledLabelBox = styled.div(({ width }: { width?: string }) => ({
   [device('tablet')]: {
     width: '100%',
   },
-}))
+}));
 
-export default LabelBox
+export default LabelBox;

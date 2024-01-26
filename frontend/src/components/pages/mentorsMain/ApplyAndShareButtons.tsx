@@ -1,19 +1,19 @@
-import { useRouter } from 'next/navigation'
-import { useSelector } from 'react-redux'
-import { useEffect } from 'react'
-import { HOMEPAGE_URL } from '@/constants'
-import { selectUser } from '@/features/user/userSlice'
-import FlexBox from '@/ui/atoms/FlexBox'
-import StyledImage from '@/ui/atoms/StyledImage'
-import { copyText } from '@/utils/clipboard'
+import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { HOMEPAGE_URL } from '@/constants';
+import { selectUser } from '@/features/user/userSlice';
+import FlexBox from '@/ui/atoms/FlexBox';
+import StyledImage from '@/ui/atoms/StyledImage';
+import { copyText } from '@/utils/clipboard';
 
 function ApplyAndShareButtons() {
-  const { isMentor, id } = useSelector(selectUser)
-  const router = useRouter()
+  const { isMentor, id } = useSelector(selectUser);
+  const router = useRouter();
 
   useEffect(() => {
-    copyText('recommend', 'homepageUrl', '홈페이지 주소')
-  }, [])
+    copyText('recommend', 'homepageUrl', '홈페이지 주소');
+  }, []);
 
   return (
     <FlexBox>
@@ -41,7 +41,7 @@ function ApplyAndShareButtons() {
         {...{ cursor: 'pointer' }}
       />
     </FlexBox>
-  )
+  );
 }
 
-export default ApplyAndShareButtons
+export default ApplyAndShareButtons;

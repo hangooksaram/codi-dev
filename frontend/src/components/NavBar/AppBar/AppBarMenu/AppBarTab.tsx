@@ -1,11 +1,11 @@
-import Link from 'next/link'
-import Logo from '@icons/logo/logo-primary.svg'
-import { usePathname } from 'next/navigation'
-import { TopNavigator } from '@/ui/atoms/Navigator'
-import FlexBox from '@/ui/atoms/FlexBox'
+import Link from 'next/link';
+import Logo from '@icons/logo/logo-primary.svg';
+import { usePathname } from 'next/navigation';
+import { TopNavigator } from '@/ui/atoms/Navigator';
+import FlexBox from '@/ui/atoms/FlexBox';
 
 function AppBarTab() {
-  const path = usePathname()
+  const path = usePathname();
   return (
     <FlexBox
       justifyContent="space-between"
@@ -22,7 +22,7 @@ function AppBarTab() {
         멘티 센터
       </TopNavigator>
     </FlexBox>
-  )
+  );
 }
 
-export default AppBarTab
+export default AppBarTab;

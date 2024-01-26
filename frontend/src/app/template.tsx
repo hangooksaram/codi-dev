@@ -1,12 +1,12 @@
-'use client'
+'use client';
 
-import { useEffect } from 'react'
-import AuthContainer from '@/components/Container/AuthContainer'
+import { useEffect } from 'react';
+import AuthContainer from '@/components/Container/AuthContainer';
 
 export default function AuthTemplate({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
-  return <AuthContainer>{children}</AuthContainer>
+  return <AuthContainer>{children}</AuthContainer>;
 }

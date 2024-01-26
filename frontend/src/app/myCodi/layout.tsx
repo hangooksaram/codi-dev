@@ -1,30 +1,30 @@
-'use client'
+'use client';
 
-import React, { useState } from 'react'
-import Profile from '@icons/common/profile.svg'
-import Verified from '@icons/common/verified.svg'
-import { useSelector } from 'react-redux'
-import Menu from '@icons/mobile/mobile-menu.svg'
-import { useRouter } from 'next/navigation'
+import React, { useState } from 'react';
+import Profile from '@icons/common/profile.svg';
+import Verified from '@icons/common/verified.svg';
+import { useSelector } from 'react-redux';
+import Menu from '@icons/mobile/mobile-menu.svg';
+import { useRouter } from 'next/navigation';
 import SideBar, {
   MobileMenuButton,
   SideBarOverlay,
-} from '@/components/NavBar/SideBar/SideBar'
-import theme from '@/ui/theme'
-import FlexBox from '@/ui/atoms/FlexBox'
-import LayoutWithSideBar from '@/components/Layout/LayoutWithSideBar'
-import { selectUser } from '@/features/user/userSlice'
-import Typography from '@/ui/atoms/Typography'
-import Button from '@/ui/atoms/Button'
+} from '@/components/NavBar/SideBar/SideBar';
+import theme from '@/ui/theme';
+import FlexBox from '@/ui/atoms/FlexBox';
+import LayoutWithSideBar from '@/components/Layout/LayoutWithSideBar';
+import { selectUser } from '@/features/user/userSlice';
+import Typography from '@/ui/atoms/Typography';
+import Button from '@/ui/atoms/Button';
 
 export default function MyCodiLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
-  const userId = useSelector(selectUser).id
-  const router = useRouter()
-  const [open, setOpen] = useState(false)
+  const userId = useSelector(selectUser).id;
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
 
   return (
     <FlexBox justifyContent="flex-start" alignItems="flex-start">
@@ -62,7 +62,7 @@ export default function MyCodiLayout({
         )}
       </LayoutWithSideBar>
     </FlexBox>
-  )
+  );
 }
 
 const navigators = [
@@ -84,4 +84,4 @@ const navigators = [
   //   name: "코디 뱃지",
   //   href: "/myInfo/badges/",
   // },
-]
+];

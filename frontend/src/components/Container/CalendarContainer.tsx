@@ -1,22 +1,22 @@
-import { css } from '@emotion/css'
-import { ReactNode, SetStateAction } from 'react'
-import styled from '@emotion/styled'
-import FlexBox from '@/ui/atoms/FlexBox'
-import { device } from '@/ui/theme'
-import SingleCalendar from '../Calendar/SingleCalendar'
+import { css } from '@emotion/css';
+import { ReactNode, SetStateAction } from 'react';
+import styled from '@emotion/styled';
+import FlexBox from '@/ui/atoms/FlexBox';
+import { device } from '@/ui/theme';
+import SingleCalendar from '../Calendar/SingleCalendar';
 
-import Card from '@/ui/atoms/Card'
-import { DailyMentoringStatus, MentoringMember } from '@/types/mentoring'
+import Card from '@/ui/atoms/Card';
+import { DailyMentoringStatus, MentoringMember } from '@/types/mentoring';
 
 interface CalendarContainerProps {
-  date: Date | undefined
-  setDate: React.Dispatch<SetStateAction<Date | undefined>>
-  setMonth?: React.Dispatch<SetStateAction<string | undefined>>
-  type: 'mentor' | 'mentee'
-  children: ReactNode
-  schedules?: string[]
+  date: Date | undefined;
+  setDate: React.Dispatch<SetStateAction<Date | undefined>>;
+  setMonth?: React.Dispatch<SetStateAction<string | undefined>>;
+  type: 'mentor' | 'mentee';
+  children: ReactNode;
+  schedules?: string[];
 
-  mentoringSchedules?: DailyMentoringStatus[]
+  mentoringSchedules?: DailyMentoringStatus[];
 }
 
 function CalendarContainer({
@@ -40,7 +40,7 @@ function CalendarContainer({
       />
       <Card padding="40px">{children}</Card>
     </StyledCalendarContainer>
-  )
+  );
 }
 
 const StyledCalendarContainer = styled(FlexBox)({
@@ -50,6 +50,6 @@ const StyledCalendarContainer = styled(FlexBox)({
     columnGap: '0px',
     rowGap: '20px',
   },
-})
+});
 
-export default CalendarContainer
+export default CalendarContainer;

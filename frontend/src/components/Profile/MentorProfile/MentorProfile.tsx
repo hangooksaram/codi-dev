@@ -1,18 +1,18 @@
-'use client'
+'use client';
 
-import styled from '@emotion/styled'
-import { ReactNode } from 'react'
-import FlexBox from '@/ui/atoms/FlexBox'
-import theme, { device } from '@/ui/theme'
-import { Mentor } from '@/types/profile'
-import MentorProfileInformation from './MentorProfileInformation'
+import styled from '@emotion/styled';
+import { ReactNode } from 'react';
+import FlexBox from '@/ui/atoms/FlexBox';
+import theme, { device } from '@/ui/theme';
+import { Mentor } from '@/types/profile';
+import MentorProfileInformation from './MentorProfileInformation';
 
 function MentorProfile({
   mentor,
   children,
 }: {
-  mentor?: Mentor
-  children?: ReactNode
+  mentor?: Mentor;
+  children?: ReactNode;
 }) {
   return (
     <FlexBox
@@ -30,13 +30,13 @@ function MentorProfile({
 
       <MentorProfileInformation mentor={mentor!} />
     </FlexBox>
-  )
+  );
 }
 const Divider = styled.div`
   width: 4px;
   height: 130px;
   border-radius: 4px;
   background: ${theme.colors.background};
-`
+`;
 
-export default MentorProfile
+export default MentorProfile;

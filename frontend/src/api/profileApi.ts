@@ -1,8 +1,8 @@
-import { AxiosResponse, AxiosResponseHeaders } from 'axios'
-import { handleApiError } from '@/utils/api'
-import customAxios from './customAxios'
-import { CommonApiResponse } from '@/types/api/common'
-import { getToken, setTokenToLocalStorage } from '@/utils/auth'
+import { AxiosResponse, AxiosResponseHeaders } from 'axios';
+import { handleApiError } from '@/utils/api';
+import customAxios from './customAxios';
+import { CommonApiResponse } from '@/types/api/common';
+import { getToken, setTokenToLocalStorage } from '@/utils/auth';
 
 export const registerProfile = async <T>(
   profile: FormData,
@@ -16,13 +16,13 @@ export const registerProfile = async <T>(
           'Content-Type': 'multitype/form-data',
         },
       },
-    )
-    setTokenToLocalStorage(getToken(headers as AxiosResponseHeaders)!)
-    return { data, status }
+    );
+    setTokenToLocalStorage(getToken(headers as AxiosResponseHeaders)!);
+    return { data, status };
   } catch (e) {
-    return handleApiError(e)
+    return handleApiError(e);
   }
-}
+};
 
 export const editProfile = async <T>(
   profile: FormData,
@@ -36,13 +36,13 @@ export const editProfile = async <T>(
           'Content-Type': 'multitype/form-data',
         },
       },
-    )
-    return { data, status }
+    );
+    return { data, status };
   } catch (e) {
-    return handleApiError(e)
+    return handleApiError(e);
   }
-}
+};
 
 export const getProfile = async (profileId?: string) => {
-  return (await customAxios.get(`/profiles/${profileId ?? ''}`)).data!
-}
+  return (await customAxios.get(`/profiles/${profileId ?? ''}`)).data!;
+};

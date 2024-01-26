@@ -1,7 +1,7 @@
-import Star from '@icons/common/favorite.svg'
-import FlexBox from '@/ui/atoms/FlexBox'
-import Typography from '@/ui/atoms/Typography'
-import theme from '@/ui/theme'
+import Star from '@icons/common/favorite.svg';
+import FlexBox from '@/ui/atoms/FlexBox';
+import Typography from '@/ui/atoms/Typography';
+import theme from '@/ui/theme';
 
 function Rating({ star, mentees }: { star: number; mentees: number }) {
   return (
@@ -24,7 +24,7 @@ function Rating({ star, mentees }: { star: number; mentees: number }) {
         {`(${mentees?.toString()}명의 멘티)`}
       </Typography>
     </FlexBox>
-  )
+  );
 }
 
-export default Rating
+export default Rating;

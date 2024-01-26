@@ -1,61 +1,61 @@
-'use client'
+'use client';
 
-import ProfileImage from '@icons/common/profile-image.svg'
-import Search from '@icons/common/search.svg'
-import { FormEvent, useEffect, useState } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useSelector, useDispatch } from 'react-redux'
-import { FormContainer } from '@/ui/atoms/Container'
-import Typography from '@/ui/atoms/Typography'
-import theme from '@/ui/theme'
-import IconInputContainer from '@/ui/molecules/Input/IconInput'
-import Input from '@/ui/atoms/Input'
-import Button from '@/ui/atoms/Button'
-import Dropdown from '@/ui/atoms/Dropdown'
-import FlexBox from '@/ui/atoms/FlexBox'
-import Textarea from '@/ui/atoms/Textarea'
-import { searchUniv } from '@/api/signApi'
-import useForm from '@/hooks/useForm'
-import useUploadFile from '@/hooks/useUploadFile'
+import ProfileImage from '@icons/common/profile-image.svg';
+import Search from '@icons/common/search.svg';
+import { FormEvent, useEffect, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useSelector, useDispatch } from 'react-redux';
+import { FormContainer } from '@/ui/atoms/Container';
+import Typography from '@/ui/atoms/Typography';
+import theme from '@/ui/theme';
+import IconInputContainer from '@/ui/molecules/Input/IconInput';
+import Input from '@/ui/atoms/Input';
+import Button from '@/ui/atoms/Button';
+import Dropdown from '@/ui/atoms/Dropdown';
+import FlexBox from '@/ui/atoms/FlexBox';
+import Textarea from '@/ui/atoms/Textarea';
+import { searchUniv } from '@/api/signApi';
+import useForm from '@/hooks/useForm';
+import useUploadFile from '@/hooks/useUploadFile';
 import {
   DISABILITIES,
   EMPLOYMENT_STATUSES,
   EMPLOYMENT_STATUSES_VALUE,
   SEVERITIES,
-} from '@/constants'
+} from '@/constants';
 import {
   editProfile as patchEditProfile,
   registerProfile as postRegisterProfile,
-} from '@/api/profileApi'
-import { handleApiCallback } from '@/utils/api'
-import JobSelector from '@/components/Job/JopSelector'
-import { selectUser, setUser } from '@/features/user/userSlice'
-import { RegisterProfileResponse } from '@/types/api/profile'
-import ContentTextContainer from '@/ui/molecules/Container/ContentTextContainer'
-import Label from '@/ui/atoms/Label'
-import useGetProfileQuery from '@/queries/profileQuery'
+} from '@/api/profileApi';
+import { handleApiCallback } from '@/utils/api';
+import JobSelector from '@/components/Job/JopSelector';
+import { selectUser, setUser } from '@/features/user/userSlice';
+import { RegisterProfileResponse } from '@/types/api/profile';
+import ContentTextContainer from '@/ui/molecules/Container/ContentTextContainer';
+import Label from '@/ui/atoms/Label';
+import useGetProfileQuery from '@/queries/profileQuery';
 import useNewForm, {
   FormType,
   FormPropertyType,
-} from '@/hooks/useNewForm/useNewForm'
+} from '@/hooks/useNewForm/useNewForm';
 
 function ProfileFormPage() {
-  const dispatch = useDispatch()
-  const router = useRouter()
-  const isEdit = useSearchParams().get('edit')
-  const formData = new FormData()
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const isEdit = useSearchParams().get('edit');
+  const formData = new FormData();
 
-  const { id: memberId } = useSelector(selectUser)!
-  const { data, isFetching } = useGetProfileQuery()
+  const { id: memberId } = useSelector(selectUser)!;
+  const { data, isFetching } = useGetProfileQuery();
 
   interface ProfileFormValuesType extends FormType {
-    introduction: FormPropertyType<string>
-    desiredJob: FormPropertyType<string>
-    job: FormPropertyType<string>
-    education: FormPropertyType<string>
-    disability: FormPropertyType<string>
-    employmentStatus: FormPropertyType<string>
-    severity: FormPropertyType<string>
+    introduction: FormPropertyType<string>;
+    desiredJob: FormPropertyType<string>;
+    job: FormPropertyType<string>;
+    education: FormPropertyType<string>;
+    disability: FormPropertyType<string>;
+    employmentStatus: FormPropertyType<string>;
+    severity: FormPropertyType<string>;
   }
 
   const initialFormValues: ProfileFormValuesType = {
@@ -94,72 +94,72 @@ function ProfileFormPage() {
         required: true,
       },
     },
-  }
+  };
 
   const {
     form,
     handleFormValueChange,
     validateAllFormValues,
     convertToFormData,
-  } = useNewForm(initialFormValues, data!)
+  } = useNewForm(initialFormValues, data!);
 
-  const { file, onUploadFile } = useUploadFile()
-  const [bigEducationCategory, setBigEducationCategory] = useState('')
-  const [job, setJob] = useState('')
-  const [openJobSelector, setOpenJobSelector] = useState(false)
-  const [submitType, setSubmitType] = useState<string>('')
+  const { file, onUploadFile } = useUploadFile();
+  const [bigEducationCategory, setBigEducationCategory] = useState('');
+  const [job, setJob] = useState('');
+  const [openJobSelector, setOpenJobSelector] = useState(false);
+  const [submitType, setSubmitType] = useState<string>('');
 
   useEffect(() => {
     if (isEdit && data) {
-      const { job, education } = data
-      setJob(job!)
+      const { job, education } = data;
+      setJob(job!);
       if (education === ('초등학교' || '중학교' || '고등학교')) {
-        setBigEducationCategory(education)
-        form.education.value = ''
+        setBigEducationCategory(education);
+        form.education.value = '';
       }
     }
-  }, [isFetching])
+  }, [isFetching]);
 
   const processData = () => {
     if (bigEducationCategory !== '대학교' && bigEducationCategory) {
-      form.education.value = bigEducationCategory
+      form.education.value = bigEducationCategory;
     }
 
     form.employmentStatus.value = EMPLOYMENT_STATUSES_VALUE.get(
       form.employmentStatus.value,
-    )
-  }
+    );
+  };
 
   const createFormData = () => {
-    const formValues = convertToFormData()
+    const formValues = convertToFormData();
 
     const blob = new Blob([JSON.stringify(formValues)], {
       type: 'application/json',
-    })
+    });
 
-    formData.append('profile', blob)
-    formData.append('file', file.data!)
-    const imageFormData = new FormData()
-    imageFormData.append('file', file.data!)
-  }
+    formData.append('profile', blob);
+    formData.append('file', file.data!);
+    const imageFormData = new FormData();
+    imageFormData.append('file', file.data!);
+  };
 
   const handleProfileSubmit = async (e: FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    const isFormValid = validateAllFormValues()
+    const isFormValid = validateAllFormValues();
 
     if (isFormValid) {
-      processData()
-      createFormData()
+      processData();
+      createFormData();
       if (isEdit) {
-        await editProfile()
-      } else await registerProfile()
+        await editProfile();
+      } else await registerProfile();
     }
-  }
+  };
 
   const registerProfile = async () => {
     const { data, status, errorMessage } =
-      await postRegisterProfile<RegisterProfileResponse>(formData)
+      await postRegisterProfile<RegisterProfileResponse>(formData);
 
     handleApiCallback(
       status!,
@@ -168,12 +168,12 @@ function ProfileFormPage() {
         alert(
           `프로필 등록이 실패하였습니다. 다시 시도해주세요. error message : ${errorMessage}`,
         ),
-    )
-  }
+    );
+  };
 
   const editProfile = async () => {
     const { data, status, errorMessage } =
-      await patchEditProfile<RegisterProfileResponse>(formData)
+      await patchEditProfile<RegisterProfileResponse>(formData);
 
     handleApiCallback(
       status!,
@@ -182,32 +182,32 @@ function ProfileFormPage() {
         alert(
           `프로필 수정이 실패하였습니다. 다시 시도해주세요. error message : ${errorMessage}`,
         ),
-    )
-  }
+    );
+  };
 
   const apiSuccessCallback = (
     type: 'register' | 'edit',
     data: RegisterProfileResponse,
   ) => {
-    const { imgUrl } = data
+    const { imgUrl } = data;
 
-    dispatch(setUser({ profileImage: imgUrl }))
+    dispatch(setUser({ profileImage: imgUrl }));
 
     if (type === 'register') {
       if (submitType === 'complete') {
-        router.push('/')
-        return
+        router.push('/');
+        return;
       }
-      router.push('/mentorRegisterForm')
-      return
+      router.push('/mentorRegisterForm');
+      return;
     }
 
-    router.back()
-  }
+    router.back();
+  };
 
   useEffect(() => {
-    searchUniv()
-  }, [])
+    // searchUniv();
+  }, []);
 
   return (
     <FormContainer>
@@ -391,8 +391,8 @@ function ProfileFormPage() {
           >
             <Button
               onClick={() => {
-                setSubmitType('complete')
-                validateAllFormValues()
+                setSubmitType('complete');
+                validateAllFormValues();
               }}
               width="100%"
               type="submit"
@@ -403,8 +403,8 @@ function ProfileFormPage() {
             {!isEdit && (
               <Button
                 onClick={() => {
-                  setSubmitType('complete-apply')
-                  validateAllFormValues()
+                  setSubmitType('complete-apply');
+                  validateAllFormValues();
                 }}
                 width="100%"
                 type="submit"
@@ -417,17 +417,7 @@ function ProfileFormPage() {
         </FlexBox>
       </form>
     </FormContainer>
-  )
+  );
 }
 
-interface FormValues {
-  introduction: string
-  desiredJob: string
-  job: string
-  education: string
-  employmentStatus: string
-  disability: string
-  severity: string
-}
-
-export default ProfileFormPage
+export default ProfileFormPage;

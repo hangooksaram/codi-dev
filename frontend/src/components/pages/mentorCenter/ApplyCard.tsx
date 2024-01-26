@@ -1,27 +1,27 @@
-'use client'
+'use client';
 
-import { css } from '@emotion/css'
-import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
-import ProfileCard from '@/components/Profile/ProfileCard'
+import { css } from '@emotion/css';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import ProfileCard from '@/components/Profile/ProfileCard';
 import {
   useMentoringAcceptMutation,
   useMentoringRejectMutation,
-} from '@/queries/mentoring/mentorMentoringQuery'
-import { GetMentoringAppliesResponseData } from '@/types/api/mentoring'
-import Button from '@/ui/atoms/Button'
-import Card from '@/ui/atoms/Card'
-import Chip from '@/ui/atoms/Chip'
-import FlexBox from '@/ui/atoms/FlexBox'
-import Typography from '@/ui/atoms/Typography'
-import LabelBox from '@/ui/molecules/LabelBox'
-import theme, { device } from '@/ui/theme'
-import MyInfoCard from '../myInfoCommon/MyInfoCard'
-import { SetState } from '@/index'
-import Content from '@/components/Profile/ProfileCard/Content'
+} from '@/queries/mentoring/mentorMentoringQuery';
+import { GetMentoringAppliesResponseData } from '@/types/api/mentoring';
+import Button from '@/ui/atoms/Button';
+import Card from '@/ui/atoms/Card';
+import Chip from '@/ui/atoms/Chip';
+import FlexBox from '@/ui/atoms/FlexBox';
+import Typography from '@/ui/atoms/Typography';
+import LabelBox from '@/ui/molecules/LabelBox';
+import theme, { device } from '@/ui/theme';
+import MyInfoCard from '../myInfoCommon/MyInfoCard';
+import { SetState } from '@/index';
+import Content from '@/components/Profile/ProfileCard/Content';
 
 interface MentorCenterApplyCardProps extends GetMentoringAppliesResponseData {
-  setApplies: SetState<GetMentoringAppliesResponseData[] | undefined>
+  setApplies: SetState<GetMentoringAppliesResponseData[] | undefined>;
 }
 
 function MentorCenterApplyCard({
@@ -31,26 +31,26 @@ function MentorCenterApplyCard({
   applicationReason,
   setApplies,
 }: MentorCenterApplyCardProps) {
-  const router = useRouter()
-  const { profileId } = menteeInfo
+  const router = useRouter();
+  const { profileId } = menteeInfo;
 
   const onSuccess = () => {
-    setApplies((prev) => prev!.filter((p) => p.mentoringId !== mentoringId))
-  }
+    setApplies((prev) => prev!.filter((p) => p.mentoringId !== mentoringId));
+  };
   const onError = () => {
-    alert('멘토링 수락에 실패했습니다. 다시 시도해주세요.')
-  }
+    alert('멘토링 수락에 실패했습니다. 다시 시도해주세요.');
+  };
 
   const acceptMutation = useMentoringAcceptMutation(
     mentoringId!,
     onSuccess,
     onError,
-  )
+  );
   const rejectMutation = useMentoringRejectMutation(
     mentoringId!,
     onSuccess,
     onError,
-  )
+  );
 
   return (
     <FlexBox
@@ -170,7 +170,7 @@ function MentorCenterApplyCard({
         </FlexBox>
       </MyInfoCard>
     </FlexBox>
-  )
+  );
 }
 
-export default MentorCenterApplyCard
+export default MentorCenterApplyCard;

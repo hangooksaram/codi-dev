@@ -1,10 +1,10 @@
-import styled from '@emotion/styled'
-import FlexBox from '@/ui/atoms/FlexBox'
-import { ContentText } from '@/ui/atoms/ContentText'
+import styled from '@emotion/styled';
+import FlexBox from '@/ui/atoms/FlexBox';
+import { ContentText } from '@/ui/atoms/ContentText';
 
 export const StyledContentTextContainer = styled.div`
   width: 100%;
-`
+`;
 
 function ContentTextContainer({
   text,
@@ -12,17 +12,17 @@ function ContentTextContainer({
   children,
   labelColor,
 }: {
-  text: string
-  helpText?: string
-  children?: React.ReactNode
-  labelColor?: string
+  text: string;
+  helpText?: string;
+  children?: React.ReactNode;
+  labelColor?: string;
 }) {
   return (
     <StyledContentTextContainer>
       <ContentText text={text} helpText={helpText} labelColor={labelColor} />
       <FlexBox justifyContent="space-between">{children}</FlexBox>
     </StyledContentTextContainer>
-  )
+  );
 }
 
-export default ContentTextContainer
+export default ContentTextContainer;

@@ -1,6 +1,6 @@
-import styled from '@emotion/styled'
-import Card from '@/ui/atoms/Card'
-import { device } from '@/ui/theme'
+import styled from '@emotion/styled';
+import Card from '@/ui/atoms/Card';
+import { device } from '@/ui/theme';
 
 const MyInfoCard = styled(Card)({
   width: '80%',
@@ -10,6 +10,6 @@ const MyInfoCard = styled(Card)({
   [device('tablet')]: {
     padding: '30px !important',
   },
-})
+});
 
-export default MyInfoCard
+export default MyInfoCard;

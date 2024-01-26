@@ -1,5 +1,5 @@
-import styled from '@emotion/styled'
-import Label from '@/ui/atoms/Label'
+import styled from '@emotion/styled';
+import Label from '@/ui/atoms/Label';
 
 const StyledNewNotificationBadge = styled.div(({}: {}) => ({
   position: 'absolute',
@@ -10,10 +10,10 @@ const StyledNewNotificationBadge = styled.div(({}: {}) => ({
   height: '7px',
   backgroundColor: '#E0291D',
   borderRadius: '50%',
-}))
+}));
 
 function NewNotificationBadge() {
-  return <StyledNewNotificationBadge />
+  return <StyledNewNotificationBadge />;
 }
 
-export default NewNotificationBadge
+export default NewNotificationBadge;

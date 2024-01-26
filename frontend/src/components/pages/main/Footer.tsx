@@ -1,11 +1,11 @@
-import mainLandingBottom1 from '@images/pages/main/landing-bottom-1.png'
-import mainLandingBottom2 from '@images/pages/main/landing-bottom-2.png'
-import mainLandingBottom3 from '@images/pages/main/landing-bottom-3.png'
-import mainLandingBottom4 from '@images/pages/main/landing-bottom-4.png'
-import oneLineSaying from '@images/pages/main/oneLineSaying.png'
-import theme from '@/ui/theme'
-import ImageComponent from '@/ui/atoms/ImageComponent'
-import { PageComponentLayout } from '../mentorsMain/PageComonentLayout'
+import mainLandingBottom1 from '@images/pages/main/landing-bottom-1.png';
+import mainLandingBottom2 from '@images/pages/main/landing-bottom-2.png';
+import mainLandingBottom3 from '@images/pages/main/landing-bottom-3.png';
+import mainLandingBottom4 from '@images/pages/main/landing-bottom-4.png';
+import oneLineSaying from '@images/pages/main/oneLineSaying.png';
+import theme from '@/ui/theme';
+import ImageComponent from '@/ui/atoms/ImageComponent';
+import { PageComponentLayout } from '../mentorsMain/PageComonentLayout';
 
 const footerImages = [
   {
@@ -24,7 +24,7 @@ const footerImages = [
     src: mainLandingBottom4,
     alt: 'Mentee 누군가 나와 같은 곳을 바라보고, 같은 고민을 하며, 내 삶에 동행해준다는 것이 어찌나 든든한 일인지 몰라요. 다른 친구들도 같은 기회를 꼭 함께 누렸으면 합니다.Mentor 멘티가 성장하는 모습을 보며 멘토링이 멘티에게 정말 필요한 활동이라 생각됐고, 나 자신 또한 발전하고 성장하는 데 큰 영향을 준 정말 고마운 활동이에요.',
   },
-]
+];
 
 function Footer() {
   return (
@@ -61,6 +61,6 @@ function Footer() {
         />
       </PageComponentLayout>
     </>
-  )
+  );
 }
-export default Footer
+export default Footer;

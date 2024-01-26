@@ -1,15 +1,15 @@
-import Search from '@icons/common/search.svg'
-import { Dispatch, SetStateAction, useState } from 'react'
-import Dropdown from '@/ui/atoms/Dropdown'
-import IconInputContainer from '@/ui/molecules/Input/IconInput'
-import FlexBox from '@/ui/atoms/FlexBox'
-import Input from '@/ui/atoms/Input'
-import Button from '@/ui/atoms/Button'
-import theme, { device } from '@/ui/theme'
-import { CAREERS, DISABILITIES, JOBS } from '@/constants'
-import { GetMentorsParameters } from '@/types/api/mentor'
-import ContentTextContainer from '@/ui/molecules/Container/ContentTextContainer'
-import Labeled from '@/ui/atoms/Labeled'
+import Search from '@icons/common/search.svg';
+import { Dispatch, SetStateAction, useState } from 'react';
+import Dropdown from '@/ui/atoms/Dropdown';
+import IconInputContainer from '@/ui/molecules/Input/IconInput';
+import FlexBox from '@/ui/atoms/FlexBox';
+import Input from '@/ui/atoms/Input';
+import Button from '@/ui/atoms/Button';
+import theme, { device } from '@/ui/theme';
+import { CAREERS, DISABILITIES, JOBS } from '@/constants';
+import { GetMentorsParameters } from '@/types/api/mentor';
+import ContentTextContainer from '@/ui/molecules/Container/ContentTextContainer';
+import Labeled from '@/ui/atoms/Labeled';
 
 function MentorSearch({
   query,
@@ -17,10 +17,10 @@ function MentorSearch({
   refetch,
   setSearched,
 }: {
-  query: GetMentorsParameters
-  setQuery: (query: GetMentorsParameters) => void
-  setSearched: Dispatch<SetStateAction<string>>
-  refetch: () => void
+  query: GetMentorsParameters;
+  setQuery: (query: GetMentorsParameters) => void;
+  setSearched: Dispatch<SetStateAction<string>>;
+  refetch: () => void;
 }) {
   return (
     <FlexBox
@@ -93,7 +93,7 @@ function MentorSearch({
         </Labeled>
         <Button
           onClick={() => {
-            setSearched(JSON.stringify(query))
+            setSearched(JSON.stringify(query));
           }}
           width="40%"
           color={theme.colors.primary.main}
@@ -103,7 +103,7 @@ function MentorSearch({
         </Button>
       </FlexBox>
     </FlexBox>
-  )
+  );
 }
 
-export default MentorSearch
+export default MentorSearch;

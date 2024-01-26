@@ -1,7 +1,7 @@
-'use client'
+'use client';
 
-import { ReactNode } from 'react'
+import { ReactNode } from 'react';
 
-const AccountLayout = ({ children }: { children: ReactNode }) => children
+const AccountLayout = ({ children }: { children: ReactNode }) => children;
 
-export default AccountLayout
+export default AccountLayout;

@@ -1,7 +1,7 @@
-import Link from 'next/link'
-import EditIcon from '@icons/common/edit.svg'
-import Button from '@/ui/atoms/Button'
-import theme from '@/ui/theme'
+import Link from 'next/link';
+import EditIcon from '@icons/common/edit.svg';
+import Button from '@/ui/atoms/Button';
+import theme from '@/ui/theme';
 
 function Edit() {
   return (
@@ -10,7 +10,7 @@ function Edit() {
         <EditIcon />
       </Button>
     </Link>
-  )
+  );
 }
 
-export default Edit
+export default Edit;

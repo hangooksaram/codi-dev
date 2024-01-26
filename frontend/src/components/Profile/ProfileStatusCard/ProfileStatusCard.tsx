@@ -1,15 +1,15 @@
-import Card from '@/ui/atoms/Card'
-import FlexBox from '@/ui/atoms/FlexBox'
-import Typography from '@/ui/atoms/Typography'
-import theme from '@/ui/theme'
-import styled from '@emotion/styled'
+import Card from '@/ui/atoms/Card';
+import FlexBox from '@/ui/atoms/FlexBox';
+import Typography from '@/ui/atoms/Typography';
+import theme from '@/ui/theme';
+import styled from '@emotion/styled';
 
 const ProfileStatusCard = ({
   text,
   value,
 }: {
-  text: string
-  value: string
+  text: string;
+  value: string;
 }) => (
   <StyledProfileStatusCard width="100%">
     <FlexBox justifyContent="space-between">
@@ -26,13 +26,13 @@ const ProfileStatusCard = ({
       </Typography>
     </FlexBox>
   </StyledProfileStatusCard>
-)
+);
 
 const StyledProfileStatusCard = styled(Card)(({}) => ({
   backgroundColor: theme.colors.background,
   height: 'auto',
   border: 'none',
   padding: '20px',
-}))
+}));
 
-export default ProfileStatusCard
+export default ProfileStatusCard;

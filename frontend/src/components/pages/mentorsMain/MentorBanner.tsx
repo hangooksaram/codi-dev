@@ -1,12 +1,12 @@
-import styled from '@emotion/styled'
-import { css } from '@emotion/css'
-import mentorsBannerImage from '@images/mentors-banner-image.png'
-import Button from '@/ui/atoms/Button'
-import FlexBox from '@/ui/atoms/FlexBox'
-import Typography from '@/ui/atoms/Typography'
-import theme, { device } from '@/ui/theme'
-import StyledImage from '@/ui/atoms/StyledImage'
-import ImageComponent from '@/ui/atoms/ImageComponent'
+import styled from '@emotion/styled';
+import { css } from '@emotion/css';
+import mentorsBannerImage from '@images/mentors-banner-image.png';
+import Button from '@/ui/atoms/Button';
+import FlexBox from '@/ui/atoms/FlexBox';
+import Typography from '@/ui/atoms/Typography';
+import theme, { device } from '@/ui/theme';
+import StyledImage from '@/ui/atoms/StyledImage';
+import ImageComponent from '@/ui/atoms/ImageComponent';
 
 function MentorBanner({ goToMentorsPage }: { goToMentorsPage: Function }) {
   return (
@@ -38,11 +38,11 @@ function MentorBanner({ goToMentorsPage }: { goToMentorsPage: Function }) {
         src={mentorsBannerImage}
       />
     </FlexBox>
-  )
+  );
 }
 
 const StyledMentorBanner = styled.div`
   background-color: ${theme.colors.white};
-`
+`;
 
-export default MentorBanner
+export default MentorBanner;

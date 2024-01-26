@@ -1,41 +1,41 @@
 interface Colors {
-  black: string
-  secondary: string
-  primary: string
-  info: string
-  error: string
-  gray: Gray
-  background: string
-  white: string
+  black: string;
+  secondary: string;
+  primary: string;
+  info: string;
+  error: string;
+  gray: Gray;
+  background: string;
+  white: string;
 }
 
 interface Gray {
-  dark: string
-  main: string
-  light: string
+  dark: string;
+  main: string;
+  light: string;
 }
 
 interface FontSize {
-  xl: string
-  lg: string
-  md: string
-  sm: string
-  xs: string
+  xl: string;
+  lg: string;
+  md: string;
+  sm: string;
+  xs: string;
 }
 
 interface FontWeight {
-  black: number
-  extraBold: number
-  bold: number
-  regular: number
+  black: number;
+  extraBold: number;
+  bold: number;
+  regular: number;
 }
 
 export interface CustomTheme {
-  colors: Colors
+  colors: Colors;
   fonts: {
-    size: FontSize
-    weight: FontWeight
-  }
+    size: FontSize;
+    weight: FontWeight;
+  };
 }
 
 const theme = {
@@ -89,8 +89,8 @@ const theme = {
     tablet: 999,
     mobile: 450,
   },
-}
+};
 
 export const device = (device: keyof typeof theme.breakpoints) =>
-  `@media (max-width: ${theme.breakpoints[device]}px)`
-export default theme
+  `@media (max-width: ${theme.breakpoints[device]}px)`;
+export default theme;

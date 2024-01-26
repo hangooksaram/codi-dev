@@ -1,12 +1,12 @@
-import { RefObject, forwardRef } from 'react'
-import styled from '@emotion/styled'
-import OpenDropdown from '@icons/common/expand-open.svg'
-import theme from '@/ui/theme'
-import { Dropdown } from '@/types/ui'
-import Card from './Card'
-import Button from './Button'
-import { useDropdown } from '@/hooks/useDropdown'
-import useClickOutOfInput from '@/hooks/useClickOutOfInput'
+import { RefObject, forwardRef } from 'react';
+import styled from '@emotion/styled';
+import OpenDropdown from '@icons/common/expand-open.svg';
+import theme from '@/ui/theme';
+import { Dropdown } from '@/types/ui';
+import Card from './Card';
+import Button from './Button';
+import { useDropdown } from '@/hooks/useDropdown';
+import useClickOutOfInput from '@/hooks/useClickOutOfInput';
 
 function Dropdown({
   id,
@@ -20,9 +20,9 @@ function Dropdown({
   setSelectedCategory,
 }: Dropdown) {
   const { open, setOpen, ref, setCategory, setDropdownContentPosition } =
-    useDropdown(setSelectedCategory, id)
+    useDropdown(setSelectedCategory, id);
 
-  useClickOutOfInput(id!, setOpen)
+  useClickOutOfInput(id!, setOpen);
   return (
     <DropdownContainer width={width}>
       {type === 'menu' ? (
@@ -54,12 +54,12 @@ function Dropdown({
         />
       )}
     </DropdownContainer>
-  )
+  );
 }
 
 interface DropdownContentProps {
-  categories: string[] | number[]
-  setCategory?: Function
+  categories: string[] | number[];
+  setCategory?: Function;
 }
 
 export const DropdownContentContainer = forwardRef<
@@ -77,8 +77,8 @@ export const DropdownContentContainer = forwardRef<
         </div>
       ))}
     </DropdownContent>
-  )
-})
+  );
+});
 
 export const DropdownContainer = styled.div(
   ({ width }: { width?: string }) => ({
@@ -86,7 +86,7 @@ export const DropdownContainer = styled.div(
     minWidth: 'fit-content',
     position: 'relative',
   }),
-)
+);
 
 export const DropdownButton = styled(Button)(
   ({ invalid }: { invalid: boolean | undefined }) => ({
@@ -97,7 +97,7 @@ export const DropdownButton = styled(Button)(
         ? theme.colors.error
         : theme.colors.gray.main,
   }),
-)
+);
 
 const DropdownContent = styled.ul(
   ({ width, left }: { width?: string; left?: boolean }) => ({
@@ -119,7 +119,7 @@ const DropdownContent = styled.ul(
     border: `1px solid ${theme.colors.gray.main}`,
     overscrollBehavior: 'none',
   }),
-)
+);
 
 const DropdownItem = styled.button`
   height: 50px;
@@ -141,12 +141,12 @@ const DropdownItem = styled.button`
     background-color: ${theme.colors.primary.main};
     color: ${theme.colors.white};
   }
-`
+`;
 
 export const Divider = styled.div`
   width: 90%;
   margin: 0 auto;
   height: 2px;
   background-color: ${theme.colors.background};
-`
-export default Dropdown
+`;
+export default Dropdown;

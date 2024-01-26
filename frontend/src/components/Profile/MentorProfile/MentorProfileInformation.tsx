@@ -1,13 +1,13 @@
-import MyInfoCard from '@/components/pages/myInfoCommon/MyInfoCard'
-import FlexBox from '@/ui/atoms/FlexBox'
-import Grid from '@/ui/atoms/Grid'
-import LabelBox from '@/ui/molecules/LabelBox'
-import ProfileLabelText from '../ProfileLabelText'
-import { Mentor } from '@/types/profile'
-import theme, { device } from '@/ui/theme'
-import { MENTOR_CATEGORIES } from '@/components/Mentoring/MentoringCategory/MentoringCategoriesSelector'
-import MentorCategoryButton from '@/components/Mentoring/MentoringCategory/MentoringCategoryButton'
-import Typography from '@/ui/atoms/Typography'
+import MyInfoCard from '@/components/pages/myInfoCommon/MyInfoCard';
+import FlexBox from '@/ui/atoms/FlexBox';
+import Grid from '@/ui/atoms/Grid';
+import LabelBox from '@/ui/molecules/LabelBox';
+import ProfileLabelText from '../ProfileLabelText';
+import { Mentor } from '@/types/profile';
+import theme, { device } from '@/ui/theme';
+import { MENTOR_CATEGORIES } from '@/components/Mentoring/MentoringCategory/MentoringCategoriesSelector';
+import MentorCategoryButton from '@/components/Mentoring/MentoringCategory/MentoringCategoryButton';
+import Typography from '@/ui/atoms/Typography';
 
 function MentorProfileInformation({ mentor }: { mentor: Mentor }) {
   return (
@@ -63,7 +63,7 @@ function MentorProfileInformation({ mentor }: { mentor: Mentor }) {
         </LabelBox>
       </FlexBox>
     </MyInfoCard>
-  )
+  );
 }
 
-export default MentorProfileInformation
+export default MentorProfileInformation;
