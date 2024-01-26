@@ -1,18 +1,18 @@
-'use client'
+'use client';
 
-import MentorProfile from '@/components/Profile/MentorProfile/MentorProfile'
-import MentorStatus from '@/components/Profile/MentorProfile/MentorStatus'
-import ProfileCard, { Footer } from '@/components/Profile/ProfileCard'
-import Content from '@/components/Profile/ProfileCard/Content'
-import { useGetMentorQuery } from '@/queries/mentorQuery'
-import Button from '@/ui/atoms/Button'
-import LabelBox from '@/ui/molecules/LabelBox'
-import theme from '@/ui/theme'
-import { useRouter } from 'next/navigation'
+import MentorProfile from '@/components/Profile/MentorProfile/MentorProfile';
+import MentorStatus from '@/components/Profile/MentorProfile/MentorStatus';
+import ProfileCard, { Footer } from '@/components/Profile/ProfileCard';
+import Content from '@/components/Profile/ProfileCard/Content';
+import { useGetMentorQuery } from '@/queries/mentorQuery';
+import Button from '@/ui/atoms/Button';
+import LabelBox from '@/ui/molecules/LabelBox';
+import theme from '@/ui/theme';
+import { useRouter } from 'next/navigation';
 
 function MentorProfilePage() {
-  const { data: mentor, isSuccess } = useGetMentorQuery()
-  const router = useRouter()
+  const { data: mentor, isSuccess } = useGetMentorQuery();
+  const router = useRouter();
   return (
     isSuccess && (
       <>
@@ -45,7 +45,7 @@ function MentorProfilePage() {
         </MentorProfile>
       </>
     )
-  )
+  );
 }
 
-export default MentorProfilePage
+export default MentorProfilePage;

@@ -1,23 +1,23 @@
-'use client'
+'use client';
 
-import { css } from '@emotion/css'
-import { useRouter } from 'next/navigation'
-import { useSelector } from 'react-redux'
-import Recommendation from '@/components/pages/mentorsMain/Recommendation'
-import Typography from '@/ui/atoms/Typography'
-import Button from '@/ui/atoms/Button'
-import theme, { device } from '@/ui/theme'
-import FlexBox from '@/ui/atoms/FlexBox'
-import { selectUser } from '@/features/user/userSlice'
-import TodayMentoring from '@/components/pages/main/TodayMentoring'
-import landingBanner from '../../public/images/landing-banner.png'
-import { BackgroundImage } from '@/ui/molecules/Image/BackgroundImage'
-import Footer from '@/components/pages/main/Footer'
-import { MOBILE_NAVIGATION_HEIGHT } from '@/constants'
+import { css } from '@emotion/css';
+import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
+import Recommendation from '@/components/pages/mentorsMain/Recommendation';
+import Typography from '@/ui/atoms/Typography';
+import Button from '@/ui/atoms/Button';
+import theme, { device } from '@/ui/theme';
+import FlexBox from '@/ui/atoms/FlexBox';
+import { selectUser } from '@/features/user/userSlice';
+import TodayMentoring from '@/components/pages/main/TodayMentoring';
+import landingBanner from '../../public/images/landing-banner.png';
+import { BackgroundImage } from '@/ui/molecules/Image/BackgroundImage';
+import Footer from '@/components/pages/main/Footer';
+import { MOBILE_NAVIGATION_HEIGHT } from '@/constants';
 
 function MainLandingPage() {
-  const router = useRouter()
-  const user = useSelector(selectUser)
+  const router = useRouter();
+  const user = useSelector(selectUser);
 
   return (
     <FlexBox
@@ -91,7 +91,7 @@ function MainLandingPage() {
           {!user.isMentor ? (
             <Button
               onClick={() => {
-                router.push('/mentorRegisterForm')
+                router.push('/mentorRegisterForm');
               }}
               variant="default"
               size="small"
@@ -105,7 +105,7 @@ function MainLandingPage() {
       <Recommendation />
       <Footer />
     </FlexBox>
-  )
+  );
 }
 
-export default MainLandingPage
+export default MainLandingPage;

@@ -1,63 +1,63 @@
-'use client'
+'use client';
 
-import { FormEventHandler, useEffect, useState } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useSelector } from 'react-redux'
-import CalendarContainer from '@/components/Container/CalendarContainer'
-import FlexBox from '@/ui/atoms/FlexBox'
-import LabelBox from '@/ui/molecules/LabelBox'
-import theme from '@/ui/theme'
+import { FormEventHandler, useEffect, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useSelector } from 'react-redux';
+import CalendarContainer from '@/components/Container/CalendarContainer';
+import FlexBox from '@/ui/atoms/FlexBox';
+import LabelBox from '@/ui/molecules/LabelBox';
+import theme from '@/ui/theme';
 import useDailySchedulesQuery, {
   useMonthlySchedulesQuery,
-} from '@/queries/scheduleQuery'
-import { formattedDate, formattedMonth } from '@/utils/dateFormat'
-import Button from '@/ui/atoms/Button'
-import ContentTextContainer from '@/ui/molecules/Container/ContentTextContainer'
-import Textarea from '@/ui/atoms/Textarea'
-import ContainerWithBackground from '@/ui/molecules/Container/ContainerWithBackground'
-import Typography from '@/ui/atoms/Typography'
-import useForm from '@/hooks/useForm'
-import ChipButton from '@/ui/atoms/ChipButton'
-import { selectUser } from '@/features/user/userSlice'
-import { useApplyMentoringMutation } from '@/queries/mentoring/menteeMentoringQuery'
-import { ApplyMentoringBody } from '@/types/api/mentoring'
-import Label from '@/ui/atoms/Label'
+} from '@/queries/scheduleQuery';
+import { formattedDate, formattedMonth } from '@/utils/dateFormat';
+import Button from '@/ui/atoms/Button';
+import ContentTextContainer from '@/ui/molecules/Container/ContentTextContainer';
+import Textarea from '@/ui/atoms/Textarea';
+import ContainerWithBackground from '@/ui/molecules/Container/ContainerWithBackground';
+import Typography from '@/ui/atoms/Typography';
+import useForm from '@/hooks/useForm';
+import ChipButton from '@/ui/atoms/ChipButton';
+import { selectUser } from '@/features/user/userSlice';
+import { useApplyMentoringMutation } from '@/queries/mentoring/menteeMentoringQuery';
+import { ApplyMentoringBody } from '@/types/api/mentoring';
+import Label from '@/ui/atoms/Label';
 
 const initialForm: ApplyMentoringBody = {
   date: '',
   time: '',
   applicationReason: '',
-}
+};
 
 function MentoringApplyFormPage() {
-  const { setForm, form } = useForm<ApplyMentoringBody>(initialForm)
-  const [date, setDate] = useState<Date | undefined>(new Date())
-  const [month, setMonth] = useState<string>()
-  const param = useSearchParams()
+  const { setForm, form } = useForm<ApplyMentoringBody>(initialForm);
+  const [date, setDate] = useState<Date | undefined>(new Date());
+  const [month, setMonth] = useState<string>();
+  const param = useSearchParams();
 
-  const mutation = useApplyMentoringMutation(parseInt(param.get('mentorId')!))
+  const mutation = useApplyMentoringMutation(parseInt(param.get('mentorId')!));
   const { data } = useDailySchedulesQuery(
     formattedDate(date),
     parseInt(param.get('mentorId')!),
-  )
+  );
 
   const { data: monthlySchedules } = useMonthlySchedulesQuery(
     formattedMonth(new Date()),
     parseInt(param.get('mentorId')!)!,
-  )
-  const router = useRouter()
+  );
+  const router = useRouter();
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault()
-    mutation.mutate(form!)
-    router.push('/mentorsMain')
-  }
+    e.preventDefault();
+    mutation.mutate(form!);
+    router.push('/mentorsMain');
+  };
 
   useEffect(() => {
     if (date) {
-      setForm({ ...form, date: formattedDate(date) })
+      setForm({ ...form, date: formattedDate(date) });
     }
-  }, [date])
+  }, [date]);
   return (
     <ContainerWithBackground>
       <Typography
@@ -91,7 +91,7 @@ function MentoringApplyFormPage() {
                 rowGap="15px"
               >
                 {data?.times.map(({ time, enabled }, index) => {
-                  const scheduled = status === 'ACCEPTED'
+                  const scheduled = status === 'ACCEPTED';
                   return (
                     <ChipButton
                       type="button"
@@ -111,7 +111,7 @@ function MentoringApplyFormPage() {
                     >
                       {time}
                     </ChipButton>
-                  )
+                  );
                 })}
               </FlexBox>
             </CalendarContainer>
@@ -142,7 +142,7 @@ function MentoringApplyFormPage() {
         </FlexBox>
       </form>
     </ContainerWithBackground>
-  )
+  );
 }
 
-export default MentoringApplyFormPage
+export default MentoringApplyFormPage;

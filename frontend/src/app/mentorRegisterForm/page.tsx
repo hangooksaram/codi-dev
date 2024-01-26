@@ -1,59 +1,59 @@
-'use client'
+'use client';
 
-import ProfileImage from '@icons/common/profile-image.svg'
-import { FormEvent, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { useRouter, useSearchParams } from 'next/navigation'
-import ContentTextContainer from '@/ui/molecules/Container/ContentTextContainer'
-import IconInputContainer from '@/ui/molecules/Input/IconInput'
-import Input from '@/ui/atoms/Input'
-import { FormContainer } from '@/ui/atoms/Container'
-import FlexBox from '@/ui/atoms/FlexBox'
-import Typography from '@/ui/atoms/Typography'
-import theme from '@/ui/theme'
-import Button from '@/ui/atoms/Button'
-import Dropdown from '@/ui/atoms/Dropdown'
-import Checkbox from '@/ui/atoms/Checkbox'
-import Textarea from '@/ui/atoms/Textarea'
-import useUploadFile from '@/hooks/useUploadFile'
+import ProfileImage from '@icons/common/profile-image.svg';
+import { FormEvent, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useRouter, useSearchParams } from 'next/navigation';
+import ContentTextContainer from '@/ui/molecules/Container/ContentTextContainer';
+import IconInputContainer from '@/ui/molecules/Input/IconInput';
+import Input from '@/ui/atoms/Input';
+import { FormContainer } from '@/ui/atoms/Container';
+import FlexBox from '@/ui/atoms/FlexBox';
+import Typography from '@/ui/atoms/Typography';
+import theme from '@/ui/theme';
+import Button from '@/ui/atoms/Button';
+import Dropdown from '@/ui/atoms/Dropdown';
+import Checkbox from '@/ui/atoms/Checkbox';
+import Textarea from '@/ui/atoms/Textarea';
+import useUploadFile from '@/hooks/useUploadFile';
 import MentoringCategoriesSelector, {
   MENTOR_CATEGORIES,
-} from '@/components/Mentoring/MentoringCategory/MentoringCategoriesSelector'
+} from '@/components/Mentoring/MentoringCategory/MentoringCategoriesSelector';
 import {
   registerMentor as postRegisterMentor,
   editMentor as patchEditMentor,
-} from '@/api/mentorApi'
-import { selectUser, setUser } from '@/features/user/userSlice'
-import JobSelector from '@/components/Job/JopSelector'
+} from '@/api/mentorApi';
+import { selectUser, setUser } from '@/features/user/userSlice';
+import JobSelector from '@/components/Job/JopSelector';
 
-import { handleApiCallback } from '@/utils/api'
-import { CAREERS } from '@/constants'
+import { handleApiCallback } from '@/utils/api';
+import { CAREERS } from '@/constants';
 import useNewForm, {
   FormPropertyType,
   FormType,
-} from '@/hooks/useNewForm/useNewForm'
-import { useGetMentorQuery } from '@/queries/mentorQuery'
-import useRedirectOnUnverified from '@/hooks/redirect/useRedirectOnUnverified'
+} from '@/hooks/useNewForm/useNewForm';
+import { useGetMentorQuery } from '@/queries/mentorQuery';
+import useRedirectOnUnverified from '@/hooks/redirect/useRedirectOnUnverified';
 
 function MentorRegisterForm() {
-  const router = useRouter()
-  const dispatch = useDispatch()
-  const { id, isProfile } = useSelector(selectUser)
-  const checkRedirect = useRedirectOnUnverified()
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const { id, isProfile } = useSelector(selectUser);
+  const checkRedirect = useRedirectOnUnverified();
 
-  const { file, onUploadFile } = useUploadFile()
-  const isEdit = useSearchParams().get('edit')
-  const [openJobSelector, setOpenJobSelector] = useState(false)
-  const formData = new FormData()
+  const { file, onUploadFile } = useUploadFile();
+  const isEdit = useSearchParams().get('edit');
+  const [openJobSelector, setOpenJobSelector] = useState(false);
+  const formData = new FormData();
 
   interface MentorRegisterFormValuesType extends FormType {
-    company: FormPropertyType<string>
-    introduction: FormPropertyType<string>
-    jobName: FormPropertyType<string>
-    job: FormPropertyType<string>
-    career: FormPropertyType<string>
-    inOffice: FormPropertyType<boolean>
-    mentoringCategories: FormPropertyType<string[]>
+    company: FormPropertyType<string>;
+    introduction: FormPropertyType<string>;
+    jobName: FormPropertyType<string>;
+    job: FormPropertyType<string>;
+    career: FormPropertyType<string>;
+    inOffice: FormPropertyType<boolean>;
+    mentoringCategories: FormPropertyType<string[]>;
   }
 
   const initialFormValues: MentorRegisterFormValuesType = {
@@ -93,74 +93,74 @@ function MentorRegisterForm() {
       },
       initialValue: [],
     },
-  }
+  };
 
-  const { data } = useGetMentorQuery()
+  const { data } = useGetMentorQuery();
 
-  const isCertificate = data?.fileUrl
+  const isCertificate = data?.fileUrl;
 
   const {
     form,
     handleFormValueChange,
     validateAllFormValues,
     convertToFormData,
-  } = useNewForm(initialFormValues, data!)
+  } = useNewForm(initialFormValues, data!);
 
   const processData = () => {
     form.mentoringCategories.value = MENTOR_CATEGORIES.filter((category) =>
       form.mentoringCategories.value.includes(category.text),
-    ).map((category) => category.value)
-  }
+    ).map((category) => category.value);
+  };
 
   const createFormData = () => {
-    const formValues = convertToFormData()
+    const formValues = convertToFormData();
 
     const blob = new Blob([JSON.stringify(formValues)], {
       type: 'application/json',
-    })
-    formData.append('mentor', blob)
-    formData.append('file', file.data!)
-  }
+    });
+    formData.append('mentor', blob);
+    formData.append('file', file.data!);
+  };
 
   const handleMentorProfileSubmit = async (e: FormEvent) => {
-    e.preventDefault()
-    const isFormValid = validateAllFormValues()
+    e.preventDefault();
+    const isFormValid = validateAllFormValues();
 
     if (isFormValid) {
-      processData()
-      createFormData()
+      processData();
+      createFormData();
 
-      if (isEdit) await editMentor()
-      else await registerMentor()
+      if (isEdit) await editMentor();
+      else await registerMentor();
     }
-  }
+  };
 
   const registerMentor = async () => {
-    const { status } = await postRegisterMentor(formData)
+    const { status } = await postRegisterMentor(formData);
 
     handleApiCallback(
       status!,
       () => {
-        router.push('/')
+        router.push('/');
       },
       () => {
-        alert(`멘토 등록이 실패하였습니다. 다시 시도해주세요.`)
+        alert(`멘토 등록이 실패하였습니다. 다시 시도해주세요.`);
       },
-    )
-  }
+    );
+  };
 
   const editMentor = async () => {
-    const { status } = await patchEditMentor(formData)
+    const { status } = await patchEditMentor(formData);
     handleApiCallback(
       status!,
       () => {
-        router.back()
+        router.back();
       },
       () => {
-        alert(`멘토 수정이 실패하였습니다. 다시 시도해주세요.`)
+        alert(`멘토 수정이 실패하였습니다. 다시 시도해주세요.`);
       },
-    )
-  }
+    );
+  };
 
   return (
     <FormContainer>
@@ -231,7 +231,7 @@ function MentorRegisterForm() {
                       handleFormValueChange({
                         name: 'inOffice',
                         value,
-                      })
+                      });
                     }}
                   />
                 </div>
@@ -313,7 +313,7 @@ function MentorRegisterForm() {
         </FlexBox>
       </form>
     </FormContainer>
-  )
+  );
 }
 
-export default MentorRegisterForm
+export default MentorRegisterForm;

@@ -1,17 +1,17 @@
-'use client'
+'use client';
 
-import { useRouter } from 'next/navigation'
-import signUpCompleteImage from '@images/sign-up-complete.png'
-import Container from '@/ui/atoms/Container'
-import Typography from '@/ui/atoms/Typography'
-import Button from '@/ui/atoms/Button'
-import StyledLink from '@/ui/atoms/Link'
-import theme from '@/ui/theme'
-import FlexBox from '@/ui/atoms/FlexBox'
-import ImageComponent from '@/ui/atoms/ImageComponent'
+import { useRouter } from 'next/navigation';
+import signUpCompleteImage from '@images/sign-up-complete.png';
+import Container from '@/ui/atoms/Container';
+import Typography from '@/ui/atoms/Typography';
+import Button from '@/ui/atoms/Button';
+import StyledLink from '@/ui/atoms/Link';
+import theme from '@/ui/theme';
+import FlexBox from '@/ui/atoms/FlexBox';
+import ImageComponent from '@/ui/atoms/ImageComponent';
 
 function CompletePage() {
-  const router = useRouter()
+  const router = useRouter();
   return (
     <Container>
       <FlexBox direction="column" alignItems="center" rowGap="20px">
@@ -29,7 +29,7 @@ function CompletePage() {
         </Typography>
         <Button
           onClick={() => {
-            router.push('/profileForm')
+            router.push('/profileForm');
           }}
           variant="default"
           color={theme.colors.primary.main}
@@ -39,7 +39,7 @@ function CompletePage() {
         <StyledLink href="/">나중에 할게요</StyledLink>
       </FlexBox>
     </Container>
-  )
+  );
 }
 
-export default CompletePage
+export default CompletePage;

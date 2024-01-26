@@ -1,26 +1,26 @@
-'use client'
+'use client';
 
-import { FormEvent } from 'react'
-import { findId } from '@/api/accountApi'
-import Button from '@/ui/atoms/Button'
-import Container from '@/ui/atoms/Container'
-import FlexBox from '@/ui/atoms/FlexBox'
-import Input from '@/ui/atoms/Input'
-import StyledLink from '@/ui/atoms/Link'
-import Typography from '@/ui/atoms/Typography'
-import theme from '@/ui/theme'
+import { FormEvent } from 'react';
+import { findId } from '@/api/accountApi';
+import Button from '@/ui/atoms/Button';
+import Container from '@/ui/atoms/Container';
+import FlexBox from '@/ui/atoms/FlexBox';
+import Input from '@/ui/atoms/Input';
+import StyledLink from '@/ui/atoms/Link';
+import Typography from '@/ui/atoms/Typography';
+import theme from '@/ui/theme';
 import useNewForm, {
   FormPropertyType,
   FormType,
-} from '@/hooks/useNewForm/useNewForm'
+} from '@/hooks/useNewForm/useNewForm';
 import {
   SignImageContainer,
   SignInputFormContainer,
-} from '@/components/pages/account/AccountContainers'
+} from '@/components/pages/account/AccountContainers';
 
 function FindIdPage() {
   interface FindIdFormValuesType extends FormType {
-    email: FormPropertyType<string>
+    email: FormPropertyType<string>;
   }
 
   const initialFormValues: FindIdFormValuesType = {
@@ -30,28 +30,30 @@ function FindIdPage() {
         regex: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
       },
     },
-  }
+  };
 
   const { form, handleFormValueChange, validateAllFormValues } =
-    useNewForm(initialFormValues)
+    useNewForm(initialFormValues);
 
   const postFindId = async () => {
-    const { status } = await findId(form.email.value!)
+    const { status } = await findId(form.email.value!);
 
     if (status === 200) {
-      alert('해당 이메일로 아이디가 전송되었습니다.')
+      alert('해당 이메일로 아이디가 전송되었습니다.');
     } else {
-      alert('이메일 전송이 실패했습니다. 이메일 주소를 다시 한번 확인해주세요.')
+      alert(
+        '이메일 전송이 실패했습니다. 이메일 주소를 다시 한번 확인해주세요.',
+      );
     }
-  }
+  };
 
   const handleSubmitFindIdForm = async (e: FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    const isFormValid = validateAllFormValues()
+    const isFormValid = validateAllFormValues();
 
-    if (isFormValid) await postFindId()
-  }
+    if (isFormValid) await postFindId();
+  };
   return (
     <FlexBox {...{ height: '100%' }}>
       <SignImageContainer backgroundImageSrc="/images/find-id.png" />
@@ -102,7 +104,7 @@ function FindIdPage() {
         </form>
       </Container>
     </FlexBox>
-  )
+  );
 }
 
-export default FindIdPage
+export default FindIdPage;

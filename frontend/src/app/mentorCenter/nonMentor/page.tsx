@@ -1,16 +1,16 @@
-'use client'
+'use client';
 
-import Button from '@/ui/atoms/Button'
-import Typography from '@/ui/atoms/Typography'
-import theme from '@/ui/theme'
-import forNotMentor from '../../../public/images/for-not-mentor.png'
+import Button from '@/ui/atoms/Button';
+import Typography from '@/ui/atoms/Typography';
+import theme from '@/ui/theme';
+import forNotMentor from '../../../public/images/for-not-mentor.png';
 
-import FlexBox from '@/ui/atoms/FlexBox'
-import ImageComponent from '@/ui/atoms/ImageComponent'
-import { useRouter } from 'next/navigation'
+import FlexBox from '@/ui/atoms/FlexBox';
+import ImageComponent from '@/ui/atoms/ImageComponent';
+import { useRouter } from 'next/navigation';
 
 const NonMentorPage = () => {
-  const router = useRouter()
+  const router = useRouter();
   return (
     <FlexBox direction="column" rowGap="20px" {...{ minHeight: '500px' }}>
       <ImageComponent
@@ -38,7 +38,7 @@ const NonMentorPage = () => {
         멘토 신청하기
       </Button>
     </FlexBox>
-  )
-}
+  );
+};
 
-export default NonMentorPage
+export default NonMentorPage;

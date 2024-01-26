@@ -1,51 +1,51 @@
-'use client'
+'use client';
 
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import { useSelector } from 'react-redux'
-import { updatePassword as patchUpdatePassword } from '@/api/accountApi'
-import { selectUser } from '@/features/user/userSlice'
-import { UpdatePasswordBody } from '@/types/api/sign'
-import Button from '@/ui/atoms/Button'
-import { FormContainer } from '@/ui/atoms/Container'
-import FlexBox from '@/ui/atoms/FlexBox'
-import Input from '@/ui/atoms/Input'
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { updatePassword as patchUpdatePassword } from '@/api/accountApi';
+import { selectUser } from '@/features/user/userSlice';
+import { UpdatePasswordBody } from '@/types/api/sign';
+import Button from '@/ui/atoms/Button';
+import { FormContainer } from '@/ui/atoms/Container';
+import FlexBox from '@/ui/atoms/FlexBox';
+import Input from '@/ui/atoms/Input';
 
-import Typography from '@/ui/atoms/Typography'
-import ContentTextContainer from '@/ui/molecules/Container/ContentTextContainer'
-import theme from '@/ui/theme'
-import { handleApiCallback } from '@/utils/api'
+import Typography from '@/ui/atoms/Typography';
+import ContentTextContainer from '@/ui/molecules/Container/ContentTextContainer';
+import theme from '@/ui/theme';
+import { handleApiCallback } from '@/utils/api';
 
 function UpdateMyInfoPage() {
-  const router = useRouter()
+  const router = useRouter();
   const [passwordInfo, setPasswordInfo] = useState<UpdatePasswordBody>({
     oldPassword: '',
     newPassword: '',
-  })
+  });
 
   const updatePassWord = async () => {
     const { status } = await patchUpdatePassword({
       oldPassword: passwordInfo.oldPassword,
       newPassword: passwordInfo.newPassword,
-    })
+    });
 
     handleApiCallback(
       status!,
       () => {
-        router.push('/')
+        router.push('/');
       },
       () => {
         if (status === 500) {
-          alert('현재 비밀번호가 일치하지 않습니다. 다시 시도해 주세요')
+          alert('현재 비밀번호가 일치하지 않습니다. 다시 시도해 주세요');
           setPasswordInfo({
             ...passwordInfo,
             oldPassword: '',
             newPassword: '',
-          })
+          });
         }
       },
-    )
-  }
+    );
+  };
 
   return (
     <FormContainer>
@@ -93,7 +93,7 @@ function UpdateMyInfoPage() {
         </FlexBox>
       </FormContainer>
     </FormContainer>
-  )
+  );
 }
 
-export default UpdateMyInfoPage
+export default UpdateMyInfoPage;

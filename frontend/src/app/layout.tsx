@@ -1,5 +1,5 @@
-import { ReactNode } from 'react'
-import RootLayoutWrapper from '@/components/RootLayoutWrapper'
+import { ReactNode } from 'react';
+import RootLayoutWrapper from '@/components/RootLayoutWrapper';
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
@@ -8,5 +8,5 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <RootLayoutWrapper>{children}</RootLayoutWrapper>
       </body>
     </html>
-  )
+  );
 }
