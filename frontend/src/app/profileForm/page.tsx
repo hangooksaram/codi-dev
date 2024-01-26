@@ -206,7 +206,7 @@ function ProfileFormPage() {
   };
 
   useEffect(() => {
-    searchUniv();
+    // searchUniv();
   }, []);
 
   return (
@@ -418,16 +418,6 @@ function ProfileFormPage() {
       </form>
     </FormContainer>
   );
-}
-
-interface FormValues {
-  introduction: string;
-  desiredJob: string;
-  job: string;
-  education: string;
-  employmentStatus: string;
-  disability: string;
-  severity: string;
 }
 
 export default ProfileFormPage;
