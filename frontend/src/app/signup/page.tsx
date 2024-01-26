@@ -119,7 +119,7 @@ function SignUpPage() {
             password: form.password.value,
           });
           if (data) dispatch(setIsLoggedIn(true));
-          router.push('complete');
+          router.push('/signup/complete');
         },
         () => alert(`호출 실패 : ${errorMessage}`),
       );
