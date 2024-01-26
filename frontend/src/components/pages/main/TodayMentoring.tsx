@@ -1,30 +1,30 @@
-import Logo from '@icons/logo/recommend-icon.svg'
-import { useSelector } from 'react-redux'
-import styled from '@emotion/styled'
-import { useRouter } from 'next/navigation'
-import MentorList from '@/components/Mentor/Mentors/MentorList'
-import { selectUser } from '@/features/user/userSlice'
-import { useTodayMentoringsQuery } from '@/queries/mentoring/commonMentoringQuery'
-import { Mentor } from '@/types/profile'
-import { PageComponentLayout } from '../mentorsMain/PageComonentLayout'
-import TitleSection from '../mentorsMain/TitleSection'
-import Card from '@/ui/atoms/Card'
-import theme from '@/ui/theme'
-import FlexBox from '@/ui/atoms/FlexBox'
-import Button from '@/ui/atoms/Button'
+import Logo from '@icons/logo/recommend-icon.svg';
+import { useSelector } from 'react-redux';
+import styled from '@emotion/styled';
+import { useRouter } from 'next/navigation';
+import MentorList from '@/components/Mentor/Mentors/MentorList';
+import { selectUser } from '@/features/user/userSlice';
+import { useTodayMentoringsQuery } from '@/queries/mentoring/commonMentoringQuery';
+import { Mentor } from '@/types/profile';
+import { PageComponentLayout } from '../mentorsMain/PageComonentLayout';
+import TitleSection from '../mentorsMain/TitleSection';
+import Card from '@/ui/atoms/Card';
+import theme from '@/ui/theme';
+import FlexBox from '@/ui/atoms/FlexBox';
+import Button from '@/ui/atoms/Button';
 
 function TodayMentoring() {
-  const { isProfile } = useSelector(selectUser)
+  const { isProfile } = useSelector(selectUser);
   const { data: dailyMentoringData, isSuccess } = useTodayMentoringsQuery(
     isProfile!,
-  )
-  const mentors: Mentor[] = []
-  const router = useRouter()
+  );
+  const mentors: Mentor[] = [];
+  const router = useRouter();
 
   dailyMentoringData?.map(({ applicationDate, mentorInfo }) => {
-    const newMentorInfo = { ...mentorInfo, applicationDate }
-    mentors.push(newMentorInfo)
-  })
+    const newMentorInfo = { ...mentorInfo, applicationDate };
+    mentors.push(newMentorInfo);
+  });
 
   return (
     <PageComponentLayout>
@@ -50,7 +50,7 @@ function TodayMentoring() {
           </NoContentCard>
         ))}
     </PageComponentLayout>
-  )
+  );
 }
 
 const NoContentCard = styled(Card)({
@@ -59,6 +59,6 @@ const NoContentCard = styled(Card)({
   justifyContent: 'center',
   alignItems: 'center',
   padding: '30px',
-})
+});
 
-export default TodayMentoring
+export default TodayMentoring;

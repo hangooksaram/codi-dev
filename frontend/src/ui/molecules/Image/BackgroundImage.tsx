@@ -1,25 +1,25 @@
-import styled from '@emotion/styled'
-import { ReactNode, CSSProperties } from 'react'
-import { LocalImagePropsType } from '@/types/ui'
-import ImageComponent from '@/ui/atoms/ImageComponent'
+import styled from '@emotion/styled';
+import { ReactNode, CSSProperties } from 'react';
+import { LocalImagePropsType } from '@/types/ui';
+import ImageComponent from '@/ui/atoms/ImageComponent';
 
 export function BackgroundImage({
   image,
   style,
   children,
 }: {
-  image: LocalImagePropsType
-  style: CSSProperties
-  children: ReactNode
+  image: LocalImagePropsType;
+  style: CSSProperties;
+  children: ReactNode;
 }) {
-  const { width, height } = image
+  const { width, height } = image;
 
   return (
     <BackgroundImageContainer width={width} height={height} style={style}>
       <ImageComponent {...image} />
       <Content>{children}</Content>
     </BackgroundImageContainer>
-  )
+  );
 }
 
 const BackgroundImageContainer = styled.div(
@@ -28,8 +28,8 @@ const BackgroundImageContainer = styled.div(
     width,
     height,
   }),
-)
+);
 
 const Content = styled.div(() => ({
   position: 'absolute',
-}))
+}));

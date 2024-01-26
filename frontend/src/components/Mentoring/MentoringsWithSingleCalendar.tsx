@@ -1,18 +1,18 @@
-import { SetStateAction, useEffect } from 'react'
+import { SetStateAction, useEffect } from 'react';
 
-import styled from '@emotion/styled'
-import Card from '@/ui/atoms/Card'
-import Mentorings from './Mentorings'
-import CalendarContainer from '../Container/CalendarContainer'
-import { DailyMentoringMember } from '@/types/mentoring'
+import styled from '@emotion/styled';
+import Card from '@/ui/atoms/Card';
+import Mentorings from './Mentorings';
+import CalendarContainer from '../Container/CalendarContainer';
+import { DailyMentoringMember } from '@/types/mentoring';
 
 interface MentoringsWithSingleCalendarProps {
-  date: Date | undefined
-  setDate: React.Dispatch<SetStateAction<Date | undefined>>
-  setMonth: React.Dispatch<SetStateAction<string | undefined>>
-  mentorings: DailyMentoringMember[] | DailyMentoringMember
-  type: 'mentor' | 'mentee'
-  schedules: string[]
+  date: Date | undefined;
+  setDate: React.Dispatch<SetStateAction<Date | undefined>>;
+  setMonth: React.Dispatch<SetStateAction<string | undefined>>;
+  mentorings: DailyMentoringMember[] | DailyMentoringMember;
+  type: 'mentor' | 'mentee';
+  schedules: string[];
 }
 
 function MentoringsWithSingleCalendar({
@@ -28,7 +28,7 @@ function MentoringsWithSingleCalendar({
         date,
         mentoringStatus,
       }))
-    : []
+    : [];
   return (
     <CalendarContainer
       date={date}
@@ -42,11 +42,11 @@ function MentoringsWithSingleCalendar({
         <Mentorings mentorings={mentorings} />
       </SchedulesContainer>
     </CalendarContainer>
-  )
+  );
 }
 export const SchedulesContainer = styled.div({
   maxHeight: '510px',
   overflowY: 'auto',
-})
+});
 
-export default MentoringsWithSingleCalendar
+export default MentoringsWithSingleCalendar;

@@ -1,18 +1,18 @@
-import styled from '@emotion/styled'
-import Logo from '@icons/logo/recommendation-page-logo.svg'
-import { useSelector } from 'react-redux'
-import FlexBox from '@/ui/atoms/FlexBox'
-import { PageComponentLayout } from '@/components/pages/mentorsMain/PageComonentLayout'
-import Typography from '@/ui/atoms/Typography'
-import theme, { device } from '@/ui/theme'
-import TitleSection from '../pages/mentorsMain/TitleSection'
-import { useJobRanksQuery } from '@/queries/jobQuery'
-import { selectUser } from '@/features/user/userSlice'
+import styled from '@emotion/styled';
+import Logo from '@icons/logo/recommendation-page-logo.svg';
+import { useSelector } from 'react-redux';
+import FlexBox from '@/ui/atoms/FlexBox';
+import { PageComponentLayout } from '@/components/pages/mentorsMain/PageComonentLayout';
+import Typography from '@/ui/atoms/Typography';
+import theme, { device } from '@/ui/theme';
+import TitleSection from '../pages/mentorsMain/TitleSection';
+import { useJobRanksQuery } from '@/queries/jobQuery';
+import { selectUser } from '@/features/user/userSlice';
 
 function JobRank() {
-  const { id, isProfile } = useSelector(selectUser)
+  const { id, isProfile } = useSelector(selectUser);
   const { data: jobRanks, isSuccess: isJobRanksQuerySuccess } =
-    useJobRanksQuery()
+    useJobRanksQuery();
 
   return (
     <PageComponentLayout>
@@ -69,7 +69,7 @@ function JobRank() {
           ))}
       </FlexBox>
     </PageComponentLayout>
-  )
+  );
 }
 
 const Bar = styled.div(({ first }: { first: boolean }) => ({
@@ -89,6 +89,6 @@ const Bar = styled.div(({ first }: { first: boolean }) => ({
   [device('tablet')]: {
     width: first ? '100%' : '90%',
   },
-}))
+}));
 
-export default JobRank
+export default JobRank;

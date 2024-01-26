@@ -1,22 +1,22 @@
-import { css } from '@emotion/css'
-import styled from '@emotion/styled'
-import { useRouter } from 'next/navigation'
-import Grid from '@/ui/atoms/Grid'
-import theme, { device } from '@/ui/theme'
-import Card from '@/ui/atoms/Card'
-import Typography from '@/ui/atoms/Typography'
-import FlexBox from '@/ui/atoms/FlexBox'
-import ProfileCard, { Footer } from '@/components/Profile/ProfileCard'
-import { Mentor } from '@/types/profile'
-import Button from '@/ui/atoms/Button'
-import { useGetFavoriteMentorsQuery } from '@/queries/mentorQuery'
-import Header from '@/components/Profile/ProfileCard/Header'
-import Content from '@/components/Profile/ProfileCard/Content'
+import { css } from '@emotion/css';
+import styled from '@emotion/styled';
+import { useRouter } from 'next/navigation';
+import Grid from '@/ui/atoms/Grid';
+import theme, { device } from '@/ui/theme';
+import Card from '@/ui/atoms/Card';
+import Typography from '@/ui/atoms/Typography';
+import FlexBox from '@/ui/atoms/FlexBox';
+import ProfileCard, { Footer } from '@/components/Profile/ProfileCard';
+import { Mentor } from '@/types/profile';
+import Button from '@/ui/atoms/Button';
+import { useGetFavoriteMentorsQuery } from '@/queries/mentorQuery';
+import Header from '@/components/Profile/ProfileCard/Header';
+import Content from '@/components/Profile/ProfileCard/Content';
 
 function MentorList({ mentors }: { mentors: Mentor[] }) {
-  const router = useRouter()
+  const router = useRouter();
   const { favoriteIds, isSuccess: isFavoritesSuccess } =
-    useGetFavoriteMentorsQuery()
+    useGetFavoriteMentorsQuery();
 
   if (mentors.length === 0)
     return (
@@ -27,7 +27,7 @@ function MentorList({ mentors }: { mentors: Mentor[] }) {
           </Typography>
         </FlexBox>
       </NoResultCard>
-    )
+    );
   return (
     <Grid
       className={css({
@@ -46,7 +46,7 @@ function MentorList({ mentors }: { mentors: Mentor[] }) {
       rowGap="20px"
     >
       {mentors!.map((mentor) => {
-        const { mentorId } = mentor
+        const { mentorId } = mentor;
 
         return (
           <ProfileCard key={mentorId} {...mentor}>
@@ -80,10 +80,10 @@ function MentorList({ mentors }: { mentors: Mentor[] }) {
               </Button>
             </Footer>
           </ProfileCard>
-        )
+        );
       })}
     </Grid>
-  )
+  );
 }
 
 const NoResultCard = styled(Card)({
@@ -92,6 +92,6 @@ const NoResultCard = styled(Card)({
   maxWidth: '1312px',
   height: '200px',
   border: 'none',
-})
+});
 
-export default MentorList
+export default MentorList;

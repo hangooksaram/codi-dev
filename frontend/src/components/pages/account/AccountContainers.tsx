@@ -1,7 +1,7 @@
-import styled from '@emotion/styled'
-import { backgroundImage } from '@/ui/atoms/BackgroundImage'
-import FlexBox from '@/ui/atoms/FlexBox'
-import { device } from '@/ui/theme'
+import styled from '@emotion/styled';
+import { backgroundImage } from '@/ui/atoms/BackgroundImage';
+import FlexBox from '@/ui/atoms/FlexBox';
+import { device } from '@/ui/theme';
 
 export const SignImageContainer = styled.div(
   ({ backgroundImageSrc }: { backgroundImageSrc?: string }) => ({
@@ -12,7 +12,7 @@ export const SignImageContainer = styled.div(
     },
     ...backgroundImage(backgroundImageSrc!),
   }),
-)
+);
 
 export const SignInputFormContainer = styled(FlexBox)(({}) => ({
   [device('mdWeb')]: {
@@ -20,4 +20,4 @@ export const SignInputFormContainer = styled(FlexBox)(({}) => ({
   },
 
   padding: '40px 20% 32px 20%',
-}))
+}));

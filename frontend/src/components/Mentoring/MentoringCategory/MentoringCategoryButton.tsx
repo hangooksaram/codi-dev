@@ -1,6 +1,6 @@
-import styled from '@emotion/styled'
-import Button from '@/ui/atoms/Button'
-import theme, { device } from '@/ui/theme'
+import styled from '@emotion/styled';
+import Button from '@/ui/atoms/Button';
+import theme, { device } from '@/ui/theme';
 
 const MentorCategoryButton = styled(Button)(
   ({ selected }: { selected?: boolean }) => ({
@@ -21,6 +21,6 @@ const MentorCategoryButton = styled(Button)(
       height: '90px',
     },
   }),
-)
+);
 
-export default MentorCategoryButton
+export default MentorCategoryButton;

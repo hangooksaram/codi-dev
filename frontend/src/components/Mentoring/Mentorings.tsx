@@ -1,19 +1,19 @@
-import { css } from '@emotion/css'
-import Chip from '@/ui/atoms/Chip'
-import MentoringCard from './MentoringCard'
-import FlexBox from '@/ui/atoms/FlexBox'
-import theme from '@/ui/theme'
-import { DailyMentoringMember, MentoringMember } from '@/types/mentoring'
-import { formattedDate } from '@/utils/dateFormat'
+import { css } from '@emotion/css';
+import Chip from '@/ui/atoms/Chip';
+import MentoringCard from './MentoringCard';
+import FlexBox from '@/ui/atoms/FlexBox';
+import theme from '@/ui/theme';
+import { DailyMentoringMember, MentoringMember } from '@/types/mentoring';
+import { formattedDate } from '@/utils/dateFormat';
 
 function Mentorings({
   mentorings,
 }: {
-  mentorings: DailyMentoringMember[] | DailyMentoringMember
+  mentorings: DailyMentoringMember[] | DailyMentoringMember;
 }) {
   const today = (date: string) => {
-    return date === formattedDate(new Date())
-  }
+    return date === formattedDate(new Date());
+  };
 
   if (Array.isArray(mentorings))
     return mentorings?.map(({ date, mentoringMembers }, index) => {
@@ -66,8 +66,8 @@ function Mentorings({
             )}
           </FlexBox>
         </div>
-      )
-    })
+      );
+    });
   return (
     <div className={css({ width: '100%', marginBottom: '30px' })}>
       {mentorings?.mentoringMembers.length > 0 ? (
@@ -126,11 +126,11 @@ function Mentorings({
         )}
       </FlexBox>
     </div>
-  )
+  );
 }
 
 const chipColor = (today: boolean) => {
-  return today ? theme.colors.primary.main : theme.colors.gray.main
-}
+  return today ? theme.colors.primary.main : theme.colors.gray.main;
+};
 
-export default Mentorings
+export default Mentorings;

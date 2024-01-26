@@ -1,15 +1,15 @@
-import FlexBox from '@/ui/atoms/FlexBox'
-import Typography from '@/ui/atoms/Typography'
-import theme from '@/ui/theme'
+import FlexBox from '@/ui/atoms/FlexBox';
+import Typography from '@/ui/atoms/Typography';
+import theme from '@/ui/theme';
 
 function TitleSection({
   logo,
   title,
   description,
 }: {
-  logo: JSX.Element
-  title: string
-  description?: string
+  logo: JSX.Element;
+  title: string;
+  description?: string;
 }) {
   return (
     <FlexBox
@@ -38,6 +38,6 @@ function TitleSection({
         </Typography>
       )}
     </FlexBox>
-  )
+  );
 }
-export default TitleSection
+export default TitleSection;

@@ -1,24 +1,24 @@
-import styled from '@emotion/styled'
-import { useRouter } from 'next/navigation'
-import Overlay from '@/ui/atoms/BackgroundOverlay'
-import Button from '@/ui/atoms/Button'
-import FlexBox from '@/ui/atoms/FlexBox'
-import theme, { device } from '@/ui/theme'
-import { SetState } from '@/index'
-import useSideBar from '@/hooks/useSideBar'
-import { SideNavigator } from '@/ui/atoms/Navigator'
+import styled from '@emotion/styled';
+import { useRouter } from 'next/navigation';
+import Overlay from '@/ui/atoms/BackgroundOverlay';
+import Button from '@/ui/atoms/Button';
+import FlexBox from '@/ui/atoms/FlexBox';
+import theme, { device } from '@/ui/theme';
+import { SetState } from '@/index';
+import useSideBar from '@/hooks/useSideBar';
+import { SideNavigator } from '@/ui/atoms/Navigator';
 
 interface SideBarSideNavigator {
-  iconComponent?: React.JSX.Element
-  currentIconComponent?: React.JSX.Element
-  nestedParentIconComponent?: React.JSX.Element
-  name: string
-  href: string
-  adornment?: React.JSX.Element
+  iconComponent?: React.JSX.Element;
+  currentIconComponent?: React.JSX.Element;
+  nestedParentIconComponent?: React.JSX.Element;
+  name: string;
+  href: string;
+  adornment?: React.JSX.Element;
 }
 
 interface SideBarSideNavigators extends SideBarSideNavigator {
-  nested?: SideBarSideNavigator[]
+  nested?: SideBarSideNavigator[];
 }
 
 function SideBar({
@@ -26,12 +26,12 @@ function SideBar({
   open,
   setOpen,
 }: {
-  navigators: SideBarSideNavigators[]
-  open: boolean
-  setOpen: SetState<boolean>
+  navigators: SideBarSideNavigators[];
+  open: boolean;
+  setOpen: SetState<boolean>;
 }) {
   const { setNestedParent, setCurrent, current, nestedParent, path } =
-    useSideBar(navigators, setOpen)
+    useSideBar(navigators, setOpen);
 
   return (
     <Container open={open}>
@@ -53,8 +53,8 @@ function SideBar({
               <div key={index}>
                 <SideNavigator
                   onClick={() => {
-                    setNestedParent(nested ? href : '')
-                    setCurrent(href)
+                    setNestedParent(nested ? href : '');
+                    setCurrent(href);
                   }}
                   current={current === href && nestedParent !== href}
                   nestedParent={nestedParent === href}
@@ -76,9 +76,9 @@ function SideBar({
                       <SideNavigator
                         onClick={() => {
                           if (!nestedParent) {
-                            setNestedParent(href)
+                            setNestedParent(href);
                           }
-                          setCurrent(nestedHref!)
+                          setCurrent(nestedHref!);
                         }}
                         current={path === nestedHref}
                         nested={2}
@@ -87,16 +87,16 @@ function SideBar({
                       >
                         {nestedName}
                       </SideNavigator>
-                    )
+                    );
                   },
                 )}
               </div>
-            )
+            );
           },
         )}
       </FlexBox>
     </Container>
-  )
+  );
 }
 
 const Container = styled.nav(({ open }: { open: boolean }) => ({
@@ -115,7 +115,7 @@ const Container = styled.nav(({ open }: { open: boolean }) => ({
     zIndex: '3',
     top: '0px',
   },
-}))
+}));
 
 export const SideBarOverlay = styled(Overlay)(
   ({ open }: { open: boolean }) => ({
@@ -125,7 +125,7 @@ export const SideBarOverlay = styled(Overlay)(
       display: open ? 'block' : 'none',
     },
   }),
-)
+);
 
 export const MobileMenuButton = styled(Button)({
   position: 'fixed',
@@ -135,6 +135,6 @@ export const MobileMenuButton = styled(Button)({
   height: '40px',
   color: theme.colors.white,
   padding: '0px',
-})
+});
 
-export default SideBar
+export default SideBar;

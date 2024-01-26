@@ -1,10 +1,10 @@
-import Home from '@icons/mobile/appbar/home.svg'
-import MentorPage from '@icons/mobile/appbar/mentor-page.svg'
-import MyCodi from '@icons/mobile/appbar/my-codi.svg'
-import MyInfo from '@icons/mobile/appbar/my-info.svg'
+import Home from '@icons/mobile/appbar/home.svg';
+import MentorPage from '@icons/mobile/appbar/mentor-page.svg';
+import MyCodi from '@icons/mobile/appbar/my-codi.svg';
+import MyInfo from '@icons/mobile/appbar/my-info.svg';
 
 export const HOMEPAGE_URL =
-  'http://codi-frontend.s3-website-ap-northeast-1.amazonaws.com/'
+  'http://codi-frontend.s3-website-ap-northeast-1.amazonaws.com/';
 
 export const DISABILITIES = [
   '지체장애',
@@ -21,8 +21,8 @@ export const DISABILITIES = [
   '청각장애',
   '심장장애',
   '뇌전증장애',
-]
-export const SEVERITIES = ['중증', '경증']
+];
+export const SEVERITIES = ['중증', '경증'];
 
 export const CATEGORIZED_JOBS = [
   {
@@ -56,7 +56,7 @@ export const CATEGORIZED_JOBS = [
     category: '기타',
     jobs: [''],
   },
-]
+];
 
 export const JOBS = [
   '건설/채굴 연구개발직 및 공학기술직',
@@ -88,11 +88,11 @@ export const JOBS = [
 
   '제조 연구개발직 및 공학기술직',
   '청소 및 기타 개인서비스직',
-]
+];
 export const ImagePath =
-  'https://codi-frontend.s3.ap-northeast-1.amazonaws.com/images'
+  'https://codi-frontend.s3.ap-northeast-1.amazonaws.com/images';
 
-export const CAREERS = ['1 ~ 4년 차', '5 ~ 8년 차', '9 ~ 12년 차', '13년 이상']
+export const CAREERS = ['1 ~ 4년 차', '5 ~ 8년 차', '9 ~ 12년 차', '13년 이상'];
 
 export const DATE = {
   YEARS: [
@@ -105,7 +105,7 @@ export const DATE = {
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
     22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
   ],
-}
+};
 
 export const PROFILE_MENU = (isUser: boolean) => {
   return [
@@ -121,8 +121,8 @@ export const PROFILE_MENU = (isUser: boolean) => {
       name: '로그아웃',
       href: '',
     },
-  ]
-}
+  ];
+};
 
 export const SCHEDULE_TIME_TABLE = [
   '06:00 - 06:50',
@@ -143,35 +143,35 @@ export const SCHEDULE_TIME_TABLE = [
   '21:00 - 21:50',
   '22:00 - 22:50',
   '23:00 - 23:50',
-]
+];
 
 export const EMPLOYMENT_STATUSES = [
   '학생',
   '취업 준비생',
   '이직 준비중',
   '표시하지 않음(멘티로 표시)',
-]
+];
 
-export const EMPLOYMENT_STATUSES_VALUE = new Map()
-EMPLOYMENT_STATUSES_VALUE.set('학생', 'STUDENT')
-EMPLOYMENT_STATUSES_VALUE.set('취업 준비생', 'JOBSEEKER')
-EMPLOYMENT_STATUSES_VALUE.set('이직 준비중', 'PREPARINGCHANGEJOB')
-EMPLOYMENT_STATUSES_VALUE.set('표시하지 않음(멘티로 표시)', 'MENTEE')
+export const EMPLOYMENT_STATUSES_VALUE = new Map();
+EMPLOYMENT_STATUSES_VALUE.set('학생', 'STUDENT');
+EMPLOYMENT_STATUSES_VALUE.set('취업 준비생', 'JOBSEEKER');
+EMPLOYMENT_STATUSES_VALUE.set('이직 준비중', 'PREPARINGCHANGEJOB');
+EMPLOYMENT_STATUSES_VALUE.set('표시하지 않음(멘티로 표시)', 'MENTEE');
 
 export const STALE_TIME = {
   VERY_OFTEN: 1 * 1000,
   OFTEN: 10 * 1000,
   SOMETIMES: 60 * 1000,
   SELDOM: 600 * 1000,
-}
+};
 
-export const MOBILE_NAVIGATION_HEIGHT = 128
+export const MOBILE_NAVIGATION_HEIGHT = 128;
 
 export const APPBAR_NOT_SHOWING_PAGES = [
   '/signin',
   '/account/findId',
   '/account/findPw',
-]
+];
 
 export const MOBILE_APPBAR_LINKS = [
   {
@@ -194,4 +194,4 @@ export const MOBILE_APPBAR_LINKS = [
     text: '내 정보',
     link: '/myInfo',
   },
-]
+];

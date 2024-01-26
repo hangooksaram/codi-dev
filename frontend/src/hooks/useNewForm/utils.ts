@@ -1,10 +1,10 @@
-import { FormValidationType, FormValueType } from './useForm'
-import { FormType } from './useNewForm'
+import { FormValidationType, FormValueType } from './useForm';
+import { FormType } from './useNewForm';
 
 export const getFormattedFormValues = (initialFormValues: FormType) => {
-  const form = { ...initialFormValues }
+  const form = { ...initialFormValues };
   Object.keys(initialFormValues).forEach((key) => {
-    const formValue = form[key]
+    const formValue = form[key];
 
     Object.assign(form, {
       ...form,
@@ -13,20 +13,20 @@ export const getFormattedFormValues = (initialFormValues: FormType) => {
         value: formValue.initialValue ?? null,
         isValid: 'initial',
       },
-    })
-  })
+    });
+  });
 
-  return form
-}
+  return form;
+};
 
 export const combineValuesWithValidation = (
   form: FormValueType,
   validation: FormValidationType,
 ) => {
-  const newForm = {}
+  const newForm = {};
 
   Object.entries(form).forEach((formElement) => {
-    const [key, value] = formElement
+    const [key, value] = formElement;
 
     Object.assign(newForm, {
       ...newForm,
@@ -35,8 +35,8 @@ export const combineValuesWithValidation = (
         isValid: 'initial',
         validCondition: validation[key],
       },
-    })
-  })
+    });
+  });
 
-  return newForm
-}
+  return newForm;
+};

@@ -1,5 +1,5 @@
-import styled from '@emotion/styled'
-import theme from '../theme'
+import styled from '@emotion/styled';
+import theme from '../theme';
 
 const Chip = styled.div(
   ({
@@ -8,10 +8,10 @@ const Chip = styled.div(
     fontColor,
     outline,
   }: {
-    size?: 'small'
-    color?: string
-    fontColor?: string
-    outline?: boolean
+    size?: 'small';
+    color?: string;
+    fontColor?: string;
+    outline?: boolean;
   }) => ({
     display: 'flex',
     justifyContent: 'center',
@@ -26,6 +26,6 @@ const Chip = styled.div(
     cursor: 'default',
     border: outline ? `1px solid ${theme.colors.gray.main}` : 'none',
   }),
-)
+);
 
-export default Chip
+export default Chip;

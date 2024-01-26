@@ -1,20 +1,20 @@
-import styled from '@emotion/styled'
-import { usePathname, useRouter } from 'next/navigation'
-import { MOBILE_APPBAR_LINKS, MOBILE_NAVIGATION_HEIGHT } from '@/constants'
-import Button from '@/ui/atoms/Button'
-import Card from '@/ui/atoms/Card'
-import FlexBox from '@/ui/atoms/FlexBox'
-import theme, { device } from '@/ui/theme'
+import styled from '@emotion/styled';
+import { usePathname, useRouter } from 'next/navigation';
+import { MOBILE_APPBAR_LINKS, MOBILE_NAVIGATION_HEIGHT } from '@/constants';
+import Button from '@/ui/atoms/Button';
+import Card from '@/ui/atoms/Card';
+import FlexBox from '@/ui/atoms/FlexBox';
+import theme, { device } from '@/ui/theme';
 
 function MobileAppBar() {
-  const router = useRouter()
-  const path = usePathname()
+  const router = useRouter();
+  const path = usePathname();
   return (
     <StyledMobileAppBar>
       <MobileAppBarContent>
         <FlexBox columnGap="10px">
           {MOBILE_APPBAR_LINKS.map(({ icon: Icon, text, link }, index) => {
-            const current = link === '/' ? path === '/' : path.includes(link)
+            const current = link === '/' ? path === '/' : path.includes(link);
             return (
               <MobileMenuButton
                 width="69px"
@@ -30,12 +30,12 @@ function MobileAppBar() {
                 />
                 {text}
               </MobileMenuButton>
-            )
+            );
           })}
         </FlexBox>
       </MobileAppBarContent>
     </StyledMobileAppBar>
-  )
+  );
 }
 
 const StyledMobileAppBar = styled.nav({
@@ -49,7 +49,7 @@ const StyledMobileAppBar = styled.nav({
   [device('smWeb')]: {
     display: 'block',
   },
-})
+});
 
 const MobileAppBarContent = styled(Card)({
   width: '94%',
@@ -61,7 +61,7 @@ const MobileAppBarContent = styled(Card)({
   justifyContent: 'space-between',
   boxShadow: `0px 2px 6px 0px rgba(0, 0, 0, 0.04)`,
   background: theme.colors.white,
-})
+});
 
 const MobileMenuButton = styled(Button)(
   ({ selected }: { selected: boolean }) => ({
@@ -77,6 +77,6 @@ const MobileMenuButton = styled(Button)(
     alignItems: 'center',
     padding: '0px',
   }),
-)
+);
 
-export default MobileAppBar
+export default MobileAppBar;

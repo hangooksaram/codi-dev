@@ -1,5 +1,5 @@
-import styled from '@emotion/styled'
-import { device } from '@/ui/theme'
+import styled from '@emotion/styled';
+import { device } from '@/ui/theme';
 
 const LayoutWithSideBar = styled.main(() => ({
   width: '100%',
@@ -11,6 +11,6 @@ const LayoutWithSideBar = styled.main(() => ({
     paddingBottom: '200px',
     width: '90%',
   },
-}))
+}));
 
-export default LayoutWithSideBar
+export default LayoutWithSideBar;

@@ -1,6 +1,6 @@
-import styled from '@emotion/styled'
-import Card from '@/ui/atoms/Card'
-import theme, { device } from '@/ui/theme'
+import styled from '@emotion/styled';
+import Card from '@/ui/atoms/Card';
+import theme, { device } from '@/ui/theme';
 
 const MyInfoCommonContainerCard = styled(Card)({
   backgroundColor: theme.colors.background,
@@ -12,6 +12,6 @@ const MyInfoCommonContainerCard = styled(Card)({
     border: 'none',
     padding: '0px',
   },
-})
+});
 
-export default MyInfoCommonContainerCard
+export default MyInfoCommonContainerCard;

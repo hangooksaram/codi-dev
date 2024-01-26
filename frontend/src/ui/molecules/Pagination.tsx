@@ -1,11 +1,11 @@
-import styled from '@emotion/styled'
-import FlexBox from '../atoms/FlexBox'
-import Button from '../atoms/Button'
-import theme from '../theme'
-import RightIcon from '../../../public/icons/common/right-arrow.svg'
-import LeftIcon from '../../../public/icons/common/left-arrow.svg'
-import ImageComponent from '../atoms/ImageComponent'
-import StyledImage from '../atoms/StyledImage'
+import styled from '@emotion/styled';
+import FlexBox from '../atoms/FlexBox';
+import Button from '../atoms/Button';
+import theme from '../theme';
+import RightIcon from '../../../public/icons/common/right-arrow.svg';
+import LeftIcon from '../../../public/icons/common/left-arrow.svg';
+import ImageComponent from '../atoms/ImageComponent';
+import StyledImage from '../atoms/StyledImage';
 
 function Pagination({
   isStart,
@@ -17,14 +17,14 @@ function Pagination({
   isNext,
   onClickCurrentPage,
 }: {
-  isStart: Function
-  goNext: Function
-  goPrev: Function
-  currentPages: number[]
-  current: number
-  setCurrent: Function
-  isNext: Function
-  onClickCurrentPage: Function
+  isStart: Function;
+  goNext: Function;
+  goPrev: Function;
+  currentPages: number[];
+  current: number;
+  setCurrent: Function;
+  isNext: Function;
+  onClickCurrentPage: Function;
 }) {
   return (
     <FlexBox rowGap="8px">
@@ -48,8 +48,8 @@ function Pagination({
             page === current ? theme.colors.primary.main : theme.colors.white
           }
           onClick={() => {
-            setCurrent(page)
-            onClickCurrentPage(page)
+            setCurrent(page);
+            onClickCurrentPage(page);
           }}
         >
           {page}
@@ -69,14 +69,14 @@ function Pagination({
         </NavigateButton>
       )}
     </FlexBox>
-  )
+  );
 }
 
 const PageButton = styled(Button)(({}) => ({
   width: '39px',
   height: '39px',
-}))
+}));
 
-const NavigateButton = styled(Button)(({}) => ({}))
+const NavigateButton = styled(Button)(({}) => ({}));
 
-export default Pagination
+export default Pagination;

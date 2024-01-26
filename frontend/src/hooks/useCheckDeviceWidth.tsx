@@ -1,19 +1,19 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 
 export const useCheckDeviceWidth = (breakpoint: number) => {
-  const [isDeviceUnderWidth, setIsDeviceUnderWidth] = useState(false)
+  const [isDeviceUnderWidth, setIsDeviceUnderWidth] = useState(false);
 
   const setIsDeviceUnderWidthBySize = () => {
-    setIsDeviceUnderWidth(window.innerWidth < breakpoint)
-  }
+    setIsDeviceUnderWidth(window.innerWidth < breakpoint);
+  };
 
   useEffect(() => {
-    setIsDeviceUnderWidthBySize()
-    addEventListener('resize', setIsDeviceUnderWidthBySize)
+    setIsDeviceUnderWidthBySize();
+    addEventListener('resize', setIsDeviceUnderWidthBySize);
     return () => {
-      removeEventListener('resize', setIsDeviceUnderWidthBySize)
-    }
-  }, [])
+      removeEventListener('resize', setIsDeviceUnderWidthBySize);
+    };
+  }, []);
 
-  return isDeviceUnderWidth
-}
+  return isDeviceUnderWidth;
+};

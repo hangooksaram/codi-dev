@@ -1,5 +1,5 @@
-import Image from 'next/image'
-import { LocalImagePropsType, StyledImagePropsType } from '@/types/ui'
+import Image from 'next/image';
+import { LocalImagePropsType, StyledImagePropsType } from '@/types/ui';
 
 function ImageComponent({
   width,
@@ -18,7 +18,7 @@ function ImageComponent({
       sizes={sizes}
       {...rest}
     />
-  )
+  );
 }
 
-export default ImageComponent
+export default ImageComponent;

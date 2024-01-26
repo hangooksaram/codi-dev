@@ -1,4 +1,4 @@
-import styled from '@emotion/styled'
+import styled from '@emotion/styled';
 
 const Avatar = styled.div(({ imgUrl }: { imgUrl?: string }) => ({
   background: `url(${imgUrl}) `,
@@ -7,6 +7,6 @@ const Avatar = styled.div(({ imgUrl }: { imgUrl?: string }) => ({
   aspectRatio: 1 / 1,
   minWidth: '140px',
   borderRadius: '50%',
-}))
+}));
 
-export default Avatar
+export default Avatar;

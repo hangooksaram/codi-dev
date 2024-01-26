@@ -1,4 +1,4 @@
-import styled from '@emotion/styled'
+import styled from '@emotion/styled';
 
 const Overlay = styled.div(() => ({
   width: '100vw',
@@ -7,6 +7,6 @@ const Overlay = styled.div(() => ({
   top: 0,
   left: 0,
   zIndex: 1,
-}))
+}));
 
-export default Overlay
+export default Overlay;

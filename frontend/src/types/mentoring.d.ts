@@ -1,11 +1,11 @@
 export interface MentorMentoring {
-  date: string
-  name: string
-  job: string
-  imgUrl: string
-  link: string
-  platform: string
-  status: string
+  date: string;
+  name: string;
+  job: string;
+  imgUrl: string;
+  link: string;
+  platform: string;
+  status: string;
 }
 
 export type MentoringStatus =
@@ -13,32 +13,32 @@ export type MentoringStatus =
   | 'ACCEPTED'
   | 'REJECTED'
   | 'COMPLETED'
-  | 'INITIAL'
+  | 'INITIAL';
 
 export type MentoringPlatform =
   | 'Google Meeting'
   | 'Discord'
   | 'Zoom'
-  | 'KakaoTalk'
+  | 'KakaoTalk';
 
 export interface MentoringMember {
-  profileId?: number
-  mentorId?: number
-  mentoringJob: string
-  imgUrl: string
-  link: string | null
-  mentoringId: number
-  name: string
-  platform: MentoringPlatform | string
-  time: string
+  profileId?: number;
+  mentorId?: number;
+  mentoringJob: string;
+  imgUrl: string;
+  link: string | null;
+  mentoringId: number;
+  name: string;
+  platform: MentoringPlatform | string;
+  time: string;
 }
 export interface DailyMentoringMember {
-  date: string
-  mentoringMembers: MentoringMember[]
-  mentoringStatus: MentoringStatus
+  date: string;
+  mentoringMembers: MentoringMember[];
+  mentoringStatus: MentoringStatus;
 }
 
 export interface DailyMentoringStatus {
-  date: string
-  mentoringStatus: MentoringStatus
+  date: string;
+  mentoringStatus: MentoringStatus;
 }

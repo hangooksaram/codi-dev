@@ -1,30 +1,30 @@
-import { useEffect, useState } from 'react'
-import FilledLike from '@icons/common/filled-like.svg'
-import EmptyLike from '@icons/common/empty-like.svg'
-import { likeMentor, unLikeMentor } from '@/api/mentorApi'
-import Button from '@/ui/atoms/Button'
-import theme from '@/ui/theme'
+import { useEffect, useState } from 'react';
+import FilledLike from '@icons/common/filled-like.svg';
+import EmptyLike from '@icons/common/empty-like.svg';
+import { likeMentor, unLikeMentor } from '@/api/mentorApi';
+import Button from '@/ui/atoms/Button';
+import theme from '@/ui/theme';
 
 function Like({
   mentorId,
   favorites,
 }: {
-  mentorId?: number
-  favorites?: number[]
+  mentorId?: number;
+  favorites?: number[];
 }) {
-  const [localFavoriteState, setLocalFavoriteState] = useState(false)
+  const [localFavoriteState, setLocalFavoriteState] = useState(false);
   const toggleLikeMentor = async () => {
     if (localFavoriteState) {
-      await unLikeMentor(mentorId!)
+      await unLikeMentor(mentorId!);
     } else {
-      await likeMentor(mentorId!)
+      await likeMentor(mentorId!);
     }
-    setLocalFavoriteState((prev) => !prev)
-  }
+    setLocalFavoriteState((prev) => !prev);
+  };
 
   useEffect(() => {
-    setLocalFavoriteState(favorites?.includes(mentorId!)!)
-  }, [favorites])
+    setLocalFavoriteState(favorites?.includes(mentorId!)!);
+  }, [favorites]);
   return (
     <Button
       onClick={toggleLikeMentor}
@@ -35,7 +35,7 @@ function Like({
     >
       {localFavoriteState ? <FilledLike /> : <EmptyLike />}
     </Button>
-  )
+  );
 }
 
-export default Like
+export default Like;

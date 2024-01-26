@@ -1,17 +1,17 @@
-import styled from '@emotion/styled'
-import theme from '@/ui/theme'
-import { Input } from '@/types/ui'
+import styled from '@emotion/styled';
+import theme from '@/ui/theme';
+import { Input } from '@/types/ui';
 
 export const borderStyle = (
   invalid: boolean | undefined,
   outline: boolean | undefined,
 ) => {
   if (invalid) {
-    return theme.colors.error
+    return theme.colors.error;
   }
-  if (outline) return theme.colors.gray.main
-  return theme.colors.gray.light
-}
+  if (outline) return theme.colors.gray.main;
+  return theme.colors.gray.light;
+};
 
 const Input = styled.input(({ width, outline, invalid }: Input) => ({
   width: width ?? '100%',
@@ -27,6 +27,6 @@ const Input = styled.input(({ width, outline, invalid }: Input) => ({
   '::placeholder': {
     color: theme.colors.gray.dark,
   },
-}))
+}));
 
-export default Input
+export default Input;

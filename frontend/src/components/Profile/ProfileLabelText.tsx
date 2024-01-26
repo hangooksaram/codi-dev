@@ -1,6 +1,6 @@
-import FlexBox from '@/ui/atoms/FlexBox'
-import Typography from '@/ui/atoms/Typography'
-import theme from '@/ui/theme'
+import FlexBox from '@/ui/atoms/FlexBox';
+import Typography from '@/ui/atoms/Typography';
+import theme from '@/ui/theme';
 
 function ProfileLabelText({ name, value }: { name: string; value?: string }) {
   return (
@@ -24,7 +24,7 @@ function ProfileLabelText({ name, value }: { name: string; value?: string }) {
         {!value ? '-' : value}
       </Typography>
     </FlexBox>
-  )
+  );
 }
 
-export default ProfileLabelText
+export default ProfileLabelText;

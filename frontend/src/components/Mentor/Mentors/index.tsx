@@ -1,9 +1,9 @@
-import { css } from '@emotion/css'
-import useGetMentorsQuery from '@/queries/mentorQuery'
-import MentorSearch from './MentorSearch'
-import MentorList from './MentorList'
-import Pagination from '@/ui/molecules/Pagination'
-import usePagination from '@/hooks/usePagination'
+import { css } from '@emotion/css';
+import useGetMentorsQuery from '@/queries/mentorQuery';
+import MentorSearch from './MentorSearch';
+import MentorList from './MentorList';
+import Pagination from '@/ui/molecules/Pagination';
+import usePagination from '@/hooks/usePagination';
 
 function Mentors() {
   const {
@@ -16,10 +16,10 @@ function Mentors() {
     setSearched,
     page,
     setPage,
-  } = useGetMentorsQuery()
+  } = useGetMentorsQuery();
 
   const { isNext, isStart, goNext, goPrev, current, currentPages, setCurrent } =
-    usePagination({ totalCount: pageInfo?.totalPages }, [isSuccess])
+    usePagination({ totalCount: pageInfo?.totalPages }, [isSuccess]);
 
   return (
     isSuccess && (
@@ -42,12 +42,12 @@ function Mentors() {
           currentPages={currentPages}
           setCurrent={setCurrent}
           onClickCurrentPage={(page: number) => {
-            setPage(page)
+            setPage(page);
           }}
         />
       </>
     )
-  )
+  );
 }
 
-export default Mentors
+export default Mentors;

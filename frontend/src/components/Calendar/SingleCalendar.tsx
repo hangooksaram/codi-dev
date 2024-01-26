@@ -1,13 +1,13 @@
-import React from 'react'
-import { ko } from 'date-fns/locale'
-import { DayPicker } from 'react-day-picker'
-import { disabledDays } from '@/utils/dateFormat'
-import { dayPickerContainerStyle } from './style'
-import { DailyMentoringStatus } from '@/types/mentoring'
-import { CustomDay } from './customComponents/CustomDay'
-import { CustomDayContent } from './customComponents/CustomDayContent'
-import { CustomCaption } from './customComponents/CustomCaption'
-import { SetState } from '@/index'
+import React from 'react';
+import { ko } from 'date-fns/locale';
+import { DayPicker } from 'react-day-picker';
+import { disabledDays } from '@/utils/dateFormat';
+import { dayPickerContainerStyle } from './style';
+import { DailyMentoringStatus } from '@/types/mentoring';
+import { CustomDay } from './customComponents/CustomDay';
+import { CustomDayContent } from './customComponents/CustomDayContent';
+import { CustomCaption } from './customComponents/CustomCaption';
+import { SetState } from '@/index';
 
 function SingleCalendar({
   date,
@@ -17,12 +17,12 @@ function SingleCalendar({
   mentoringSchedules,
   schedules,
 }: {
-  date: Date | undefined
-  setDate: SetState<Date | undefined>
-  setMonth: SetState<string | undefined>
-  type: 'mentor' | 'mentee'
-  mentoringSchedules?: DailyMentoringStatus[]
-  schedules: string[]
+  date: Date | undefined;
+  setDate: SetState<Date | undefined>;
+  setMonth: SetState<string | undefined>;
+  type: 'mentor' | 'mentee';
+  mentoringSchedules?: DailyMentoringStatus[];
+  schedules: string[];
 }) {
   return (
     <DayPicker
@@ -49,6 +49,6 @@ function SingleCalendar({
       locale={ko}
       disabled={disabledDays()}
     />
-  )
+  );
 }
-export default SingleCalendar
+export default SingleCalendar;

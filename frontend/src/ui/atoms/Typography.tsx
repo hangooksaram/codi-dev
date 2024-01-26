@@ -1,6 +1,6 @@
-import styled from '@emotion/styled'
-import theme from '../theme'
-import { Typography } from '../../types/ui'
+import styled from '@emotion/styled';
+import theme from '../theme';
+import { Typography } from '../../types/ui';
 
 function Typography({
   variant,
@@ -23,8 +23,8 @@ function Typography({
       wordBreak: wordBreak ?? 'break-word',
       ...rest,
     }))
-    .withComponent(variant)
-  return <StyledTypography>{children}</StyledTypography>
+    .withComponent(variant);
+  return <StyledTypography>{children}</StyledTypography>;
 }
 
-export default Typography
+export default Typography;

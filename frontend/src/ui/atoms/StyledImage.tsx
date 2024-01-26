@@ -1,5 +1,5 @@
-import Image from 'next/image'
-import { StyledImagePropsType } from '@/types/ui'
+import Image from 'next/image';
+import { StyledImagePropsType } from '@/types/ui';
 
 function StyledImage({
   id,
@@ -24,7 +24,7 @@ function StyledImage({
         unoptimized
       />
     </div>
-  )
+  );
 }
 
-export default StyledImage
+export default StyledImage;

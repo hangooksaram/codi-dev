@@ -1,5 +1,5 @@
-import styled from '@emotion/styled'
-import { FlexBox } from '../../types/ui'
+import styled from '@emotion/styled';
+import { FlexBox } from '../../types/ui';
 
 const FlexBox = styled.div(
   ({
@@ -23,6 +23,6 @@ const FlexBox = styled.div(
     columnGap,
     ...rest,
   }),
-)
+);
 
-export default FlexBox
+export default FlexBox;

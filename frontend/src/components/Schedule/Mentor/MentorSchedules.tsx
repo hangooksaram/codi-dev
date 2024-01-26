@@ -1,16 +1,16 @@
-import { css } from '@emotion/css'
-import { Schedule } from '@/types/schedule'
-import Card from '@/ui/atoms/Card'
-import Chip from '@/ui/atoms/Chip'
-import FlexBox from '@/ui/atoms/FlexBox'
-import theme from '@/ui/theme'
+import { css } from '@emotion/css';
+import { Schedule } from '@/types/schedule';
+import Card from '@/ui/atoms/Card';
+import Chip from '@/ui/atoms/Chip';
+import FlexBox from '@/ui/atoms/FlexBox';
+import theme from '@/ui/theme';
 
 function MentorSchedules({ schedules }: { schedules: Schedule | Schedule[] }) {
   return Array.isArray(schedules) ? (
     <MonthlySchedules schedules={schedules} />
   ) : (
     <DailySchedules schedules={schedules} />
-  )
+  );
 }
 
 function MonthlySchedules({ schedules }: { schedules: Schedule[] }) {
@@ -46,10 +46,10 @@ function MonthlySchedules({ schedules }: { schedules: Schedule[] }) {
               ))}
             </FlexBox>
           </div>
-        )
+        );
       })}
     </Card>
-  )
+  );
 }
 
 function DailySchedules({ schedules }: { schedules?: Schedule }) {
@@ -77,7 +77,7 @@ function DailySchedules({ schedules }: { schedules?: Schedule }) {
         </FlexBox>
       </div>
     </Card>
-  )
+  );
 }
 
-export default MentorSchedules
+export default MentorSchedules;

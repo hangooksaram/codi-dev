@@ -1,7 +1,7 @@
-import styled from '@emotion/styled'
-import theme from '@/ui/theme'
-import { borderStyle } from './Input'
-import { Textarea } from '@/types/ui'
+import styled from '@emotion/styled';
+import theme from '@/ui/theme';
+import { borderStyle } from './Input';
+import { Textarea } from '@/types/ui';
 
 export const textareaStyle = `
 width: 100%;
@@ -14,13 +14,13 @@ font-weight: ${theme.fonts.weight.regular};
 resize: none;
 border-radius: 10px;
 outline: none;
-`
+`;
 
 const Textarea = styled.textarea(
   textareaStyle,
   ({ invalid, outline }: Textarea) => ({
     borderColor: borderStyle(invalid, outline),
   }),
-)
+);
 
-export default Textarea
+export default Textarea;

@@ -1,5 +1,5 @@
-import Typography from '@/ui/atoms/Typography'
-import theme from '@/ui/theme'
+import Typography from '@/ui/atoms/Typography';
+import theme from '@/ui/theme';
 
 function EmploymentStatus({ employmentStatus }: { employmentStatus: string }) {
   return (
@@ -10,7 +10,7 @@ function EmploymentStatus({ employmentStatus }: { employmentStatus: string }) {
     >
       {employmentStatus!}
     </Typography>
-  )
+  );
 }
 
-export default EmploymentStatus
+export default EmploymentStatus;
