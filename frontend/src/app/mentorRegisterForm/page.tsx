@@ -259,7 +259,7 @@ function MentorRegisterForm() {
                   <Input
                     id="certificate"
                     type="file"
-                    accept="application/pdf"
+                    accept="application/pdf,.png,.jpg,.jpeg"
                     onChange={onUploadFile}
                   />
                 </div>
