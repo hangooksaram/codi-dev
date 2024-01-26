@@ -2,7 +2,6 @@
 
 import ProfileImage from '@icons/common/profile-image.svg';
 import { FormEvent, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { useRouter, useSearchParams } from 'next/navigation';
 import ContentTextContainer from '@/ui/molecules/Container/ContentTextContainer';
 import IconInputContainer from '@/ui/molecules/Input/IconInput';
@@ -23,7 +22,6 @@ import {
   registerMentor as postRegisterMentor,
   editMentor as patchEditMentor,
 } from '@/api/mentorApi';
-import { selectUser, setUser } from '@/features/user/userSlice';
 import JobSelector from '@/components/Job/JopSelector';
 
 import { handleApiCallback } from '@/utils/api';
@@ -33,13 +31,9 @@ import useNewForm, {
   FormType,
 } from '@/hooks/useNewForm/useNewForm';
 import { useGetMentorQuery } from '@/queries/mentorQuery';
-import useRedirectOnUnverified from '@/hooks/redirect/useRedirectOnUnverified';
 
 function MentorRegisterForm() {
   const router = useRouter();
-  const dispatch = useDispatch();
-  const { id, isProfile } = useSelector(selectUser);
-  const checkRedirect = useRedirectOnUnverified();
 
   const { file, onUploadFile } = useUploadFile();
   const isEdit = useSearchParams().get('edit');

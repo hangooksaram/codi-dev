@@ -10,15 +10,6 @@ import FlexBox from '@/ui/atoms/FlexBox';
 function UserAppBarMenu() {
   const user = useSelector(selectUser);
   const router = useRouter();
-
-  const goToApplyPage = () => {
-    if (!user?.isProfile)
-      alert(
-        '아직 프로필이 작성되어있지 않습니다. 프로필 작성 페이지로 이동하시겠습니까?',
-      );
-    router.push('/mentorRegisterForm');
-  };
-
   return (
     <FlexBox justifyContent="flex-end" columnGap="30px">
       {user.isMentor && (
@@ -40,7 +31,7 @@ function UserAppBarMenu() {
           variant="default"
           color={theme.colors.primary.main}
           {...{ height: '39px' }}
-          onClick={() => goToApplyPage()}
+          onClick={() => router.push('/mentorRegisterForm')}
         >
           멘토 신청
         </Button>
