@@ -20,7 +20,7 @@ function MentorProfilePage() {
         <MentorProfile mentor={mentor!}>
           <ProfileCard width="322px">
             <Content.Container>
-              <Content.Avatar imgUrl={mentor?.imgUrl} />
+              <Content.Avatar src={mentor?.imgUrl} />
               <Content.Name name={mentor?.name!} />
               <Content.Job job={mentor?.job!} />
               <Content.Rating star={mentor?.star!} mentees={mentor?.mentees!} />

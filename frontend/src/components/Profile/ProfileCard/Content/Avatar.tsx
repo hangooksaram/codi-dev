@@ -1,11 +1,9 @@
 import styled from '@emotion/styled';
 
-const Avatar = styled.div(({ imgUrl }: { imgUrl?: string }) => ({
-  background: `url(${imgUrl}) `,
-  backgroundSize: 'cover',
-  backgroundRepeat: 'no-repeat',
+const Avatar = styled.img(() => ({
+  objectFit: 'cover',
   aspectRatio: 1 / 1,
-  minWidth: '140px',
+  width: '140px',
   borderRadius: '50%',
 }));
 

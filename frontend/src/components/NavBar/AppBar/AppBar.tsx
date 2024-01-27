@@ -10,6 +10,10 @@ import UserAppBarMenu from './AppBarMenu/UserAppBarMenu';
 import NonUserAppBarMenu from './AppBarMenu/NonUserAppBarMenu';
 import AppBarTab from './AppBarMenu/AppBarTab';
 import { APPBAR_NOT_SHOWING_PAGES } from '@/constants';
+import { Suspense } from 'react';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
+import { css } from '@emotion/css';
 
 function AppBar() {
   const path = usePathname();

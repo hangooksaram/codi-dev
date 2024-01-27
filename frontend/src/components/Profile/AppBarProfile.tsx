@@ -6,13 +6,9 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import styled from '@emotion/styled';
 import { PROFILE_MENU } from '@/constants';
-import FlexBox from '@/ui/atoms/FlexBox';
-
 import { selectUser } from '@/features/user/userSlice';
 import theme from '@/ui/theme';
 import Dropdown from '@/ui/atoms/Dropdown';
-import Button from '@/ui/atoms/Button';
-import { backgroundImage } from '@/ui/atoms/BackgroundImage';
 import { signOut } from '@/api/signApi';
 
 function AppBarProfile() {
@@ -49,29 +45,41 @@ function AppBarProfile() {
       left
     >
       {user.profileImageUrl ? (
-        <StyledAppBarProfile id="profile-menu" src={user.profileImageUrl!} />
+        <StyledAppBarProfile
+          id="profile-menu"
+          src={user.profileImageUrl!}
+          alt="내 프로필"
+        />
       ) : (
-        <StyledAppBarProfile>
+        <StyledAppBarProfileNonUser>
           <Profile id="profile-menu" fill={theme.colors.white} />
-        </StyledAppBarProfile>
+        </StyledAppBarProfileNonUser>
       )}
     </Dropdown>
   );
 }
 
-const StyledAppBarProfile = styled.div(({ src }: { src?: string }) => ({
-  ...backgroundImage(src!),
+const AppBarProfileStyles = {
   width: '42px',
   height: '42px',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  backgroundColor: `${theme.colors.gray.light}`,
   borderRadius: '100%',
+  backgroundColor: `${theme.colors.gray.light}`,
   cursor: 'pointer',
   ':hover': {
     outline: `4px solid #F7C863`,
   },
+};
+
+const StyledAppBarProfile = styled.img(({ src }: { src?: string }) => ({
+  ...AppBarProfileStyles,
+  objectFit: 'cover',
+}));
+
+const StyledAppBarProfileNonUser = styled.div(() => ({
+  ...AppBarProfileStyles,
 }));
 
 export default AppBarProfile;

@@ -9,6 +9,7 @@ import Chip from '@/ui/atoms/Chip';
 import { device } from '@/ui/theme';
 import Grid from '@/ui/atoms/Grid';
 import Typography from '@/ui/atoms/Typography';
+import Skeleton from 'react-loading-skeleton';
 
 function MenteeProfileInformation({ profile }: { profile: MenteeProfile }) {
   return (
@@ -57,7 +58,11 @@ function MenteeProfileInformation({ profile }: { profile: MenteeProfile }) {
           </LabelBox>
         </FlexBox>
         <LabelBox text="자기소개">
-          <Typography variant="div">{profile?.introduction!}</Typography>
+          {profile?.introduction ? (
+            <Typography variant="div">{profile?.introduction!}</Typography>
+          ) : (
+            <Skeleton count={1} />
+          )}
         </LabelBox>
       </FlexBox>
     </MyInfoCard>
