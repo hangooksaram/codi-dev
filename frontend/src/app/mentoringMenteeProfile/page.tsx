@@ -24,7 +24,7 @@ function MentoringMenteeProfilePage({}) {
       <MenteeProfile profile={profile}>
         <ProfileCard width="322px">
           <Content.Container>
-            <Content.Avatar imgUrl={profile?.imgUrl} />
+            <Content.Avatar src={profile?.imgUrl} />
             <Content.Name name={profile?.name!} />
             <Content.EmploymentStatus
               employmentStatus={profile?.employmentStatus!}

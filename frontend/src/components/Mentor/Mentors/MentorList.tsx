@@ -54,7 +54,7 @@ function MentorList({ mentors }: { mentors: Mentor[] }) {
               <Header.Like />
             </Header.Container>
             <Content.Container>
-              <Content.Avatar imgUrl={mentor.imgUrl} />
+              <Content.Avatar src={mentor.imgUrl} />
               <Content.Name name={mentor.name!} />
               <Content.Job job={mentor.job!} />
               <Content.Rating star={mentor.star!} mentees={mentor.mentees!} />

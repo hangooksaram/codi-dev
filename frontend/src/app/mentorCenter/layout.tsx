@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import Schedule from '@icons/calendar/calendar-schedule.svg';
 import Hamburger from '@icons/mentorCenter/hamburger.svg';
 import MentorProfile from '@icons/mentorCenter/mentor-profile.svg';
@@ -12,6 +12,7 @@ import SideBar, {
 import theme from '@/ui/theme';
 import FlexBox from '@/ui/atoms/FlexBox';
 import LayoutWithSideBar from '@/components/Layout/LayoutWithSideBar';
+import MentorCenterLoading from './loading';
 
 export default function MentorCenterLayout({
   children,
@@ -42,23 +43,25 @@ export default function MentorCenterLayout({
     },
   ];
   return (
-    <FlexBox
-      justifyContent="flex-start"
-      alignItems="flex-start"
-      {...{ backgroundColor: '#ECF1F6' }}
-    >
-      <>
-        <SideBarOverlay open={open} onClick={() => setOpen(false)} />
-        <MobileMenuButton
-          variant="square"
-          onClick={() => setOpen((prev) => !prev)}
-          color={theme.colors.gray.main}
-        >
-          <Menu />
-        </MobileMenuButton>
-      </>
-      <SideBar navigators={navigators} open={open} setOpen={setOpen} />
-      <LayoutWithSideBar>{children}</LayoutWithSideBar>
-    </FlexBox>
+    <Suspense fallback={<MentorCenterLoading />}>
+      <FlexBox
+        justifyContent="flex-start"
+        alignItems="flex-start"
+        {...{ backgroundColor: '#ECF1F6' }}
+      >
+        <>
+          <SideBarOverlay open={open} onClick={() => setOpen(false)} />
+          <MobileMenuButton
+            variant="square"
+            onClick={() => setOpen((prev) => !prev)}
+            color={theme.colors.gray.main}
+          >
+            <Menu />
+          </MobileMenuButton>
+        </>
+        <SideBar navigators={navigators} open={open} setOpen={setOpen} />
+        <LayoutWithSideBar>{children}</LayoutWithSideBar>
+      </FlexBox>
+    </Suspense>
   );
 }

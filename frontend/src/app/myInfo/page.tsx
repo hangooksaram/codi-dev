@@ -19,7 +19,7 @@ function MyInfoPage() {
     <MenteeProfile profile={profile}>
       <ProfileCard width="328px" height="477px">
         <Content.Container>
-          <Content.Avatar imgUrl={profile?.imgUrl} />
+          <Content.Avatar src={profile?.imgUrl} />
           <Content.Name name={profile?.name!} />
           <Content.EmploymentStatus
             employmentStatus={profile?.employmentStatus!}

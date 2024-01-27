@@ -72,7 +72,7 @@ function MentorCenterApplyCard({
       >
         <ProfileCard width="293px" height="400px">
           <Content.Container>
-            <Content.Avatar imgUrl={menteeInfo.imgUrl} />
+            <Content.Avatar src={menteeInfo.imgUrl} />
             <Content.Name name={menteeInfo.name} />
             <Content.EmploymentStatus
               employmentStatus={menteeInfo.employmentStatus}
