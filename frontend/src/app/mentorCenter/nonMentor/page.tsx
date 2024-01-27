@@ -3,7 +3,7 @@
 import Button from '@/ui/atoms/Button';
 import Typography from '@/ui/atoms/Typography';
 import theme from '@/ui/theme';
-import forNotMentor from '../../../public/images/for-not-mentor.png';
+import forNotMentor from '../../../../public/images/for-not-mentor.png';
 
 import FlexBox from '@/ui/atoms/FlexBox';
 import ImageComponent from '@/ui/atoms/ImageComponent';
