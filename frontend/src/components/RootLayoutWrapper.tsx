@@ -1,6 +1,7 @@
 'use client';
 
 import '../app/globals.css';
+import '../components/Skeleton/skeleton.css';
 import { Provider } from 'react-redux';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from '@emotion/react';
@@ -11,7 +12,7 @@ import theme from '@/ui/theme';
 import AppBar from '@/components/NavBar/AppBar/AppBar';
 import Floating from '@/components/Accessibility/Floating';
 import MobileAppBar from './NavBar/AppBar/MobileAppBar';
-/** create new client */
+
 const queryClient = new QueryClient();
 
 function RootLayoutWrapper({ children }: { children: ReactNode }) {
