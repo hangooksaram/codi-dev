@@ -1,36 +1,13 @@
-'use client';
-
 import FlexBox from '@/ui/atoms/FlexBox';
 import { device } from '@/ui/theme';
-import { css } from '@emotion/css';
 import styled from '@emotion/styled';
 import Skeleton from 'react-loading-skeleton';
 
 const MyInfoLoading = () => (
-  <Wrapper columnGap="20px">
-    <Skeleton
-      containerClassName={css`
-        flex: 0.4;
-      `}
-      className={css`
-        height: 477px;
-      `}
-    />
-    <Skeleton
-      containerClassName={css`
-        flex: 0.6;
-      `}
-      className={css`
-        height: 477px;
-      `}
-    />
-  </Wrapper>
+  <div className="mentor-center-loading-container">
+    <Skeleton containerClassName="left" className="height-70vh" />
+    <Skeleton containerClassName="right" className="height-70vh" />
+  </div>
 );
-
-const Wrapper = styled(FlexBox)(({}) => ({
-  [device('mobile')]: {
-    flexDirection: 'column',
-  },
-}));
 
 export default MyInfoLoading;

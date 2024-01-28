@@ -1,31 +1,13 @@
-'use client';
-
-import FlexBox from '@/ui/atoms/FlexBox';
-import { css } from '@emotion/css';
 import Skeleton from 'react-loading-skeleton';
 
 const MentorCenterLoading = () => {
   return (
     <>
       <Skeleton />
-      <FlexBox columnGap="20px" {...{ marginTop: '20px' }}>
-        <Skeleton
-          containerClassName={css`
-            flex: 0.4;
-          `}
-          className={css`
-            height: 70vh;
-          `}
-        />
-        <Skeleton
-          containerClassName={css`
-            flex: 0.6;
-          `}
-          className={css`
-            height: 70vh;
-          `}
-        />
-      </FlexBox>
+      <div className="mentor-center-loading-container">
+        <Skeleton containerClassName="left" className="height-70vh" />
+        <Skeleton containerClassName="right" className="height-70vh" />
+      </div>
     </>
   );
 };
