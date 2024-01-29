@@ -2,6 +2,7 @@
 
 import '../app/globals.css';
 import '../components/Skeleton/skeleton.css';
+import 'react-loading-skeleton/dist/skeleton.css';
 import { Provider } from 'react-redux';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from '@emotion/react';
