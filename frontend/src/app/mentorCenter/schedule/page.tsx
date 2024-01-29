@@ -17,6 +17,7 @@ import useDailySchedulesQuery, {
 import MentorSchedules from '@/components/Schedule/Mentor/MentorSchedules';
 import CalendarContainer from '@/components/Container/CalendarContainer';
 import Mentorings from '@/components/Mentoring/Mentorings';
+import Skeleton from 'react-loading-skeleton';
 
 function SchedulePage() {
   const [date, setDate] = useState<Date>();
@@ -76,6 +77,7 @@ function SchedulePage() {
         </Button>
       }
     >
+      <Skeleton />
       {/* <MentoringsWithSingleCalendar
         type={type}
         date={date}
