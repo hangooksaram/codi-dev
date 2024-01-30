@@ -7,9 +7,5 @@ export default function MyInfoLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <SinglePageLayout>
-      <Suspense fallback={<MyInfoLoading />}>{children}</Suspense>
-    </SinglePageLayout>
-  );
+  return <SinglePageLayout>{children}</SinglePageLayout>;
 }

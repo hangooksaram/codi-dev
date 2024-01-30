@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { selectUser } from '@/features/user/userSlice';
 import Skeleton from 'react-loading-skeleton';
+import MentorCenterLoading from './loading';
 
 function MentorCenterPage() {
   const router = useRouter();
@@ -19,7 +20,7 @@ function MentorCenterPage() {
     router.push('/noneMentor');
   }, []);
 
-  return <Skeleton />;
+  return <MentorCenterLoading />;
 }
 
 export default MentorCenterPage;
