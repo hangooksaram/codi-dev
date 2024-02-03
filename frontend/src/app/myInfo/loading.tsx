@@ -1,6 +1,3 @@
-import FlexBox from '@/ui/atoms/FlexBox';
-import { device } from '@/ui/theme';
-import styled from '@emotion/styled';
 import Skeleton from 'react-loading-skeleton';
 
 const MyInfoLoading = () => (
