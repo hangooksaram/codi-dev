@@ -19,13 +19,15 @@ export function CustomDayContent({
   mentoringSchedules,
 }: CustomDayContentProps) {
   const day = date.getDate();
+
   const isSchedule = schedules?.includes(formattedDate(date));
+
   const isScheduleWithMentoring = mentoringSchedules?.some(
     ({ date: mentoringDate }) => mentoringDate === formattedDate(date),
   );
 
   const icon = () => {
-    if (isSchedule) return <Schedule />;
+    if (isSchedule) return <Schedule fill={theme.colors.gray.main} />;
     if (isScheduleWithMentoring) {
       return (
         <Mentoring
