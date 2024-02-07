@@ -4,6 +4,8 @@ import EmptyLike from '@icons/common/empty-like.svg';
 import { likeMentor, unLikeMentor } from '@/api/mentorApi';
 import Button from '@/ui/atoms/Button';
 import theme from '@/ui/theme';
+import styled from '@emotion/styled';
+import { useRouter } from 'next/navigation';
 
 function Like({
   mentorId,
@@ -13,11 +15,25 @@ function Like({
   favorites?: number[];
 }) {
   const [localFavoriteState, setLocalFavoriteState] = useState(false);
+  const router = useRouter();
+
+  const redirectOnNotSignedIn = () => {
+    const confirmInstance = confirm(
+      '관심 멘토를 등록하려면 로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?',
+    );
+    if (confirmInstance) {
+      router.replace('/signin');
+    }
+  };
+
   const toggleLikeMentor = async () => {
     if (localFavoriteState) {
       await unLikeMentor(mentorId!);
     } else {
-      await likeMentor(mentorId!);
+      const res = await likeMentor(mentorId!);
+      if (res.status === 401) {
+        redirectOnNotSignedIn();
+      }
     }
     setLocalFavoriteState((prev) => !prev);
   };
@@ -26,16 +42,29 @@ function Like({
     setLocalFavoriteState(favorites?.includes(mentorId!)!);
   }, [favorites]);
   return (
-    <Button
+    <StyledLikeButton
       onClick={toggleLikeMentor}
       variant="round"
       width="48px"
-      color={localFavoriteState ? theme.colors.info.main : theme.colors.white}
-      {...{ position: 'absolute', top: '0px', right: '0px' }}
+      color={
+        localFavoriteState ? theme.colors.secondary.main : theme.colors.white
+      }
+      localFavoriteState={localFavoriteState}
+      hoverDisabled
     >
       {localFavoriteState ? <FilledLike /> : <EmptyLike />}
-    </Button>
+    </StyledLikeButton>
   );
 }
+
+const StyledLikeButton = styled(Button)(
+  ({ localFavoriteState }: { localFavoriteState: boolean }) => ({
+    width: '48px',
+    position: 'absolute',
+    top: '0px',
+    right: '0px',
+    border: localFavoriteState ? '' : `2px solid ${theme.colors.gray.main}`,
+  }),
+);
 
 export default Like;
