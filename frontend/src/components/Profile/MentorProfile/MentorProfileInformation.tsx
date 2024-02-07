@@ -59,7 +59,9 @@ function MentorProfileInformation({ mentor }: { mentor: Mentor }) {
           </FlexBox>
         </LabelBox>
         <LabelBox text="자기소개">
-          <Typography variant="div">{mentor?.introduction!}</Typography>
+          <Typography variant="div" lineHeight="21px">
+            {mentor?.introduction!}
+          </Typography>
         </LabelBox>
       </FlexBox>
     </MyInfoCard>
