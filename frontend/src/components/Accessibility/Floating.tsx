@@ -277,7 +277,7 @@ const StyledFloating = {
     position: 'fixed',
     zIndex: 2,
     bottom: '20px',
-    left: '20px',
+    right: '20px',
     letterSpacing: 'initial !important',
     lineHeight: '1 !important',
     zoom: '1 !important',
@@ -304,7 +304,7 @@ const StyledFloating = {
     height: 'auto',
     bottom: '150px',
     padding: '30px',
-    left: '20px',
+    right: '20px',
     overflow: 'auto',
     [device('tablet')]: {
       position: 'fixed',
