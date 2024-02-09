@@ -102,17 +102,9 @@ function MentoringPlatformModal({
 const ModalCard = styled(Card)({
   maxWidth: '708px',
   width: '90%',
+  minWidth: 'fit-content',
   height: '362px',
   padding: '30px 45px',
-  position: 'fixed',
-  top: '20%',
-  left: '50%',
-  transform: 'translate(-50%, 0)',
-  zIndex: 2,
-
-  [device('tablet')]: {
-    transform: 'translate(-50%, -50%)',
-  },
 });
 
 const ModalTextarea = styled(Textarea)({
