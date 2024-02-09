@@ -6,19 +6,20 @@ import { createPortal } from 'react-dom';
 import { selectModal, setModalState } from '@/features/modal/modalSlice';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
+import { keyframes } from '@emotion/css';
 
-function Modal({ children }: { children: ReactNode }) {
+function Modal() {
+  const { currentModal } = useSelector(selectModal);
   const { open } = useSelector(selectModal);
-  console.log(open);
   const dispatch = useDispatch();
 
   return (
     open &&
     createPortal(
-      <>
+      <ModalExternalContainer>
         <ModalOverlay onClick={() => dispatch(setModalState(false))} />
-        <ModalContainer>{children}</ModalContainer>
-      </>,
+        <ModalContainer>{currentModal}</ModalContainer>
+      </ModalExternalContainer>,
       document.body,
     )
   );
@@ -44,5 +45,18 @@ const ModalContainer = styled.div({
     width: '90%',
   },
 });
+
+const ModalExternalContainer = styled.div(() => ({
+  animation: `${fadeIn} 0.3s`,
+}));
+
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+  }
+  100%{
+    opacity:1;
+  }
+`;
 
 export default Modal;

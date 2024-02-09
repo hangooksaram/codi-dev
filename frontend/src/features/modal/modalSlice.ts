@@ -4,6 +4,7 @@ import type { RootState } from '../../store/store';
 
 const initialState = {
   open:false,
+  currentModal : null
 };
 
 export const modalSlice = createSlice({
@@ -14,13 +15,20 @@ export const modalSlice = createSlice({
       const { payload } = action;
       const newState = { ...state, open:payload };
       
-
       return newState;
     },
+
+    setCurrentModal :(state,action)=> {
+      const { payload } = action;
+      const newState = { ...state, currentModal:payload };
+      
+      return newState;
+
+    }
   },
 });
 
-export const { setModalState } = modalSlice.actions;
+export const { setModalState,setCurrentModal } = modalSlice.actions;
 export const selectModal = (state: RootState) => state.modal;
 
 export default modalSlice.reducer;

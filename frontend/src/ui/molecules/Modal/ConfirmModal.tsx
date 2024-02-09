@@ -12,21 +12,19 @@ import { setModalState } from '@/features/modal/modalSlice';
 const ConfirmModal = ({ children }: { children: ReactNode }) => {
   const dispatch = useDispatch();
   return (
-    <Modal>
-      <ModalContent>
-        <FlexBox direction="column" alignItems="center">
-          {children}
+    <ModalContent>
+      <FlexBox direction="column" alignItems="center">
+        {children}
 
-          <Button
-            variant="default"
-            onClick={() => dispatch(setModalState(false))}
-            {...{ marginTop: '30px' }}
-          >
-            확인
-          </Button>
-        </FlexBox>
-      </ModalContent>
-    </Modal>
+        <Button
+          variant="default"
+          onClick={() => dispatch(setModalState(false))}
+          {...{ marginTop: '30px' }}
+        >
+          확인
+        </Button>
+      </FlexBox>
+    </ModalContent>
   );
 };
 
