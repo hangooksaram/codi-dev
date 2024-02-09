@@ -22,6 +22,10 @@ import { selectUser } from '@/features/user/userSlice';
 import { useApplyMentoringMutation } from '@/queries/mentoring/menteeMentoringQuery';
 import { ApplyMentoringBody } from '@/types/api/mentoring';
 import Label from '@/ui/atoms/Label';
+import ConfirmModal from '@/ui/molecules/Modal/ConfirmModal';
+import { useDispatch } from 'react-redux';
+import { setCurrentModal, setModalState } from '@/features/modal/modalSlice';
+import { createPortal } from 'react-dom';
 
 const initialForm: ApplyMentoringBody = {
   date: '',
@@ -34,8 +38,20 @@ function MentoringApplyFormPage() {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [month, setMonth] = useState<string>();
   const param = useSearchParams();
+  const dispatch = useDispatch();
 
-  const mutation = useApplyMentoringMutation(parseInt(param.get('mentorId')!));
+  const mutation = useApplyMentoringMutation(
+    parseInt(param.get('mentorId')!),
+    () => {
+      dispatch(
+        setCurrentModal(
+          <ConfirmModal>멘토링 신청이 성공되었습니다.</ConfirmModal>,
+        ),
+      );
+      dispatch(setModalState(true));
+      router.push('/mentorsMain');
+    },
+  );
   const { data } = useDailySchedulesQuery(
     formattedDate(date),
     parseInt(param.get('mentorId')!),
@@ -50,7 +66,6 @@ function MentoringApplyFormPage() {
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     mutation.mutate(form!);
-    router.push('/mentorsMain');
   };
 
   useEffect(() => {
@@ -58,6 +73,7 @@ function MentoringApplyFormPage() {
       setForm({ ...form, date: formattedDate(date) });
     }
   }, [date]);
+
   return (
     <ContainerWithBackground>
       <Typography
@@ -108,6 +124,7 @@ function MentoringApplyFormPage() {
                       key={index}
                       outline={!enabled}
                       disabled={!enabled}
+                      hoverDisabled
                     >
                       {time}
                     </ChipButton>
