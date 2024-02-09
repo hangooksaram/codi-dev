@@ -16,7 +16,8 @@ import MentoringPlatformModal, {
 import { MentoringPlatform } from '@/types/mentoring';
 import { formattedDate } from '@/utils/dateFormat';
 import { useDispatch } from 'react-redux';
-import { setModalState } from '@/features/modal/modalSlice';
+import { setCurrentModal, setModalState } from '@/features/modal/modalSlice';
+import ConfirmModal from '@/ui/molecules/Modal/ConfirmModal';
 
 const mocks = [];
 
@@ -96,6 +97,11 @@ function MentoringCard({
         <LinkButton
           onClick={() => {
             if (profileId) {
+              dispatch(
+                setCurrentModal(
+                  <MentoringPlatformModal mentoringId={mentoringId!} />,
+                ),
+              );
               dispatch(setModalState(true));
             }
           }}
@@ -110,7 +116,6 @@ function MentoringCard({
         >
           <Link fill={theme.colors.white} />
         </LinkButton>
-        <MentoringPlatformModal mentoringId={mentoringId} />
       </FlexBox>
     </StyledCard>
   );
