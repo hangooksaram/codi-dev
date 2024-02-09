@@ -53,6 +53,7 @@ const Button = styled.button(
       fontSize: theme.fonts.size.xs,
       padding: variant === 'round' ? '0px' : '0px 12px',
     },
+    lineHeight: 1,
     ...rest,
   }),
 );

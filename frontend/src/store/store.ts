@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import authSlice from '@/features/auth/authSlice';
 import userSlice from '@/features/user/userSlice';
 import webAccessibilitySlice from '@/features/webAccessibility/webAccessibilitySlice';
+import modalSlice from '@/features/modal/modalSlice';
 
 // ...
 
@@ -10,6 +11,7 @@ export const store = configureStore({
     webAccessibility: webAccessibilitySlice,
     user: userSlice,
     auth: authSlice,
+    modal:modalSlice
   },
 });
 

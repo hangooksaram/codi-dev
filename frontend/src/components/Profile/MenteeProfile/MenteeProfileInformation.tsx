@@ -59,7 +59,9 @@ function MenteeProfileInformation({ profile }: { profile: MenteeProfile }) {
         </FlexBox>
         <LabelBox text="자기소개">
           {profile?.introduction ? (
-            <Typography variant="div">{profile?.introduction!}</Typography>
+            <Typography variant="div" lineHeight="21px">
+              {profile?.introduction!}
+            </Typography>
           ) : (
             <Skeleton count={1} />
           )}

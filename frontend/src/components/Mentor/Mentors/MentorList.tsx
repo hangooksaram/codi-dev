@@ -51,7 +51,7 @@ function MentorList({ mentors }: { mentors: Mentor[] }) {
         return (
           <ProfileCard key={mentorId} {...mentor}>
             <Header.Container>
-              <Header.Like />
+              <Header.Like mentorId={mentorId} favorites={favoriteIds} />
             </Header.Container>
             <Content.Container>
               <Content.Avatar src={mentor.imgUrl} />

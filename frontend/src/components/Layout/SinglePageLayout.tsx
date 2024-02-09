@@ -2,13 +2,15 @@
 
 import styled from '@emotion/styled';
 import { ReactNode } from 'react';
-import theme from '@/ui/theme';
+import theme, { device } from '@/ui/theme';
 
 const Layout = styled.div(({ color }) => ({
   width: '100%',
 
   backgroundColor: theme.colors.background,
-  height: 'calc(100vh - 59px)',
+  [device('tablet')]: {
+    height: 'calc(100vh - 59px)',
+  },
 }));
 
 const StyledSinglePageLayoutSinglePageLayout = styled.main(({}) => ({

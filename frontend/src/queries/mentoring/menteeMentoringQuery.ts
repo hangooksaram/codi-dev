@@ -5,9 +5,14 @@ import { ApplyMentoringBody } from '@/types/api/mentoring';
 export const APPLY_MENTORING = ['applyMentoings'];
 export const CANCEL_MENTORING = ['cancelMentoings'];
 
-export const useApplyMentoringMutation = (mentorId: number) =>
+export const useApplyMentoringMutation = (mentorId: number, onSuccess?: () => void,
+onError?: () => void,) =>
   useMutation(APPLY_MENTORING, (application: ApplyMentoringBody) =>
     applyMentoring(mentorId, application),
+    {
+      onSuccess: onSuccess!,
+      onError: onError!,
+    }
   );
 
 export const useCancelMentoringMutation = (

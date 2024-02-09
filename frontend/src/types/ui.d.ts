@@ -75,6 +75,7 @@ export interface Typography {
   color?: string;
   align?: 'left' | 'right' | 'center';
   wordBreak?: 'keep-all' | 'initial' | 'break-all';
+  lineHeight?:string;
   children: string | number;
 }
 

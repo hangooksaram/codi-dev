@@ -13,6 +13,7 @@ import theme from '@/ui/theme';
 import AppBar from '@/components/NavBar/AppBar/AppBar';
 import Floating from '@/components/Accessibility/Floating';
 import MobileAppBar from './NavBar/AppBar/MobileAppBar';
+import Modal from '@/ui/molecules/Modal';
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ function RootLayoutWrapper({ children }: { children: ReactNode }) {
             <MobileAppBar />
             {children}
             <Floating />
+            <Modal />
           </AccessibilityLayout>
         </QueryClientProvider>
       </Provider>
