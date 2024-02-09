@@ -8,23 +8,33 @@ import MenteeProfile from '@/components/Profile/MenteeProfile/MenteeProfile';
 import ProfileCard, { Footer } from '@/components/Profile/ProfileCard';
 import Content from '@/components/Profile/ProfileCard/Content';
 import Header from '@/components/Profile/ProfileCard/Header';
-import { useMentoringAcceptMutation } from '@/queries/mentoring/mentorMentoringQuery';
+import { useResponseMentoringMutation } from '@/queries/mentoring/mentorMentoringQuery';
 import useGetProfileQuery from '@/queries/profileQuery';
 import Button from '@/ui/atoms/Button';
 import theme from '@/ui/theme';
+import { useDispatch } from 'react-redux';
+import { setCurrentModal, setModalState } from '@/features/modal/modalSlice';
+import ConfirmModal from '@/ui/molecules/Modal/ConfirmModal';
 
 function MentoringAppliedMenteeProfilePage() {
   const router = useRouter();
   const param = useSearchParams();
   const mentoringId = param.get('mentoringId');
   const profileId = param.get('profileId');
+  const dispatch = useDispatch();
+
   const isMentoringApply = Boolean(param.get('mentoringApply'))!;
 
   const { data: profile, isSuccess } = useGetProfileQuery(profileId!);
 
-  const acceptMutation = useMentoringAcceptMutation(
+  const acceptMutation = useResponseMentoringMutation(
     parseInt(mentoringId!),
+    'accept',
     () => {
+      dispatch(
+        setCurrentModal(<ConfirmModal>멘토링을 수락하였습니다.</ConfirmModal>),
+      );
+      dispatch(setModalState(true));
       router.replace('/mentorCenter/apply/');
     },
   );

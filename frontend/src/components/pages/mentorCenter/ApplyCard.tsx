@@ -5,8 +5,8 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import ProfileCard from '@/components/Profile/ProfileCard';
 import {
-  useMentoringAcceptMutation,
-  useMentoringRejectMutation,
+  ResponseMentoringType,
+  useResponseMentoringMutation,
 } from '@/queries/mentoring/mentorMentoringQuery';
 import { GetMentoringAppliesResponseData } from '@/types/api/mentoring';
 import Button from '@/ui/atoms/Button';
@@ -19,6 +19,9 @@ import theme, { device } from '@/ui/theme';
 import MyInfoCard from '../myInfoCommon/MyInfoCard';
 import { SetState } from '@/index';
 import Content from '@/components/Profile/ProfileCard/Content';
+import { setCurrentModal, setModalState } from '@/features/modal/modalSlice';
+import { useDispatch } from 'react-redux';
+import ConfirmModal from '@/ui/molecules/Modal/ConfirmModal';
 
 interface MentorCenterApplyCardProps extends GetMentoringAppliesResponseData {
   setApplies: SetState<GetMentoringAppliesResponseData[] | undefined>;
@@ -33,22 +36,32 @@ function MentorCenterApplyCard({
 }: MentorCenterApplyCardProps) {
   const router = useRouter();
   const { profileId } = menteeInfo;
+  const dispatch = useDispatch();
 
-  const onSuccess = () => {
+  const onSuccess = (type: ResponseMentoringType) => {
+    const modalMessage = type === 'accept' ? '수락' : '거절';
+    dispatch(
+      setCurrentModal(
+        <ConfirmModal>멘토링을 {modalMessage}하였습니다.</ConfirmModal>,
+      ),
+    );
+    dispatch(setModalState(true));
     setApplies((prev) => prev!.filter((p) => p.mentoringId !== mentoringId));
   };
   const onError = () => {
     alert('멘토링 수락에 실패했습니다. 다시 시도해주세요.');
   };
 
-  const acceptMutation = useMentoringAcceptMutation(
+  const acceptMutation = useResponseMentoringMutation(
     mentoringId!,
-    onSuccess,
+    'accept',
+    () => onSuccess('accept'),
     onError,
   );
-  const rejectMutation = useMentoringRejectMutation(
+  const rejectMutation = useResponseMentoringMutation(
     mentoringId!,
-    onSuccess,
+    'reject',
+    () => onSuccess('reject'),
     onError,
   );
 

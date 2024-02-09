@@ -22,22 +22,17 @@ export const useMentoringApplies = () => {
   );
 };
 
-export const useMentoringAcceptMutation = (
-  mentoringId: number,
-  onSuccess?: () => void,
-  onError?: () => void,
-) =>
-  useMutation(ACCEPT_MENTORING, () => acceptMentoring(mentoringId), {
-    onSuccess: onSuccess!,
-    onError: onError!,
-  });
+  export const useResponseMentoringMutation = (
+    mentoringId: number,
+    type:ResponseMentoringType,
+    onSuccess?: (type:ResponseMentoringType) => void,
+    onError?: (type:ResponseMentoringType) => void,
+  ) => 
+  {const queryKey = type==="accept" ? ACCEPT_MENTORING :  REJECT_MENTORING;
+  const queryFn = type==="accept" ? ()=> acceptMentoring(mentoringId) : () => rejectMentoring(mentoringId)
+    return useMutation(queryKey, queryFn, {
+      onSuccess: onSuccess!,
+      onError: onError!,
+    })};
 
-export const useMentoringRejectMutation = (
-  mentoringId: number,
-  onSuccess?: () => void,
-  onError?: () => void,
-) =>
-  useMutation(REJECT_MENTORING, () => rejectMentoring(mentoringId), {
-    onSuccess: onSuccess!,
-    onError: onError!,
-  });
+export  type ResponseMentoringType = "accept" | "reject"
