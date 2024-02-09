@@ -13,8 +13,10 @@ import Modal from '@/ui/molecules/Modal';
 import MentoringPlatformModal, {
   MENTORING_PLATFORMS,
 } from './MentoringPlatformModal';
-import { MentoringPlatform, MentoringStatus } from '@/types/mentoring';
+import { MentoringPlatform } from '@/types/mentoring';
 import { formattedDate } from '@/utils/dateFormat';
+import { useDispatch } from 'react-redux';
+import { setModalState } from '@/features/modal/modalSlice';
 
 const mocks = [];
 
@@ -39,7 +41,7 @@ function MentoringCard({
   platform: MentoringPlatform | string;
   imgUrl?: string;
 }) {
-  const [openModal, setOpenModal] = useState(false);
+  const dispatch = useDispatch();
   const platformInfo = MENTORING_PLATFORMS.find(
     ({ text }) => text === platform,
   );
@@ -94,7 +96,7 @@ function MentoringCard({
         <LinkButton
           onClick={() => {
             if (profileId) {
-              setOpenModal(true);
+              dispatch(setModalState(true));
             }
           }}
           width="42px"
@@ -108,11 +110,7 @@ function MentoringCard({
         >
           <Link fill={theme.colors.white} />
         </LinkButton>
-        <MentoringPlatformModal
-          mentoringId={mentoringId}
-          open={openModal}
-          setOpen={setOpenModal}
-        />
+        <MentoringPlatformModal mentoringId={mentoringId} />
       </FlexBox>
     </StyledCard>
   );

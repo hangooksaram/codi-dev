@@ -15,16 +15,11 @@ import Textarea from '@/ui/atoms/Textarea';
 import Typography from '@/ui/atoms/Typography';
 import Modal from '@/ui/molecules/Modal';
 import theme, { device } from '@/ui/theme';
+import { useDispatch } from 'react-redux';
+import { setModalState } from '@/features/modal/modalSlice';
 
-function MentoringPlatformModal({
-  open,
-  setOpen,
-  mentoringId,
-}: {
-  open: boolean;
-  setOpen: SetState<boolean>;
-  mentoringId: number;
-}) {
+function MentoringPlatformModal({ mentoringId }: { mentoringId: number }) {
+  const dispatch = useDispatch();
   const [platform, setPlatform] = useState<MentoringPlatform>('Google Meeting');
   const linkRef = useRef<HTMLTextAreaElement>(null);
 
@@ -34,10 +29,10 @@ function MentoringPlatformModal({
       platform,
     });
 
-    setOpen(false);
+    dispatch(setModalState(false));
   };
   return (
-    <Modal open={open} setOpen={setOpen}>
+    <Modal>
       <ModalCard>
         <FlexBox direction="column" alignItems="center" rowGap="20px">
           <FlexBox justifyContent="space-between">
@@ -53,7 +48,7 @@ function MentoringPlatformModal({
                 멘티는 해당 링크를 통해 멘토링 페이지로 접속합니다.
               </Typography>
             </FlexBox>
-            <Close onClick={() => setOpen(false)} />
+            <Close onClick={() => dispatch(setModalState(false))} />
           </FlexBox>
           <FlexBox direction="column" alignItems="flex-start">
             <Typography variant="div" {...{ marginBottom: '10px' }}>
