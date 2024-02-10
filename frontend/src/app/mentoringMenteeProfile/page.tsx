@@ -11,6 +11,8 @@ import useGetProfileQuery from '@/queries/profileQuery';
 import Button from '@/ui/atoms/Button';
 import theme from '@/ui/theme';
 import ProfileStatusCard from '@/components/Profile/ProfileStatusCard/ProfileStatusCard';
+import { useDispatch } from 'react-redux';
+import { setCurrentModal, setModalState } from '@/features/modal/modalSlice';
 
 function MentoringMenteeProfilePage({}) {
   const param = useSearchParams();
@@ -18,6 +20,7 @@ function MentoringMenteeProfilePage({}) {
   const mentoringId = param.get('mentoringId')!;
   const platform = param.get('platform');
   const { data: profile } = useGetProfileQuery(profileId!);
+  const dispatch = useDispatch();
   const [openModal, setOpenModal] = useState(false);
   return (
     <SinglePageLayout>
@@ -39,7 +42,16 @@ function MentoringMenteeProfilePage({}) {
             {!platform?.includes('No') && (
               <>
                 <Button
-                  onClick={() => setOpenModal(true)}
+                  onClick={() => {
+                    dispatch(
+                      setCurrentModal(
+                        <MentoringPlatformModal
+                          mentoringId={parseInt(mentoringId!)}
+                        />,
+                      ),
+                    );
+                    dispatch(setModalState(true));
+                  }}
                   size="small"
                   variant="default"
                   color={theme.colors.secondary.main}
@@ -47,11 +59,6 @@ function MentoringMenteeProfilePage({}) {
                 >
                   멘토링 링크 수정
                 </Button>
-                <MentoringPlatformModal
-                  mentoringId={parseInt(mentoringId!)}
-                  open={openModal}
-                  setOpen={setOpenModal}
-                />
               </>
             )}
           </Footer>

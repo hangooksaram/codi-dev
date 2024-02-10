@@ -17,11 +17,13 @@ type GetMentoringType = 'mentees' | 'mentors';
 export interface GetDailyMentoringsParams {
   date: string;
   type: GetMentoringType;
+  isPlatformUpdated?:boolean;
 }
 
 export interface GetMonthlyMentoringsParams {
   month: string;
   type: GetMentoringType;
+  isPlatformUpdated?:boolean;
 }
 
 export interface GetMentoringAppliesResponse {
