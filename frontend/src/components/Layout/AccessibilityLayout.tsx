@@ -49,6 +49,7 @@ function AccessibilityLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <StyledLayout
+      suppressHydrationWarning={true}
       zoom={zoom}
       letterSpacing={letterSpacing}
       lineHeight={lineHeight}
