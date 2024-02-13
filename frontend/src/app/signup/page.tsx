@@ -28,6 +28,9 @@ import { SignUpBody } from '@/types/api/sign';
 import Label from '@/ui/atoms/Label';
 import { setIsLoggedIn } from '@/features/auth/authSlice';
 import useForm from '@/hooks/useNewForm/useForm';
+import Markdown from 'react-markdown';
+import { privateData, useTerm } from '@/components/Terms/terms';
+import TermsChecker from '@/components/Terms/TermsChecker';
 
 const signUpFormValues = {
   birth: '',
@@ -69,13 +72,13 @@ function SignUpPage() {
     month: 1,
     day: 1,
   });
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const {
     form,
     setForm,
     handleFormValueChange,
     validateAllFormValues,
-    setIsSubmitted,
     convertToFormData,
   } = useForm(signUpFormValues, signUpFormValidation);
 
@@ -84,6 +87,8 @@ function SignUpPage() {
   );
 
   const router = useRouter();
+  const [checkUserTerm, setCheckUserTerm] = useState(false);
+  const [checkPrivateDataTerm, setCheckPrivateDataTerm] = useState(false);
 
   const checkDuplicateId = async () => {
     const { data, status, errorMessage } = await postCheckDuplicateId<boolean>(
@@ -99,9 +104,14 @@ function SignUpPage() {
   const dispatch = useDispatch();
 
   const handleSubmit = async (e: FormEvent) => {
+    setIsSubmitted(true);
     e.preventDefault();
 
     const isFormValid = validateAllFormValues();
+
+    if (!checkUserTerm || !checkPrivateDataTerm) {
+      return;
+    }
 
     if (isFormValid) {
       const formData = convertToFormData();
@@ -310,6 +320,24 @@ function SignUpPage() {
                 categories={['gmail.com', 'naver.com', 'hanmail.net']}
                 title="gmail.com"
                 type="form"
+              />
+            </FlexBox>
+          </ContentTextContainer>
+          <ContentTextContainer text="이용약관">
+            <FlexBox direction="column" rowGap="15px">
+              <TermsChecker
+                text="코디 이용약관에 동의합니다."
+                check={checkUserTerm}
+                setChecked={setCheckUserTerm}
+                content={useTerm}
+                submitted={isSubmitted}
+              />
+              <TermsChecker
+                text="개인정보 처리 방침에 동의합니다."
+                check={checkPrivateDataTerm}
+                setChecked={setCheckPrivateDataTerm}
+                content={privateData}
+                submitted={isSubmitted}
               />
             </FlexBox>
           </ContentTextContainer>
