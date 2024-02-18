@@ -7,23 +7,29 @@ function Highlight() {
   const [cursorPosition, setCursorPosition] = useState(0);
   const [screenHeight, setScreenHeight] = useState(window.innerHeight);
 
-  useEffect(() => {
-    document.addEventListener('mousemove', (e) => {
-      setCursorPosition(e.clientY);
-    });
+  const handleMouseMove = (e: MouseEvent) => {
+    setCursorPosition(e.clientY);
+  };
 
-    window.addEventListener('resize', (e: any) => {
-      setScreenHeight(e.target!.innerHeight);
-    });
+  const handleResize = (e: any) => {
+    setScreenHeight(e.target!.innerHeight);
+  };
+
+  const addHighlightEventListeners = () => {
+    document.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('resize', handleResize);
+  };
+
+  const removeHighlightEventListeners = () => {
+    document.removeEventListener('mousemove', handleMouseMove);
+    window.removeEventListener('resize', handleResize);
+  };
+
+  useEffect(() => {
+    addHighlightEventListeners();
 
     return () => {
-      document.removeEventListener('mousemove', (e) => {
-        setCursorPosition(e.clientY);
-      });
-
-      window.removeEventListener('resize', (e: any) => {
-        setScreenHeight(e.target!.innerHeight);
-      });
+      removeHighlightEventListeners();
     };
   }, []);
 
