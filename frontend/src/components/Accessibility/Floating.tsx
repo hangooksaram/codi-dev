@@ -51,7 +51,7 @@ function Floating() {
         <FloatIcon />
       </StyledFloating.OpenButton>
       {open && (
-        <Overlay
+        <FloatingOverlay
           onClick={() => {
             setOpen(false);
           }}
@@ -61,6 +61,10 @@ function Floating() {
     </>
   );
 }
+
+const FloatingOverlay = styled(Overlay)`
+  z-index: 103;
+`;
 
 function FloatingMenu({ setOpen }: { setOpen: SetState<boolean> }) {
   const dispatch = useDispatch();
@@ -275,7 +279,7 @@ function FloatingMenu({ setOpen }: { setOpen: SetState<boolean> }) {
 const StyledFloating = {
   OpenButton: styled(Button)(({}) => ({
     position: 'fixed',
-    zIndex: 2,
+    zIndex: 104,
     bottom: '20px',
     right: '20px',
     letterSpacing: 'initial !important',
@@ -299,7 +303,7 @@ const StyledFloating = {
 
   Menu: styled(Card)({
     position: 'absolute',
-    zIndex: '2',
+    zIndex: '105',
     width: '420px',
     height: 'auto',
     bottom: '150px',
