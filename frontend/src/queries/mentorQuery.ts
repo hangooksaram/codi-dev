@@ -21,7 +21,7 @@ export const GET_MENTOR_KEY = ['mentor'];
 
 const useGetMentorsQuery = () => {
   const [searched, setSearched] = useState('');
-  const [size, setSize] = useState(10);
+  const [size, setSize] = useState(12);
   const [query, setQuery] = useState<GetMentorsParameters>({
     job: '',
     disability: '',
