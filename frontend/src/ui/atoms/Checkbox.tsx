@@ -26,7 +26,7 @@ function Checkbox({
       alignItems="center"
       width={width ?? 'fit-content'}
       columnGap="10px"
-      {...{ minWidth: '150px' }}
+      {...{ minWidth: label ?? '150px' }}
       onClick={toggle}
     >
       <div style={{ width: '24px', height: '24px' }}>

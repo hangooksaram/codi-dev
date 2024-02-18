@@ -23,32 +23,46 @@ function MentorScheduleEdit({
   toggleEditState: () => void;
   setIsScheduleEdited: SetState<boolean>;
 }) {
-  const [selecteds, setSelecteds] = useState<ScheduleTime[]>([]);
+  const [selectedSchedules, setSelectedSchedules] = useState<ScheduleTime[]>(
+    [],
+  );
 
   useEffect(() => {
-    setSelecteds(schedules?.times!);
+    setSelectedSchedules(schedules?.times!);
   }, [date, schedules?.times]);
 
   const selected = (time: string) => {
-    return selecteds?.find(({ time: selectedTime }) => selectedTime === time);
+    return selectedSchedules?.find(
+      ({ time: selectedTime }) => selectedTime === time,
+    );
   };
 
   const handleClickTime = (time: string) => {
-    if (selecteds?.find(({ time: selectedTime }) => selectedTime === time)) {
-      setSelecteds((prev) => prev.filter((prevTime) => prevTime.time !== time));
+    if (
+      selectedSchedules?.find(({ time: selectedTime }) => selectedTime === time)
+    ) {
+      setSelectedSchedules((prev) =>
+        prev.filter((prevTime) => prevTime.time !== time),
+      );
       return;
     }
-    setSelecteds([...selecteds, { time, enabled: true }]);
+    setSelectedSchedules([...selectedSchedules, { time, enabled: true }]);
   };
+
   const addSchedule = useScheduleMutation({
     onSuccess: () => setIsScheduleEdited(true),
   });
+
   const patchMentorSchedule = () => {
     toggleEditState();
-    const times: ScheduleTime[] = selecteds.map(({ time }) => {
+    const times: ScheduleTime[] = selectedSchedules.map(({ time }) => {
       return { time };
     });
     addSchedule.mutate({ date: date!, times: times! });
+  };
+
+  const deleteAllSchedule = () => {
+    setSelectedSchedules((prev) => prev.filter((p) => !p.enabled));
   };
 
   return (
@@ -57,7 +71,7 @@ function MentorScheduleEdit({
         <FlexBox justifyContent="flex-start" columnGap="20px">
           <Typography variant="div">시간 선택</Typography>
           <Button
-            onClick={() => setSelecteds([])}
+            onClick={deleteAllSchedule}
             variant="default"
             outline
             size="small"
@@ -92,7 +106,7 @@ function MentorScheduleEdit({
           ))}
         </FlexBox>
         <Button
-          // disabled={selecteds?.length === 0}
+          // disabled={selectedSchedules?.length === 0}
           onClick={patchMentorSchedule}
           size="small"
           variant="default"

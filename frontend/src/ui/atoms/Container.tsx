@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { MOBILE_NAVIGATION_HEIGHT } from '@/constants';
-import theme, { device } from '@/ui/theme';
+import { device } from '@/ui/theme';
 
 const Container = styled.main(({ width }: { width?: string }) => ({
   width: width ?? '69%',
