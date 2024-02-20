@@ -3,6 +3,7 @@ package codi.backend.domain.mentoring.dto;
 import codi.backend.domain.mentor.dto.MentorDto;
 import codi.backend.domain.mentoring.entity.Mentoring;
 import codi.backend.domain.schedule.dto.ScheduleDto;
+import com.querydsl.core.annotations.QueryProjection;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
@@ -166,5 +167,25 @@ public class MentoringDto {
     public static class TodayMentoringInfoResponse {
         private String applicationDate;
         private MentorDto.SearchMentorResponse mentorInfo;
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class MentoringInfo {
+        private Long id;
+        private Mentoring.MentoringStatus mentoringStatus;
+        private Long mentorId;
+        private Long profileId;
+        private Long scheduleId;
+
+        @QueryProjection
+        public MentoringInfo(Long id, Mentoring.MentoringStatus mentoringStatus, Long mentorId, Long profileId, Long scheduleId) {
+            this.id = id;
+            this.mentoringStatus = mentoringStatus;
+            this.mentorId = mentorId;
+            this.profileId = profileId;
+            this.scheduleId = scheduleId;
+        }
     }
 }

@@ -6,6 +6,8 @@ import codi.backend.auth.utils.CustomAuthorityUtils;
 import codi.backend.domain.mentor.dto.MentorDto;
 import codi.backend.domain.mentor.entity.Mentor;
 import codi.backend.domain.mentor.repository.MentorRepository;
+import codi.backend.domain.mentoring.dto.MentoringDto;
+import codi.backend.domain.mentoring.repository.MentoringRepository;
 import codi.backend.global.exception.BusinessLogicException;
 import codi.backend.global.exception.ExceptionCode;
 import codi.backend.global.file.S3Service;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -25,12 +28,14 @@ public class MentorServiceImpl implements MentorService{
     private final MemberService memberService;
     private final S3Service s3Service;
     private final CustomAuthorityUtils authorityUtils;
+    private final MentoringRepository mentoringRepository;
 
-    public MentorServiceImpl(MentorRepository mentorRepository, MemberService memberService, S3Service s3Service, CustomAuthorityUtils authorityUtils) {
+    public MentorServiceImpl(MentorRepository mentorRepository, MemberService memberService, S3Service s3Service, CustomAuthorityUtils authorityUtils, MentoringRepository mentoringRepository) {
         this.mentorRepository = mentorRepository;
         this.memberService = memberService;
         this.s3Service = s3Service;
         this.authorityUtils = authorityUtils;
+        this.mentoringRepository = mentoringRepository;
     }
 
     @Transactional
@@ -74,6 +79,28 @@ public class MentorServiceImpl implements MentorService{
     private Mentor verifyMentor(Long mentorId) {
         return mentorRepository.findById(mentorId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.NOT_MENTOR_ERROR));
+    }
+
+    // 멘토링 횟수
+    @Override
+    public Integer getNumberOfCompletedMentorings(Long mentorId) {
+        LocalDateTime now = LocalDateTime.now();
+        List<MentoringDto.MentoringInfo> completedMentorings = mentoringRepository.findAcceptedMentoringsBeforeCurrentTime(mentorId, now);
+        return completedMentorings.size();
+    }
+
+    // 응답률
+    @Override
+    public Double calculateResponseRate(Long mentorId) {
+        List<MentoringDto.MentoringInfo> allMentorings = mentoringRepository.findByMentorId(mentorId);
+        int totalApplications = allMentorings.size();
+        int completedSessions = getNumberOfCompletedMentorings(mentorId);
+
+        if (totalApplications == 0) {
+            return 0.0;
+        }
+
+        return ((double) completedSessions / totalApplications) * 100;
     }
 
     @Transactional

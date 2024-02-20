@@ -2,9 +2,7 @@ package codi.backend.domain.profile.service;
 
 import codi.backend.domain.favorite.entity.Favorite;
 import codi.backend.domain.member.entity.Member;
-import codi.backend.domain.member.repository.MemberRepository;
 import codi.backend.domain.member.service.MemberService;
-import codi.backend.domain.member.service.MemberServiceImpl;
 import codi.backend.domain.profile.entity.Profile;
 import codi.backend.domain.profile.repository.ProfileRepository;
 import codi.backend.global.exception.BusinessLogicException;
@@ -20,7 +18,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class ProfileServiceImpl implements ProfileService{
+public class ProfileServiceImpl implements ProfileService {
+    private static final String DEFAULT_IMAGE_URL = "https://codi-image-s3-bucket.s3.ap-northeast-2.amazonaws.com/profile/codi-profile-image.jpg";
     private final ProfileRepository profileRepository;
     private final MemberService memberService;
     private final S3Service s3Service;
@@ -40,10 +39,12 @@ public class ProfileServiceImpl implements ProfileService{
             throw new BusinessLogicException(ExceptionCode.PROFILE_EXIST);
         }
 
-        Optional.ofNullable(file)
-                .filter(f -> !f.isEmpty())
-                .map(f -> s3Service.upload(f, "profile"))
-                .ifPresentOrElse(profile::setImgUrl, () -> profile.setImgUrl(null));
+        String imgUrl = Optional.ofNullable(file)
+                            .filter(f -> !f.isEmpty())
+                            .map(f -> s3Service.upload(f, "profile"))
+                            .orElse(DEFAULT_IMAGE_URL);
+
+        profile.setImgUrl(imgUrl);
 
         // member에 profile 1:1 연결
         member.setProfile(profile);
@@ -88,16 +89,15 @@ public class ProfileServiceImpl implements ProfileService{
                 // 이미지를 업로드하고 기존 이미지가 있으면 삭제합니다.
                 String newImgUrl = s3Service.upload(file, "profile");
                 findProfile.setImgUrl(newImgUrl);
-
                 if (previousImgUrl != null) {
                     s3Service.delete(previousImgUrl);
                 }
             } else if (file != null && file.isEmpty() && previousImgUrl != null) {
                 // 파일 파라미터가 비어 있고 기존 이미지가 있는 경우, 기존 이미지를 삭제합니다.
                 s3Service.delete(previousImgUrl);
-                findProfile.setImgUrl(null);
+                findProfile.setImgUrl(DEFAULT_IMAGE_URL);
             }
-        } catch (Exception e) {
+        } catch (Exception ex) {
             throw new BusinessLogicException(ExceptionCode.FILE_UPDATE_FAILED);
         }
     }
@@ -129,7 +129,7 @@ public class ProfileServiceImpl implements ProfileService{
         Profile findProfile = findProfile(profileId);
         try {
             s3Service.delete(findProfile.getImgUrl());
-            findProfile.setImgUrl(null);
+            findProfile.setImgUrl(DEFAULT_IMAGE_URL);
         } catch (NullPointerException e) {
             throw new BusinessLogicException(ExceptionCode.NOT_PROFILE_ERROR);
         }

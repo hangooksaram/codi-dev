@@ -81,6 +81,8 @@ public class MentorController {
     @GetMapping("/{mentor-id}")
     public ResponseEntity getMentorDetails(@PathVariable("mentor-id") Long mentorId) {
         MentorDto.MentorResponse mentor = mentorMapper.mentorToMentorResponse(mentorService.findMentor(mentorId));
+        mentor.setMentoringCount(mentorService.getNumberOfCompletedMentorings(mentorId));
+        mentor.setResponseRate(mentorService.calculateResponseRate(mentorId));
         return new ResponseEntity<>(mentor, HttpStatus.OK);
     }
 
@@ -104,6 +106,7 @@ public class MentorController {
         return new ResponseEntity<>(new MultiResponseDto<>(mentorsList, mentorsPage), HttpStatus.OK);
     }
 
+    // 멘토 추천
     @ApiOperation(value = "Mentor 추천", notes = "직무 추천 데이터를 Request에 입력하여 유사한 직무, 장애구분, 중증도를 기준으로 동작한다.")
     @GetMapping("/recommend")
     public ResponseEntity recommendMentors(MentorDto.RecommendationMentorRequest recommendationMentorRequest) {

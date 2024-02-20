@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface MentoringRepositoryCustom {
@@ -16,4 +17,6 @@ public interface MentoringRepositoryCustom {
     MentoringDto.MentoringMonthlyMentorsResponse findMonthlyMentoringsOfMentee(Profile profile, LocalDate month);
     Page<MentoringDto.MentoringApplicationResponse> findAllMentoringApplications(Mentor mentor, String order, Pageable pageable);
     List<MentoringDto.TodayMentoringInfoResponse> findTodayMentoringSchedules(Profile profile);
+    List<MentoringDto.MentoringInfo> findAcceptedMentoringsBeforeCurrentTime(Long mentorId, LocalDateTime currentTime);
+    List<MentoringDto.MentoringInfo> findByMentorId(Long mentorId);
 }

@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'codi'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1-SNAPSHOT-' + new Date().format("yyyyMMdd-HH")
 
 java {
 	sourceCompatibility = '11'
@@ -71,7 +71,8 @@ tasks.named('test') {
 }
 
 // querydsl
-def querydslSrcDir = 'src/main/generated'
+//def querydslSrcDir = 'src/main/generated'
+def querydslSrcDir = '$buildDir/generated/querydsl'
 
 querydsl {
 	jpa = true
@@ -89,4 +90,3 @@ configurations {
 compileQuerydsl {
 	options.annotationProcessorPath = configurations.querydsl
 }
-

@@ -31,6 +31,8 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfig {
     private static final String HTTP_SERVER_DOMAIN = "http://codi-frontend.s3-website-ap-northeast-1.amazonaws.com";
+    private static final String HTTPS_SERVER_DOMAIN = "https://www.codisabled.com";
+    private static final String API_DOMAIN = "https://codisabled.com";
     private static final String LOCALHOST = "http://localhost:3000";
     private final JwtTokenizer jwtTokenizer;
     private final AuthService authService;
@@ -95,7 +97,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of(HTTP_SERVER_DOMAIN, LOCALHOST));
+        config.setAllowedOrigins(List.of(HTTP_SERVER_DOMAIN, HTTPS_SERVER_DOMAIN, API_DOMAIN, LOCALHOST));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"));
         config.setExposedHeaders(List.of("Refresh", "Authorization"));
         config.setAllowedHeaders(List.of("*"));

@@ -43,7 +43,7 @@ public class Profile {
     @Column
     private String severity;
 
-    @Column
+    @Column(length = 1200)
     private String introduction;
 
     @Enumerated(value = EnumType.STRING)
