@@ -15,5 +15,6 @@ public interface MentorService {
     Mentor findMentor(Long mentorId);
     Page<MentorDto.SearchMentorResponse> searchMentors(String job, String career, String disability, String keyword, Pageable pageable);
     List<MentorDto.SearchMentorResponse> recommendMentors(MentorDto.RecommendationMentorRequest request);
-
+    Integer getNumberOfCompletedMentorings(Long mentorId);
+    Double calculateResponseRate(Long mentorId);
 }

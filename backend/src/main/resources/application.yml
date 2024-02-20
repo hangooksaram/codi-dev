@@ -15,7 +15,7 @@ spring:
   jpa:
     database: mysql
     hibernate:
-      ddl-auto: update
+      ddl-auto: update # 배포 후 운영 시에는 다른 방법 사용해야 한다.
     show-sql: true
     properties: # 예쁘게 보기
       hibernate:

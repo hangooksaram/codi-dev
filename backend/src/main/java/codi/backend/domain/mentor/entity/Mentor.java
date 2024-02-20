@@ -47,7 +47,7 @@ public class Mentor {
     @Column
     private Boolean inOffice = false;
 
-    @Column
+    @Column(length = 1200)
     private String introduction;
 
     @Column

@@ -49,6 +49,7 @@ public interface MentorMapper {
                 .build();
     }
 
+    // TODO 추후 Service에서 처리할 수 있도록 변경 필요
     default MentorDto.MentorResponse mentorToMentorResponse(Mentor mentor) {
         if (mentor == null) {
             return null;

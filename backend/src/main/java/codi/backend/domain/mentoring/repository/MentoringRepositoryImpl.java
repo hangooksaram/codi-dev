@@ -3,10 +3,14 @@ package codi.backend.domain.mentoring.repository;
 import codi.backend.domain.member.entity.Member;
 import codi.backend.domain.mentor.dto.MentorDto;
 import codi.backend.domain.mentor.entity.Mentor;
+import codi.backend.domain.mentor.entity.QMentor;
 import codi.backend.domain.mentoring.dto.MentoringDto;
+import codi.backend.domain.mentoring.dto.QMentoringDto_MentoringInfo;
 import codi.backend.domain.mentoring.entity.Mentoring;
 import codi.backend.domain.mentoring.entity.QMentoring;
 import codi.backend.domain.profile.entity.Profile;
+import codi.backend.domain.profile.entity.QProfile;
+import codi.backend.domain.schedule.entity.QSchedule;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -339,6 +343,67 @@ public class MentoringRepositoryImpl implements MentoringRepositoryCustom {
                 .applicationDate(applicationDate)
                 .mentorInfo(searchMentorResponse)
                 .build();
+    }
+
+    // 멘토링 횟수
+    @Override
+    public List<MentoringDto.MentoringInfo> findAcceptedMentoringsBeforeCurrentTime(Long mentorId, LocalDateTime currentTime) {
+        QMentor mentor = QMentor.mentor;
+        QProfile profile = QProfile.profile;
+        QSchedule schedule = QSchedule.schedule;
+
+        return queryFactory
+                .select(new QMentoringDto_MentoringInfo(
+                        mentoring.id,
+                        mentoring.mentoringStatus,
+                        mentoring.mentor.id,
+                        mentoring.profile.id,
+                        mentoring.schedule.id
+                ))
+                .from(mentoring)
+                .leftJoin(mentoring.mentor, mentor)
+                .leftJoin(mentoring.profile, profile)
+                .leftJoin(mentoring.schedule, schedule)
+                .where(mentorMatches(mentorId)
+                        .and(isAccepted())
+                        .and(endTimeBeforeNow(currentTime)))
+                .fetch();
+    }
+
+    // 응답률
+    @Override
+    public List<MentoringDto.MentoringInfo> findByMentorId(Long mentorId) {
+        QMentor mentor = QMentor.mentor;
+        QProfile profile = QProfile.profile;
+        QSchedule schedule = QSchedule.schedule;
+
+        return queryFactory
+                .select(new QMentoringDto_MentoringInfo(
+                        mentoring.id,
+                        mentoring.mentoringStatus,
+                        mentoring.mentor.id,
+                        mentoring.profile.id,
+                        mentoring.schedule.id
+                ))
+                .from(mentoring)
+                .leftJoin(mentoring.mentor, mentor)
+                .leftJoin(mentoring.profile, profile)
+                .leftJoin(mentoring.schedule, schedule)
+                .where(mentorMatches(mentorId))
+                .fetch();
+    }
+
+    private BooleanExpression mentorMatches(Long mentorId) {
+        return mentoring.mentor.id.eq(mentorId);
+    }
+
+    private BooleanExpression isAccepted() {
+        return mentoring.mentoringStatus.eq(Mentoring.MentoringStatus.ACCEPTED);
+    }
+
+    private BooleanExpression endTimeBeforeNow(LocalDateTime currentTime) {
+        QSchedule schedule = QSchedule.schedule;
+        return schedule.endDateTime.before(currentTime);
     }
 }
 

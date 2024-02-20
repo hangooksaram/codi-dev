@@ -45,31 +45,24 @@ public class MentorDto {
     @Getter
     @Builder
     public static class MentorPatch {
-        @NotBlank
         @ApiModelProperty(example = "직무")
         private String job;
 
-        @NotBlank
         @ApiModelProperty(example = "회사 이름")
         private String company;
 
-        @NotBlank
         @ApiModelProperty(example = "프로필에 표시될 직무명")
         private String jobName;
 
-        @NotBlank
         @ApiModelProperty(example = "경력")
         private String career;
 
-        @NotNull
         @ApiModelProperty(example = "재직중 여부")
         private Boolean inOffice;
 
         @ApiModelProperty(example = "멘토 소개")
         private String introduction;
 
-        @NotNull
-        @NotEmpty
         @Size(min = 1, max = 4)
         @ApiModelProperty(example = "멘토링 분야")
         private List<Mentor.MentoringCategory> mentoringCategories;
@@ -77,6 +70,7 @@ public class MentorDto {
 
     @Schema(description = "멘토 정보 응답 DTO")
     @Getter
+    @Setter
     @Builder
     public static class MentorResponse {
         @ApiModelProperty(example = "멘토 아이디")
@@ -132,6 +126,12 @@ public class MentorDto {
 
         @ApiModelProperty(example = "멘토링 분야")
         private List<String> mentoringCategories;
+
+        @ApiModelProperty(example = "0")
+        private Integer mentoringCount;
+
+        @ApiModelProperty(example = "0.0")
+        private Double responseRate;
     }
 
     @Getter
