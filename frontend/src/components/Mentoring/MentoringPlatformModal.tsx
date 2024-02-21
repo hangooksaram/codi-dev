@@ -24,7 +24,18 @@ function MentoringPlatformModal({ mentoringId }: { mentoringId: number }) {
   const [platform, setPlatform] = useState<MentoringPlatform>('Google Meeting');
   const linkRef = useRef<HTMLTextAreaElement>(null);
 
+  const isValidLink = () => {
+    const regex =
+      /^(http(s):\/\/.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/;
+
+    return regex.test(linkRef?.current?.value!);
+  };
+
   const addMentoringlink = async () => {
+    if (!isValidLink()) {
+      alert('올바른 링크 주소를 입력해주세요!');
+      return;
+    }
     await addMentoringLink(mentoringId, {
       link: linkRef?.current?.value!,
       platform,

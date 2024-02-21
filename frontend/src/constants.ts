@@ -6,6 +6,8 @@ import MyInfo from '@icons/mobile/appbar/my-info.svg';
 export const HOMEPAGE_URL =
   'http://codi-frontend.s3-website-ap-northeast-1.amazonaws.com/';
 
+export const DROPDOWN_RESET_CATEGORY = "전체"
+
 export const DISABILITIES = [
   '지체장애',
   '언어장애',

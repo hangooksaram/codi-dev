@@ -1,5 +1,6 @@
 import { StaticImageData } from 'next/image';
 import { ComponentProps, ReactNode } from 'react';
+import { SetState } from '..';
 
 export type gray = {
   dark;
@@ -86,8 +87,9 @@ export interface Dropdown {
   type?: 'menu' | 'form';
   categories: string[] | number[];
   invalid?: boolean | undefined;
-  selectedCategory: string | number;
+  selectedCategory: string | number | null;
   children?: ReactNode;
   left?: boolean;
+  isReset?:boolean;
   setSelectedCategory: (category: T) => void;
 }

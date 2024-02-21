@@ -14,7 +14,7 @@ import { getJobCategories } from '@/api/jobApi';
 import { SetState } from '@/index';
 import Overlay from '@/ui/atoms/BackgroundOverlay';
 import { DropdownContainer, DropdownButton } from '@/ui/atoms/Dropdown';
-import useClickOutOfInput from '@/hooks/useClickOutOfInput';
+import useClickOutOfInput from '@/hooks/dropdown/useClickOutOfInput';
 
 export interface Jobs {
   classification: string;

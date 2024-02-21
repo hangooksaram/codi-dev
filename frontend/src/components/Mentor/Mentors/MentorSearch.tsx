@@ -1,5 +1,5 @@
 import Search from '@icons/common/search.svg';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import Dropdown from '@/ui/atoms/Dropdown';
 import IconInputContainer from '@/ui/molecules/Input/IconInput';
 import FlexBox from '@/ui/atoms/FlexBox';
@@ -10,6 +10,7 @@ import { CAREERS, DISABILITIES, JOBS } from '@/constants';
 import { GetMentorsParameters } from '@/types/api/mentor';
 import ContentTextContainer from '@/ui/molecules/Container/ContentTextContainer';
 import Labeled from '@/ui/atoms/Labeled';
+import { SetState } from '@/index';
 
 function MentorSearch({
   query,
@@ -18,7 +19,7 @@ function MentorSearch({
   setSearched,
 }: {
   query: GetMentorsParameters;
-  setQuery: (query: GetMentorsParameters) => void;
+  setQuery: SetState<GetMentorsParameters>;
   setSearched: Dispatch<SetStateAction<string>>;
   refetch: () => void;
 }) {
@@ -52,6 +53,7 @@ function MentorSearch({
           setSelectedCategory={(disability) =>
             setQuery({ ...query, disability })
           }
+          isReset
         />
         <Dropdown
           id="job"
@@ -61,6 +63,7 @@ function MentorSearch({
           categories={JOBS}
           selectedCategory={query.job!}
           setSelectedCategory={(job) => setQuery({ ...query, job })}
+          isReset
         />
         <Dropdown
           id="career"
@@ -70,6 +73,7 @@ function MentorSearch({
           categories={CAREERS}
           selectedCategory={query.career!}
           setSelectedCategory={(career) => setQuery({ ...query, career })}
+          isReset
         />
       </FlexBox>
       <FlexBox

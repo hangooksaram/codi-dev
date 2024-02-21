@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { SetState } from '..';
+import { SetState } from '../..';
 
 const useClickOutOfInput = (elementId: string, setOpen: SetState<boolean>) => {
   const addClickOutOfInputHandler = (e: MouseEvent) => {

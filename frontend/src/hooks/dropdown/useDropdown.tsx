@@ -1,11 +1,16 @@
-import { Dispatch, SetStateAction, useRef, useState } from 'react';
+import { DROPDOWN_RESET_CATEGORY } from '@/constants';
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 
 export const useDropdown = (
-  setSelectedCategory: Dispatch<SetStateAction<string | number>>,
+  selectedCategory: string | number | null,
+  setSelectedCategory: Dispatch<SetStateAction<string | number | null>>,
   id?: string,
 ) => {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLUListElement | HTMLDivElement>(null);
+  const [resetContainedCategories, setResetContainedCategories] = useState<
+    any[]
+  >([]);
   const setCategory = (category: string | number) => {
     setOpen(false);
     setSelectedCategory(category);
@@ -24,5 +29,11 @@ export const useDropdown = (
     }, 1);
   };
 
-  return { open, setOpen, setCategory, ref, setDropdownContentPosition };
+  return {
+    open,
+    setOpen,
+    setCategory,
+    ref,
+    setDropdownContentPosition,
+  };
 };

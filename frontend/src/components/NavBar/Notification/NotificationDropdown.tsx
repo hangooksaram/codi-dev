@@ -2,7 +2,7 @@ import { ReactNode, RefObject, forwardRef, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import Alarm from '@icons/common/alarm.svg';
 import theme from '@/ui/theme';
-import useClickOutOfInput from '@/hooks/useClickOutOfInput';
+import useClickOutOfInput from '@/hooks/dropdown/useClickOutOfInput';
 import Button from '@/ui/atoms/Button';
 
 function NotificationDropdown({ children }: { children: ReactNode }) {
