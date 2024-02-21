@@ -3,10 +3,10 @@ import styled from '@emotion/styled';
 import OpenDropdown from '@icons/common/expand-open.svg';
 import theme from '@/ui/theme';
 import { Dropdown } from '@/types/ui';
-import Card from './Card';
 import Button from './Button';
-import { useDropdown } from '@/hooks/useDropdown';
-import useClickOutOfInput from '@/hooks/useClickOutOfInput';
+import { useDropdown } from '@/hooks/dropdown/useDropdown';
+import useClickOutOfInput from '@/hooks/dropdown/useClickOutOfInput';
+import useResetCategory from '@/hooks/dropdown/useResetCategory';
 
 function Dropdown({
   id,
@@ -18,11 +18,20 @@ function Dropdown({
   selectedCategory,
   children,
   setSelectedCategory,
+  isReset,
 }: Dropdown) {
   const { open, setOpen, ref, setCategory, setDropdownContentPosition } =
-    useDropdown(setSelectedCategory, id);
+    useDropdown(selectedCategory, setSelectedCategory, id);
+
+  const { resetContainedCategories } = useResetCategory(
+    categories,
+    selectedCategory,
+    setSelectedCategory,
+    isReset,
+  );
 
   useClickOutOfInput(id!, setOpen);
+
   return (
     <DropdownContainer width={width}>
       {type === 'menu' ? (
@@ -49,7 +58,7 @@ function Dropdown({
       {open && (
         <DropdownContentContainer
           ref={ref! as RefObject<HTMLUListElement>}
-          categories={categories}
+          categories={isReset ? resetContainedCategories : categories}
           setCategory={setCategory}
         />
       )}
