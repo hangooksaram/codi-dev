@@ -11,6 +11,7 @@ import FlexBox from '@/ui/atoms/FlexBox';
 import Typography from '@/ui/atoms/Typography';
 import theme from '@/ui/theme';
 import { SetState } from '@/index';
+import useInitializeScheduleTimeTables from '@/hooks/schedules/useInitializeScheduleTimeTables';
 
 function MentorScheduleEdit({
   date,
@@ -25,6 +26,11 @@ function MentorScheduleEdit({
 }) {
   const [selectedSchedules, setSelectedSchedules] = useState<ScheduleTime[]>(
     [],
+  );
+
+  const { scheduleTimeTables } = useInitializeScheduleTimeTables(
+    SCHEDULE_TIME_TABLE,
+    date!,
   );
 
   useEffect(() => {
@@ -87,7 +93,7 @@ function MentorScheduleEdit({
           columnGap="15px"
           justifyContent="flex-start"
         >
-          {SCHEDULE_TIME_TABLE.map((time, index) => (
+          {scheduleTimeTables.map((time, index) => (
             <Button
               onClick={() => handleClickTime(time)}
               color={
