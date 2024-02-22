@@ -35,6 +35,7 @@ function MentorProfilePage() {
             </Content.Container>
             {!isMentoringApplied && (
               <Button
+                disabled={mentor?.futureScheduleCount === 0}
                 onClick={() =>
                   router.push(`/mentoringApplyForm?mentorId=${mentorId}`)
                 }

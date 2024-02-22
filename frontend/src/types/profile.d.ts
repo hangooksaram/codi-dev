@@ -29,6 +29,7 @@ export interface Mentor extends MenteeProfile {
   mentoringCategories?: string[];
   mentoringCount?:number;
   responseRate?:number;
+  futureScheduleCount?:number;
 }
 
 export interface ProfileCard extends Mentor {
