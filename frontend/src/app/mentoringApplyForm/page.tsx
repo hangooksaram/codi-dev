@@ -52,15 +52,15 @@ function MentoringApplyFormPage() {
       router.push('/mentorsMain');
     },
   );
-  const { data } = useDailySchedulesQuery(
-    formattedDate(date),
-    parseInt(param.get('mentorId')!),
-  );
+  const { data } = useDailySchedulesQuery({
+    date: formattedDate(date),
+    mentorId: parseInt(param.get('mentorId')!),
+  });
 
-  const { data: monthlySchedules } = useMonthlySchedulesQuery(
-    formattedMonth(new Date()),
-    parseInt(param.get('mentorId')!)!,
-  );
+  const { data: monthlySchedules } = useMonthlySchedulesQuery({
+    month: formattedMonth(new Date()),
+    mentorId: parseInt(param.get('mentorId')!)!,
+  });
   const router = useRouter();
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {

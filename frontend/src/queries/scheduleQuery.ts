@@ -14,9 +14,9 @@ import { Schedule } from '@/types/schedule';
 export const GET_DAILY_SCHEDULES_KEY = ['dailyScheules'];
 export const GET_MONTHLY_SCHEDULES_KEY = ['monthlyScheules'];
 export const ADD_SCHEDULES_KEY = ['addSchedule'];
-const useDailySchedulesQuery = (date: string, mentorId?: number) => {
+const useDailySchedulesQuery = ({date, mentorId, updated} : {date:string, mentorId?:number, updated?:number}) => {
   return useQuery<GetDailySchedulesResponse>(
-    GET_DAILY_SCHEDULES_KEY.concat(date),
+    [...GET_DAILY_SCHEDULES_KEY, date, updated],
     () => getDailySchedules(date, mentorId!),
     {
       enabled: date !== '',
@@ -25,9 +25,9 @@ const useDailySchedulesQuery = (date: string, mentorId?: number) => {
   );
 };
 
-export const useMonthlySchedulesQuery = (month: string, mentorId?: number) => {
+export const useMonthlySchedulesQuery = ({month, mentorId, updated}:{month: string, mentorId?: number, updated?:number}) => {
   return useQuery<GetMonthlySchedulesResponse>(
-    GET_MONTHLY_SCHEDULES_KEY.concat(month),
+    [...GET_MONTHLY_SCHEDULES_KEY, month, updated],
     () => getMonthlySchedules(month, mentorId!),
     {
       enabled: month !== undefined,
