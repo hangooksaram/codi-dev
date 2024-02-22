@@ -197,3 +197,5 @@ export const MOBILE_APPBAR_LINKS = [
     link: '/myInfo',
   },
 ];
+
+export const MAXIMUM_FILE_SIZE = 10 * 1024 * 1024;
