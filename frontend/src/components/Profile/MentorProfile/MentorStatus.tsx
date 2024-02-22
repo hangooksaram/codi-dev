@@ -1,7 +1,13 @@
 import FlexBox from '@/ui/atoms/FlexBox';
 import ProfileStatusCard from '../ProfileStatusCard/ProfileStatusCard';
 
-function MentorStatus() {
+function MentorStatus({
+  mentoringCount,
+  responseRate,
+}: {
+  mentoringCount?: number;
+  responseRate?: number;
+}) {
   return (
     <FlexBox
       direction="column"
@@ -10,8 +16,8 @@ function MentorStatus() {
       rowGap="4px"
     >
       {[
-        { text: '멘토링 횟수', value: '0회' },
-        { text: '응답률', value: '0%' },
+        { text: '멘토링 횟수', value: `${mentoringCount ?? 0}회` },
+        { text: '응답률', value: `${responseRate ?? 0}%` },
       ].map(({ text, value }, index) => (
         <ProfileStatusCard text={text} value={value} key={index} />
       ))}

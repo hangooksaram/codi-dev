@@ -40,7 +40,10 @@ function MentorProfilePage() {
             >
               프로필 수정하기
             </Button>
-            <MentorStatus />
+            <MentorStatus
+              mentoringCount={mentor?.mentoringCount}
+              responseRate={mentor?.responseRate}
+            />
           </ProfileCard>
         </MentorProfile>
       </>

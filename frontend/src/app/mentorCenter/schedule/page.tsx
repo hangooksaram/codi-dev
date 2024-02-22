@@ -24,14 +24,18 @@ function SchedulePage() {
 
   const [type, setType] = useState<'mentor' | 'mentee'>('mentee');
   const [isEdit, setIsEdit] = useState(false);
-  const [isScheduleEdited, setIsScheduleEdited] = useState(false);
-  const { data: dailySchedules, refetch: refetchDailySchedule } =
-    useDailySchedulesQuery(formattedDate(date));
-  const { data: monthlySchedules, refetch: refetchMonthlySchedule } =
-    useMonthlySchedulesQuery(formattedMonth(new Date()));
+  const [isScheduleEdited, setIsScheduleEdited] = useState(0);
+  const { data: dailySchedules } = useDailySchedulesQuery({
+    date: formattedDate(date),
+    updated: isScheduleEdited,
+  });
+  const { data: monthlySchedules } = useMonthlySchedulesQuery({
+    month: month ?? formattedMonth(new Date()),
+    updated: isScheduleEdited,
+  });
 
   const { data: mentoringsData } = useMonthlyMentoringsQuery({
-    month: month ?? formattedMonth(new Date()),
+    month: formattedMonth(new Date()),
     type: 'mentors',
   });
 
@@ -55,18 +59,12 @@ function SchedulePage() {
     }
   };
 
-  useEffect(() => {
-    if (isScheduleEdited) refetchDailySchedule();
-    setIsScheduleEdited(false);
-  }, [isScheduleEdited]);
-
   return (
     <LabelBox
       text="멘토링 일정 관리"
       helpText="멘토링 시간은 2주 전부터 한 달 단위로 설정 가능합니다."
       adornment={
         <Button
-          disabled={date && date?.getDate() < new Date().getDate()}
           onClick={toggleEditState}
           variant="default"
           size="small"

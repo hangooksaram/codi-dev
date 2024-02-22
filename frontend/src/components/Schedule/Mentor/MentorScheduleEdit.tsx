@@ -22,7 +22,7 @@ function MentorScheduleEdit({
   date?: string;
   schedules?: Schedule;
   toggleEditState: () => void;
-  setIsScheduleEdited: SetState<boolean>;
+  setIsScheduleEdited: SetState<number>;
 }) {
   const [selectedSchedules, setSelectedSchedules] = useState<ScheduleTime[]>(
     [],
@@ -56,7 +56,7 @@ function MentorScheduleEdit({
   };
 
   const addSchedule = useScheduleMutation({
-    onSuccess: () => setIsScheduleEdited(true),
+    onSuccess: () => setIsScheduleEdited((prev) => prev + 1),
   });
 
   const patchMentorSchedule = () => {
