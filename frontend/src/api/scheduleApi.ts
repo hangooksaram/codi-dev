@@ -13,5 +13,5 @@ export const getMonthlySchedules = async (month: string, mentorId?: number) => {
 };
 
 export const addSchedule = async (schedule: Schedule) => {
-  return (await customAxios.post(`/schedule/`, schedule)).data;
+  return (await customAxios.put(`/schedule/`, schedule)).data;
 };

@@ -38,7 +38,7 @@ const customAxios = {
     });
   },
   put: (url: string, data?: object, options?: AxiosRequestConfig) => {
-    return instance().post(url, data, {
+    return instance().put(url, data, {
       ...options,
     });
   },
