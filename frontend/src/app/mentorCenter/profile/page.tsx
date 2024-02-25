@@ -2,8 +2,9 @@
 
 import MentorProfile from '@/components/Profile/MentorProfile/MentorProfile';
 import MentorStatus from '@/components/Profile/MentorProfile/MentorStatus';
-import ProfileCard, { Footer } from '@/components/Profile/ProfileCard';
+import ProfileCard from '@/components/Profile/ProfileCard';
 import Content from '@/components/Profile/ProfileCard/Content';
+import Footer from '@/components/Profile/ProfileCard/Footer';
 import { useGetMentorQuery } from '@/queries/mentorQuery';
 import Button from '@/ui/atoms/Button';
 import LabelBox from '@/ui/molecules/LabelBox';
@@ -31,19 +32,20 @@ function MentorProfilePage() {
                 severity={mentor?.severity!}
               />
             </Content.Container>
-
-            <Button
-              onClick={() => router.push('/mentorRegisterForm?edit=true')}
-              size="small"
-              variant="default"
-              color={theme.colors.secondary.main}
-            >
-              프로필 수정하기
-            </Button>
-            <MentorStatus
-              mentoringCount={mentor?.mentoringCount}
-              responseRate={mentor?.responseRate}
-            />
+            <Footer.Container rowGap="15px">
+              <Button
+                onClick={() => router.push('/mentorRegisterForm?edit=true')}
+                size="small"
+                variant="default"
+                color={theme.colors.secondary.main}
+              >
+                프로필 수정하기
+              </Button>
+              <MentorStatus
+                mentoringCount={mentor?.mentoringCount}
+                responseRate={mentor?.responseRate}
+              />
+            </Footer.Container>
           </ProfileCard>
         </MentorProfile>
       </>

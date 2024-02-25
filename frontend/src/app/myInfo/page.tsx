@@ -3,12 +3,13 @@
 import { useRouter } from 'next/navigation';
 import SinglePageLayout from '@/components/Layout/SinglePageLayout';
 import MenteeProfile from '@/components/Profile/MenteeProfile/MenteeProfile';
-import ProfileCard, { Footer } from '@/components/Profile/ProfileCard';
+import ProfileCard from '@/components/Profile/ProfileCard';
 import Content from '@/components/Profile/ProfileCard/Content';
 import useGetProfileQuery from '@/queries/profileQuery';
 import Button from '@/ui/atoms/Button';
 import theme from '@/ui/theme';
 import ProfileStatusCard from '@/components/Profile/ProfileStatusCard/ProfileStatusCard';
+import Footer from '@/components/Profile/ProfileCard/Footer';
 
 function MyInfoPage() {
   const { data: profile } = useGetProfileQuery();
@@ -26,7 +27,7 @@ function MyInfoPage() {
           />
           <Content.Job job={profile?.job!} />
         </Content.Container>
-        <Footer>
+        <Footer.Container>
           <Button
             onClick={() => router.push('/profileForm?edit=true')}
             size="small"
@@ -35,7 +36,7 @@ function MyInfoPage() {
           >
             프로필 수정하기
           </Button>
-        </Footer>
+        </Footer.Container>
         <ProfileStatusCard text="희망직무" value={profile?.desiredJob!} />
       </ProfileCard>
     </MenteeProfile>

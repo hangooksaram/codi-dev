@@ -5,7 +5,7 @@ import { useState } from 'react';
 import SinglePageLayout from '@/components/Layout/SinglePageLayout';
 import MentoringPlatformModal from '@/components/Mentoring/MentoringPlatformModal';
 import MenteeProfile from '@/components/Profile/MenteeProfile/MenteeProfile';
-import ProfileCard, { Footer } from '@/components/Profile/ProfileCard';
+import ProfileCard from '@/components/Profile/ProfileCard';
 import Content from '@/components/Profile/ProfileCard/Content';
 import Header from '@/components/Profile/ProfileCard/Header';
 import { useResponseMentoringMutation } from '@/queries/mentoring/mentorMentoringQuery';
@@ -15,6 +15,7 @@ import theme from '@/ui/theme';
 import { useDispatch } from 'react-redux';
 import { setCurrentModal, setModalState } from '@/features/modal/modalSlice';
 import ConfirmModal from '@/ui/molecules/Modal/ConfirmModal';
+import Footer from '@/components/Profile/ProfileCard/Footer';
 
 function MentoringAppliedMenteeProfilePage() {
   const router = useRouter();
@@ -55,7 +56,7 @@ function MentoringAppliedMenteeProfilePage() {
               severity={profile?.severity!}
             />
           </Content.Container>
-          <Footer>
+          <Footer.Container>
             <Button
               onClick={() => {
                 acceptMutation.mutate();
@@ -66,7 +67,7 @@ function MentoringAppliedMenteeProfilePage() {
             >
               멘토링 수락 하기
             </Button>
-          </Footer>
+          </Footer.Container>
         </ProfileCard>
       </MenteeProfile>
     </SinglePageLayout>
