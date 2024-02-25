@@ -5,7 +5,7 @@ import { useState } from 'react';
 import SinglePageLayout from '@/components/Layout/SinglePageLayout';
 import MentoringPlatformModal from '@/components/Mentoring/MentoringPlatformModal';
 import MenteeProfile from '@/components/Profile/MenteeProfile/MenteeProfile';
-import ProfileCard, { Footer } from '@/components/Profile/ProfileCard';
+import ProfileCard from '@/components/Profile/ProfileCard';
 import Content from '@/components/Profile/ProfileCard/Content';
 import useGetProfileQuery from '@/queries/profileQuery';
 import Button from '@/ui/atoms/Button';
@@ -13,6 +13,7 @@ import theme from '@/ui/theme';
 import ProfileStatusCard from '@/components/Profile/ProfileStatusCard/ProfileStatusCard';
 import { useDispatch } from 'react-redux';
 import { setCurrentModal, setModalState } from '@/features/modal/modalSlice';
+import Footer from '@/components/Profile/ProfileCard/Footer';
 
 function MentoringMenteeProfilePage({}) {
   const param = useSearchParams();
@@ -38,7 +39,7 @@ function MentoringMenteeProfilePage({}) {
               severity={profile?.severity!}
             />
           </Content.Container>
-          <Footer>
+          <Footer.Container>
             {!platform?.includes('No') && (
               <>
                 <Button
@@ -61,7 +62,7 @@ function MentoringMenteeProfilePage({}) {
                 </Button>
               </>
             )}
-          </Footer>
+          </Footer.Container>
           <ProfileStatusCard text="희망직무" value={profile?.desiredJob!} />
         </ProfileCard>
       </MenteeProfile>

@@ -6,12 +6,13 @@ import theme, { device } from '@/ui/theme';
 import Card from '@/ui/atoms/Card';
 import Typography from '@/ui/atoms/Typography';
 import FlexBox from '@/ui/atoms/FlexBox';
-import ProfileCard, { Footer } from '@/components/Profile/ProfileCard';
+import ProfileCard from '@/components/Profile/ProfileCard';
 import { Mentor } from '@/types/profile';
 import Button from '@/ui/atoms/Button';
 import { useGetFavoriteMentorsQuery } from '@/queries/mentorQuery';
 import Header from '@/components/Profile/ProfileCard/Header';
 import Content from '@/components/Profile/ProfileCard/Content';
+import Footer from '@/components/Profile/ProfileCard/Footer';
 
 function MentorList({ mentors }: { mentors: Mentor[] }) {
   const router = useRouter();
@@ -65,7 +66,7 @@ function MentorList({ mentors }: { mentors: Mentor[] }) {
               />
             </Content.Container>
 
-            <Footer>
+            <Footer.Container>
               <Button
                 onClick={() =>
                   router.push(
@@ -78,7 +79,7 @@ function MentorList({ mentors }: { mentors: Mentor[] }) {
               >
                 멘토프로필 보기
               </Button>
-            </Footer>
+            </Footer.Container>
           </ProfileCard>
         );
       })}
