@@ -17,7 +17,7 @@ function MentorStatus({
     >
       {[
         { text: '멘토링 횟수', value: `${mentoringCount ?? 0}회` },
-        { text: '응답률', value: `${responseRate ?? 0}%` },
+        { text: '응답률', value: `${Math.floor(responseRate ?? 0)}%` },
       ].map(({ text, value }, index) => (
         <ProfileStatusCard text={text} value={value} key={index} />
       ))}
