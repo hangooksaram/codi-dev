@@ -8,9 +8,6 @@ const Container = styled.main(({ width }: { width?: string }) => ({
   [device('tablet')]: {
     width: '90%',
   },
-  [device('smWeb')]: {
-    paddingBottom: `${MOBILE_NAVIGATION_HEIGHT}px`,
-  },
 }));
 
 export const FormContainer = styled(Container)`

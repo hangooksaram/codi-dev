@@ -31,8 +31,6 @@ import Button from '@/ui/atoms/Button';
 import { SetState } from '@/index';
 import { MOBILE_NAVIGATION_HEIGHT } from '@/constants';
 
-const BOX_LIST = ['하이라이터', '포커싱 박스'];
-
 function Floating() {
   const path = usePathname();
   const [open, setOpen] = useState(false);

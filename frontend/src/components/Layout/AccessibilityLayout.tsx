@@ -21,7 +21,7 @@ type StyledLayoutProps = {
   focused: boolean;
 };
 
-const StyledLayout = styled.body(
+const StyledLayout = styled.div(
   ({ zoom, letterSpacing, lineHeight, focused }: StyledLayoutProps) => ({
     zoom,
     letterSpacing,
@@ -53,7 +53,6 @@ function AccessibilityLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <StyledLayout
-      suppressHydrationWarning={true}
       zoom={zoom}
       letterSpacing={letterSpacing}
       lineHeight={lineHeight}
