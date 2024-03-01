@@ -22,6 +22,7 @@ function MobileAppBar() {
                 key={index}
                 onClick={() => router.push(link)}
                 selected={current}
+                hoverDisabled
               >
                 <Icon
                   fill={

@@ -1,7 +1,8 @@
 import Container from '@/ui/atoms/Container';
 import FlexBox from '@/ui/atoms/FlexBox';
 import Typography from '@/ui/atoms/Typography';
-import theme from '@/ui/theme';
+import theme, { device } from '@/ui/theme';
+import { css } from '@emotion/css';
 import styled from '@emotion/styled';
 import Logo from '@icons/logo/logo-footer.svg';
 
@@ -13,7 +14,7 @@ const Footer = () => {
         justifyContent="space-between"
         {...{ height: '100%' }}
       >
-        <FlexBox justifyContent="flex-start" columnGap="7.5px">
+        <FlexBox justifyContent="flex-start" columnGap="7.5px" isWrap>
           <Logo />
           <div>
             <Typography
@@ -28,7 +29,7 @@ const Footer = () => {
             </Typography>
           </div>
 
-          <div>|</div>
+          <Divider />
           <div>
             <Typography
               variant="span"
@@ -42,12 +43,12 @@ const Footer = () => {
             </Typography>
           </div>
 
-          <div>|</div>
+          <Divider />
 
           <Typography variant="span" color={theme.colors.gray.dark}>
             www.codisabled.com
           </Typography>
-          <div>|</div>
+          <Divider />
           <div>
             <Typography
               variant="span"
@@ -72,6 +73,23 @@ const StyledFooter = styled(Container)({
   height: '59px',
   backgroundColor: theme.colors.gray.light,
   color: theme.colors.gray.main,
+  [device('tablet')]: {
+    width: '100%',
+    padding: '0px 10px',
+    margin: 0,
+  },
 });
+
+const Divider = () => (
+  <div
+    className={css`
+      ${device('mobile')} {
+        display: none;
+      }
+    `}
+  >
+    |
+  </div>
+);
 
 export default Footer;
