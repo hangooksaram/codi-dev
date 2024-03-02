@@ -8,22 +8,20 @@ import { useRouter } from 'next/navigation';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import { useDispatch } from 'react-redux';
-import theme from '@/ui/theme';
+import theme, { device } from '@/ui/theme';
 import Button from '@/ui/atoms/Button';
 import StyledLink from '@/ui/atoms/Link';
 import FlexBox from '@/ui/atoms/FlexBox';
 import Typography from '@/ui/atoms/Typography';
 import Container from '@/ui/atoms/Container';
-import Card from '@/ui/atoms/Card';
 import Input from '@/ui/atoms/Input';
 import { signIn } from '@/api/signApi';
 import usePressEnterKey from '@/hooks/usePressEnterKey';
 import { setIsLoggedIn } from '@/features/auth/authSlice';
 import { User } from '@/types/user';
-import {
-  SignImageContainer,
-  SignInputFormContainer,
-} from '@/components/pages/account/AccountContainers';
+import { SignInputFormContainer } from '@/components/pages/account/AccountContainers';
+import ImageComponent from '@/ui/atoms/ImageComponent';
+import signInImage from '@images/signin-image.png';
 
 function SignInPage() {
   const router = useRouter();
@@ -49,7 +47,12 @@ function SignInPage() {
 
   return (
     <FlexBox {...{ height: '100%' }}>
-      <SignImageContainer backgroundImageSrc="/images/signin-image.png" />
+      <SignInImageComponent
+        width="60%"
+        height="auto"
+        src={signInImage}
+        alt="회원가입 완료"
+      />
 
       <Container width="55.5%">
         <SignInputFormContainer
@@ -117,43 +120,14 @@ function SignInPage() {
   );
 }
 
-const SignInImageCard = styled(Card)`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  border-radius: 0;
-  border-bottom-right-radius: 20px;
-  position: relative;
-  padding: 60px;
-`;
-
-const SignInTitle = styled('div')`
-  position: absolute;
-  top: 40%;
-  z-index: 2;
-  word-break: break-word;
-  max-width: 310px;
-`;
-
 const SignInInput = styled(Input)`
   height: 70px;
   background-color: ${theme.colors.gray.light};
   font-size: ${theme.fonts.size.md};
 `;
 
-const SignInTextButton = styled(Button)`
-  height: fit-content;
-  color: ${theme.colors.gray.dark};
-  background-color: transparent;
-`;
-
-const StyledSignInImage = styled(Image)(() => ({
-  maxWidth: '90%',
-  height: 'auto',
-  objectFit: 'contain',
-  position: 'absolute',
-  right: 0,
-  zIndex: 1,
+const SignInImageComponent = styled(ImageComponent)(() => ({
+  [device('tablet')]: { display: 'none' },
 }));
 
 export default SignInPage;
