@@ -17,7 +17,7 @@ function MentorCenterPage() {
       return;
     }
 
-    router.push('/noneMentor');
+    router.push('/mentorCenter/noneMentor');
   }, []);
 
   return <MentorCenterLoading />;
