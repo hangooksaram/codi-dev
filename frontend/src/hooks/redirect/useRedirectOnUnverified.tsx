@@ -42,7 +42,7 @@ const redirectRoutes: RedirectRoutes[] = [
     message: '프로필 작성이 필요해요. 프로필 작성 페이지로 이동하시겠습니까?',
   },
   {
-    currentRoute: '/myInfo',
+    currentRoute: '/menteeCenter',
     redirectRoute: '/signin',
     allowed: 'user',
     message: '로그인이 필요해요. 로그인 페이지로 이동하시겠습니까?',

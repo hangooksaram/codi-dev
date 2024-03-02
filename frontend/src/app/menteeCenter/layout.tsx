@@ -15,9 +15,10 @@ import FlexBox from '@/ui/atoms/FlexBox';
 import LayoutWithSideBar from '@/components/Layout/LayoutWithSideBar';
 import { selectUser } from '@/features/user/userSlice';
 import Typography from '@/ui/atoms/Typography';
+import MenteeCenter from '@icons/mobile/appbar/mentee-center.svg';
 import Button from '@/ui/atoms/Button';
 
-export default function MyCodiLayout({
+export default function MenteeCenterLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -72,18 +73,24 @@ const navigators = [
     iconComponent: <Profile fill={theme.colors.gray.main} />,
     currentIconComponent: <Profile fill={theme.colors.white} />,
     name: '일정 관리',
-    href: '/myCodi',
+    href: '/menteeCenter',
   },
   {
     iconComponent: <Verified fill={theme.colors.gray.main} />,
     currentIconComponent: <Verified fill={theme.colors.white} />,
     name: '관심 멘토',
-    href: '/myCodi/favorites',
+    href: '/menteeCenter/favorites',
+  },
+  {
+    iconComponent: <MenteeCenter fill={theme.colors.gray.main} />,
+    currentIconComponent: <MenteeCenter fill={theme.colors.white} />,
+    name: '내 프로필',
+    href: '/menteeCenter/myInfo',
   },
   // {
   //   iconComponent: <Verified fill={theme.colors.gray.main} />,
   //   currentIconComponent: <Verified fill={theme.colors.white} />,
   //   name: "코디 뱃지",
-  //   href: "/myInfo/badges/",
+  //   href: "/menteeCenter/badges/",
   // },
 ];

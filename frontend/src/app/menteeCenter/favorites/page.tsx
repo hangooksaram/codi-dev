@@ -1,7 +1,7 @@
 'use client';
 
 import MentorList from '@/components/Mentor/Mentors/MentorList';
-import MyInfoCommonContainerCard from '@/components/pages/myInfoCommon/MyInfoCommonContainerCard';
+import MyInfoCommonContainerCard from '@/components/pages/menteeCenter/myInfoCommon/MyInfoCommonContainerCard';
 import { useGetFavoriteMentorsQuery } from '@/queries/mentorQuery';
 import FlexBox from '@/ui/atoms/FlexBox';
 import LabelBox from '@/ui/molecules/LabelBox';
