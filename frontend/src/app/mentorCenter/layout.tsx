@@ -57,10 +57,8 @@ export default function MentorCenterLayout({
           <MobileMenuButton
             variant="square"
             onClick={() => setOpen((prev) => !prev)}
-            color={theme.colors.gray.main}
           >
             <Menu />
-            ff
           </MobileMenuButton>
         )}
       </>

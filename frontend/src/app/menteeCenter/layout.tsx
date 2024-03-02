@@ -35,7 +35,6 @@ export default function MenteeCenterLayout({
           <MobileMenuButton
             variant="square"
             onClick={() => setOpen((prev) => !prev)}
-            color={theme.colors.gray.main}
           >
             <Menu />
           </MobileMenuButton>
