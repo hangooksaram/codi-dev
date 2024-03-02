@@ -75,7 +75,8 @@ const StyledFooter = styled(Container)({
   color: theme.colors.gray.main,
   [device('tablet')]: {
     width: '100%',
-    padding: '0px 10px',
+    height: 'auto',
+    padding: '10px',
     margin: 0,
   },
 });
