@@ -1,3 +1,4 @@
+import { MOBILE_NAVIGATION_HEIGHT } from '@/constants';
 import Container from '@/ui/atoms/Container';
 import FlexBox from '@/ui/atoms/FlexBox';
 import Typography from '@/ui/atoms/Typography';
@@ -69,6 +70,8 @@ const Footer = () => {
 
 const StyledFooter = styled(Container)({
   width: '100%',
+  position: 'sticky',
+  top: '80vh',
   padding: '0px 15.8%',
   height: '59px',
   backgroundColor: theme.colors.gray.light,
