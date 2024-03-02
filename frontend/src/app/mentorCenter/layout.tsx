@@ -12,6 +12,8 @@ import SideBar, {
 import theme from '@/ui/theme';
 import FlexBox from '@/ui/atoms/FlexBox';
 import LayoutWithSideBar from '@/components/Layout/LayoutWithSideBar';
+import { useSelector } from 'react-redux';
+import { selectUser } from '@/features/user/userSlice';
 
 export default function MentorCenterLayout({
   children,
@@ -19,6 +21,7 @@ export default function MentorCenterLayout({
   children: React.ReactNode;
 }) {
   const [open, setOpen] = useState(false);
+  const userId = useSelector(selectUser).id;
 
   const navigators = [
     {
@@ -49,13 +52,15 @@ export default function MentorCenterLayout({
     >
       <>
         <SideBarOverlay open={open} onClick={() => setOpen(false)} />
-        <MobileMenuButton
-          variant="square"
-          onClick={() => setOpen((prev) => !prev)}
-          color={theme.colors.gray.main}
-        >
-          <Menu />
-        </MobileMenuButton>
+
+        {userId && (
+          <MobileMenuButton
+            variant="square"
+            onClick={() => setOpen((prev) => !prev)}
+          >
+            <Menu />
+          </MobileMenuButton>
+        )}
       </>
       <SideBar navigators={navigators} open={open} setOpen={setOpen} />
       <LayoutWithSideBar>{children}</LayoutWithSideBar>

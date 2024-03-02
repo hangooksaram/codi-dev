@@ -16,7 +16,7 @@ import FlexBox from '@/ui/atoms/FlexBox';
 import Typography from '@/ui/atoms/Typography';
 import LabelBox from '@/ui/molecules/LabelBox';
 import theme, { device } from '@/ui/theme';
-import MyInfoCard from '../myInfoCommon/MyInfoCard';
+import MyInfoCard from '../menteeCenter/myInfoCommon/MyInfoCard';
 import { SetState } from '@/index';
 import Content from '@/components/Profile/ProfileCard/Content';
 import { setCurrentModal, setModalState } from '@/features/modal/modalSlice';

@@ -17,7 +17,7 @@ import FlexBox from '@/ui/atoms/FlexBox';
 import LabelBox from '@/ui/molecules/LabelBox';
 import { formattedDate, formattedMonth } from '@/utils/dateFormat';
 
-function MyCodiPage() {
+function MenteeCenterPage() {
   const [date, setDate] = useState<Date>();
   const [type, setType] = useState<'mentor' | 'mentee'>('mentee');
 
@@ -65,4 +65,4 @@ function MyCodiPage() {
   );
 }
 
-export default MyCodiPage;
+export default MenteeCenterPage;

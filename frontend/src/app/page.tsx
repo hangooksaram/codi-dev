@@ -22,7 +22,7 @@ function MainLandingPage() {
 
   return (
     <MainContainer width="100%">
-      <FlexBox direction="column" rowGap="20px">
+      <FlexBox direction="column" rowGap="20px" justifyContent="flex-start">
         <BackgroundImage
           image={{
             width: '100%',
@@ -32,6 +32,7 @@ function MainLandingPage() {
           }}
           style={{
             display: 'flex',
+            minHeight: '200px',
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',

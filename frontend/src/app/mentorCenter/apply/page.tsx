@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import MentorCenterApplyCard from '@/components/pages/mentorCenter/ApplyCard';
-import MyInfoCommonContainerCard from '@/components/pages/myInfoCommon/MyInfoCommonContainerCard';
+import MyInfoCommonContainerCard from '@/components/pages/menteeCenterCommon/MyInfoCommonContainerCard';
 import { useMentoringApplies } from '@/queries/mentoring/mentorMentoringQuery';
 import { GetMentoringAppliesResponseData } from '@/types/api/mentoring';
 import Typography from '@/ui/atoms/Typography';

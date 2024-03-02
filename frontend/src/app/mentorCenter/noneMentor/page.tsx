@@ -9,7 +9,7 @@ import FlexBox from '@/ui/atoms/FlexBox';
 import ImageComponent from '@/ui/atoms/ImageComponent';
 import { useRouter } from 'next/navigation';
 
-const NonMentorPage = () => {
+const NoneMentorPage = () => {
   const router = useRouter();
   return (
     <FlexBox direction="column" rowGap="20px" {...{ minHeight: '500px' }}>
@@ -41,4 +41,4 @@ const NonMentorPage = () => {
   );
 };
 
-export default NonMentorPage;
+export default NoneMentorPage;

@@ -1,6 +1,6 @@
 import { css } from '@emotion/css';
 import styled from '@emotion/styled';
-import MyInfoCard from '@/components/pages/myInfoCommon/MyInfoCard';
+import MyInfoCard from '@/components/pages/menteeCenter/myInfoCommon/MyInfoCard';
 import LabelBox from '@/ui/molecules/LabelBox';
 import ProfileLabelText from '../ProfileLabelText';
 import { MenteeProfile } from '@/types/profile';

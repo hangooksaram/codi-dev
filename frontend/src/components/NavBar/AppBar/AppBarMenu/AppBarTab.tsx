@@ -18,7 +18,10 @@ function AppBarTab() {
       <TopNavigator current={path.includes('/mentorsMain')} href="/mentorsMain">
         멘토 찾기
       </TopNavigator>
-      <TopNavigator current={path.includes('/myCodi')} href="/myCodi">
+      <TopNavigator
+        current={path.includes('/menteeCenter')}
+        href="/menteeCenter"
+      >
         멘티 센터
       </TopNavigator>
     </FlexBox>

@@ -18,6 +18,9 @@ export const SignInputFormContainer = styled(FlexBox)(({}) => ({
   [device('mdWeb')]: {
     padding: '40px 10% 32px 10%',
   },
+  [device('tablet')]: {
+    padding: '30px 0px',
+  },
 
   padding: '40px 20% 32px 20%',
 }));

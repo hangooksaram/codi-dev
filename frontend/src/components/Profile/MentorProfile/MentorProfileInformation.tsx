@@ -1,4 +1,4 @@
-import MyInfoCard from '@/components/pages/myInfoCommon/MyInfoCard';
+import MyInfoCard from '@/components/pages/menteeCenter/myInfoCommon/MyInfoCard';
 import FlexBox from '@/ui/atoms/FlexBox';
 import Grid from '@/ui/atoms/Grid';
 import LabelBox from '@/ui/molecules/LabelBox';

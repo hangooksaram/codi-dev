@@ -1,6 +1,6 @@
 import Home from '@icons/mobile/appbar/home.svg';
 import MentorPage from '@icons/mobile/appbar/mentor-page.svg';
-import MyCodi from '@icons/mobile/appbar/my-codi.svg';
+import MenteeCenter from '@icons/mobile/appbar/mentee-center.svg';
 import MyInfo from '@icons/mobile/appbar/my-info.svg';
 
 export const HOMEPAGE_URL =
@@ -113,7 +113,7 @@ export const PROFILE_MENU = (isUser: boolean) => {
   return [
     {
       name: `${isUser ? '내 프로필' : '프로필 작성하기'}`,
-      href: `${isUser ? '/myInfo' : 'profileForm'}`,
+      href: `${isUser ? '/menteeCenter' : 'profileForm'}`,
     },
     {
       name: '비밀번호 수정',
@@ -187,14 +187,14 @@ export const MOBILE_APPBAR_LINKS = [
     link: '/mentorsMain',
   },
   {
-    icon: MyCodi,
+    icon: MenteeCenter,
     text: '멘티 센터',
-    link: '/myCodi',
+    link: '/menteeCenter',
   },
   {
     icon: MyInfo,
-    text: '내 정보',
-    link: '/myInfo',
+    text: '멘토센터',
+    link: '/mentorCenter',
   },
 ];
 
