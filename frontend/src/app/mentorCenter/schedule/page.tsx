@@ -16,7 +16,7 @@ import useDailySchedulesQuery, {
 } from '@/queries/scheduleQuery';
 import MentorSchedules from '@/components/Schedule/Mentor/MentorSchedules';
 import CalendarContainer from '@/components/Container/CalendarContainer';
-import Mentorings from '@/components/Mentoring/Mentorings';
+import Mentorings from '@/components/Mentoring/Mentorings/Mentorings';
 import FlexBox from '@/ui/atoms/FlexBox';
 
 function SchedulePage() {

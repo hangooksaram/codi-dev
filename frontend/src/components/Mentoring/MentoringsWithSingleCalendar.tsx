@@ -2,7 +2,7 @@ import { SetStateAction, useEffect } from 'react';
 
 import styled from '@emotion/styled';
 import Card from '@/ui/atoms/Card';
-import Mentorings from './Mentorings';
+import Mentorings from './Mentorings/Mentorings';
 import CalendarContainer from '../Container/CalendarContainer';
 import { DailyMentoringMember } from '@/types/mentoring';
 

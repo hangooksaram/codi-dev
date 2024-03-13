@@ -1,3 +1,5 @@
+'use client';
+
 import { css } from '@emotion/css';
 import { ReactNode, SetStateAction } from 'react';
 import styled from '@emotion/styled';
