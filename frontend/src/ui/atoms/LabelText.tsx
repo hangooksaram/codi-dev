@@ -3,7 +3,7 @@ import theme from '../theme';
 import FlexBox from './FlexBox';
 import Typography from './Typography';
 
-export function ContentText({
+export function LabelText({
   text,
   helpText,
   labelColor,
@@ -20,8 +20,8 @@ export function ContentText({
         marginBottom: '20px',
       }}
     >
-      <ContentTextAdorement color={labelColor} />
-      <StyledContentText>{text}</StyledContentText>
+      <LabelTextAdorement color={labelColor} />
+      <StyledLabelText>{text}</StyledLabelText>
       <Typography
         variant="div"
         color={theme.colors.gray.main}
@@ -33,7 +33,7 @@ export function ContentText({
   );
 }
 
-export const ContentTextAdorement = styled.div(
+export const LabelTextAdorement = styled.div(
   ({ color }: { color?: string }) => ({
     width: '5px',
     height: '21px',
@@ -43,7 +43,7 @@ export const ContentTextAdorement = styled.div(
   }),
 );
 
-export const StyledContentText = styled.div`
+export const StyledLabelText = styled.div`
   min-width: fit-content;
   font-size: ${theme.fonts.size.md};
   font-weight: ${theme.fonts.weight.extraBold};

@@ -17,6 +17,7 @@ import useDailySchedulesQuery, {
 import MentorSchedules from '@/components/Schedule/Mentor/MentorSchedules';
 import CalendarContainer from '@/components/Container/CalendarContainer';
 import Mentorings from '@/components/Mentoring/Mentorings';
+import FlexBox from '@/ui/atoms/FlexBox';
 
 function SchedulePage() {
   const [date, setDate] = useState<Date>();
@@ -60,30 +61,21 @@ function SchedulePage() {
   };
 
   return (
-    <LabelBox
-      text="멘토링 일정 관리"
-      helpText="멘토링 시간은 2주 전부터 한 달 단위로 설정 가능합니다."
-      adornment={
-        <Button
-          onClick={toggleEditState}
-          variant="default"
-          size="small"
-          {...{ minWidth: 'fit-content', marginBottom: '20px' }}
-        >
-          일정편집
-        </Button>
-      }
-    >
-      {/* <MentoringsWithSingleCalendar
-        type={type}
-        date={date}
-        setDate={setDate}
-        setMonth={setMonth}
-        mentorings={
-          date ? dailyMentoringData! : mentoringsData?.monthlyMentoringMembers
+    <FlexBox direction="column" rowGap="20px">
+      <LabelBox
+        text="멘토링 일정 관리"
+        helpText="멘토링 시간은 2주 전부터 한 달 단위로 설정 가능합니다."
+        adornment={
+          <Button
+            onClick={toggleEditState}
+            variant="default"
+            size="small"
+            {...{ minWidth: 'fit-content', marginBottom: '20px' }}
+          >
+            일정편집
+          </Button>
         }
-        schedules={}
-      /> */}
+      />
       <CalendarContainer
         date={date}
         setDate={setDate}
@@ -102,21 +94,20 @@ function SchedulePage() {
           />
         </SchedulesContainer>
       </CalendarContainer>
-      <div className={css({ marginTop: '20px' })}>
-        {isEdit ? (
-          <MentorScheduleEdit
-            date={formattedDate(date)}
-            schedules={dailySchedules!}
-            toggleEditState={toggleEditState}
-            setIsScheduleEdited={setIsScheduleEdited}
-          />
-        ) : (
-          <MentorSchedules
-            schedules={date ? dailySchedules! : monthlySchedules?.days!}
-          />
-        )}
-      </div>
-    </LabelBox>
+
+      {isEdit ? (
+        <MentorScheduleEdit
+          date={formattedDate(date)}
+          schedules={dailySchedules!}
+          toggleEditState={toggleEditState}
+          setIsScheduleEdited={setIsScheduleEdited}
+        />
+      ) : (
+        <MentorSchedules
+          schedules={date ? dailySchedules! : monthlySchedules?.days!}
+        />
+      )}
+    </FlexBox>
   );
 }
 

@@ -12,7 +12,6 @@ import useDailySchedulesQuery, {
 } from '@/queries/scheduleQuery';
 import { formattedDate, formattedMonth } from '@/utils/dateFormat';
 import Button from '@/ui/atoms/Button';
-import ContentTextContainer from '@/ui/molecules/Container/ContentTextContainer';
 import Textarea from '@/ui/atoms/Textarea';
 import ContainerWithBackground from '@/ui/molecules/Container/ContainerWithBackground';
 import Typography from '@/ui/atoms/Typography';
@@ -133,7 +132,7 @@ function MentoringApplyFormPage() {
               </FlexBox>
             </CalendarContainer>
           </LabelBox>
-          <ContentTextContainer text="하고싶은 말" helpText="(최소 50 글자)">
+          <LabelBox text="하고싶은 말" helpText="(최소 50 글자)">
             <Label
               htmlFor="applicationReason"
               text="하고싶은 말 (최소 50 글자)"
@@ -146,7 +145,7 @@ function MentoringApplyFormPage() {
                 setForm({ ...form, applicationReason: e.target.value })
               }
             />
-          </ContentTextContainer>
+          </LabelBox>
           <Button
             disabled={
               form.applicationReason.length < 50 || !form.date || !form.time

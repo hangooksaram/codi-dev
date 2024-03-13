@@ -38,7 +38,9 @@ function CalendarContainer({
         schedules={schedules!}
         mentoringSchedules={mentoringSchedules}
       />
-      <Card padding="40px">{children}</Card>
+      <StyledCalendarContainerCard padding="0px">
+        {children}
+      </StyledCalendarContainerCard>
     </StyledCalendarContainer>
   );
 }
@@ -46,10 +48,13 @@ function CalendarContainer({
 const StyledCalendarContainer = styled(FlexBox)({
   height: '590px',
   [device('tablet')]: {
+    height: 'auto',
     flexDirection: 'column',
     columnGap: '0px',
     rowGap: '20px',
   },
 });
+
+const StyledCalendarContainerCard = styled(Card)({});
 
 export default CalendarContainer;

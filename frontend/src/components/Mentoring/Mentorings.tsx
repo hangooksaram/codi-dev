@@ -5,69 +5,19 @@ import FlexBox from '@/ui/atoms/FlexBox';
 import theme from '@/ui/theme';
 import { DailyMentoringMember, MentoringMember } from '@/types/mentoring';
 import { formattedDate } from '@/utils/dateFormat';
+import Card from '@/ui/atoms/Card';
+
+const today = (date: string) => {
+  return date === formattedDate(new Date());
+};
 
 function Mentorings({
   mentorings,
 }: {
   mentorings: DailyMentoringMember[] | DailyMentoringMember;
 }) {
-  const today = (date: string) => {
-    return date === formattedDate(new Date());
-  };
-
   if (Array.isArray(mentorings))
-    return mentorings?.map(({ date, mentoringMembers }, index) => {
-      return (
-        <div
-          className={css({ width: '100%', marginBottom: '30px' })}
-          key={`mentoring-container-${index}-${new Date().toUTCString()}`}
-        >
-          <Chip
-            color={
-              today(date) ? theme.colors.primary.main : theme.colors.gray.main
-            }
-            fontColor={
-              today(date) ? theme.colors.white : theme.colors.primary.main
-            }
-          >
-            {date}
-          </Chip>
-          <FlexBox
-            justifyContent="flex-start"
-            isWrap
-            columnGap="20px"
-            rowGap="20px"
-            {...{ marginTop: '10px' }}
-          >
-            {mentoringMembers?.map(
-              ({
-                time,
-                name,
-                mentoringJob,
-                mentoringId,
-                platform,
-                profileId,
-                mentorId,
-                imgUrl,
-              }) => (
-                <MentoringCard
-                  profileId={profileId}
-                  mentorId={mentorId}
-                  mentoringId={mentoringId}
-                  date={date}
-                  time={time}
-                  name={name}
-                  mentoringJob={mentoringJob}
-                  platform={platform}
-                  imgUrl={imgUrl}
-                  key={`mentoring-member-${mentoringId}-${index}`}
-                />
-              ),
-            )}
-          </FlexBox>
-        </div>
-      );
-    });
+    return <MonthlyMentorings mentorings={mentorings} />;
   return (
     <div className={css({ width: '100%', marginBottom: '30px' })}>
       {mentorings?.mentoringMembers.length > 0 ? (
@@ -128,6 +78,65 @@ function Mentorings({
     </div>
   );
 }
+
+const MonthlyMentorings = ({
+  mentorings,
+}: {
+  mentorings: DailyMentoringMember[];
+}) => {
+  return mentorings?.map(({ date, mentoringMembers }, index) => {
+    return (
+      <div
+        className={css({ width: '100%', marginBottom: '30px' })}
+        key={`mentoring-container-${index}-${new Date().toUTCString()}`}
+      >
+        <Chip
+          color={
+            today(date) ? theme.colors.primary.main : theme.colors.gray.main
+          }
+          fontColor={
+            today(date) ? theme.colors.white : theme.colors.primary.main
+          }
+        >
+          {date}
+        </Chip>
+        <FlexBox
+          justifyContent="flex-start"
+          isWrap
+          columnGap="20px"
+          rowGap="20px"
+          {...{ marginTop: '10px' }}
+        >
+          {mentoringMembers?.map(
+            ({
+              time,
+              name,
+              mentoringJob,
+              mentoringId,
+              platform,
+              profileId,
+              mentorId,
+              imgUrl,
+            }) => (
+              <MentoringCard
+                profileId={profileId}
+                mentorId={mentorId}
+                mentoringId={mentoringId}
+                date={date}
+                time={time}
+                name={name}
+                mentoringJob={mentoringJob}
+                platform={platform}
+                imgUrl={imgUrl}
+                key={`mentoring-member-${mentoringId}-${index}`}
+              />
+            ),
+          )}
+        </FlexBox>
+      </div>
+    );
+  });
+};
 
 const chipColor = (today: boolean) => {
   return today ? theme.colors.primary.main : theme.colors.gray.main;
