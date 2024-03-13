@@ -1,8 +1,8 @@
 import { ReactNode } from 'react';
 import styled from '@emotion/styled';
-import { ContentText } from '../atoms/ContentText';
 import { device } from '../theme';
 import FlexBox from '../atoms/FlexBox';
+import { LabelText } from '../atoms/LabelText';
 
 function LabelBox({
   width,
@@ -23,11 +23,11 @@ function LabelBox({
     <StyledLabelBox>
       {adornment ? (
         <FlexBox justifyContent="space-between" alignItems="flex-start">
-          <ContentText text={text} helpText={helpText} />
+          <LabelText text={text} helpText={helpText} />
           {adornment}
         </FlexBox>
       ) : (
-        <ContentText text={text} helpText={helpText} />
+        <LabelText text={text} helpText={helpText} />
       )}
 
       {children}
