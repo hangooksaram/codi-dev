@@ -12,7 +12,6 @@ import useDailySchedulesQuery, {
 } from '@/queries/scheduleQuery';
 import { formattedDate, formattedMonth } from '@/utils/dateFormat';
 import Button from '@/ui/atoms/Button';
-import LabelBox from '@/ui/molecules/Container/LabelBox';
 import Textarea from '@/ui/atoms/Textarea';
 import ContainerWithBackground from '@/ui/molecules/Container/ContainerWithBackground';
 import Typography from '@/ui/atoms/Typography';

@@ -10,6 +10,7 @@ import { CustomCaption } from './customComponents/CustomCaption';
 import { SetState } from '@/index';
 import Card from '@/ui/atoms/Card';
 import styled from '@emotion/styled';
+import { device } from '@/ui/theme';
 
 function SingleCalendar({
   date,
@@ -61,5 +62,9 @@ function SingleCalendar({
 const SingleCalenderContianerCard = styled(Card)(() => ({
   maxWidth: '482px',
   height: '590px',
+
+  [device('tablet')]: {
+    height: 'auto',
+  },
 }));
 export default SingleCalendar;

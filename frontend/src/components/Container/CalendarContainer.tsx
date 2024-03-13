@@ -48,6 +48,7 @@ function CalendarContainer({
 const StyledCalendarContainer = styled(FlexBox)({
   height: '590px',
   [device('tablet')]: {
+    height: 'auto',
     flexDirection: 'column',
     columnGap: '0px',
     rowGap: '20px',
