@@ -10,7 +10,7 @@ import { FormContainer } from '@/ui/atoms/Container';
 import Typography from '@/ui/atoms/Typography';
 import theme from '@/ui/theme';
 import Button from '@/ui/atoms/Button';
-import ContentTextContainer from '@/ui/molecules/Container/ContentTextContainer';
+import LabelBox from '@/ui/molecules/Container/LabelBox';
 import IconInputContainer from '@/ui/molecules/Input/IconInput';
 import Input from '@/ui/atoms/Input';
 import FlexBox from '@/ui/atoms/FlexBox';
@@ -178,7 +178,7 @@ function SignUpPage() {
 
       <form onSubmit={(e) => handleSubmit(e)}>
         <FlexBox direction="column" rowGap="50px">
-          <ContentTextContainer
+          <LabelBox
             text="아이디"
             helpText="영어, 숫자를 포함, 특수문자를 제외한 4 - 12 자리의 아이디를 입력해주세요."
           >
@@ -213,9 +213,9 @@ function SignUpPage() {
                 {isIdDuplicated === false && '사용할 수 있는 아이디 입니다.'}
               </div>
             </FlexBox>
-          </ContentTextContainer>
+          </LabelBox>
 
-          <ContentTextContainer
+          <LabelBox
             text="비밀번호"
             helpText="영어, 숫자, 특수기호가 포함된 8자리 이상 비밀번호를 입력해주세요."
           >
@@ -231,8 +231,8 @@ function SignUpPage() {
                 outline
               />
             </IconInputContainer>
-          </ContentTextContainer>
-          <ContentTextContainer text="이름">
+          </LabelBox>
+          <LabelBox text="이름">
             <IconInputContainer iconComponent={<TagIcon />}>
               <Label htmlFor="name" text="이름" />
               <Input
@@ -244,9 +244,9 @@ function SignUpPage() {
                 outline
               />
             </IconInputContainer>
-          </ContentTextContainer>
+          </LabelBox>
 
-          <ContentTextContainer text="성별">
+          <LabelBox text="성별">
             <FlexBox columnGap="10px">
               {GENDER_LIST.map((genderType) => (
                 <Button
@@ -266,9 +266,9 @@ function SignUpPage() {
                 </Button>
               ))}
             </FlexBox>
-          </ContentTextContainer>
+          </LabelBox>
 
-          <ContentTextContainer text="생년 월일">
+          <LabelBox text="생년 월일">
             <FlexBox columnGap="10px">
               <Label htmlFor="birthYear" text="생년월일 연도" />
               <Dropdown
@@ -298,8 +298,8 @@ function SignUpPage() {
                 title="일"
               />
             </FlexBox>
-          </ContentTextContainer>
-          <ContentTextContainer text="이메일">
+          </LabelBox>
+          <LabelBox text="이메일">
             <FlexBox columnGap="10px">
               <Label htmlFor="email" text="이메일" />
               <Input
@@ -322,8 +322,8 @@ function SignUpPage() {
                 type="form"
               />
             </FlexBox>
-          </ContentTextContainer>
-          <ContentTextContainer text="이용약관">
+          </LabelBox>
+          <LabelBox text="이용약관">
             <FlexBox direction="column" rowGap="15px">
               <TermsChecker
                 text="코디 이용약관에 동의합니다."
@@ -340,7 +340,7 @@ function SignUpPage() {
                 submitted={isSubmitted}
               />
             </FlexBox>
-          </ContentTextContainer>
+          </LabelBox>
           <Button width="100%" variant="square" type="submit">
             가입완료
           </Button>

@@ -74,16 +74,6 @@ function SchedulePage() {
         </Button>
       }
     >
-      {/* <MentoringsWithSingleCalendar
-        type={type}
-        date={date}
-        setDate={setDate}
-        setMonth={setMonth}
-        mentorings={
-          date ? dailyMentoringData! : mentoringsData?.monthlyMentoringMembers
-        }
-        schedules={}
-      /> */}
       <CalendarContainer
         date={date}
         setDate={setDate}

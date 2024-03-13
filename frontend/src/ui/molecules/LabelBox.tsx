@@ -10,19 +10,25 @@ function LabelBox({
   helpText,
   children,
   adornment,
+  labelColor,
 }: {
   width?: string;
   text: string;
   helpText?: string;
   children?: ReactNode;
   adornment?: JSX.Element;
+  labelColor?: string;
 }) {
   return (
     <StyledLabelBox>
-      <FlexBox justifyContent="space-between" alignItems="flex-start">
+      {adornment ? (
+        <FlexBox justifyContent="space-between" alignItems="flex-start">
+          <ContentText text={text} helpText={helpText} />
+          {adornment}
+        </FlexBox>
+      ) : (
         <ContentText text={text} helpText={helpText} />
-        {adornment}
-      </FlexBox>
+      )}
 
       {children}
     </StyledLabelBox>

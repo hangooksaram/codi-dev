@@ -31,13 +31,13 @@ import { handleApiCallback } from '@/utils/api';
 import JobSelector from '@/components/Job/JopSelector';
 import { selectUser, setUser } from '@/features/user/userSlice';
 import { RegisterProfileResponse } from '@/types/api/profile';
-import ContentTextContainer from '@/ui/molecules/Container/ContentTextContainer';
 import Label from '@/ui/atoms/Label';
 import useGetProfileQuery from '@/queries/profileQuery';
 import useNewForm, {
   FormType,
   FormPropertyType,
 } from '@/hooks/useNewForm/useNewForm';
+import LabelBox from '@/ui/molecules/LabelBox';
 
 function ProfileFormPage() {
   const dispatch = useDispatch();
@@ -222,35 +222,37 @@ function ProfileFormPage() {
       </Typography>
       <form onSubmit={(e) => handleProfileSubmit(e)}>
         <FlexBox direction="column" rowGap="50px">
-          <ContentTextContainer text="프로필 사진" helpText="(선택)">
-            <IconInputContainer iconComponent={<ProfileImage />}>
-              <Input outline disabled value={file.name} />
-              <div style={{ display: 'none' }}>
-                <Input
-                  id="profileImage"
-                  name="profileImage"
-                  type="file"
-                  accept="image/*"
-                  onChange={onUploadFile}
-                />
-              </div>
-            </IconInputContainer>
-            <Label
-              htmlFor="profileImage"
-              text="프로필 사진 등록 (선택사항입니다)"
-            />
-            <Button
-              id="profileImage"
-              width="30%"
-              variant="square"
-              type="button"
-              onClick={() => document.getElementById('profileImage')?.click()}
-              {...{ marginLeft: '10px' }}
-            >
-              {isEdit && data?.imgUrl ? '수정하기' : '등록하기'}
-            </Button>
-          </ContentTextContainer>
-          <ContentTextContainer text="장애 분류">
+          <LabelBox text="프로필 사진" helpText="(선택)">
+            <FlexBox justifyContent="space-between">
+              <IconInputContainer iconComponent={<ProfileImage />}>
+                <Input outline disabled value={file.name} />
+                <div style={{ display: 'none' }}>
+                  <Input
+                    id="profileImage"
+                    name="profileImage"
+                    type="file"
+                    accept="image/*"
+                    onChange={onUploadFile}
+                  />
+                </div>
+              </IconInputContainer>
+              <Label
+                htmlFor="profileImage"
+                text="프로필 사진 등록 (선택사항입니다)"
+              />
+              <Button
+                id="profileImage"
+                width="30%"
+                variant="square"
+                type="button"
+                onClick={() => document.getElementById('profileImage')?.click()}
+                {...{ marginLeft: '10px' }}
+              >
+                {isEdit && data?.imgUrl ? '수정하기' : '등록하기'}
+              </Button>
+            </FlexBox>
+          </LabelBox>
+          <LabelBox text="장애 분류">
             <FlexBox direction="column" rowGap="10px">
               <FlexBox columnGap="10px">
                 <Label htmlFor="disability" text="장애 분류" />
@@ -271,35 +273,37 @@ function ProfileFormPage() {
                 />
               </FlexBox>
             </FlexBox>
-          </ContentTextContainer>
-          <ContentTextContainer text="중증도">
-            {SEVERITIES.map((severity) => (
-              <Button
-                id={severity}
-                key={severity}
-                width="50%"
-                type="button"
-                color={
-                  form.severity.value === severity
-                    ? theme.colors.primary.main
-                    : theme.colors.white
-                }
-                variant="square"
-                outline
-                {...{
-                  ':first-child': {
-                    marginRight: '10px',
-                  },
-                }}
-                onClick={() =>
-                  handleFormValueChange({ name: 'severity', value: severity })
-                }
-              >
-                {severity}
-              </Button>
-            ))}
-          </ContentTextContainer>
-          <ContentTextContainer text="학력" helpText="(선택)">
+          </LabelBox>
+          <LabelBox text="중증도">
+            <FlexBox justifyContent="space-between">
+              {SEVERITIES.map((severity) => (
+                <Button
+                  id={severity}
+                  key={severity}
+                  width="50%"
+                  type="button"
+                  color={
+                    form.severity.value === severity
+                      ? theme.colors.primary.main
+                      : theme.colors.white
+                  }
+                  variant="square"
+                  outline
+                  {...{
+                    ':first-child': {
+                      marginRight: '10px',
+                    },
+                  }}
+                  onClick={() =>
+                    handleFormValueChange({ name: 'severity', value: severity })
+                  }
+                >
+                  {severity}
+                </Button>
+              ))}
+            </FlexBox>
+          </LabelBox>
+          <LabelBox text="학력" helpText="(선택)">
             <FlexBox columnGap="10px">
               <Label htmlFor="bigEducation" text="최종 학력 (선택사항입니다)" />
               <Dropdown
@@ -326,8 +330,8 @@ function ProfileFormPage() {
                 />
               </IconInputContainer>
             </FlexBox>
-          </ContentTextContainer>
-          <ContentTextContainer text="희망 직무">
+          </LabelBox>
+          <LabelBox text="희망 직무">
             <FlexBox columnGap="10px">
               <Label htmlFor="job" text="직무 분류" />
               <JobSelector
@@ -353,8 +357,8 @@ function ProfileFormPage() {
                 invalid={form.desiredJob.isValid === 'invalid'}
               />
             </FlexBox>
-          </ContentTextContainer>
-          <ContentTextContainer text="취업 상태">
+          </LabelBox>
+          <LabelBox text="취업 상태">
             <Label htmlFor="employmentStatus" text="취업 상태" />
             <Dropdown
               id="employmentStatus"
@@ -371,8 +375,8 @@ function ProfileFormPage() {
               invalid={form.employmentStatus.isValid === 'invalid'}
               categories={EMPLOYMENT_STATUSES}
             />
-          </ContentTextContainer>
-          <ContentTextContainer text="자기 소개">
+          </LabelBox>
+          <LabelBox text="자기 소개">
             <Label htmlFor="introduction" text="자기 소개" />
             <Textarea
               id="introduction"
@@ -382,7 +386,7 @@ function ProfileFormPage() {
               onChange={handleFormValueChange}
               invalid={form.introduction.isValid === 'invalid'}
             />
-          </ContentTextContainer>
+          </LabelBox>
           <FlexBox
             direction="column"
             justifyContent="center"

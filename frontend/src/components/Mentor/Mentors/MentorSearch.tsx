@@ -8,7 +8,7 @@ import Button from '@/ui/atoms/Button';
 import theme, { device } from '@/ui/theme';
 import { CAREERS, DISABILITIES, JOBS } from '@/constants';
 import { GetMentorsParameters } from '@/types/api/mentor';
-import ContentTextContainer from '@/ui/molecules/Container/ContentTextContainer';
+import LabelBox from '@/ui/molecules/Container/LabelBox';
 import Labeled from '@/ui/atoms/Labeled';
 import { SetState } from '@/index';
 

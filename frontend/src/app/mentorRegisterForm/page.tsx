@@ -3,7 +3,6 @@
 import ProfileImage from '@icons/common/profile-image.svg';
 import { FormEvent, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import ContentTextContainer from '@/ui/molecules/Container/ContentTextContainer';
 import IconInputContainer from '@/ui/molecules/Input/IconInput';
 import Input from '@/ui/atoms/Input';
 import { FormContainer } from '@/ui/atoms/Container';
@@ -31,6 +30,7 @@ import useNewForm, {
   FormType,
 } from '@/hooks/useNewForm/useNewForm';
 import { useGetMentorQuery } from '@/queries/mentorQuery';
+import LabelBox from '@/ui/molecules/LabelBox';
 
 function MentorRegisterForm() {
   const router = useRouter();
@@ -170,10 +170,7 @@ function MentorRegisterForm() {
 
       <form onSubmit={(e) => handleMentorProfileSubmit(e)}>
         <FlexBox direction="column" rowGap="50px">
-          <ContentTextContainer
-            labelColor={theme.colors.secondary.main}
-            text="직무경력"
-          >
+          <LabelBox labelColor={theme.colors.secondary.main} text="직무경력">
             <FlexBox direction="column" rowGap="14px">
               <Input
                 placeholder="회사명을 입력해주세요."
@@ -231,12 +228,9 @@ function MentorRegisterForm() {
                 </div>
               </FlexBox>
             </FlexBox>
-          </ContentTextContainer>
+          </LabelBox>
 
-          <ContentTextContainer
-            text="직무명 입력"
-            labelColor={theme.colors.secondary.main}
-          >
+          <LabelBox text="직무명 입력" labelColor={theme.colors.secondary.main}>
             <Input
               id="jobName"
               name="jobName"
@@ -246,8 +240,8 @@ function MentorRegisterForm() {
               value={form.jobName.value}
               invalid={form.jobName.isValid === 'invalid'}
             />
-          </ContentTextContainer>
-          <ContentTextContainer
+          </LabelBox>
+          <LabelBox
             text="재직증명서 제출"
             helpText="(선택)"
             labelColor={theme.colors.secondary.main}
@@ -273,8 +267,8 @@ function MentorRegisterForm() {
                 {isCertificate ? '수정하기' : '등록하기'}
               </Button>
             </FlexBox>
-          </ContentTextContainer>
-          <ContentTextContainer text="멘토링분야" helpText="(최대 4개)">
+          </LabelBox>
+          <LabelBox text="멘토링분야" helpText="(최대 4개)">
             <MentoringCategoriesSelector
               id="mentoringCategories"
               mentoringCategories={form.mentoringCategories.value}
@@ -285,11 +279,8 @@ function MentorRegisterForm() {
                 })
               }
             />
-          </ContentTextContainer>
-          <ContentTextContainer
-            text="자기 소개"
-            labelColor={theme.colors.secondary.main}
-          >
+          </LabelBox>
+          <LabelBox text="자기 소개" labelColor={theme.colors.secondary.main}>
             <Textarea
               as="textarea"
               id="introduction"
@@ -300,7 +291,7 @@ function MentorRegisterForm() {
               value={form.introduction.value}
               invalid={form.introduction.isValid === 'invalid'}
             />
-          </ContentTextContainer>
+          </LabelBox>
           <Button width="100%" variant="square" type="submit">
             저장
           </Button>
