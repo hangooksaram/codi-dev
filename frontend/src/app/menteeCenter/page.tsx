@@ -1,21 +1,17 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useState } from 'react';
+import {} from 'react-redux';
 import CalendarContainer from '@/components/Container/CalendarContainer';
-import Mentorings from '@/components/Mentoring/Mentorings';
-import MentoringsWithSingleCalendar, {
-  SchedulesContainer,
-} from '@/components/Mentoring/MentoringsWithSingleCalendar';
-import { selectUser } from '@/features/user/userSlice';
+import { SchedulesContainer } from '@/components/Mentoring/MentoringsWithSingleCalendar';
 import {
   useDailyMentoringsQuery,
   useMonthlyMentoringsQuery,
 } from '@/queries/mentoring/commonMentoringQuery';
-
 import FlexBox from '@/ui/atoms/FlexBox';
 import LabelBox from '@/ui/molecules/LabelBox';
 import { formattedDate, formattedMonth } from '@/utils/dateFormat';
+import Mentorings from '@/components/Mentoring/\bMentorings/Mentorings';
 
 function MenteeCenterPage() {
   const [date, setDate] = useState<Date>();

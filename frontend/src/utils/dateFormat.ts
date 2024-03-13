@@ -47,3 +47,7 @@ export const disabledDays = () => {
     },
   ];
 };
+
+export const today = (date: string) => {
+  return date === formattedDate(new Date());
+};
