@@ -18,6 +18,8 @@ import MentorSchedules from '@/components/Schedule/Mentor/MentorSchedules';
 import CalendarContainer from '@/components/Container/CalendarContainer';
 import Mentorings from '@/components/Mentoring/Mentorings/Mentorings';
 import FlexBox from '@/ui/atoms/FlexBox';
+import { MentoringsScrollContainer } from '@/components/Mentoring/\bMentorings/Mentorings.styled';
+import Card from '@/ui/atoms/Card';
 
 function SchedulePage() {
   const [date, setDate] = useState<Date>();
@@ -84,15 +86,17 @@ function SchedulePage() {
         schedules={monthlySchedules?.days.map(({ date }) => date)!}
         mentoringSchedules={mentoringSchedules}
       >
-        <SchedulesContainer>
-          <Mentorings
-            mentorings={
-              date
-                ? dailyMentoringData!
-                : mentoringsData?.monthlyMentoringMembers
-            }
-          />
-        </SchedulesContainer>
+        <Card padding="40px">
+          <MentoringsScrollContainer>
+            <Mentorings
+              mentorings={
+                date
+                  ? dailyMentoringData!
+                  : mentoringsData?.monthlyMentoringMembers
+              }
+            />
+          </MentoringsScrollContainer>
+        </Card>
       </CalendarContainer>
 
       {isEdit ? (

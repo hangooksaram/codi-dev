@@ -12,6 +12,8 @@ import FlexBox from '@/ui/atoms/FlexBox';
 import LabelBox from '@/ui/molecules/LabelBox';
 import { formattedDate, formattedMonth } from '@/utils/dateFormat';
 import Mentorings from '@/components/Mentoring/\bMentorings/Mentorings';
+import Card from '@/ui/atoms/Card';
+import { MentoringsScrollContainer } from '@/components/Mentoring/\bMentorings/Mentorings.styled';
 
 function MenteeCenterPage() {
   const [date, setDate] = useState<Date>();
@@ -46,15 +48,17 @@ function MenteeCenterPage() {
           type={type}
           mentoringSchedules={mentoringSchedules!}
         >
-          <SchedulesContainer>
-            <Mentorings
-              mentorings={
-                date
-                  ? dailyMentoringData!
-                  : mentoringsData?.monthlyMentoringMembers
-              }
-            />
-          </SchedulesContainer>
+          <Card padding="40px">
+            <MentoringsScrollContainer>
+              <Mentorings
+                mentorings={
+                  date
+                    ? dailyMentoringData!
+                    : mentoringsData?.monthlyMentoringMembers
+                }
+              />
+            </MentoringsScrollContainer>
+          </Card>
         </CalendarContainer>
       </LabelBox>
     </FlexBox>
