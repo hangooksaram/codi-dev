@@ -5,6 +5,7 @@ import { today } from '@/utils/dateFormat';
 import { css } from '@emotion/css';
 import MentoringCard from '../MentoringCard';
 import theme from '@/ui/theme';
+import { MonthlyMentoringMembersContainer } from './Mentorings.styled';
 
 const MonthlyMentorings = ({
   mentorings,
@@ -27,7 +28,7 @@ const MonthlyMentorings = ({
         >
           {date}
         </Chip>
-        <FlexBox
+        <MonthlyMentoringMembersContainer
           justifyContent="flex-start"
           isWrap
           columnGap="20px"
@@ -59,7 +60,7 @@ const MonthlyMentorings = ({
               />
             ),
           )}
-        </FlexBox>
+        </MonthlyMentoringMembersContainer>
       </div>
     );
   });

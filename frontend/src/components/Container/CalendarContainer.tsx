@@ -40,9 +40,8 @@ function CalendarContainer({
         schedules={schedules!}
         mentoringSchedules={mentoringSchedules}
       />
-      <StyledCalendarContainerCard padding="0px">
-        {children}
-      </StyledCalendarContainerCard>
+
+      {children}
     </StyledCalendarContainer>
   );
 }
@@ -56,7 +55,5 @@ const StyledCalendarContainer = styled(FlexBox)({
     rowGap: '20px',
   },
 });
-
-const StyledCalendarContainerCard = styled(Card)({});
 
 export default CalendarContainer;
