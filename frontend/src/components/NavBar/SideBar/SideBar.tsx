@@ -114,6 +114,7 @@ const Container = styled.nav(({ open }: { open: boolean }) => ({
     position: 'fixed',
     zIndex: '3',
     top: '0px',
+    height: '100%',
   },
 }));
 
@@ -131,10 +132,13 @@ export const MobileMenuButton = styled(Button)({
   position: 'fixed',
   top: '20px',
   left: '20px',
-  width: '40px',
-  height: '40px',
-  padding: '0px',
-  backgroundColor: 'transparent',
+  maxWidth: 'none',
+  width: '56px',
+  height: '56px',
+  borderRadius: '32px',
+  boxShadow: '0 2px 6px 0 rgba(0, 0, 0, 0.04)',
+  border: 'solid 1px #eeeff2',
+  backgroundColor: theme.colors.white,
 });
 
 export default SideBar;
