@@ -3,7 +3,7 @@ import Link from '@icons/common/link.svg';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Card from '@/ui/atoms/Card';
-import theme from '@/ui/theme';
+import theme, { device } from '@/ui/theme';
 import Button from '@/ui/atoms/Button';
 import FlexBox from '@/ui/atoms/FlexBox';
 import Typography from '@/ui/atoms/Typography';
@@ -90,6 +90,13 @@ function MentoringCard({
             variant="div"
             size={theme.fonts.size.sm}
             color={theme.colors.gray.dark}
+            {...{
+              minWidth: 'auto',
+              maxWidth: '70px',
+              overflow: 'hidden',
+              whiteSpace: 'nowrap',
+              textOverflow: 'ellipsis',
+            }}
           >
             {mentoringJob}
           </Typography>
@@ -127,6 +134,10 @@ const StyledCard = styled(Card)({
   maxHeight: '130px',
   padding: '10px',
   border: `1px solid ${theme.colors.primary.main}`,
+
+  [device('tablet')]: {
+    minWidth: '210px',
+  },
 });
 
 const Header = styled.div(({ today = false }: { today: boolean }) => ({
