@@ -7,7 +7,7 @@ const LayoutWithSideBar = styled.main(() => ({
   margin: '40px 24px 24px 40px',
   [device('smWeb')]: {
     margin: '0 auto',
-    marginTop: '20px',
+    marginTop: '90px',
     paddingBottom: '200px',
     width: '90%',
   },
