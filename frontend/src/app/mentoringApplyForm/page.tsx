@@ -25,6 +25,7 @@ import ConfirmModal from '@/ui/molecules/Modal/ConfirmModal';
 import { useDispatch } from 'react-redux';
 import { setCurrentModal, setModalState } from '@/features/modal/modalSlice';
 import { createPortal } from 'react-dom';
+import SinglePageLayout from '@/components/Layout/SinglePageLayout';
 
 const initialForm: ApplyMentoringBody = {
   date: '',
@@ -74,7 +75,7 @@ function MentoringApplyFormPage() {
   }, [date]);
 
   return (
-    <ContainerWithBackground>
+    <SinglePageLayout background={theme.colors.white}>
       <Typography
         align="center"
         size={theme.fonts.size.lg}
@@ -157,7 +158,7 @@ function MentoringApplyFormPage() {
           </Button>
         </FlexBox>
       </form>
-    </ContainerWithBackground>
+    </SinglePageLayout>
   );
 }
 
