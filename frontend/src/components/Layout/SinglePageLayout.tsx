@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import { ReactNode } from 'react';
 import theme, { device } from '@/ui/theme';
 import Container from '@/ui/atoms/Container';
+import MobileBackButton from '../Mobile/MobileBackButton';
 
 const Layout = styled.div(() => ({
   width: '100%',
@@ -22,6 +23,7 @@ function SinglePageLayout({ children }: { children: ReactNode }) {
   return (
     <Layout>
       <StyledSinglePageLayoutSinglePageLayout>
+        <MobileBackButton />
         {children}
       </StyledSinglePageLayoutSinglePageLayout>
     </Layout>
