@@ -8,15 +8,17 @@ function LabelBox({
   text,
   helpText,
   children,
+  labelColor,
 }: {
   width?: string;
   text: string;
   helpText?: string;
   children?: ReactNode;
+  labelColor?: string;
 }) {
   return (
     <StyledLabelBox>
-      <LabelText text={text} helpText={helpText} />
+      <LabelText labelColor={labelColor} text={text} helpText={helpText} />
       {children}
     </StyledLabelBox>
   );
