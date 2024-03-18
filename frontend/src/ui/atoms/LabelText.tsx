@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import theme from '../theme';
+import theme, { device } from '../theme';
 import FlexBox from './FlexBox';
 import Typography from './Typography';
 
@@ -21,14 +21,29 @@ export function LabelText({
       }}
     >
       <LabelTextAdorement color={labelColor} />
-      <StyledLabelText>{text}</StyledLabelText>
-      <Typography
-        variant="div"
-        color={theme.colors.gray.main}
-        {...{ marginLeft: '10px' }}
+      <FlexBox
+        {...{
+          [device('tablet')]: {
+            flexDirection: 'column',
+            alignItems: 'flex-start ',
+            rowGap: '8px',
+          },
+        }}
       >
-        {helpText!}
-      </Typography>
+        <StyledLabelText>{text}</StyledLabelText>
+        <Typography
+          variant="div"
+          color={theme.colors.gray.main}
+          {...{
+            marginLeft: '10px',
+            [device('tablet')]: {
+              marginLeft: '0px',
+            },
+          }}
+        >
+          {helpText!}
+        </Typography>
+      </FlexBox>
     </FlexBox>
   );
 }

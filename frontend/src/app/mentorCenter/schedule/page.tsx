@@ -64,20 +64,21 @@ function SchedulePage() {
 
   return (
     <FlexBox direction="column" rowGap="20px">
-      <LabelBox
-        text="멘토링 일정 관리"
-        helpText="멘토링 시간은 2주 전부터 한 달 단위로 설정 가능합니다."
-        adornment={
-          <Button
-            onClick={toggleEditState}
-            variant="default"
-            size="small"
-            {...{ minWidth: 'fit-content', marginBottom: '20px' }}
-          >
-            일정편집
-          </Button>
-        }
-      />
+      <FlexBox>
+        <LabelBox
+          text="멘토링 일정 관리"
+          helpText="멘토링 시간은 2주 전부터 한 달 단위로 설정 가능합니다."
+        />
+        <Button
+          onClick={toggleEditState}
+          variant="default"
+          size="small"
+          {...{ minWidth: 'fit-content', marginBottom: '20px' }}
+        >
+          일정편집
+        </Button>
+      </FlexBox>
+
       <CalendarContainer
         date={date}
         setDate={setDate}
