@@ -26,6 +26,7 @@ import { useDispatch } from 'react-redux';
 import { setCurrentModal, setModalState } from '@/features/modal/modalSlice';
 import { createPortal } from 'react-dom';
 import SinglePageLayout from '@/components/Layout/SinglePageLayout';
+import Card from '@/ui/atoms/Card';
 
 const initialForm: ApplyMentoringBody = {
   date: '',
@@ -97,40 +98,42 @@ function MentoringApplyFormPage() {
               schedules={monthlySchedules?.days.map(({ date }) => date)!}
               type="mentee"
             >
-              <Typography variant="div" {...{ marginBottom: '15px' }}>
-                멘토링 가능 시간
-              </Typography>
-              <FlexBox
-                isWrap
-                justifyContent="flex-start"
-                columnGap="15px"
-                rowGap="15px"
-              >
-                {data?.times.map(({ time, enabled }, index) => {
-                  const scheduled = status === 'ACCEPTED';
-                  return (
-                    <ChipButton
-                      type="button"
-                      onClick={() => setForm({ ...form, time })}
-                      variant="default"
-                      size="small"
-                      color={
-                        scheduled
-                          ? theme.colors.white
-                          : time === form.time
-                            ? theme.colors.primary.main
-                            : theme.colors.background
-                      }
-                      key={index}
-                      outline={!enabled}
-                      disabled={!enabled}
-                      hoverDisabled
-                    >
-                      {time}
-                    </ChipButton>
-                  );
-                })}
-              </FlexBox>
+              <Card padding="40px">
+                <Typography variant="div" {...{ marginBottom: '15px' }}>
+                  멘토링 가능 시간
+                </Typography>
+                <FlexBox
+                  isWrap
+                  justifyContent="flex-start"
+                  columnGap="15px"
+                  rowGap="15px"
+                >
+                  {data?.times.map(({ time, enabled }, index) => {
+                    const scheduled = status === 'ACCEPTED';
+                    return (
+                      <ChipButton
+                        type="button"
+                        onClick={() => setForm({ ...form, time })}
+                        variant="default"
+                        size="small"
+                        color={
+                          scheduled
+                            ? theme.colors.white
+                            : time === form.time
+                              ? theme.colors.primary.main
+                              : theme.colors.background
+                        }
+                        key={index}
+                        outline={!enabled}
+                        disabled={!enabled}
+                        hoverDisabled
+                      >
+                        {time}
+                      </ChipButton>
+                    );
+                  })}
+                </FlexBox>
+              </Card>
             </CalendarContainer>
           </LabelBox>
           <LabelBox text="하고싶은 말" helpText="(최소 50 글자)">
