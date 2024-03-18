@@ -12,9 +12,9 @@ import FlexBox from '@/ui/atoms/FlexBox';
 import Input from '@/ui/atoms/Input';
 
 import Typography from '@/ui/atoms/Typography';
-import LabelBox from '@/ui/molecules/Container/LabelBox';
 import theme from '@/ui/theme';
 import { handleApiCallback } from '@/utils/api';
+import LabelBox from '@/ui/molecules/LabelBox';
 
 function UpdateMyInfoPage() {
   const router = useRouter();

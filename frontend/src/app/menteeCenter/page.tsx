@@ -11,9 +11,9 @@ import {
 import FlexBox from '@/ui/atoms/FlexBox';
 import LabelBox from '@/ui/molecules/LabelBox';
 import { formattedDate, formattedMonth } from '@/utils/dateFormat';
-import Mentorings from '@/components/Mentoring/\bMentorings/Mentorings';
+import Mentorings from '@/components/Mentoring/Mentorings/Mentorings';
 import Card from '@/ui/atoms/Card';
-import { MentoringsScrollContainer } from '@/components/Mentoring/\bMentorings/Mentorings.styled';
+import { MentoringsScrollContainer } from '@/components/Mentoring/Mentorings/Mentorings.styled';
 
 function MenteeCenterPage() {
   const [date, setDate] = useState<Date>();

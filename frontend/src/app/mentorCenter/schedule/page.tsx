@@ -16,10 +16,10 @@ import useDailySchedulesQuery, {
 } from '@/queries/scheduleQuery';
 import MentorSchedules from '@/components/Schedule/Mentor/MentorSchedules';
 import CalendarContainer from '@/components/Container/CalendarContainer';
-import Mentorings from '@/components/Mentoring/Mentorings/Mentorings';
 import FlexBox from '@/ui/atoms/FlexBox';
-import { MentoringsScrollContainer } from '@/components/Mentoring/\bMentorings/Mentorings.styled';
+import { MentoringsScrollContainer } from '@/components/Mentoring/Mentorings/Mentorings.styled';
 import Card from '@/ui/atoms/Card';
+import Mentorings from '@/components/Mentoring/Mentorings/Mentorings';
 
 function SchedulePage() {
   const [date, setDate] = useState<Date>();
