@@ -22,6 +22,7 @@ export function LabelText({
     >
       <LabelTextAdorement color={labelColor} />
       <FlexBox
+        justifyContent="flex-start"
         {...{
           [device('tablet')]: {
             flexDirection: 'column',
