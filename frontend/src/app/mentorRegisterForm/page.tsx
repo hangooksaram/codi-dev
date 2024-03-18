@@ -8,7 +8,7 @@ import Input from '@/ui/atoms/Input';
 import { FormContainer } from '@/ui/atoms/Container';
 import FlexBox from '@/ui/atoms/FlexBox';
 import Typography from '@/ui/atoms/Typography';
-import theme from '@/ui/theme';
+import theme, { device } from '@/ui/theme';
 import Button from '@/ui/atoms/Button';
 import Dropdown from '@/ui/atoms/Dropdown';
 import Checkbox from '@/ui/atoms/Checkbox';
@@ -31,6 +31,7 @@ import useNewForm, {
 } from '@/hooks/useNewForm/useNewForm';
 import { useGetMentorQuery } from '@/queries/mentorQuery';
 import LabelBox from '@/ui/molecules/LabelBox';
+import SinglePageLayout from '@/components/Layout/SinglePageLayout';
 
 function MentorRegisterForm() {
   const router = useRouter();
@@ -157,147 +158,184 @@ function MentorRegisterForm() {
   };
 
   return (
-    <FormContainer>
-      <Typography
-        variant="h1"
-        size={theme.fonts.size.lg}
-        weight={theme.fonts.weight.black}
-        align="center"
-        {...{ margin: '80px 0px 80px 0px' }}
-      >
-        {isEdit ? '멘토 프로필 수정하기' : '멘토 신청하기'}
-      </Typography>
+    <SinglePageLayout background={theme.colors.white}>
+      <FormContainer>
+        <Typography
+          variant="h1"
+          size={theme.fonts.size.lg}
+          weight={theme.fonts.weight.black}
+          align="center"
+          {...{ marginBottom: '80px' }}
+        >
+          {isEdit ? '멘토 프로필 수정하기' : '멘토 신청하기'}
+        </Typography>
 
-      <form onSubmit={(e) => handleMentorProfileSubmit(e)}>
-        <FlexBox direction="column" rowGap="50px">
-          <LabelBox labelColor={theme.colors.secondary.main} text="직무경력">
-            <FlexBox direction="column" rowGap="14px">
-              <Input
-                placeholder="회사명을 입력해주세요."
-                outline
-                id="company"
-                name="company"
-                onChange={handleFormValueChange}
-                value={form.company.value}
-                invalid={form.company.isValid === 'invalid'}
-              />
-              <FlexBox justifyContent="space-between" columnGap="10px">
+        <form onSubmit={(e) => handleMentorProfileSubmit(e)}>
+          <FlexBox direction="column" rowGap="50px">
+            <LabelBox labelColor={theme.colors.secondary.main} text="직무경력">
+              <FlexBox direction="column" rowGap="14px">
+                <Input
+                  placeholder="회사명을 입력해주세요."
+                  outline
+                  id="company"
+                  name="company"
+                  onChange={handleFormValueChange}
+                  value={form.company.value}
+                  invalid={form.company.isValid === 'invalid'}
+                />
                 <FlexBox
-                  justifyContent="flex-start"
-                  width="80%"
+                  justifyContent="space-between"
                   columnGap="10px"
+                  {...{
+                    [device('tablet')]: {
+                      flexDirection: 'column',
+                      justifyContent: 'flex-start',
+                      alignItems: 'flex-start',
+                      rowGap: '8px',
+                    },
+                  }}
                 >
-                  <JobSelector
-                    id="job"
-                    invalid={form.job.isValid === 'invalid'}
-                    selected={form.job.value}
-                    setSelected={(job) =>
-                      handleFormValueChange({ name: 'job', value: job })
-                    }
-                    open={openJobSelector}
-                    setOpen={setOpenJobSelector}
-                  />
-                  <Dropdown
-                    id="career"
-                    width="50%"
-                    type="form"
-                    title="경력"
-                    categories={CAREERS}
-                    selectedCategory={form.career.value}
-                    setSelectedCategory={(career) =>
-                      handleFormValueChange({
-                        name: 'career',
-                        value: career,
-                      })
-                    }
-                    invalid={form.career.isValid === 'invalid'}
-                  />
-                </FlexBox>
-
-                <div>
-                  <Checkbox
-                    label="재직중"
-                    checked={form.inOffice.value}
-                    setChecked={(value) => {
-                      handleFormValueChange({
-                        name: 'inOffice',
-                        value,
-                      });
+                  <FlexBox
+                    justifyContent="flex-start"
+                    width="80%"
+                    columnGap="10px"
+                    {...{
+                      [device('tablet')]: {
+                        width: '100%',
+                        flexDirection: 'column',
+                        justifyContent: 'flex-start',
+                        rowGap: '8px',
+                      },
                     }}
-                  />
-                </div>
-              </FlexBox>
-            </FlexBox>
-          </LabelBox>
+                  >
+                    <JobSelector
+                      id="job"
+                      invalid={form.job.isValid === 'invalid'}
+                      selected={form.job.value}
+                      setSelected={(job) =>
+                        handleFormValueChange({ name: 'job', value: job })
+                      }
+                      open={openJobSelector}
+                      setOpen={setOpenJobSelector}
+                      width="40%"
+                      {...{
+                        [device('tablet')]: {
+                          width: '100%',
+                        },
+                      }}
+                    />
+                    <Dropdown
+                      id="career"
+                      width="50%"
+                      type="form"
+                      title="경력"
+                      categories={CAREERS}
+                      selectedCategory={form.career.value}
+                      setSelectedCategory={(career) =>
+                        handleFormValueChange({
+                          name: 'career',
+                          value: career,
+                        })
+                      }
+                      invalid={form.career.isValid === 'invalid'}
+                      {...{
+                        [device('tablet')]: {
+                          width: '100% !important',
+                        },
+                      }}
+                    />
+                  </FlexBox>
 
-          <LabelBox text="직무명 입력" labelColor={theme.colors.secondary.main}>
-            <Input
-              id="jobName"
-              name="jobName"
-              placeholder="프로필에 표시 될 직무명을 입력해주세요."
-              outline
-              onChange={handleFormValueChange}
-              value={form.jobName.value}
-              invalid={form.jobName.isValid === 'invalid'}
-            />
-          </LabelBox>
-          <LabelBox
-            text="재직증명서 제출"
-            helpText="(선택)"
-            labelColor={theme.colors.secondary.main}
-          >
-            <FlexBox columnGap="8px">
-              <IconInputContainer iconComponent={<ProfileImage />}>
-                <Input disabled outline value={file.name} />
-                <div style={{ display: 'none' }}>
-                  <Input
-                    id="certificate"
-                    type="file"
-                    accept="application/pdf,.png,.jpg,.jpeg"
-                    onChange={onUploadFile}
-                  />
-                </div>
-              </IconInputContainer>
-              <Button
-                onClick={() => document.getElementById('certificate')?.click()}
-                type="button"
-                variant="square"
-                {...{ minWidth: 'fit-content' }}
-              >
-                {isCertificate ? '수정하기' : '등록하기'}
-              </Button>
-            </FlexBox>
-          </LabelBox>
-          <LabelBox text="멘토링분야" helpText="(최대 4개)">
-            <MentoringCategoriesSelector
-              id="mentoringCategories"
-              mentoringCategories={form.mentoringCategories.value}
-              setMentoringCategories={(category) =>
-                handleFormValueChange({
-                  name: 'mentoringCategories',
-                  value: category,
-                })
-              }
-            />
-          </LabelBox>
-          <LabelBox text="자기 소개" labelColor={theme.colors.secondary.main}>
-            <Textarea
-              as="textarea"
-              id="introduction"
-              name="introduction"
-              placeholder="최소 50 글자"
-              outline
-              onChange={handleFormValueChange}
-              value={form.introduction.value}
-              invalid={form.introduction.isValid === 'invalid'}
-            />
-          </LabelBox>
-          <Button width="100%" variant="square" type="submit">
-            저장
-          </Button>
-        </FlexBox>
-      </form>
-    </FormContainer>
+                  <div>
+                    <Checkbox
+                      label="재직중"
+                      checked={form.inOffice.value}
+                      setChecked={(value) => {
+                        handleFormValueChange({
+                          name: 'inOffice',
+                          value,
+                        });
+                      }}
+                    />
+                  </div>
+                </FlexBox>
+              </FlexBox>
+            </LabelBox>
+
+            <LabelBox
+              text="직무명 입력"
+              labelColor={theme.colors.secondary.main}
+            >
+              <Input
+                id="jobName"
+                name="jobName"
+                placeholder="프로필에 표시 될 직무명을 입력해주세요."
+                outline
+                onChange={handleFormValueChange}
+                value={form.jobName.value}
+                invalid={form.jobName.isValid === 'invalid'}
+              />
+            </LabelBox>
+            <LabelBox
+              text="재직증명서 제출"
+              helpText="(선택)"
+              labelColor={theme.colors.secondary.main}
+            >
+              <FlexBox columnGap="8px">
+                <IconInputContainer iconComponent={<ProfileImage />}>
+                  <Input disabled outline value={file.name} />
+                  <div style={{ display: 'none' }}>
+                    <Input
+                      id="certificate"
+                      type="file"
+                      accept="application/pdf,.png,.jpg,.jpeg"
+                      onChange={onUploadFile}
+                    />
+                  </div>
+                </IconInputContainer>
+                <Button
+                  onClick={() =>
+                    document.getElementById('certificate')?.click()
+                  }
+                  type="button"
+                  variant="square"
+                  {...{ minWidth: 'fit-content' }}
+                >
+                  {isCertificate ? '수정하기' : '등록하기'}
+                </Button>
+              </FlexBox>
+            </LabelBox>
+            <LabelBox text="멘토링분야" helpText="(최대 4개)">
+              <MentoringCategoriesSelector
+                id="mentoringCategories"
+                mentoringCategories={form.mentoringCategories.value}
+                setMentoringCategories={(category) =>
+                  handleFormValueChange({
+                    name: 'mentoringCategories',
+                    value: category,
+                  })
+                }
+              />
+            </LabelBox>
+            <LabelBox text="자기 소개" labelColor={theme.colors.secondary.main}>
+              <Textarea
+                as="textarea"
+                id="introduction"
+                name="introduction"
+                placeholder="최소 50 글자"
+                outline
+                onChange={handleFormValueChange}
+                value={form.introduction.value}
+                invalid={form.introduction.isValid === 'invalid'}
+              />
+            </LabelBox>
+            <Button width="100%" variant="square" type="submit">
+              저장
+            </Button>
+          </FlexBox>
+        </form>
+      </FormContainer>
+    </SinglePageLayout>
   );
 }
 

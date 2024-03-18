@@ -10,6 +10,7 @@ const MyInfoCard = styled(Card)({
   [device('tablet')]: {
     width: '100%',
     padding: '30px !important',
+    height: 'auto',
   },
 });
 

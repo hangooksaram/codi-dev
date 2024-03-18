@@ -10,7 +10,6 @@ import { FormContainer } from '@/ui/atoms/Container';
 import Typography from '@/ui/atoms/Typography';
 import theme from '@/ui/theme';
 import Button from '@/ui/atoms/Button';
-import LabelBox from '@/ui/molecules/Container/LabelBox';
 import IconInputContainer from '@/ui/molecules/Input/IconInput';
 import Input from '@/ui/atoms/Input';
 import FlexBox from '@/ui/atoms/FlexBox';
@@ -31,6 +30,7 @@ import useForm from '@/hooks/useNewForm/useForm';
 import Markdown from 'react-markdown';
 import { privateData, useTerm } from '@/components/Terms/terms';
 import TermsChecker from '@/components/Terms/TermsChecker';
+import LabelBox from '@/ui/molecules/LabelBox';
 
 const signUpFormValues = {
   birth: '',

@@ -25,13 +25,16 @@ export interface Jobs {
 
 function JobSelector({
   id,
+  width,
   invalid,
   open,
   setOpen,
   selected,
   setSelected,
+  ...rest
 }: {
   id: string;
+  width?: string;
   invalid: boolean;
   open: boolean;
   setOpen: SetState<boolean>;
@@ -60,8 +63,8 @@ function JobSelector({
   }, [selectedTab, jobs]);
 
   return (
-    <DropdownContainer width="40%">
-      <DropdownButton
+    <DropdownContainer width={width} {...rest}>
+      <JobSelectorDropdownButton
         id={id}
         width="100%"
         variant="square"
@@ -72,11 +75,12 @@ function JobSelector({
           setOpen((prev) => !prev);
         }}
         hoverDisabled
+        {...rest}
       >
-        <Truncate id={id}>{selected || '직무 카테고리'}</Truncate>
+        {selected || '직무 카테고리'}
 
         <Add id={id} />
-      </DropdownButton>
+      </JobSelectorDropdownButton>
 
       {open && (
         <Container>
@@ -198,10 +202,19 @@ const TabButton = styled(Button)(({}) => ({
 }));
 
 const Truncate = styled.div({
-  width: '250px',
+  width: '100%',
+  minWidth: '240px',
   whiteSpace: 'nowrap',
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   textAlign: 'left',
 });
+
+const JobSelectorDropdownButton = styled(DropdownButton)(() => ({
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  textAlign: 'left',
+}));
+
 export default JobSelector;

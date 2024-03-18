@@ -16,10 +16,10 @@ import useDailySchedulesQuery, {
 } from '@/queries/scheduleQuery';
 import MentorSchedules from '@/components/Schedule/Mentor/MentorSchedules';
 import CalendarContainer from '@/components/Container/CalendarContainer';
-import Mentorings from '@/components/Mentoring/Mentorings/Mentorings';
 import FlexBox from '@/ui/atoms/FlexBox';
-import { MentoringsScrollContainer } from '@/components/Mentoring/\bMentorings/Mentorings.styled';
+import { MentoringsScrollContainer } from '@/components/Mentoring/Mentorings/Mentorings.styled';
 import Card from '@/ui/atoms/Card';
+import Mentorings from '@/components/Mentoring/Mentorings/Mentorings';
 
 function SchedulePage() {
   const [date, setDate] = useState<Date>();
@@ -64,20 +64,21 @@ function SchedulePage() {
 
   return (
     <FlexBox direction="column" rowGap="20px">
-      <LabelBox
-        text="멘토링 일정 관리"
-        helpText="멘토링 시간은 2주 전부터 한 달 단위로 설정 가능합니다."
-        adornment={
-          <Button
-            onClick={toggleEditState}
-            variant="default"
-            size="small"
-            {...{ minWidth: 'fit-content', marginBottom: '20px' }}
-          >
-            일정편집
-          </Button>
-        }
-      />
+      <FlexBox>
+        <LabelBox
+          text="멘토링 일정 관리"
+          helpText="멘토링 시간은 2주 전부터 한 달 단위로 설정 가능합니다."
+        />
+        <Button
+          onClick={toggleEditState}
+          variant="default"
+          size="small"
+          {...{ minWidth: 'fit-content', marginBottom: '20px' }}
+        >
+          일정편집
+        </Button>
+      </FlexBox>
+
       <CalendarContainer
         date={date}
         setDate={setDate}

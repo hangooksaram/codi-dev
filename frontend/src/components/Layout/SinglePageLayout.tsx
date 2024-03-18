@@ -4,10 +4,11 @@ import styled from '@emotion/styled';
 import { ReactNode } from 'react';
 import theme, { device } from '@/ui/theme';
 import Container from '@/ui/atoms/Container';
+import MobileBackButton from '../Mobile/MobileBackButton';
 
-const Layout = styled.div(() => ({
+const Layout = styled.div(({ background }: { background?: string }) => ({
   width: '100%',
-  backgroundColor: theme.colors.background,
+  backgroundColor: background ?? theme.colors.background,
 }));
 
 const StyledSinglePageLayoutSinglePageLayout = styled(Container)(({}) => ({
@@ -18,10 +19,17 @@ const StyledSinglePageLayoutSinglePageLayout = styled(Container)(({}) => ({
   },
 }));
 
-function SinglePageLayout({ children }: { children: ReactNode }) {
+function SinglePageLayout({
+  background,
+  children,
+}: {
+  background?: string;
+  children: ReactNode;
+}) {
   return (
-    <Layout>
+    <Layout background={background}>
       <StyledSinglePageLayoutSinglePageLayout>
+        <MobileBackButton />
         {children}
       </StyledSinglePageLayoutSinglePageLayout>
     </Layout>

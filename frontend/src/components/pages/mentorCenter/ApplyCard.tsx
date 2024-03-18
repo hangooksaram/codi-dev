@@ -73,30 +73,24 @@ function MentorCenterApplyCard({
         [device('tablet')]: {
           flexDirection: 'column',
           rowGap: '20px',
+          height: 'auto',
         },
       }}
     >
-      <div
-        className={css({
-          [device('tablet')]: {
-            width: '100%',
-          },
-        })}
-      >
-        <ProfileCard width="293px" height="400px">
-          <Content.Container>
-            <Content.Avatar src={menteeInfo.imgUrl} />
-            <Content.Name name={menteeInfo.name} />
-            <Content.EmploymentStatus
-              employmentStatus={menteeInfo.employmentStatus}
-            />
-            <Content.Tags
-              disability={menteeInfo.disability}
-              severity={menteeInfo.severity}
-            />
-          </Content.Container>
-        </ProfileCard>
-      </div>
+      <ProfileCard width="293px" height="400px">
+        <Content.Container>
+          <Content.Avatar src={menteeInfo.imgUrl} />
+          <Content.Name name={menteeInfo.name} />
+          <Content.EmploymentStatus
+            employmentStatus={menteeInfo.employmentStatus}
+          />
+          <Content.Tags
+            disability={menteeInfo.disability}
+            severity={menteeInfo.severity}
+          />
+        </Content.Container>
+      </ProfileCard>
+
       <MyInfoCard width="100%" height="400px" padding="45px !important">
         <FlexBox
           direction="column"
@@ -109,11 +103,14 @@ function MentorCenterApplyCard({
               <Chip>{applicationDate}</Chip>
             </LabelBox>
 
-            <div className={css({ gridColumnEnd: 2 })}>
-              <LabelBox text="하고 싶은 말">
-                <Typography variant="div">{applicationReason}</Typography>
-              </LabelBox>
-            </div>
+            <LabelBox text="하고 싶은 말">
+              <Typography
+                variant="div"
+                {...{ [device('tablet')]: { marginBottom: '16px' } }}
+              >
+                {applicationReason}
+              </Typography>
+            </LabelBox>
           </FlexBox>
 
           <FlexBox
@@ -137,6 +134,7 @@ function MentorCenterApplyCard({
               {...{
                 [device('tablet')]: {
                   width: '100%',
+                  maxWidth: '100%',
                 },
               }}
             >
@@ -158,6 +156,7 @@ function MentorCenterApplyCard({
                   marginRight: '24px',
                   [device('tablet')]: {
                     width: '100%',
+                    maxWidth: '50%',
                   },
                 }}
                 onClick={() => acceptMutation.mutate()}
@@ -173,6 +172,7 @@ function MentorCenterApplyCard({
                 {...{
                   [device('tablet')]: {
                     width: '100%',
+                    maxWidth: '50%',
                   },
                 }}
               >

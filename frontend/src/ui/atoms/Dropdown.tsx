@@ -1,4 +1,4 @@
-import { RefObject, forwardRef } from 'react';
+import { ReactNode, RefObject, forwardRef } from 'react';
 import styled from '@emotion/styled';
 import OpenDropdown from '@icons/common/expand-open.svg';
 import theme from '@/ui/theme';
@@ -19,6 +19,7 @@ function Dropdown({
   children,
   setSelectedCategory,
   isReset,
+  ...rest
 }: Dropdown) {
   const { open, setOpen, ref, setCategory, setDropdownContentPosition } =
     useDropdown(selectedCategory, setSelectedCategory, id);
@@ -33,7 +34,7 @@ function Dropdown({
   useClickOutOfInput(id!, setOpen);
 
   return (
-    <DropdownContainer width={width}>
+    <DropdownContainer width={width} {...rest}>
       {type === 'menu' ? (
         <div id={id} onClick={() => setOpen((prev) => !prev)}>
           {children}
@@ -90,11 +91,14 @@ export const DropdownContentContainer = forwardRef<
 });
 
 export const DropdownContainer = styled.div(
-  ({ width }: { width?: string }) => ({
-    width,
-    minWidth: 'fit-content',
-    position: 'relative',
-  }),
+  ({ width, children, ...rest }: { width?: string; children: ReactNode }) => {
+    return {
+      width,
+      minWidth: 'fit-content',
+      position: 'relative',
+      ...rest,
+    };
+  },
 );
 
 export const DropdownButton = styled(Button)(

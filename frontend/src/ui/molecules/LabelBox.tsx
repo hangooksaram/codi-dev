@@ -5,31 +5,20 @@ import FlexBox from '../atoms/FlexBox';
 import { LabelText } from '../atoms/LabelText';
 
 function LabelBox({
-  width,
   text,
   helpText,
   children,
-  adornment,
   labelColor,
 }: {
   width?: string;
   text: string;
   helpText?: string;
   children?: ReactNode;
-  adornment?: JSX.Element;
   labelColor?: string;
 }) {
   return (
     <StyledLabelBox>
-      {adornment ? (
-        <FlexBox justifyContent="space-between" alignItems="flex-start">
-          <LabelText text={text} helpText={helpText} />
-          {adornment}
-        </FlexBox>
-      ) : (
-        <LabelText text={text} helpText={helpText} />
-      )}
-
+      <LabelText labelColor={labelColor} text={text} helpText={helpText} />
       {children}
     </StyledLabelBox>
   );
