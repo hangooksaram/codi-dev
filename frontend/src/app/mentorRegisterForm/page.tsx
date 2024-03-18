@@ -8,7 +8,7 @@ import Input from '@/ui/atoms/Input';
 import { FormContainer } from '@/ui/atoms/Container';
 import FlexBox from '@/ui/atoms/FlexBox';
 import Typography from '@/ui/atoms/Typography';
-import theme from '@/ui/theme';
+import theme, { device } from '@/ui/theme';
 import Button from '@/ui/atoms/Button';
 import Dropdown from '@/ui/atoms/Dropdown';
 import Checkbox from '@/ui/atoms/Checkbox';
@@ -183,11 +183,30 @@ function MentorRegisterForm() {
                   value={form.company.value}
                   invalid={form.company.isValid === 'invalid'}
                 />
-                <FlexBox justifyContent="space-between" columnGap="10px">
+                <FlexBox
+                  justifyContent="space-between"
+                  columnGap="10px"
+                  {...{
+                    [device('tablet')]: {
+                      flexDirection: 'column',
+                      justifyContent: 'flex-start',
+                      alignItems: 'flex-start',
+                      rowGap: '8px',
+                    },
+                  }}
+                >
                   <FlexBox
                     justifyContent="flex-start"
                     width="80%"
                     columnGap="10px"
+                    {...{
+                      [device('tablet')]: {
+                        width: '100%',
+                        flexDirection: 'column',
+                        justifyContent: 'flex-start',
+                        rowGap: '8px',
+                      },
+                    }}
                   >
                     <JobSelector
                       id="job"
@@ -198,6 +217,12 @@ function MentorRegisterForm() {
                       }
                       open={openJobSelector}
                       setOpen={setOpenJobSelector}
+                      width="40%"
+                      {...{
+                        [device('tablet')]: {
+                          width: '100%',
+                        },
+                      }}
                     />
                     <Dropdown
                       id="career"
@@ -213,6 +238,11 @@ function MentorRegisterForm() {
                         })
                       }
                       invalid={form.career.isValid === 'invalid'}
+                      {...{
+                        [device('tablet')]: {
+                          width: '100% !important',
+                        },
+                      }}
                     />
                   </FlexBox>
 
