@@ -9,25 +9,31 @@ import NotificationDropdown, {
 import Typography from '@/ui/atoms/Typography';
 import theme from '@/ui/theme';
 import { useMentoringApplies } from '@/queries/mentoring/mentorMentoringQuery';
+import { useRouter } from 'next/navigation';
 
 interface Notification {
   userName: string;
   content: string;
   date: string;
+  profileId: number;
+  mentoringId: number;
 }
 
 function Notification() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const { data, isSuccess } = useMentoringApplies();
+  const router = useRouter();
 
   useEffect(() => {
     if (data)
       setNotifications([
-        ...data!.data.map(({ menteeInfo, applicationDate }) => {
+        ...data!.data.map(({ menteeInfo, applicationDate, mentoringId }) => {
           return {
+            profileId: menteeInfo.profileId,
             userName: menteeInfo.name,
             content: `께서 멘토링을 신청했습니다.`,
             date: applicationDate,
+            mentoringId,
           };
         }),
       ]);
@@ -49,25 +55,33 @@ function Notification() {
 
       <NotificationDropdown>
         {notifications.length > 0 ? (
-          notifications.map(({ userName, content, date }, index) => (
-            <div key={`${index}-${userName}`}>
-              <NotificationDropdownItem>
-                <Typography variant="span" weight={theme.fonts.weight.bold}>
-                  {`${userName} 님`}
-                </Typography>
-                <Typography variant="span">{content}</Typography>
-
-                <Typography
-                  variant="div"
-                  color={theme.colors.gray.main}
-                  {...{ marginTop: '8px' }}
+          notifications.map(
+            ({ userName, content, date, profileId, mentoringId }, index) => (
+              <div key={`${index}-${userName}`}>
+                <NotificationDropdownItem
+                  onClick={() => {
+                    router.push(
+                      `/mentoringAppliedMenteeProfile?profileId=${profileId}&mentoringApply=true&mentoringId=${mentoringId}`,
+                    );
+                  }}
                 >
-                  {date}
-                </Typography>
-              </NotificationDropdownItem>
-              {index < notifications.length - 1 && <Divider />}
-            </div>
-          ))
+                  <Typography variant="span" weight={theme.fonts.weight.bold}>
+                    {`${userName} 님`}
+                  </Typography>
+                  <Typography variant="span">{content}</Typography>
+
+                  <Typography
+                    variant="div"
+                    color={theme.colors.gray.main}
+                    {...{ marginTop: '8px' }}
+                  >
+                    {date}
+                  </Typography>
+                </NotificationDropdownItem>
+                {index < notifications.length - 1 && <Divider />}
+              </div>
+            ),
+          )
         ) : (
           <NotificationDropdownItem>
             새로운 알림이 없습니다.
