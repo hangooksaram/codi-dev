@@ -99,9 +99,16 @@ function MentoringApplyFormPage() {
               type="mentee"
             >
               <Card padding="40px">
-                <Typography variant="div" {...{ marginBottom: '15px' }}>
-                  멘토링 가능 시간
-                </Typography>
+                {data?.times.length! > 0 ? (
+                  <Typography variant="div" {...{ marginBottom: '15px' }}>
+                    멘토링 가능 시간
+                  </Typography>
+                ) : (
+                  <Typography variant="div" {...{ marginBottom: '15px' }}>
+                    등록된 멘토링 가능 시간이 없습니다
+                  </Typography>
+                )}
+
                 <FlexBox
                   isWrap
                   justifyContent="flex-start"
