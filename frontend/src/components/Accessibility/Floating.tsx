@@ -291,6 +291,9 @@ const StyledFloating = {
 
       bottom: '148px',
     },
+    [device('mobile')]: {
+      display: 'none',
+    },
   })),
   CloseButton: styled(Button)(({}) => ({
     display: 'none',
