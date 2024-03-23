@@ -57,7 +57,13 @@ function MentoringPlatformModal({ mentoringId }: { mentoringId: number }) {
     <ModalCard>
       <FlexBox direction="column" alignItems="center" rowGap="20px">
         <FlexBox justifyContent="space-between">
-          <FlexBox justifyContent="flex-start" columnGap="10px">
+          <FlexBox
+            justifyContent="flex-start"
+            columnGap="10px"
+            {...{
+              [device('tablet')]: { flexDirection: 'column', rowGap: '10px' },
+            }}
+          >
             <Typography
               variant="span"
               size={theme.fonts.size.md}
@@ -75,7 +81,12 @@ function MentoringPlatformModal({ mentoringId }: { mentoringId: number }) {
           <Typography variant="div" {...{ marginBottom: '10px' }}>
             멘토링에 사용할 도구를 선택해주세요.
           </Typography>
-          <FlexBox justifyContent="flex-start" columnGap="10px">
+          <FlexBox
+            justifyContent="flex-start"
+            columnGap="10px"
+            rowGap="10px"
+            isWrap
+          >
             {MENTORING_PLATFORMS.map(({ text, iconSrc }, index) => (
               <Chip
                 onClick={() => setPlatform(text)}
@@ -120,6 +131,13 @@ const ModalCard = styled(Card)({
   minWidth: 'fit-content',
   height: '362px',
   padding: '30px 45px',
+
+  [device('tablet')]: {
+    padding: '10px',
+    width: '100%',
+    minWidth: 'auto',
+    height: 'auto',
+  },
 });
 
 const ModalTextarea = styled(Textarea)({

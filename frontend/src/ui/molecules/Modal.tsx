@@ -42,6 +42,7 @@ const ModalContainer = styled.div({
 
   [device('tablet')]: {
     transform: 'translate(-50%, -50%)',
+    top: '50%',
     width: '90%',
   },
 });
