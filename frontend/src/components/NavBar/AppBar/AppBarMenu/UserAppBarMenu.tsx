@@ -11,7 +11,15 @@ function UserAppBarMenu() {
   const user = useSelector(selectUser);
   const router = useRouter();
   return (
-    <FlexBox justifyContent="flex-end" columnGap="30px">
+    <FlexBox
+      justifyContent="flex-end"
+      columnGap="30px"
+      {...{
+        [device('smWeb')]: {
+          justifyContent: 'space-between',
+        },
+      }}
+    >
       {user.isMentor && (
         <Button
           size="small"

@@ -15,6 +15,7 @@ import { BackgroundImage } from '@/ui/molecules/Image/BackgroundImage';
 import Footer from '@/components/pages/main/Footer';
 import Container from '@/ui/atoms/Container';
 import styled from '@emotion/styled';
+import MobileAppBar from '@/components/NavBar/AppBar/MobileAppBar';
 
 function MainLandingPage() {
   const router = useRouter();
@@ -22,6 +23,7 @@ function MainLandingPage() {
 
   return (
     <MainContainer width="100%">
+      <MobileAppBar />
       <FlexBox direction="column" rowGap="20px" justifyContent="flex-start">
         <BackgroundImage
           image={{
