@@ -175,7 +175,7 @@ export const APPBAR_NOT_SHOWING_PAGES = [
   '/account/findPw',
 ];
 
-export const MOBILE_APPBAR_LINKS = [
+export const MOBILE_NAVIGATIONS = [
   {
     icon: Home,
     text: '홈',

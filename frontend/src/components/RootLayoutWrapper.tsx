@@ -12,7 +12,7 @@ import AccessibilityLayout from '@/components/Layout/AccessibilityLayout';
 import theme from '@/ui/theme';
 import AppBar from '@/components/NavBar/AppBar/AppBar';
 import Floating from '@/components/Accessibility/Floating';
-import MobileAppBar from './NavBar/AppBar/MobileAppBar';
+import MobileBottomNavigation from './NavBar/AppBar/MobileBottomNavigation';
 import Modal from '@/ui/molecules/Modal';
 import Footer from './Footer/MainFooter';
 import AppLayout from './Layout/AppLayout';
@@ -27,7 +27,7 @@ function RootLayoutWrapper({ children }: { children: ReactNode }) {
           <AppLayout>
             <AccessibilityLayout>
               <AppBar />
-              <MobileAppBar />
+              <MobileBottomNavigation />
               {children}
               <Floating />
               <Modal />
