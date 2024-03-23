@@ -19,7 +19,13 @@ const ConfirmModal = ({ children }: { children: ReactNode }) => {
         <Button
           variant="default"
           onClick={() => dispatch(setModalState(false))}
-          {...{ marginTop: '30px' }}
+          {...{
+            marginTop: '30px',
+            [device('tablet')]: {
+              width: '100%',
+              maxWidth: '100%',
+            },
+          }}
         >
           확인
         </Button>
