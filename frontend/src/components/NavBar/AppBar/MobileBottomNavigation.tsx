@@ -6,12 +6,12 @@ import Card from '@/ui/atoms/Card';
 import FlexBox from '@/ui/atoms/FlexBox';
 import theme, { device } from '@/ui/theme';
 
-function MobileAppBar() {
+function MobileBottomNavigation() {
   const router = useRouter();
   const path = usePathname();
   return (
-    <StyledMobileAppBar>
-      <MobileAppBarContent>
+    <StyledMobileBottomNavigation>
+      <MobileBottomNavigationContent>
         <FlexBox columnGap="10px">
           {MOBILE_APPBAR_LINKS.map(({ icon: Icon, text, link }, index) => {
             const current = link === '/' ? path === '/' : path.includes(link);
@@ -34,12 +34,12 @@ function MobileAppBar() {
             );
           })}
         </FlexBox>
-      </MobileAppBarContent>
-    </StyledMobileAppBar>
+      </MobileBottomNavigationContent>
+    </StyledMobileBottomNavigation>
   );
 }
 
-const StyledMobileAppBar = styled.nav({
+const StyledMobileBottomNavigation = styled.nav({
   width: '100%',
   position: 'fixed',
   bottom: '0',
@@ -52,7 +52,7 @@ const StyledMobileAppBar = styled.nav({
   },
 });
 
-const MobileAppBarContent = styled(Card)({
+const MobileBottomNavigationContent = styled(Card)({
   width: '94%',
   height: '87px',
   display: 'flex',
@@ -80,4 +80,4 @@ const MobileMenuButton = styled(Button)(
   }),
 );
 
-export default MobileAppBar;
+export default MobileBottomNavigation;
