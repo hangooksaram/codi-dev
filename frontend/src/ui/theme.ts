@@ -30,12 +30,16 @@ interface FontWeight {
   regular: number;
 }
 
+export type Breakpoints = keyof typeof theme.breakpoints;
+
+
 export interface CustomTheme {
   colors: Colors;
   fonts: {
     size: FontSize;
     weight: FontWeight;
   };
+  breakpoints : Breakpoints;
 }
 
 const theme = {
@@ -91,6 +95,6 @@ const theme = {
   },
 };
 
-export const device = (device: keyof typeof theme.breakpoints) =>
+export const device = (device: Breakpoints) =>
   `@media (max-width: ${theme.breakpoints[device]}px)`;
 export default theme;
