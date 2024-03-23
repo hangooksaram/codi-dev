@@ -2,7 +2,7 @@ import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import { selectUser } from '@/features/user/userSlice';
 import Button from '@/ui/atoms/Button';
-import theme from '@/ui/theme';
+import theme, { device } from '@/ui/theme';
 import Notification from '../../Notification/Notification';
 import AppBarProfile from '@/components/Profile/AppBarProfile';
 import FlexBox from '@/ui/atoms/FlexBox';
@@ -23,8 +23,10 @@ function UserAppBarMenu() {
           멘토 센터
         </Button>
       )}
-      <Notification />
-      <AppBarProfile />
+      <FlexBox width="fit-content" columnGap="16px">
+        <Notification />
+        <AppBarProfile />
+      </FlexBox>
       {!user.isMentor && (
         <Button
           size="small"

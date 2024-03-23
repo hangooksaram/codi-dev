@@ -14,7 +14,6 @@ import AppBar from '@/components/NavBar/AppBar/AppBar';
 import Floating from '@/components/Accessibility/Floating';
 import MobileBottomNavigation from './NavBar/AppBar/MobileBottomNavigation';
 import Modal from '@/ui/molecules/Modal';
-import Footer from './Footer/MainFooter';
 import AppLayout from './Layout/AppLayout';
 
 const queryClient = new QueryClient();
