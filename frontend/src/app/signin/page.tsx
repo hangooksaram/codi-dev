@@ -19,7 +19,10 @@ import { signIn } from '@/api/signApi';
 import usePressEnterKey from '@/hooks/usePressEnterKey';
 import { setIsLoggedIn } from '@/features/auth/authSlice';
 import { User } from '@/types/user';
-import { SignInputFormContainer } from '@/components/pages/account/AccountContainers';
+import {
+  AccountImageComponent,
+  AccountFormContainer,
+} from '@/components/pages/account/AccountContainers';
 import ImageComponent from '@/ui/atoms/ImageComponent';
 import signInImage from '@images/signin-image.png';
 
@@ -47,15 +50,15 @@ function SignInPage() {
 
   return (
     <FlexBox {...{ height: '100%' }}>
-      <SignInImageComponent
+      <AccountImageComponent
         width="60%"
         height="auto"
         src={signInImage}
-        alt="회원가입 완료"
+        alt="로그인 페이지 입니다."
       />
 
       <Container width="55.5%">
-        <SignInputFormContainer
+        <AccountFormContainer
           direction="column"
           justifyContent="center"
           alignItems="center"
@@ -114,7 +117,7 @@ function SignInPage() {
             </Typography>
             <Link href="/signup">회원가입</Link>
           </FlexBox>
-        </SignInputFormContainer>
+        </AccountFormContainer>
       </Container>
     </FlexBox>
   );
@@ -125,9 +128,5 @@ const SignInInput = styled(Input)`
   background-color: ${theme.colors.gray.light};
   font-size: ${theme.fonts.size.md};
 `;
-
-const SignInImageComponent = styled(ImageComponent)(() => ({
-  [device('tablet')]: { display: 'none' },
-}));
 
 export default SignInPage;

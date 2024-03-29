@@ -8,15 +8,18 @@ import FlexBox from '@/ui/atoms/FlexBox';
 import Input from '@/ui/atoms/Input';
 import StyledLink from '@/ui/atoms/Link';
 import Typography from '@/ui/atoms/Typography';
-import theme from '@/ui/theme';
+import theme, { device } from '@/ui/theme';
 import useNewForm, {
   FormPropertyType,
   FormType,
 } from '@/hooks/useNewForm/useNewForm';
 import {
-  SignImageContainer,
-  SignInputFormContainer,
+  AccountImageComponent,
+  AccountFormContainer,
 } from '@/components/pages/account/AccountContainers';
+import styled from '@emotion/styled';
+import ImageComponent from '@/ui/atoms/ImageComponent';
+import FindIdImage from '@images/find-id.png';
 
 function FindIdPage() {
   interface FindIdFormValuesType extends FormType {
@@ -56,10 +59,16 @@ function FindIdPage() {
   };
   return (
     <FlexBox {...{ height: '100%' }}>
-      <SignImageContainer backgroundImageSrc="/images/find-id.png" />
+      <AccountImageComponent
+        width="60%"
+        height="auto"
+        src={FindIdImage}
+        alt="아이디 찾기 페이지 입니다."
+      />
+
       <Container width="55.5%">
         <form onSubmit={(e) => handleSubmitFindIdForm(e)}>
-          <SignInputFormContainer
+          <AccountFormContainer
             direction="column"
             justifyContent="center"
             alignItems="center"
@@ -100,7 +109,7 @@ function FindIdPage() {
             <StyledLink href="/account/findPw">
               {'비밀번호가 기억이 안나시나요? >'}
             </StyledLink>
-          </SignInputFormContainer>
+          </AccountFormContainer>
         </form>
       </Container>
     </FlexBox>

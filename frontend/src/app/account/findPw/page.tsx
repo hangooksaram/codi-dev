@@ -13,9 +13,10 @@ import useNewForm, {
   FormType,
 } from '@/hooks/useNewForm/useNewForm';
 import {
-  SignImageContainer,
-  SignInputFormContainer,
+  AccountImageComponent,
+  AccountFormContainer,
 } from '@/components/pages/account/AccountContainers';
+import FindPwImage from '@images/find-pw.png';
 
 function FindPwPage() {
   interface FindPasswordFormValuesType extends FormType {
@@ -62,10 +63,15 @@ function FindPwPage() {
   };
   return (
     <FlexBox {...{ height: '100%' }}>
-      <SignImageContainer backgroundImageSrc="/images/find-pw.png" />
+      <AccountImageComponent
+        width="60%"
+        height="auto"
+        src={FindPwImage}
+        alt="비밀번호 찾기 페이지 입니다."
+      />
       <Container width="55.5%">
         <form onSubmit={(e) => handleSubmitFindPwForm(e)}>
-          <SignInputFormContainer
+          <AccountFormContainer
             direction="column"
             justifyContent="center"
             alignItems="center"
@@ -104,7 +110,7 @@ function FindPwPage() {
                 임시 비밀번호 발송하기
               </Button>
             </FlexBox>
-          </SignInputFormContainer>
+          </AccountFormContainer>
         </form>
       </Container>
     </FlexBox>
