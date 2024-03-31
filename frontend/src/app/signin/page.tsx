@@ -35,13 +35,13 @@ function SignInPage() {
   const dispatch = useDispatch();
   const login = async () => {
     const { data, status } = await signIn<User>(loginInfo);
-    const { id } = data!;
-    dispatch(setIsLoggedIn(id !== undefined));
 
     if (status === 200) {
+      const { id } = data!;
+      dispatch(setIsLoggedIn(id !== undefined));
       router.push('/');
     } else {
-      alert('로그인이 실패했습니다.');
+      alert('로그인이 실패했습니다. 아이디와 비밀번호를 확인해주세요.');
     }
   };
 
