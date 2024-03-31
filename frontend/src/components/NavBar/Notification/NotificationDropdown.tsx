@@ -1,7 +1,7 @@
 import { ReactNode, RefObject, forwardRef, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import Alarm from '@icons/common/alarm.svg';
-import theme from '@/ui/theme';
+import theme, { device } from '@/ui/theme';
 import useClickOutOfInput from '@/hooks/dropdown/useClickOutOfInput';
 import Button from '@/ui/atoms/Button';
 
@@ -57,7 +57,7 @@ export const NotificationDropdownButton = styled(Button)(
 );
 
 const NotificationDropdownContent = styled.ul(
-  ({ width, left }: { width?: string; left?: boolean }) => ({
+  ({ width }: { width?: string }) => ({
     width: width ?? '100%',
     minWidth: 'fit-content',
     maxHeight: '250px',
@@ -66,15 +66,17 @@ const NotificationDropdownContent = styled.ul(
     position: 'absolute',
     zIndex: 1,
     top: '70px',
-
-    right: left ? '0px' : '0px',
-
+    right: '0px',
     marginBottom: '20px',
     backgroundColor: theme.colors.white,
     borderRadius: '10px',
     listStyle: 'none',
     border: `1px solid ${theme.colors.gray.main}`,
     overscrollBehavior: 'none',
+
+    [device('mobile')]: {
+      right: '-60px',
+    },
   }),
 );
 
