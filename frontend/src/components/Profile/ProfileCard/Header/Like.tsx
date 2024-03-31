@@ -33,6 +33,8 @@ function Like({
       const res = await likeMentor(mentorId!);
       if (res.status === 401) {
         redirectOnNotSignedIn();
+
+        return;
       }
     }
     setLocalFavoriteState((prev) => !prev);
