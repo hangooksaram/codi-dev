@@ -70,19 +70,24 @@ public class MentorController {
     }
 
     // 멘토 등록시 멘토 정보 조회
-    @ApiOperation(value = "Mentor 개인 페이지 조회", notes = "Mentor를 신청하면서 입력한 정보를 조회할 수 있다.")
+    @ApiOperation(value = "Mentor 프로필 조회", notes = "Mentor를 신청하면서 입력한 정보를 조회할 수 있다.")
     @GetMapping
     public ResponseEntity getMyMentorDetails(@AuthenticationPrincipal CustomUserDetails principal) {
         MentorDto.MentorResponse mentor = mentorMapper.mentorToMentorResponse(mentorService.findMentor(principal.getMentorId()));
+        mentor.setMentoringCount(mentorService.getNumberOfCompletedMentorings(principal.getMentorId()));
+        mentor.setResponseRate(mentorService.calculateResponseRate(principal.getMentorId()));
+        mentor.setFutureScheduleCount(mentorService.getNumberOfSchedules(principal.getMentorId()));
         return new ResponseEntity<>(mentor, HttpStatus.OK);
     }
 
     // TODO 다른 멘토의 정보 보는 API - Response에서 표시할 정보 수정하기
+    @ApiOperation(value = "타 Mentor 프로필 조회", notes = "타 Mentor의 정보를 조회할 수 있다.")
     @GetMapping("/{mentor-id}")
     public ResponseEntity getMentorDetails(@PathVariable("mentor-id") Long mentorId) {
         MentorDto.MentorResponse mentor = mentorMapper.mentorToMentorResponse(mentorService.findMentor(mentorId));
         mentor.setMentoringCount(mentorService.getNumberOfCompletedMentorings(mentorId));
         mentor.setResponseRate(mentorService.calculateResponseRate(mentorId));
+        mentor.setFutureScheduleCount(mentorService.getNumberOfSchedules(mentorId));
         return new ResponseEntity<>(mentor, HttpStatus.OK);
     }
 

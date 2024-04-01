@@ -29,15 +29,15 @@ public class ScheduleController {
         this.scheduleService = scheduleService;
     }
 
-    // 멘토 스케줄 등록 및 수정 POST
+    // 멘토 스케줄 등록 및 수정 PUT
     @ApiOperation(value = "Schedule 등록 및 수정", notes = "멘토가 스케줄을 등록 및 변경할 수 있다.")
-    @PostMapping
-    public ResponseEntity postSchedule(@AuthenticationPrincipal CustomUserDetails principal, @Valid @RequestBody ScheduleDto.SchedulePostDto schedulePostDto) {
-        scheduleService.registerSchedule(principal.getMentorId(), schedulePostDto);
+    @PutMapping
+    public ResponseEntity postSchedule(@AuthenticationPrincipal CustomUserDetails principal, @Valid @RequestBody ScheduleDto.Put putDto) {
+        scheduleService.updateSchedule(principal.getMentorId(), putDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    // 스케줄 조회(일별) GET
+    // 스케줄 조회(일별) GET - 로그인 한 사용자만 사용할 수 있다.
     @ApiOperation(value = "Schedule 일별 조회", notes = "특정 날짜의 스케줄을 조회할 수 있다.")
     @GetMapping(value = {"/daily", "/daily/{mentor-id}"})
     public ResponseEntity getDailySchedule(@AuthenticationPrincipal CustomUserDetails principal, @PathVariable(name = "mentor-id", required = false) Long mentorId, @Valid ScheduleDto.DailyRequest dailyRequest) {
@@ -46,7 +46,7 @@ public class ScheduleController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    // 스케줄 조회(월별) GET
+    // 스케줄 조회(월별) GET - 로그인 한 사용자만 사용할 수 있다.
     @ApiOperation(value = "Schedule 월별 조회", notes = "한 달간의 스케줄을 조회할 수 있다.")
     @GetMapping(value = {"/monthly", "/monthly/{mentor-id}"})
     public ResponseEntity getMonthlySchedule(@AuthenticationPrincipal CustomUserDetails principal, @PathVariable(name = "mentor-id", required = false) Long mentorId, @Valid ScheduleDto.MonthlyRequest monthlyRequest) {

@@ -1,15 +1,21 @@
 package codi.backend.domain.schedule.repository;
 
 import codi.backend.domain.mentor.entity.Mentor;
+import codi.backend.domain.mentor.entity.QMentor;
+import codi.backend.domain.mentoring.entity.QMentoring;
+import codi.backend.domain.schedule.dto.QScheduleDto_ScheduleInfo;
 import codi.backend.domain.schedule.dto.ScheduleDto;
 import codi.backend.domain.schedule.entity.QSchedule;
 import codi.backend.domain.schedule.entity.Schedule;
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -77,6 +83,7 @@ public class ScheduleRepositoryImpl implements ScheduleRepositoryCustom {
 
     private List<ScheduleDto.ScheduleTimeResponse> mapToTimeResponses(List<Schedule> schedules) {
         return schedules.stream()
+                .sorted(Comparator.comparing(Schedule::getStartDateTime))
                 .map(s -> new ScheduleDto.ScheduleTimeResponse(
                         s.getStartDateTime().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")) + " - " + s.getEndDateTime().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")),
                         s.getMentoring() == null))
@@ -86,9 +93,56 @@ public class ScheduleRepositoryImpl implements ScheduleRepositoryCustom {
     @Override
     public List<Schedule> findAllByMentorAndDate(Mentor mentor, LocalDate date) {
         return queryFactory.selectFrom(schedule)
-                .where(schedule.mentor.eq(mentor)
-                        .and(schedule.startDateTime.goe(date.atStartOfDay())
-                                .and(schedule.endDateTime.lt(date.plusDays(1).atStartOfDay()))))
+                .where(schedule.mentor.eq(mentor),
+                        startDateTimeGoe(date),
+                        endDateTimeLt(date.plusDays(1)))
                 .fetch();
+    }
+
+    @Override
+    public long deleteAllByMentorAndDate(Mentor mentor, LocalDate date) {
+        return queryFactory
+                .delete(schedule)
+                .where(schedule.mentor.eq(mentor),
+                        startDateTimeGoe(date),
+                        endDateTimeLt(date.plusDays(1)))
+                .execute();
+    }
+
+    private BooleanExpression startDateTimeGoe(LocalDate date) {
+        return schedule.startDateTime.goe(date.atStartOfDay());
+    }
+
+    private BooleanExpression endDateTimeLt(LocalDate date) {
+        return schedule.endDateTime.lt(date.atStartOfDay());
+    }
+
+    @Override
+    public List<ScheduleDto.ScheduleInfo> findSchedulesOfMentor(Long mentorId, LocalDateTime currentTime) {
+        QMentor mentor = QMentor.mentor;
+        QMentoring mentoring = QMentoring.mentoring;
+
+        return queryFactory
+                .select(new QScheduleDto_ScheduleInfo(
+                        schedule.id,
+                        schedule.startDateTime,
+                        schedule.endDateTime,
+                        schedule.mentor.id,
+                        schedule.mentoring.id
+                ))
+                .from(schedule)
+                .leftJoin(schedule.mentor, mentor)
+                .leftJoin(schedule.mentoring, mentoring)
+                .where(mentorScheduleMatches(mentorId)
+                        .and(startTimeAfterNow(currentTime)))
+                .fetch();
+    }
+
+    private BooleanExpression mentorScheduleMatches(Long mentorId) {
+        return schedule.mentor.id.eq(mentorId);
+    }
+
+    private BooleanExpression startTimeAfterNow(LocalDateTime currentTime) {
+        return schedule.startDateTime.after(currentTime);
     }
 }

@@ -8,6 +8,8 @@ import codi.backend.domain.mentor.entity.Mentor;
 import codi.backend.domain.mentor.repository.MentorRepository;
 import codi.backend.domain.mentoring.dto.MentoringDto;
 import codi.backend.domain.mentoring.repository.MentoringRepository;
+import codi.backend.domain.schedule.dto.ScheduleDto;
+import codi.backend.domain.schedule.repository.ScheduleRepository;
 import codi.backend.global.exception.BusinessLogicException;
 import codi.backend.global.exception.ExceptionCode;
 import codi.backend.global.file.S3Service;
@@ -29,13 +31,15 @@ public class MentorServiceImpl implements MentorService{
     private final S3Service s3Service;
     private final CustomAuthorityUtils authorityUtils;
     private final MentoringRepository mentoringRepository;
+    private final ScheduleRepository scheduleRepository;
 
-    public MentorServiceImpl(MentorRepository mentorRepository, MemberService memberService, S3Service s3Service, CustomAuthorityUtils authorityUtils, MentoringRepository mentoringRepository) {
+    public MentorServiceImpl(MentorRepository mentorRepository, MemberService memberService, S3Service s3Service, CustomAuthorityUtils authorityUtils, MentoringRepository mentoringRepository, ScheduleRepository scheduleRepository) {
         this.mentorRepository = mentorRepository;
         this.memberService = memberService;
         this.s3Service = s3Service;
         this.authorityUtils = authorityUtils;
         this.mentoringRepository = mentoringRepository;
+        this.scheduleRepository = scheduleRepository;
     }
 
     @Transactional
@@ -103,6 +107,13 @@ public class MentorServiceImpl implements MentorService{
         return ((double) completedSessions / totalApplications) * 100;
     }
 
+    @Override
+    public Integer getNumberOfSchedules(Long mentorId) {
+        LocalDateTime now = LocalDateTime.now();
+        List<ScheduleDto.ScheduleInfo> mentorSchedules = scheduleRepository.findSchedulesOfMentor(mentorId, now);
+        return mentorSchedules.size();
+    }
+
     @Transactional
     @Override
     public Mentor updateMentorInformation(Long mentorId, Mentor mentor, MultipartFile file) {
@@ -163,6 +174,7 @@ public class MentorServiceImpl implements MentorService{
                 .ifPresent(findMentor::setMentoringCategories);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Page<MentorDto.SearchMentorResponse> searchMentors(String job, String career, String disability, String keyword, Pageable pageable) {
         return mentorRepository.search(job, career, disability, keyword, pageable);

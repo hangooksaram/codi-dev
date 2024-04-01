@@ -22,21 +22,22 @@ public class JobRecommendationServiceImpl implements JobRecommendationService {
     private final ProfileService profileService;
     private final JobRecommendationRepository jobRecommendationRepository;
 
-    // TODO change member, profile service DI
     public JobRecommendationServiceImpl(MemberService memberService, ProfileService profileService, JobRecommendationRepository jobRecommendationRepository) {
         this.memberService = memberService;
         this.profileService = profileService;
         this.jobRecommendationRepository = jobRecommendationRepository;
     }
 
+    // TODO principal에 profileId도 함께 확인 가능하므로 수정해보면 좋을 것 같다.
     @Transactional(readOnly = true)
     @Override
     public JobRecommendationDto.Response recommendJobs(String memberId) {
-        if (memberId == null) return JobRecommendationDto.Response.builder().build();
+        if (memberId == null) {
+            return JobRecommendationDto.Response.builder().build();
+        }
 
         Member member = memberService.findMember(memberId);
         Profile profile = profileService.findProfile(member.getProfile().getId());
-
         int age = calculateAge(member.getBirth(), LocalDate.now());
 
         return jobRecommendationRepository.findTop3JobCategories(profile.getDisability(), profile.getSeverity(), age);

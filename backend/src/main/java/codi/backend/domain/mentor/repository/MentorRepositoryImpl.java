@@ -1,34 +1,31 @@
 package codi.backend.domain.mentor.repository;
 
-import codi.backend.domain.mentor.dto.MentorDto;
-import codi.backend.domain.mentor.entity.Mentor;
 import codi.backend.domain.member.entity.QMember;
+import codi.backend.domain.mentor.dto.MentorDto;
 import codi.backend.domain.mentor.entity.QMentor;
 import codi.backend.domain.profile.entity.QProfile;
+import codi.backend.domain.schedule.entity.QSchedule;
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.QueryResults;
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-public class MentorRepositoryImpl extends QuerydslRepositorySupport implements MentorRepositoryCustom {
+@Repository
+public class MentorRepositoryImpl implements MentorRepositoryCustom {
     private final JPAQueryFactory queryFactory;
-
+    private final QMentor mentor = QMentor.mentor;
     public MentorRepositoryImpl(JPAQueryFactory queryFactory) {
-        super(Mentor.class);
         this.queryFactory = queryFactory;
     }
 
@@ -36,7 +33,7 @@ public class MentorRepositoryImpl extends QuerydslRepositorySupport implements M
     public Page<MentorDto.SearchMentorResponse> search(String job, String career, String disability, String keyword, Pageable pageable) {
         QMember member = QMember.member;
         QProfile profile = QProfile.profile;
-        QMentor mentor = QMentor.mentor;
+        QSchedule schedule = QSchedule.schedule;
 
         BooleanBuilder builder = new BooleanBuilder();
         if (StringUtils.hasText(disability)) {
@@ -57,10 +54,7 @@ public class MentorRepositoryImpl extends QuerydslRepositorySupport implements M
 
         Pageable pageableDown = PageRequest.of(pageable.getPageNumber() - 1, pageable.getPageSize(), pageable.getSort());
 
-        JPQLQuery<MentorDto.SearchMentorResponse> query = from(mentor)
-                .innerJoin(mentor.member, member)
-                .innerJoin(member.profile, profile)
-                .where(builder)
+        List<MentorDto.SearchMentorResponse> content = queryFactory
                 .select(Projections.bean(
                         MentorDto.SearchMentorResponse.class,
                         member.id.as("id"),
@@ -74,12 +68,25 @@ public class MentorRepositoryImpl extends QuerydslRepositorySupport implements M
                         mentor.career.as("career"),
                         mentor.isCertificate.as("isCertificate"),
                         mentor.star.as("star"),
-                        mentor.mentees.as("mentees")));
+                        mentor.mentees.as("mentees")))
+                .from(mentor)
+                .innerJoin(mentor.member, member)
+                .innerJoin(member.profile, profile)
+                .where(builder)
+                .offset(pageableDown.getOffset())
+                .limit(pageableDown.getPageSize())
+                .fetch();
 
-        JPQLQuery<MentorDto.SearchMentorResponse> pageableQuery = Objects.requireNonNull(getQuerydsl()).applyPagination(pageableDown, query);
-        QueryResults<MentorDto.SearchMentorResponse> result = pageableQuery.fetchResults();
+        long total = queryFactory
+                .select(mentor.id)
+                .from(mentor)
+                .innerJoin(mentor.member, member)
+                .innerJoin(member.profile, profile)
+                .where(builder)
+                .fetch()
+                .size();
 
-        return new PageImpl<>(result.getResults(), pageableDown, result.getTotal());
+        return new PageImpl<>(content, pageableDown, total);
     }
 
     @Override
@@ -87,7 +94,6 @@ public class MentorRepositoryImpl extends QuerydslRepositorySupport implements M
         QMentor mentor = QMentor.mentor;
 
         BooleanBuilder jobExpression = new BooleanBuilder();
-
         if (request.getFirstJob() != null) {
             jobExpression.or(mentor.job.eq(request.getFirstJob()));
         }

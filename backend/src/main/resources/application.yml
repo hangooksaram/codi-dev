@@ -22,7 +22,7 @@ spring:
         format_sql: true
   mvc:
     pathmatch:
-      matching-strategy: ant_path_matcher # swagger ??
+      matching-strategy: ant_path_matcher # swagger
   mail:
     host: smtp.gmail.com
     port: 587
@@ -39,22 +39,31 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
 admin:
-  email:
-    ggammancj@gmail.com
+  email: ${EMAIL_USERNAME}
 cloud:
   aws:
-    credentials:
-      access-key: ${AWS_ACCESS_KEY}
-      secret-key: ${AWS_SECRET_KEY}
     s3:
       bucket:
         mentor-bucket: ${AWS_MENTOR_BUCKET}
         profile-bucket: ${AWS_PROFILE_BUCKET}
+    credentials:
+      access-key: ${AWS_ACCESS_KEY}
+      secret-key: ${AWS_SECRET_KEY}
+    #      access-key-img: ${AWS_ACCESS_IMG_KEY}
+    #      secret-key-img: ${AWS_SECRET_IMG_KEY}
+    #      access-key-file: ${AWS_ACCESS_FILE_KEY}
+    #      secret-key-file: ${AWS_SECRET_FILE_KEY}
     region:
       static: ${AWS_REGION}
     stack:
       auto: false
 jwt:
   secret-key: ${JWT_SECRET_KEY}
-  access-token-expiration-minutes: 60
-  refresh-token-expiration-minutes: 10080
+  access-token-expiration-minutes: ${JWT_ACCESS_EXPIRATION}
+  refresh-token-expiration-minutes: ${JWT_REFRESH_EXPIRATION}
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: health
+#      base-path: /idoc

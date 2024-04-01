@@ -132,6 +132,9 @@ public class MentorDto {
 
         @ApiModelProperty(example = "0.0")
         private Double responseRate;
+
+        @ApiModelProperty(value = "mentoringCount", example = "예정된 스케줄 수")
+        private Integer futureScheduleCount;
     }
 
     @Getter

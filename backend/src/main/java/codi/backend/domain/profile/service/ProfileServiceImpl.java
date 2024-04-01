@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class ProfileServiceImpl implements ProfileService {
-    private static final String DEFAULT_IMAGE_URL = "https://codi-image-s3-bucket.s3.ap-northeast-2.amazonaws.com/profile/codi-profile-image.jpg";
+    private static final String DEFAULT_IMAGE_URL = "https://codi-image-bucket.s3.ap-northeast-2.amazonaws.com/profile/codi-profile-image.jpg";
     private final ProfileRepository profileRepository;
     private final MemberService memberService;
     private final S3Service s3Service;
@@ -86,16 +86,18 @@ public class ProfileServiceImpl implements ProfileService {
 
         try {
             if (file != null && !file.isEmpty()) {
-                // 이미지를 업로드하고 기존 이미지가 있으면 삭제합니다.
+                // 이미지를 업로드하고 기존 이미지가 있으면 삭제합니다. (기본 이미지인 경우는 제외합니다.)
                 String newImgUrl = s3Service.upload(file, "profile");
                 findProfile.setImgUrl(newImgUrl);
-                if (previousImgUrl != null) {
+                if (previousImgUrl != null && !previousImgUrl.equals(DEFAULT_IMAGE_URL)) {
                     s3Service.delete(previousImgUrl);
                 }
-            } else if (file != null && file.isEmpty() && previousImgUrl != null) {
-                // 파일 파라미터가 비어 있고 기존 이미지가 있는 경우, 기존 이미지를 삭제합니다.
-                s3Service.delete(previousImgUrl);
-                findProfile.setImgUrl(DEFAULT_IMAGE_URL);
+            } else {
+                // 파일 파라미터가 비어 있고 기존 이미지가 있고, 기본 이미지가 아니라면 기존 이미지를 삭제 후 기본 이미지로 변경합니다.
+                if (previousImgUrl != null && !previousImgUrl.equals(DEFAULT_IMAGE_URL)) {
+                    s3Service.delete(previousImgUrl);
+                    findProfile.setImgUrl(DEFAULT_IMAGE_URL);
+                }
             }
         } catch (Exception ex) {
             throw new BusinessLogicException(ExceptionCode.FILE_UPDATE_FAILED);

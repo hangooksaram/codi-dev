@@ -17,4 +17,5 @@ public interface MentorService {
     List<MentorDto.SearchMentorResponse> recommendMentors(MentorDto.RecommendationMentorRequest request);
     Integer getNumberOfCompletedMentorings(Long mentorId);
     Double calculateResponseRate(Long mentorId);
+    Integer getNumberOfSchedules(Long mentorId);
 }

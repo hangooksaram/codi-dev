@@ -30,6 +30,7 @@ public class Schedule {
     private Mentor mentor;
 
     @OneToOne(mappedBy = "schedule")
+    @JoinColumn(name = "mentoring_id")
     private Mentoring mentoring;
 
     @Builder
