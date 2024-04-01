@@ -2,13 +2,13 @@ package codi.backend.domain.schedule.service;
 
 import codi.backend.domain.member.repository.MemberRepository;
 import codi.backend.domain.mentor.entity.Mentor;
-import codi.backend.domain.mentor.repository.MentorRepository;
 import codi.backend.domain.mentor.service.MentorService;
 import codi.backend.domain.schedule.dto.ScheduleDto;
 import codi.backend.domain.schedule.entity.Schedule;
 import codi.backend.domain.schedule.repository.ScheduleRepository;
 import codi.backend.global.exception.BusinessLogicException;
 import codi.backend.global.exception.ExceptionCode;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
     private final ScheduleRepository scheduleRepository;
@@ -35,36 +36,42 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Transactional
     @Override
-    public void registerSchedule(Long mentorId, ScheduleDto.SchedulePostDto schedulePostDto) {
+    public void updateSchedule(Long mentorId, ScheduleDto.Put putDto) {
         Mentor mentor = mentorService.findMentor(mentorId);
-        List<Schedule> newSchedules = convertToSchedules(mentor, schedulePostDto.getDate(), schedulePostDto.getTimes());
-        LocalDate localDate = LocalDate.parse(schedulePostDto.getDate(), DateTimeFormatter.ofPattern("yyyy/MM/dd"));
-        List<Schedule> existingSchedules = scheduleRepository.findAllByMentorAndDate(mentor, localDate);
+        LocalDate localDate = LocalDate.parse(putDto.getDate(), DateTimeFormatter.ofPattern("yyyy/MM/dd"));
 
-        // 기존 스케줄을 시작시간-종료시간으로 맵에 저장
-        Map<String, Schedule> existingScheduleMap = existingSchedules.stream()
-                .collect(Collectors.toMap(
-                        s -> s.getStartDateTime() + "-" + s.getEndDateTime(),
-                        Function.identity())); // 원본 Schedule 객체값 사용
+        if (putDto.getTimes().isEmpty()) { // 스케줄이 아예 안넘어온 경우
+            scheduleRepository.deleteAllByMentorAndDate(mentor, localDate); // 필요시 long 타입 반환받아서 로그 찍기
+            log.info("날짜: " + localDate + "\n해당 날짜의 스케줄 전체 삭제가 완료됐습니다.");
+        } else {
+            List<Schedule> newSchedules = convertToSchedules(mentor, putDto.getDate(), putDto.getTimes());
+            List<Schedule> existingSchedules = scheduleRepository.findAllByMentorAndDate(mentor, localDate);
 
-        // 기존 스케줄
-        List<Schedule> schedulesToAdd = new ArrayList<>();
-        List<Schedule> schedulesToDelete = new ArrayList<>(existingSchedules);
+            // 기존 스케줄을 시작시간-종료시간으로 맵에 저장
+            Map<String, Schedule> existingScheduleMap = existingSchedules.stream()
+                    .collect(Collectors.toMap(
+                            s -> s.getStartDateTime() + "-" + s.getEndDateTime(),
+                            Function.identity())); // 원본 Schedule 객체값 사용
 
-        for (Schedule newSchedule : newSchedules) {
-            String key = newSchedule.getStartDateTime() + "-" + newSchedule.getEndDateTime();
-            if (existingScheduleMap.containsKey(key)) {
-                schedulesToDelete.remove(existingScheduleMap.get(key)); // 이미 존재하므로 삭제 리스트에서 제거
-            } else {
-                schedulesToAdd.add(newSchedule); // 존재하지 않으므로 추가 리스트에 추가
+            // 기존 스케줄
+            List<Schedule> schedulesToAdd = new ArrayList<>();
+            List<Schedule> schedulesToDelete = new ArrayList<>(existingSchedules);
+
+            for (Schedule newSchedule : newSchedules) {
+                String key = newSchedule.getStartDateTime() + "-" + newSchedule.getEndDateTime();
+                if (existingScheduleMap.containsKey(key)) {
+                    schedulesToDelete.remove(existingScheduleMap.get(key)); // 이미 존재하므로 삭제 리스트에서 제거
+                } else {
+                    schedulesToAdd.add(newSchedule); // 존재하지 않으므로 추가 리스트에 추가
+                }
             }
+
+            // 삭제: 기존 스케줄에서 없어진 것들
+            scheduleRepository.deleteAll(filterSchedulesAllowedToDelete(schedulesToDelete));
+
+            // 추가: 새로운 스케줄에서 추가된 것들
+            scheduleRepository.saveAll(schedulesToAdd);
         }
-
-        // 삭제: 기존 스케줄에서 없어진 것들
-        scheduleRepository.deleteAll(filterSchedulesAllowedToDelete(schedulesToDelete));
-
-        // 추가: 새로운 스케줄에서 추가된 것들
-        scheduleRepository.saveAll(schedulesToAdd);
     }
 
     private List<Schedule> convertToSchedules(Mentor mentor, String date, List<ScheduleDto.TimeConstraint> times) {

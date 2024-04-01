@@ -7,7 +7,7 @@ import codi.backend.domain.schedule.entity.Schedule;
 import java.time.LocalDateTime;
 
 public interface ScheduleService {
-    void registerSchedule(Long mentorId, ScheduleDto.SchedulePostDto schedule);
+    void updateSchedule(Long mentorId, ScheduleDto.Put putDto);
     Schedule findSchedule(Mentor mentor, LocalDateTime startTime, LocalDateTime endTime);
     void checkScheduleMentoring(Schedule schedule);
     ScheduleDto.ScheduleDailyResponse findDailySchedules(Long profileId, Long mentorId, String date);

@@ -1,5 +1,6 @@
 package codi.backend.domain.schedule.dto;
 
+import com.querydsl.core.annotations.QueryProjection;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
@@ -7,6 +8,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class ScheduleDto {
@@ -16,14 +18,13 @@ public class ScheduleDto {
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
-    public static class SchedulePostDto {
+    public static class Put {
         @NotBlank(message = "날짜를 입력해주세요.")
         @Pattern(regexp = "^[0-9]{4}/[0-9]{2}/[0-9]{2}$", message = "날짜는 다음과 같은 형태만 가능합니다: yyyy/mm/dd")
         @ApiModelProperty(example = "날짜 yyyy/mm/dd")
         private String date;
 
         @Valid
-        @NotEmpty(message = "시간 목록을 입력해주세요.")
         @ApiModelProperty(example = "시간을 리스트 형태로 입력해야 합니다. \"times\": [ ]")
         private List<TimeConstraint> times;
     }
@@ -75,5 +76,25 @@ public class ScheduleDto {
     public static class ScheduleTimeResponse {
         private String time;
         private Boolean enabled;
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class ScheduleInfo {
+        private Long id;
+        private LocalDateTime startDateTime;
+        private LocalDateTime endDateTime;
+        private Long mentorId;
+        private Long mentoringId;
+
+        @QueryProjection
+        public ScheduleInfo(Long id, LocalDateTime startDateTime, LocalDateTime endDateTime, Long mentorId, Long mentoringId) {
+            this.id = id;
+            this.startDateTime = startDateTime;
+            this.endDateTime = endDateTime;
+            this.mentorId = mentorId;
+            this.mentoringId = mentoringId;
+        }
     }
 }
