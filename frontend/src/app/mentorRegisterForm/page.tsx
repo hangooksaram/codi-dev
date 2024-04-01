@@ -99,7 +99,7 @@ function MentorRegisterForm() {
     handleFormValueChange,
     validateAllFormValues,
     convertToFormData,
-  } = useNewForm(initialFormValues, data!);
+  } = useNewForm(initialFormValues, isEdit ? data : undefined);
 
   const processData = () => {
     form.mentoringCategories.value = MENTOR_CATEGORIES.filter((category) =>

@@ -84,6 +84,7 @@ export const useGetMentorQuery = (mentorId?: number) => {
     () => getMentor(mentorId),
     {
       staleTime: STALE_TIME.VERY_OFTEN,
+      retry : 1
     },
   );
 
