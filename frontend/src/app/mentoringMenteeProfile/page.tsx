@@ -11,10 +11,7 @@ import useGetProfileQuery from '@/queries/profileQuery';
 import Button from '@/ui/atoms/Button';
 import theme from '@/ui/theme';
 import ProfileStatusCard from '@/components/Profile/ProfileStatusCard/ProfileStatusCard';
-import { useDispatch } from 'react-redux';
-import { setCurrentModal, setModalState } from '@/features/modal/modalSlice';
 import Footer from '@/components/Profile/ProfileCard/Footer';
-import Modal from '@/ui/molecules/Modal/GlobalModal';
 
 function MentoringMenteeProfilePage({}) {
   const param = useSearchParams();
@@ -22,13 +19,15 @@ function MentoringMenteeProfilePage({}) {
   const mentoringId = param.get('mentoringId')!;
   const platform = param.get('platform');
   const { data: profile } = useGetProfileQuery(profileId!);
-  const dispatch = useDispatch();
-  const [openModal, setOpenModal] = useState(false);
+  const [open, setOpen] = useState(false);
   return (
     <SinglePageLayout>
-      <Modal>
-        <MentoringPlatformModal mentoringId={parseInt(mentoringId!)} />
-      </Modal>
+      <MentoringPlatformModal
+        open={open}
+        setOpen={setOpen}
+        mentoringId={parseInt(mentoringId!)}
+      />
+
       <MenteeProfile profile={profile}>
         <ProfileCard width="322px">
           <Content.Container>
@@ -47,9 +46,7 @@ function MentoringMenteeProfilePage({}) {
             {!platform?.includes('No') && (
               <>
                 <Button
-                  onClick={() => {
-                    dispatch(setModalState(true));
-                  }}
+                  onClick={() => setOpen(true)}
                   size="small"
                   variant="default"
                   color={theme.colors.secondary.main}
