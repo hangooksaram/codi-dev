@@ -7,12 +7,17 @@ import { SetState } from '@/index';
 import { device } from '@/ui/theme';
 import FlexBox from '@/ui/atoms/FlexBox';
 import { useDispatch } from 'react-redux';
-import { selectModal, setModalState } from '@/features/modal/modalSlice';
+import {
+  selectModal,
+  setCurrentModal,
+  setModalState,
+} from '@/features/modal/modalSlice';
 import { useSelector } from 'react-redux';
 
-const ConfirmModal = () => {
+const SelectModal = () => {
   const dispatch = useDispatch();
   const { text } = useSelector(selectModal);
+
   return (
     <ModalContent>
       <FlexBox direction="column" alignItems="center">
@@ -20,7 +25,27 @@ const ConfirmModal = () => {
 
         <Button
           variant="default"
-          onClick={() => dispatch(setModalState(false))}
+          onClick={() => {
+            dispatch(setModalState(false));
+            dispatch(setCurrentModal({ isCanceled: true }));
+          }}
+          {...{
+            marginTop: '30px',
+            [device('tablet')]: {
+              width: '100%',
+              maxWidth: '100%',
+            },
+          }}
+        >
+          취소
+        </Button>
+
+        <Button
+          variant="default"
+          onClick={() => {
+            dispatch(setModalState(false));
+            dispatch(setCurrentModal({ isConfirmed: true }));
+          }}
           {...{
             marginTop: '30px',
             [device('tablet')]: {
@@ -45,4 +70,4 @@ const ModalContent = styled(Card)(() => ({
   },
 }));
 
-export default ConfirmModal;
+export default SelectModal;

@@ -33,7 +33,10 @@ function MentoringAppliedMenteeProfilePage() {
     'accept',
     () => {
       dispatch(
-        setCurrentModal(<ConfirmModal>멘토링을 수락하였습니다.</ConfirmModal>),
+        setCurrentModal({
+          type: 'confirm',
+          text: '멘토링을 수락하였습니다.',
+        }),
       );
       dispatch(setModalState(true));
       router.replace('/mentorCenter/apply/');

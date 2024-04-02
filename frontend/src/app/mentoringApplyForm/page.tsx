@@ -45,9 +45,10 @@ function MentoringApplyFormPage() {
     parseInt(param.get('mentorId')!),
     () => {
       dispatch(
-        setCurrentModal(
-          <ConfirmModal>멘토링 신청이 성공되었습니다.</ConfirmModal>,
-        ),
+        setCurrentModal({
+          type: 'confirm',
+          text: '멘토링 신청이 성공되었습니다.',
+        }),
       );
       dispatch(setModalState(true));
       router.push('/mentorsMain');

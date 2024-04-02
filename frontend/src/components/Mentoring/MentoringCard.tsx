@@ -9,7 +9,7 @@ import FlexBox from '@/ui/atoms/FlexBox';
 import Typography from '@/ui/atoms/Typography';
 import { backgroundImage } from '@/ui/atoms/BackgroundImage';
 import StyledImage from '@/ui/atoms/StyledImage';
-import Modal from '@/ui/molecules/Modal';
+import Modal from '@/ui/molecules/Modal/GlobalModal';
 import MentoringPlatformModal, {
   MENTORING_PLATFORMS,
 } from './MentoringPlatformModal';
@@ -18,6 +18,7 @@ import { formattedDate } from '@/utils/dateFormat';
 import { useDispatch } from 'react-redux';
 import { setCurrentModal, setModalState } from '@/features/modal/modalSlice';
 import ConfirmModal from '@/ui/molecules/Modal/ConfirmModal';
+import LocalModal from '@/ui/molecules/Modal/LocalModal';
 
 const mocks = [];
 
@@ -49,9 +50,15 @@ function MentoringCard({
   const router = useRouter();
   const mentorProfileUrl = `/mentorProfile?mentorId=${mentorId}&mentoringId=${mentoringId}`;
   const menteeProfileUrl = `/mentoringMenteeProfile?profileId=${profileId}&mentoringId=${mentoringId}&platform=${platform}`;
-
+  const [open, setOpen] = useState(false);
   return (
     <StyledCard>
+      <MentoringPlatformModal
+        open={open}
+        setOpen={setOpen}
+        mentoringId={mentoringId}
+      />
+
       <Header today={date === formattedDate(new Date())}>{time}</Header>
       <FlexBox justifyContent="space-between">
         <ProfileImage
@@ -104,12 +111,7 @@ function MentoringCard({
         <LinkButton
           onClick={() => {
             if (profileId) {
-              dispatch(
-                setCurrentModal(
-                  <MentoringPlatformModal mentoringId={mentoringId!} />,
-                ),
-              );
-              dispatch(setModalState(true));
+              setOpen(true);
             }
           }}
           width="42px"

@@ -2,6 +2,7 @@ import Home from '@icons/mobile/appbar/home.svg';
 import MentorPage from '@icons/mobile/appbar/mentor-page.svg';
 import MenteeCenter from '@icons/mobile/appbar/mentee-center.svg';
 import MyInfo from '@icons/mobile/appbar/my-info.svg';
+import { RedirectRoutes } from './types/redirect';
 
 export const HOMEPAGE_URL =
   'http://codi-frontend.s3-website-ap-northeast-1.amazonaws.com/';
@@ -199,3 +200,42 @@ export const MOBILE_NAVIGATIONS = [
 ];
 
 export const MAXIMUM_FILE_SIZE = 10 * 1024 * 1024;
+
+export const REDIRECT_ROUTES: RedirectRoutes[] = [
+  {
+    currentRoute: '/mentorRegisterForm',
+    redirectRoute: '/signin',
+    allowed: 'user',
+    message: '로그인이 필요해요. 로그인 페이지로 이동하시겠습니까?',
+  },
+  {
+    currentRoute: '/profileForm',
+    redirectRoute: '/signin',
+    allowed: 'user',
+    message: '로그인이 필요해요. 로그인 페이지로 이동하시겠습니까?',
+  },
+  {
+    currentRoute: '/mentoringApplyForm',
+    redirectRoute: '/signin',
+    allowed: 'user',
+    message: '로그인이 필요해요. 로그인 페이지로 이동하시겠습니까?',
+  },
+  {
+    currentRoute: '/mentorRegisterForm',
+    redirectRoute: '/profileForm',
+    allowed: 'profile',
+    message: '프로필 작성이 필요해요. 프로필 작성 페이지로 이동하시겠습니까?',
+  },
+  {
+    currentRoute: '/mentoringApplyForm',
+    redirectRoute: '/profileForm',
+    allowed: 'profile',
+    message: '프로필 작성이 필요해요. 프로필 작성 페이지로 이동하시겠습니까?',
+  },
+  {
+    currentRoute: '/menteeCenter',
+    redirectRoute: '/signin',
+    allowed: 'user',
+    message: '로그인이 필요해요. 로그인 페이지로 이동하시겠습니까?',
+  },
+];

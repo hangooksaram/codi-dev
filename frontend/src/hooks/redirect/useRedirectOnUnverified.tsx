@@ -1,58 +1,22 @@
 import { usePathname, useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import { selectUser } from '@/features/user/userSlice';
-type RedirectCondition = 'user' | 'profile';
-
-interface RedirectRoutes {
-  allowed: RedirectCondition;
-  currentRoute: string;
-  redirectRoute: string;
-  message: string;
-}
-
-const redirectRoutes: RedirectRoutes[] = [
-  {
-    currentRoute: '/mentorRegisterForm',
-    redirectRoute: '/signin',
-    allowed: 'user',
-    message: '로그인이 필요해요. 로그인 페이지로 이동하시겠습니까?',
-  },
-  {
-    currentRoute: '/profileForm',
-    redirectRoute: '/signin',
-    allowed: 'user',
-    message: '로그인이 필요해요. 로그인 페이지로 이동하시겠습니까?',
-  },
-  {
-    currentRoute: '/mentoringApplyForm',
-    redirectRoute: '/signin',
-    allowed: 'user',
-    message: '로그인이 필요해요. 로그인 페이지로 이동하시겠습니까?',
-  },
-  {
-    currentRoute: '/mentorRegisterForm',
-    redirectRoute: '/profileForm',
-    allowed: 'profile',
-    message: '프로필 작성이 필요해요. 프로필 작성 페이지로 이동하시겠습니까?',
-  },
-  {
-    currentRoute: '/mentoringApplyForm',
-    redirectRoute: '/profileForm',
-    allowed: 'profile',
-    message: '프로필 작성이 필요해요. 프로필 작성 페이지로 이동하시겠습니까?',
-  },
-  {
-    currentRoute: '/menteeCenter',
-    redirectRoute: '/signin',
-    allowed: 'user',
-    message: '로그인이 필요해요. 로그인 페이지로 이동하시겠습니까?',
-  },
-];
+import { useDispatch } from 'react-redux';
+import { setCurrentModal, setModalState } from '@/features/modal/modalSlice';
+import { useState } from 'react';
+import useModalCallback from '../useModalCallback';
+import { REDIRECT_ROUTES } from '@/constants';
 
 const useRedirectOnUnverified = () => {
   const router = useRouter();
   const pathname = usePathname();
   const user = useSelector(selectUser);
+  const [redirectRoute, setRedirectRoute] = useState<string | null>(null);
+  const dispatch = useDispatch();
+  useModalCallback({
+    confirmCallback: () => router.replace(redirectRoute!),
+    cancelCallback: () => router.replace('/'),
+  });
 
   const checkRedirectRoutes = (id?: string, isProfile?: boolean) => {
     const userId = id ?? user.id;
@@ -62,17 +26,20 @@ const useRedirectOnUnverified = () => {
       return;
     }
 
-    for (const route of redirectRoutes) {
+    for (const route of REDIRECT_ROUTES) {
       if (pathname.includes(route.currentRoute)) {
         const isNotUser = !userId && route.allowed === 'user';
         const isNotProfile = !isUserProfile && route.allowed === 'profile';
 
         if (isNotUser || isNotProfile) {
-          if (confirm(route.message)) {
-            router.replace(route.redirectRoute);
-            return;
-          }
-          router.replace('/');
+          setRedirectRoute(route.redirectRoute);
+          dispatch(
+            setCurrentModal({
+              text: route.message,
+              currentModalType: 'select',
+            }),
+          );
+          dispatch(setModalState(true));
 
           return;
         }
@@ -84,7 +51,7 @@ const useRedirectOnUnverified = () => {
 };
 
 const isRedirectPage = (currentUrl: string) => {
-  return redirectRoutes.some(({ currentRoute }) =>
+  return REDIRECT_ROUTES.some(({ currentRoute }) =>
     currentRoute.includes(currentUrl),
   );
 };

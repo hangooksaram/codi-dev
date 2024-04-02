@@ -14,6 +14,7 @@ import ProfileStatusCard from '@/components/Profile/ProfileStatusCard/ProfileSta
 import { useDispatch } from 'react-redux';
 import { setCurrentModal, setModalState } from '@/features/modal/modalSlice';
 import Footer from '@/components/Profile/ProfileCard/Footer';
+import Modal from '@/ui/molecules/Modal/GlobalModal';
 
 function MentoringMenteeProfilePage({}) {
   const param = useSearchParams();
@@ -25,6 +26,9 @@ function MentoringMenteeProfilePage({}) {
   const [openModal, setOpenModal] = useState(false);
   return (
     <SinglePageLayout>
+      <Modal>
+        <MentoringPlatformModal mentoringId={parseInt(mentoringId!)} />
+      </Modal>
       <MenteeProfile profile={profile}>
         <ProfileCard width="322px">
           <Content.Container>
@@ -44,13 +48,6 @@ function MentoringMenteeProfilePage({}) {
               <>
                 <Button
                   onClick={() => {
-                    dispatch(
-                      setCurrentModal(
-                        <MentoringPlatformModal
-                          mentoringId={parseInt(mentoringId!)}
-                        />,
-                      ),
-                    );
                     dispatch(setModalState(true));
                   }}
                   size="small"
