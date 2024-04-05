@@ -274,7 +274,7 @@ function FloatingMenu({ setOpen }: { setOpen: SetState<boolean> }) {
   );
 }
 
-const StyledFloating = {
+export const StyledFloating = {
   OpenButton: styled(Button)(({}) => ({
     position: 'fixed',
     zIndex: 104,

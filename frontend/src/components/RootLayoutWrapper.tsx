@@ -15,6 +15,7 @@ import Floating from '@/components/Accessibility/Floating';
 import MobileBottomNavigation from './NavBar/AppBar/MobileBottomNavigation';
 import GlobalModal from '@/ui/molecules/Modal/GlobalModal';
 import AppLayout from './Layout/AppLayout';
+import ChannelTalkFloating from './ChannelTalk/ChannelTalkFloating';
 
 const queryClient = new QueryClient();
 
@@ -28,6 +29,7 @@ function RootLayoutWrapper({ children }: { children: ReactNode }) {
               <AppBar />
               <MobileBottomNavigation />
               {children}
+              <ChannelTalkFloating />
               <Floating />
               <GlobalModal />
             </AccessibilityLayout>
