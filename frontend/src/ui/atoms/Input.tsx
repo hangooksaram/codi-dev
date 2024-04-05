@@ -13,7 +13,7 @@ export const borderStyle = (
   return theme.colors.gray.light;
 };
 
-const Input = styled.input(({ width, outline, invalid }: Input) => ({
+const Input = styled.input(({ width, outline, invalid, ...rest }: Input) => ({
   width: width ?? '100%',
   position: 'relative',
   height: '50px',
@@ -27,6 +27,8 @@ const Input = styled.input(({ width, outline, invalid }: Input) => ({
   '::placeholder': {
     color: theme.colors.gray.dark,
   },
+
+  ...rest,
 }));
 
 export default Input;

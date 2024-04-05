@@ -11,10 +11,12 @@ import { store } from '@/store/store';
 import AccessibilityLayout from '@/components/Layout/AccessibilityLayout';
 import theme from '@/ui/theme';
 import AppBar from '@/components/NavBar/AppBar/AppBar';
-import Floating from '@/components/Accessibility/Floating';
+import AccessibilityFloating from '@/components/Accessibility/AccessibilityFloating';
 import MobileBottomNavigation from './NavBar/AppBar/MobileBottomNavigation';
 import GlobalModal from '@/ui/molecules/Modal/GlobalModal';
 import AppLayout from './Layout/AppLayout';
+import ChannelTalkFloating from './ChannelTalk/ChannelTalkFloating';
+import '../utils/channeltalk/channelTalk';
 
 const queryClient = new QueryClient();
 
@@ -28,7 +30,8 @@ function RootLayoutWrapper({ children }: { children: ReactNode }) {
               <AppBar />
               <MobileBottomNavigation />
               {children}
-              <Floating />
+              <ChannelTalkFloating />
+              <AccessibilityFloating />
               <GlobalModal />
             </AccessibilityLayout>
           </AppLayout>

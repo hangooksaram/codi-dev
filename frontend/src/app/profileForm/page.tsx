@@ -7,7 +7,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useSelector, useDispatch } from 'react-redux';
 import { FormContainer } from '@/ui/atoms/Container';
 import Typography from '@/ui/atoms/Typography';
-import theme from '@/ui/theme';
+import theme, { device } from '@/ui/theme';
 import IconInputContainer from '@/ui/molecules/Input/IconInput';
 import Input from '@/ui/atoms/Input';
 import Button from '@/ui/atoms/Button';
@@ -28,7 +28,7 @@ import {
   registerProfile as postRegisterProfile,
 } from '@/api/profileApi';
 import { handleApiCallback } from '@/utils/api';
-import JobSelector from '@/components/Job/JopSelector';
+import JobSelector from '@/components/Job/JobSelector/JobSelector';
 import { selectUser, setUser } from '@/features/user/userSlice';
 import { RegisterProfileResponse } from '@/types/api/profile';
 import Label from '@/ui/atoms/Label';
@@ -342,7 +342,15 @@ function ProfileFormPage() {
               </FlexBox>
             </LabelBox>
             <LabelBox text="희망 직무">
-              <FlexBox columnGap="10px">
+              <FlexBox
+                columnGap="10px"
+                {...{
+                  [device('tablet')]: {
+                    flexDirection: 'column',
+                    rowGap: '10px',
+                  },
+                }}
+              >
                 <Label htmlFor="job" text="직무 분류" />
                 <JobSelector
                   id="job"
@@ -353,6 +361,7 @@ function ProfileFormPage() {
                   }
                   open={openJobSelector}
                   setOpen={setOpenJobSelector}
+                  width="100%"
                 />
                 <Label htmlFor="desiredJob" text="희망 직무" />
                 <Input
@@ -365,6 +374,11 @@ function ProfileFormPage() {
                   placeholder="정확한 직무를 입력해주세요. 10자 내외."
                   onChange={handleFormValueChange}
                   invalid={form.desiredJob.isValid === 'invalid'}
+                  {...{
+                    [device('tablet')]: {
+                      width: '100%',
+                    },
+                  }}
                 />
               </FlexBox>
             </LabelBox>

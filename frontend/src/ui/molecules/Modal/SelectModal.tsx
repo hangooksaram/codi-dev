@@ -23,39 +23,41 @@ const SelectModal = () => {
       <FlexBox direction="column" alignItems="center">
         {text}
 
-        <Button
-          variant="default"
-          onClick={() => {
-            dispatch(setModalState(false));
-            dispatch(setCurrentModal({ isCanceled: true }));
-          }}
-          {...{
-            marginTop: '30px',
-            [device('tablet')]: {
-              width: '100%',
-              maxWidth: '100%',
-            },
-          }}
-        >
-          취소
-        </Button>
+        <FlexBox columnGap="20px">
+          <Button
+            variant="default"
+            onClick={() => {
+              dispatch(setModalState(false));
+              dispatch(setCurrentModal({ isCanceled: true }));
+            }}
+            {...{
+              marginTop: '30px',
+              [device('tablet')]: {
+                width: '100%',
+                maxWidth: '100%',
+              },
+            }}
+          >
+            아니요
+          </Button>
 
-        <Button
-          variant="default"
-          onClick={() => {
-            dispatch(setModalState(false));
-            dispatch(setCurrentModal({ isConfirmed: true }));
-          }}
-          {...{
-            marginTop: '30px',
-            [device('tablet')]: {
-              width: '100%',
-              maxWidth: '100%',
-            },
-          }}
-        >
-          확인
-        </Button>
+          <Button
+            variant="default"
+            onClick={() => {
+              dispatch(setModalState(false));
+              dispatch(setCurrentModal({ isConfirmed: true }));
+            }}
+            {...{
+              marginTop: '30px',
+              [device('tablet')]: {
+                width: '100%',
+                maxWidth: '100%',
+              },
+            }}
+          >
+            확인
+          </Button>
+        </FlexBox>
       </FlexBox>
     </ModalContent>
   );

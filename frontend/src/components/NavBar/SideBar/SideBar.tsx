@@ -7,6 +7,8 @@ import theme, { device } from '@/ui/theme';
 import { SetState } from '@/index';
 import useSideBar from '@/hooks/useSideBar';
 import { SideNavigator } from '@/ui/atoms/Navigator';
+import { keyframes } from '@emotion/css';
+import { fadeIn } from '@/ui/molecules/Modal/Modal.styled';
 
 interface SideBarSideNavigator {
   iconComponent?: React.JSX.Element;
@@ -55,7 +57,6 @@ function SideBar({
                   onClick={() => {
                     setNestedParent(nested ? href : '');
                     setCurrent(href);
-                    setOpen(false);
                   }}
                   current={current === href && nestedParent !== href}
                   nestedParent={nestedParent === href}
@@ -116,6 +117,7 @@ const Container = styled.nav(({ open }: { open: boolean }) => ({
     zIndex: '3',
     top: '0px',
     height: '100%',
+    animation: `${fadeIn} 0.2s ease-in-out`,
   },
 }));
 

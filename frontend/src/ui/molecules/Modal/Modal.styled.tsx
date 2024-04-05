@@ -29,7 +29,7 @@ export const ModalExternalContainer = styled.div(() => ({
   animation: `${fadeIn} 0.3s`,
 }));
 
-const fadeIn = keyframes`
+export const fadeIn = keyframes`
     0% {
       opacity: 0;
     }
