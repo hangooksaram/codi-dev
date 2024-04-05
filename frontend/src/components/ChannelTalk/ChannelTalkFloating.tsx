@@ -1,5 +1,4 @@
-import Button from '@/ui/atoms/Button';
-import { StyledFloating } from '../Accessibility/Floating';
+import { StyledFloating } from '@/ui/atoms/Floating';
 import theme from '@/ui/theme';
 import styled from '@emotion/styled';
 
