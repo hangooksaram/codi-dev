@@ -38,7 +38,7 @@
   - 사용자의 희망 직무, 추천 받은 직무, 장애 유형 등 주요 데이터에 가중치를 적용해 개인화된 멘토를 추천
 
 ## 👥 팀원 소개
-|Designer|PM|FE|BE|
+|UX|PM|FE|BE|
 |:------:|:---:|:---:|:---:|
 |![](https://codi-image-bucket.s3.ap-northeast-2.amazonaws.com/logo/%08codi_character.png)|![](https://codi-image-bucket.s3.ap-northeast-2.amazonaws.com/logo/%08codi_character.png)|![](https://codi-image-bucket.s3.ap-northeast-2.amazonaws.com/logo/%08codi_character.png)|![](https://codi-image-bucket.s3.ap-northeast-2.amazonaws.com/logo/%08codi_character.png)|
 |윤지숙|장보민|[오현재](https://github.com/hangooksaram)|[변찬중](https://github.com/chaning49)|
