@@ -56,7 +56,6 @@ function Dropdown({
           <OpenDropdown />
         </DropdownButton>
       )}
-
       {open && (
         <DropdownContentContainer
           ref={ref! as RefObject<HTMLUListElement>}

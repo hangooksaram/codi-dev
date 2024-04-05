@@ -43,7 +43,7 @@ const StyledMobileBottomNavigation = styled.nav({
   width: '100%',
   position: 'fixed',
   bottom: '0',
-  zIndex: '1',
+  zIndex: '999',
   height: `${MOBILE_NAVIGATION_HEIGHT}px`,
   backgroundColor: theme.colors.background,
   display: 'none',

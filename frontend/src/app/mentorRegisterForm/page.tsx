@@ -21,7 +21,7 @@ import {
   registerMentor as postRegisterMentor,
   editMentor as patchEditMentor,
 } from '@/api/mentorApi';
-import JobSelector from '@/components/Job/JopSelector';
+import JobSelector from '@/components/Job/JobSelector/JobSelector';
 
 import { handleApiCallback } from '@/utils/api';
 import { CAREERS } from '@/constants';
@@ -217,16 +217,16 @@ function MentorRegisterForm() {
                       }
                       open={openJobSelector}
                       setOpen={setOpenJobSelector}
-                      width="40%"
+                      width="100%"
                       {...{
                         [device('tablet')]: {
-                          width: '100%',
+                          width: '100% !important',
                         },
                       }}
                     />
                     <Dropdown
                       id="career"
-                      width="50%"
+                      width="100%"
                       type="form"
                       title="경력"
                       categories={CAREERS}
