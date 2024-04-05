@@ -55,7 +55,6 @@ function SideBar({
                   onClick={() => {
                     setNestedParent(nested ? href : '');
                     setCurrent(href);
-                    setOpen(false);
                   }}
                   current={current === href && nestedParent !== href}
                   nestedParent={nestedParent === href}
