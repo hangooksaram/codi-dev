@@ -147,6 +147,8 @@ public class MentoringDto {
         private MentoringApplicationMenteeInfoResponse menteeInfo;
         private String applicationDate;
         private String applicationReason;
+        private String mentoringStatus;
+        private boolean isDatePassed;
     }
 
     @Getter

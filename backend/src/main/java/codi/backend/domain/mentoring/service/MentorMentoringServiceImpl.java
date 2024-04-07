@@ -77,21 +77,21 @@ public class MentorMentoringServiceImpl implements MentorMentoringService{
     }
 
     private void checkMentoringStatusIsApplication(Mentoring mentoring) {
-        // Check if the mentoring is not application
+        // 멘토링 상태가 신청 상태인지 확인
         if (mentoring.getMentoringStatus() != Mentoring.MentoringStatus.APPLICATION) {
             throw new BusinessLogicException(ExceptionCode.MENTORING_NOT_APPLICATION);
         }
     }
 
     private void checkMentoringStatusIsAccepted(Mentoring mentoring) {
-        // Check if the mentoring is not accepted
+        // 멘토링이 수락 되었는지 확인
         if (mentoring.getMentoringStatus() != Mentoring.MentoringStatus.ACCEPTED) {
             throw new BusinessLogicException(ExceptionCode.MENTORING_NOT_ACCEPTED);
         }
     }
 
     private void checkMentoringOwner(Long mentorId, Mentoring mentoring) {
-        // Check if the mentoring is not own
+        // 자신의 멘토링인지 확인
         if (!mentoring.getMentor().getId().equals(mentorId)) {
             throw new BusinessLogicException(ExceptionCode.NOT_YOUR_MENTORING);
         }

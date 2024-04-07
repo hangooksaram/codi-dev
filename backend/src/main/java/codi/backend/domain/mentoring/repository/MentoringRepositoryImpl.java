@@ -271,7 +271,8 @@ public class MentoringRepositoryImpl implements MentoringRepositoryCustom {
         long total = queryFactory
                 .selectFrom(mentoring)
                 .where(whereClause)
-                .fetch().size();
+                .fetch()
+                .size();
 
         return new PageImpl<>(content, PageRequest.of(adjustedPageNumber, pageable.getPageSize(), pageable.getSort()), total);
     }
@@ -296,7 +297,9 @@ public class MentoringRepositoryImpl implements MentoringRepositoryCustom {
                 m.getId(),
                 menteeInfo,
                 schedule,
-                m.getApplicationReason()
+                m.getApplicationReason(),
+                m.getMentoringStatus().name(),
+                m.getSchedule().getStartDateTime().isBefore(LocalDateTime.now())
                 );
     }
 
