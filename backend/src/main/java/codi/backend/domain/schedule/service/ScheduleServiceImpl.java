@@ -96,7 +96,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         }
     }
 
-    // TODO Util로 분리 계획
+    @Override
     public LocalDateTime[] convertToStartAndEndTime(String date, String time) {
         String[] divisionTime = time.split(" - ");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
