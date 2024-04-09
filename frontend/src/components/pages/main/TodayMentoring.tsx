@@ -18,14 +18,15 @@ function TodayMentoring() {
   const { todayMentorings, isSuccess } = useTodayMentorings();
 
   return (
-    <PageComponentLayout>
-      <TitleSection
-        logo={<Logo />}
-        title="멘토링 일정"
-        description={`${todayMentorings!.length > 0 ? '오늘 예정된 멘토링들을 확인해보세요' : '오늘은 예정된 멘토링이 없어요'}`}
-      />
-      {isSuccess &&
-        (todayMentorings!.length > 0 ? (
+    isSuccess && (
+      <PageComponentLayout>
+        <TitleSection
+          logo={<Logo />}
+          title="멘토링 일정"
+          description={`${todayMentorings!.length > 0 ? '오늘 예정된 멘토링들을 확인해보세요' : '오늘은 예정된 멘토링이 없어요'}`}
+        />
+
+        {todayMentorings!.length > 0 ? (
           <MentorList mentors={todayMentorings!} />
         ) : (
           <NoContentCard color={theme.colors.background}>
@@ -44,8 +45,9 @@ function TodayMentoring() {
               </Button>
             </FlexBox>
           </NoContentCard>
-        ))}
-    </PageComponentLayout>
+        )}
+      </PageComponentLayout>
+    )
   );
 }
 
