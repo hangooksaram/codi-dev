@@ -1,7 +1,6 @@
 package codi.backend.domain.mentoring.service;
 
 import codi.backend.domain.mentoring.dto.MentoringDto;
-import codi.backend.domain.mentoring.entity.Mentoring;
 
 import java.util.List;
 

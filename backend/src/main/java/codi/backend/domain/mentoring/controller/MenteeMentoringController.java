@@ -4,7 +4,6 @@ import codi.backend.auth.userdetails.CustomUserDetails;
 import codi.backend.domain.mentoring.dto.MentoringDto;
 import codi.backend.domain.mentoring.mapper.MentoringMapper;
 import codi.backend.domain.mentoring.service.MenteeMentoringService;
-import codi.backend.global.response.SingleResponseDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -34,9 +33,9 @@ public class MenteeMentoringController {
     // 멘토링 신청 POST
     @ApiOperation(value = "Mentoring 신청", notes = "멘티가 멘토의 id를 입력해서 멘토링을 신청할 수 있다.")
     @PostMapping("/apply/{mentor-id}")
-    public ResponseEntity applyMentoring(@AuthenticationPrincipal CustomUserDetails principal,
-                                         @PathVariable("mentor-id") Long mentorId,
-                                         @Valid @RequestBody MentoringDto.MentoringPost mentoringPostDto) {
+    public ResponseEntity mentoringAdd(@AuthenticationPrincipal CustomUserDetails principal,
+                                       @PathVariable("mentor-id") Long mentorId,
+                                       @Valid @RequestBody MentoringDto.MentoringPost mentoringPostDto) {
         mentoringService.createMentoring(principal.getProfileId(), mentorId, mentoringPostDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

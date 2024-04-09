@@ -11,6 +11,7 @@ import codi.backend.domain.schedule.entity.Schedule;
 import codi.backend.domain.schedule.service.ScheduleService;
 import codi.backend.global.exception.BusinessLogicException;
 import codi.backend.global.exception.ExceptionCode;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+@Slf4j
 @Transactional
 @Service
 public class MenteeMentoringServiceImpl implements MenteeMentoringService {
@@ -39,8 +41,9 @@ public class MenteeMentoringServiceImpl implements MenteeMentoringService {
     public void createMentoring(Long profileId, Long mentorId, MentoringDto.MentoringPost mentoringPostDto) {
         Profile profile = profileService.findProfile(profileId);
         Mentor mentor = mentorService.findMentor(mentorId);
+        checkSelfApplication(profile, mentor);
 
-        LocalDateTime[] times = convertToStartAndEndTime(mentoringPostDto.getDate(), mentoringPostDto.getTime());
+        LocalDateTime[] times = scheduleService.convertToStartAndEndTime(mentoringPostDto.getDate(), mentoringPostDto.getTime());
 
         Schedule schedule = scheduleService.findSchedule(mentor, times[0], times[1]);
         scheduleService.checkScheduleMentoring(schedule);
@@ -59,6 +62,12 @@ public class MenteeMentoringServiceImpl implements MenteeMentoringService {
         mentoringRepository.save(mentoring);
     }
 
+    private void checkSelfApplication(Profile profile, Mentor mentor) {
+        if (mentor.getMember().equals(profile.getMember())) {
+            throw new BusinessLogicException(ExceptionCode.SELF_MENTORING_REQUEST);
+        }
+    }
+
     @Transactional
     @Override
     public void cancelMentoring(Long profileId, Long mentoringId) {
@@ -75,15 +84,6 @@ public class MenteeMentoringServiceImpl implements MenteeMentoringService {
     private Mentoring findMentoring(Long mentoringId) {
         return mentoringRepository.findById(mentoringId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MENTORING_NOT_FOUND));
-    }
-
-    private LocalDateTime[] convertToStartAndEndTime(String date, String time) {
-        String[] divisionTime = time.split(" - ");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
-        return new LocalDateTime[]{
-                LocalDateTime.parse(date + " " + divisionTime[0], formatter),
-                LocalDateTime.parse(date + " " + divisionTime[1], formatter)
-        };
     }
 
     private void checkSameMentoring(Profile profile, Mentoring mentoring) {

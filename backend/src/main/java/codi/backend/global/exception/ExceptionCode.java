@@ -49,11 +49,13 @@ public enum ExceptionCode {
     INVALID_STAR_VALUE(400, "Star value must be between 0 and 5."),
     MENTOR_MISMATCH(404, "Mentor ID does not match with the mentoring's mentor."),
     ALREADY_RATED_MENTORING(400, "This Mentoring is already rated."),
+    SELF_MENTORING_REQUEST(400, "Mentee and Mentor can't be the same person."),
 
     // Auth
     REFRESH_TOKEN_NOT_FOUND(404, "Refresh Token not found."),
     REFRESH_TOKEN_EXPIRED(401, "Refresh Token expired."),
     ACCESS_TOKEN_EXPIRED(401, "Access Token expired");
+
     @Getter
     private final int status;
 
