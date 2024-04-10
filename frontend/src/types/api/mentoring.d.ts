@@ -44,6 +44,8 @@ export interface GetMentoringAppliesResponseData {
   };
   applicationDate: string;
   applicationReason: string;
+  datePassed?:boolean;
+  mentoringStatus?:string;
 }
 
 export interface GetMonthlyMentoringsResponse {

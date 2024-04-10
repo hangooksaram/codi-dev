@@ -2,24 +2,15 @@
 
 import { useEffect, useState } from 'react';
 import MentorCenterApplyCard from '@/components/pages/mentorCenter/ApplyCard';
-import { useMentoringApplies } from '@/queries/mentoring/mentorMentoringQuery';
+import { useGetMentoringAppliesQuery } from '@/queries/mentoring/mentorMentoringQuery';
 import { GetMentoringAppliesResponseData } from '@/types/api/mentoring';
 import Typography from '@/ui/atoms/Typography';
 import LabelBox from '@/ui/molecules/LabelBox';
 import theme from '@/ui/theme';
+import useMentoringApplies from '@/hooks/mentorings/useMentoringApplies';
 
 function ApplyPage() {
-  const { data } = useMentoringApplies();
-
-  const [applies, setApplies] = useState<
-    GetMentoringAppliesResponseData[] | undefined
-  >([]);
-
-  useEffect(() => {
-    if (data) {
-      setApplies([...data.data]);
-    }
-  }, [data]);
+  const { applies, setApplies } = useMentoringApplies();
 
   if (applies?.length === 0) {
     return (
