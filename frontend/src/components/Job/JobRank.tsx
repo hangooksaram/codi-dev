@@ -8,30 +8,40 @@ import theme, { device } from '@/ui/theme';
 import TitleSection from '../pages/mentorsMain/TitleSection';
 import { useJobRanksQuery } from '@/queries/jobQuery';
 import { selectUser } from '@/features/user/userSlice';
+import Button from '@/ui/atoms/Button';
+import { useRouter } from 'next/navigation';
 
 function JobRank() {
   const { id, isProfile } = useSelector(selectUser);
   const { data: jobRanks, isSuccess: isJobRanksQuerySuccess } =
     useJobRanksQuery();
+  const router = useRouter();
+  const description = () => {
+    if (!id) {
+      return '로그인 후 프로필을 작성하여 공공데이터를 기반으로한 추천 직무들을 확인해보세요!';
+    }
+    if (id && !isProfile) {
+      return '프로필을 작성하여 공공데이터를 기반으로한 추천 직무들을 확인해보세요!';
+    }
+  };
 
   return (
     <PageComponentLayout>
       <FlexBox direction="column">
         <TitleSection
-          title={`${jobRanks?.disability ?? '지체장애'} 취업 직무순위`}
+          title={`${jobRanks?.disability ?? ''} 취업 직무순위`}
           logo={<Logo />}
+          description={description()}
         />
         {!id && (
-          <div>
-            로그인 후 프로필을 작성하여 공공데이터를 기반으로한 추천 직무들을
-            확인해보세요!
-          </div>
+          <Button variant="default" onClick={() => router.push('/signin')}>
+            로그인 하기
+          </Button>
         )}
         {id && !isProfile && (
-          <div>
-            프로필을 작성하여 공공데이터를 기반으로한 추천 직무들을
-            확인해보세요!
-          </div>
+          <Button variant="default" onClick={() => router.push('/profileForm')}>
+            프로필 작성 하기
+          </Button>
         )}
         {isJobRanksQuerySuccess &&
           (jobRanks?.infos.length === 0 ? (
