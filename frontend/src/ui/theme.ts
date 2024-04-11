@@ -16,11 +16,11 @@ interface Gray {
 }
 
 interface FontSize {
-  xl: string;
-  lg: string;
-  md: string;
-  sm: string;
-  xs: string;
+  xl: '50px';
+  lg: '32px';
+  md: '22px';
+  sm: '16px';
+  xs: '14px';
 }
 
 interface FontWeight {
@@ -93,7 +93,7 @@ const theme = {
     tablet: 999,
     mobile: 450,
   },
-};
+} as const;
 
 export const device = (device: Breakpoints) =>
   `@media (max-width: ${theme.breakpoints[device]}px)`;

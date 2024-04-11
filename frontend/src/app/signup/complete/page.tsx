@@ -33,7 +33,7 @@ function CompletePage() {
         </Typography>
         <Button
           onClick={() => {
-            router.push('/profileForm');
+            router.replace('/profileForm');
           }}
           variant="default"
           color={theme.colors.primary.main}

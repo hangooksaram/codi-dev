@@ -26,35 +26,50 @@ import { SignUpBody } from '@/types/api/sign';
 
 import Label from '@/ui/atoms/Label';
 import { setIsLoggedIn } from '@/features/auth/authSlice';
-import useForm from '@/hooks/useNewForm/useForm';
 import Markdown from 'react-markdown';
 import { privateData, useTerm } from '@/components/Terms/terms';
 import TermsChecker from '@/components/Terms/TermsChecker';
 import LabelBox from '@/ui/molecules/LabelBox';
+import useForm, { FormPropertyType, FormType } from '@/hooks/useForm/useForm';
 
-const signUpFormValues = {
-  birth: '',
-  email: '',
-  id: '',
-  gender: '선택안함',
-  name: '',
-  password: '',
-};
+interface SignUpFormValuesType extends FormType {
+  birth: FormPropertyType<string>;
+  email: FormPropertyType<string>;
+  id: FormPropertyType<string>;
+  gender: FormPropertyType<string>;
+  name: FormPropertyType<string>;
+  password: FormPropertyType<string>;
+}
 
-const signUpFormValidation = {
+const initialFormValues: SignUpFormValuesType = {
   id: {
-    required: true,
-    regex: /^(?=.*[a-zA-Z0-9])[a-zA-Z0-9]{4,12}$/,
+    validCondition: {
+      required: true,
+      regex: /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{4,12}$/,
+    },
+  },
+  birth: {
+    validCondition: {
+      required: true,
+    },
   },
   email: {
-    required: true,
+    validCondition: { required: true },
   },
   password: {
-    required: true,
-    regex: /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/,
+    validCondition: {
+      required: true,
+      regex: /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/,
+    },
   },
   name: {
-    required: true,
+    validCondition: {
+      required: true,
+    },
+  },
+  gender: {
+    validCondition: {},
+    initialValue: '선택안함',
   },
 };
 
@@ -76,11 +91,10 @@ function SignUpPage() {
 
   const {
     form,
-    setForm,
     handleFormValueChange,
     validateAllFormValues,
     convertToFormData,
-  } = useForm(signUpFormValues, signUpFormValidation);
+  } = useForm(initialFormValues);
 
   const [isIdDuplicated, setIsIdDuplicated] = useState<Boolean | undefined>(
     undefined,
@@ -114,7 +128,7 @@ function SignUpPage() {
     }
 
     if (isFormValid) {
-      const formData = convertToFormData();
+      const formData = convertToFormData<SignUpBody>();
 
       const { status, errorMessage } = await signUp({
         ...formData,
@@ -137,15 +151,7 @@ function SignUpPage() {
   };
 
   useEffect(() => {
-    setForm((prevForm) => {
-      return {
-        ...prevForm,
-        gender: {
-          ...form.gender,
-          value: gender.key,
-        },
-      };
-    });
+    handleFormValueChange({ name: 'gender', value: gender.key });
   }, [gender]);
 
   useEffect(() => {
@@ -153,15 +159,7 @@ function SignUpPage() {
     const stringifiedBirth = `${year}/${month < 10 ? '0' : ''}${month}/${
       day < 10 ? '0' : ''
     }${day}`;
-    setForm((prevForm) => {
-      return {
-        ...prevForm,
-        birth: {
-          ...form.birth,
-          value: stringifiedBirth,
-        },
-      };
-    });
+    handleFormValueChange({ name: 'birth', value: stringifiedBirth });
   }, [birth]);
 
   return (
@@ -191,7 +189,10 @@ function SignUpPage() {
                     name="id"
                     onChange={handleFormValueChange}
                     value={form.id.value}
-                    invalid={form.id.isValid === 'invalid'}
+                    invalid={
+                      form.id.isValid === 'invalid' ||
+                      (form.id.isValid === 'valid' && isIdDuplicated === true)
+                    }
                     outline
                   />
                 </IconInputContainer>

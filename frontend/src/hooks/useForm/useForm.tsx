@@ -4,14 +4,14 @@ import { getFormattedFormValues } from './utils';
 import useInitializeForm from './useInitializeForm';
 import useValidateForm from './useValidateForm';
 
-const useNewForm = (initialFormValues: FormType, serverData?: object) => {
+const useForm = (initialFormValues: FormType, serverData?: object) => {
   const [form, setForm] = useState<FormType>(
     getFormattedFormValues(initialFormValues),
   );
   const [isSubmitted, setIsSubmitted] = useState(false);
   useInitializeForm(form, setForm, serverData);
 
-  const convertToFormData = () => {
+  const convertToFormData = <T,>() => {
     const formValues = { ...form };
     const formData = {};
     Object.keys(formValues).forEach((key) => {
@@ -22,7 +22,7 @@ const useNewForm = (initialFormValues: FormType, serverData?: object) => {
       });
     });
 
-    return formData;
+    return formData as T;
   };
 
   /** input 태그 를 사용하지 않을 시, 타입 지정 필요 */
@@ -71,4 +71,4 @@ export interface FormType {
   [key: string]: FormPropertyType<any>;
 }
 
-export default useNewForm;
+export default useForm;

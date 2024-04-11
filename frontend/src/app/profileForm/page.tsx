@@ -14,8 +14,6 @@ import Button from '@/ui/atoms/Button';
 import Dropdown from '@/ui/atoms/Dropdown';
 import FlexBox from '@/ui/atoms/FlexBox';
 import Textarea from '@/ui/atoms/Textarea';
-import { searchUniv } from '@/api/signApi';
-import useForm from '@/hooks/useForm';
 import useUploadFile from '@/hooks/useUploadFile';
 import {
   DISABILITIES,
@@ -33,10 +31,7 @@ import { selectUser, setUser } from '@/features/user/userSlice';
 import { RegisterProfileResponse } from '@/types/api/profile';
 import Label from '@/ui/atoms/Label';
 import useGetProfileQuery from '@/queries/profileQuery';
-import useNewForm, {
-  FormType,
-  FormPropertyType,
-} from '@/hooks/useNewForm/useNewForm';
+import useForm, { FormType, FormPropertyType } from '@/hooks/useForm/useForm';
 import LabelBox from '@/ui/molecules/LabelBox';
 import SinglePageLayout from '@/components/Layout/SinglePageLayout';
 
@@ -102,7 +97,7 @@ function ProfileFormPage() {
     handleFormValueChange,
     validateAllFormValues,
     convertToFormData,
-  } = useNewForm(initialFormValues, data!);
+  } = useForm(initialFormValues, data!);
 
   const { file, onUploadFile } = useUploadFile();
   const [bigEducationCategory, setBigEducationCategory] = useState('');

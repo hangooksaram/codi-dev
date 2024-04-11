@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { SetState } from '@/index';
-import { FormType } from './useNewForm';
+import { FormType } from './useForm';
 
 const useInitializeForm = (
   form: FormType,

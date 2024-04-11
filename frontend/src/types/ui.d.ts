@@ -1,5 +1,5 @@
 import { StaticImageData } from 'next/image';
-import { ComponentProps, ReactNode } from 'react';
+import { ComponentProps, HTMLInputTypeAttribute, InputHTMLAttributes, ReactNode } from 'react';
 import { SetState } from '..';
 
 export type gray = {
@@ -38,7 +38,7 @@ export type ThemeColors =
 export type ThemeFontSize = 'xl' | 'lg' | 'md' | 'sm' | 'xs';
 export type ThemeFontWeight = 'black' | 'extraBold' | 'bold' | 'regular';
 
-export interface Input {
+export interface InputProps {
   width?: string;
   outline?: boolean;
   invalid?: boolean | undefined;
@@ -69,7 +69,7 @@ export interface Card {
   padding?: string;
 }
 
-export interface Typography {
+export interface TypographyProps {
   variant: 'div' | 'span' | 'h1' | 'h2' | 'h3' | 'label';
   size?: string;
   weight?: number;

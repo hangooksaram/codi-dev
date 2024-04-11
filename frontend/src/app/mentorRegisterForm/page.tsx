@@ -25,10 +25,7 @@ import JobSelector from '@/components/Job/JobSelector/JobSelector';
 
 import { handleApiCallback } from '@/utils/api';
 import { CAREERS } from '@/constants';
-import useNewForm, {
-  FormPropertyType,
-  FormType,
-} from '@/hooks/useNewForm/useNewForm';
+import useForm, { FormPropertyType, FormType } from '@/hooks/useForm/useForm';
 import { useGetMentorQuery } from '@/queries/mentorQuery';
 import LabelBox from '@/ui/molecules/LabelBox';
 import SinglePageLayout from '@/components/Layout/SinglePageLayout';
@@ -99,7 +96,7 @@ function MentorRegisterForm() {
     handleFormValueChange,
     validateAllFormValues,
     convertToFormData,
-  } = useNewForm(initialFormValues, isEdit ? data : undefined);
+  } = useForm(initialFormValues, isEdit ? data : undefined);
 
   const processData = () => {
     form.mentoringCategories.value = MENTOR_CATEGORIES.filter((category) =>
