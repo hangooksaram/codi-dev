@@ -8,10 +8,7 @@ import FlexBox from '@/ui/atoms/FlexBox';
 import Container from '@/ui/atoms/Container';
 import Typography from '@/ui/atoms/Typography';
 import theme from '@/ui/theme';
-import useNewForm, {
-  FormPropertyType,
-  FormType,
-} from '@/hooks/useNewForm/useNewForm';
+import useForm, { FormPropertyType, FormType } from '@/hooks/useForm/useForm';
 import {
   AccountImageComponent,
   AccountFormContainer,
@@ -38,7 +35,7 @@ function FindPwPage() {
   };
 
   const { form, handleFormValueChange, validateAllFormValues } =
-    useNewForm(initialFormValues);
+    useForm(initialFormValues);
   const postFindPw = async () => {
     const { data, status } = await findPassword(
       form.email.value,

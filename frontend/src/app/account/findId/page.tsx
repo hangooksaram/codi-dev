@@ -9,10 +9,7 @@ import Input from '@/ui/atoms/Input';
 import StyledLink from '@/ui/atoms/Link';
 import Typography from '@/ui/atoms/Typography';
 import theme, { device } from '@/ui/theme';
-import useNewForm, {
-  FormPropertyType,
-  FormType,
-} from '@/hooks/useNewForm/useNewForm';
+import useForm, { FormPropertyType, FormType } from '@/hooks/useForm/useForm';
 import {
   AccountImageComponent,
   AccountFormContainer,
@@ -36,7 +33,7 @@ function FindIdPage() {
   };
 
   const { form, handleFormValueChange, validateAllFormValues } =
-    useNewForm(initialFormValues);
+    useForm(initialFormValues);
 
   const postFindId = async () => {
     const { status } = await findId(form.email.value!);

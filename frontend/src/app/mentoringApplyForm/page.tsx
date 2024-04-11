@@ -2,7 +2,6 @@
 
 import { FormEventHandler, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useSelector } from 'react-redux';
 import CalendarContainer from '@/components/Container/CalendarContainer';
 import FlexBox from '@/ui/atoms/FlexBox';
 import LabelBox from '@/ui/molecules/LabelBox';
@@ -13,29 +12,45 @@ import useDailySchedulesQuery, {
 import { formattedDate, formattedMonth } from '@/utils/dateFormat';
 import Button from '@/ui/atoms/Button';
 import Textarea from '@/ui/atoms/Textarea';
-import ContainerWithBackground from '@/ui/molecules/Container/ContainerWithBackground';
 import Typography from '@/ui/atoms/Typography';
-import useForm from '@/hooks/useForm';
+import useForm, { FormType, FormPropertyType } from '@/hooks/useForm/useForm';
 import ChipButton from '@/ui/atoms/ChipButton';
-import { selectUser } from '@/features/user/userSlice';
 import { useApplyMentoringMutation } from '@/queries/mentoring/menteeMentoringQuery';
-import { ApplyMentoringBody } from '@/types/api/mentoring';
 import Label from '@/ui/atoms/Label';
-import ConfirmModal from '@/ui/molecules/Modal/ConfirmModal';
 import { useDispatch } from 'react-redux';
 import { setCurrentModal, setModalState } from '@/features/modal/modalSlice';
-import { createPortal } from 'react-dom';
 import SinglePageLayout from '@/components/Layout/SinglePageLayout';
 import Card from '@/ui/atoms/Card';
+import { ApplyMentoringBody } from '@/types/api/mentoring';
 
-const initialForm: ApplyMentoringBody = {
-  date: '',
-  time: '',
-  applicationReason: '',
+export interface ApplyMentoringFormDataType extends FormType {
+  applicationReason: FormPropertyType<string>;
+  date: FormPropertyType<string>;
+  time: FormPropertyType<string>;
+}
+
+const initialFormValues: ApplyMentoringFormDataType = {
+  applicationReason: {
+    validCondition: {
+      required: true,
+      minLength: 50,
+    },
+  },
+  date: {
+    validCondition: {
+      required: true,
+    },
+  },
+  time: {
+    validCondition: {
+      required: true,
+    },
+  },
 };
 
 function MentoringApplyFormPage() {
-  const { setForm, form } = useForm<ApplyMentoringBody>(initialForm);
+  const { form, handleFormValueChange, convertToFormData } =
+    useForm(initialFormValues);
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [month, setMonth] = useState<string>();
   const param = useSearchParams();
@@ -67,12 +82,13 @@ function MentoringApplyFormPage() {
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    mutation.mutate(form!);
+    const formValues = convertToFormData<ApplyMentoringBody>();
+    mutation.mutate(formValues!);
   };
 
   useEffect(() => {
     if (date) {
-      setForm({ ...form, date: formattedDate(date) });
+      handleFormValueChange({ name: 'date', value: formattedDate(date) });
     }
   }, [date]);
 
@@ -121,13 +137,15 @@ function MentoringApplyFormPage() {
                     return (
                       <ChipButton
                         type="button"
-                        onClick={() => setForm({ ...form, time })}
+                        onClick={() =>
+                          handleFormValueChange({ name: 'time', value: time })
+                        }
                         variant="default"
                         size="small"
                         color={
                           scheduled
                             ? theme.colors.white
-                            : time === form.time
+                            : time === form.time.value
                               ? theme.colors.primary.main
                               : theme.colors.background
                         }
@@ -152,15 +170,16 @@ function MentoringApplyFormPage() {
             <Textarea
               id="applicationReason"
               minLength={50}
-              value={form.applicationReason}
-              onChange={(e) =>
-                setForm({ ...form, applicationReason: e.target.value })
-              }
+              value={form.applicationReason.value}
+              name="applicationReason"
+              onChange={handleFormValueChange}
             />
           </LabelBox>
           <Button
             disabled={
-              form.applicationReason.length < 50 || !form.date || !form.time
+              form.applicationReason.value?.length < 50 ||
+              !form.date.value ||
+              !form.time.value
             }
             type="submit"
             variant="square"

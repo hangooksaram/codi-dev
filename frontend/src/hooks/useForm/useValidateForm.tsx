@@ -1,5 +1,5 @@
 import { SetState } from '@/index';
-import { FormPropertyType, FormType } from './useNewForm';
+import { FormPropertyType, FormType } from './useForm';
 import { ValidType, ValidateConditions, invalid } from '@/utils/validate';
 
 const useValidateForm = (

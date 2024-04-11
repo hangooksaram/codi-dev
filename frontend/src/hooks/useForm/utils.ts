@@ -1,5 +1,5 @@
 import { FormValidationType, FormValueType } from './useForm';
-import { FormType } from './useNewForm';
+import { FormType } from './useForm';
 
 export const getFormattedFormValues = (initialFormValues: FormType) => {
   const form = { ...initialFormValues };
