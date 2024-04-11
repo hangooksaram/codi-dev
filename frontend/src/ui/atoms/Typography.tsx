@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import theme from '../theme';
-import { Typography } from '../../types/ui';
+import { TypographyProps } from '../../types/ui';
 
 function Typography({
   variant,
@@ -11,7 +11,7 @@ function Typography({
   children,
   wordBreak,
   ...rest
-}: Typography) {
+}: TypographyProps) {
   const StyledTypography = styled
     .div(() => ({
       minWidth: 'fit-content',
