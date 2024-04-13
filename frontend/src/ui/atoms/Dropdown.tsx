@@ -2,7 +2,7 @@ import { ReactNode, RefObject, forwardRef } from 'react';
 import styled from '@emotion/styled';
 import OpenDropdown from '@icons/common/expand-open.svg';
 import theme, { device } from '@/ui/theme';
-import { Dropdown } from '@/types/ui';
+import { DropdownProps } from '@/types/ui';
 import Button from './Button';
 import { useDropdown } from '@/hooks/dropdown/useDropdown';
 import useClickOutOfInput from '@/hooks/dropdown/useClickOutOfInput';
@@ -20,7 +20,7 @@ function Dropdown({
   setSelectedCategory,
   isReset,
   ...rest
-}: Dropdown) {
+}: DropdownProps) {
   const { open, setOpen, ref, setCategory, setDropdownContentPosition } =
     useDropdown(selectedCategory, setSelectedCategory, id);
 
