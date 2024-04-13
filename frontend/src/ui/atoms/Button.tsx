@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { ReactNode } from 'react';
 import theme, { device } from '../theme';
-import { Button, ThemeFontSize } from '../../types/ui';
+import { ButtonVariant, ThemeFontSize } from '../../types/ui';
 
 const Button = styled.button(
   ({
@@ -15,7 +15,7 @@ const Button = styled.button(
     hoverDisabled,
     ...rest
   }: {
-    variant: Button;
+    variant: ButtonVariant;
     width?: string;
     color?: string;
     size?: string;
@@ -58,7 +58,7 @@ const Button = styled.button(
   }),
 );
 
-const borderRadius = (variant: Button) => {
+const borderRadius = (variant: ButtonVariant) => {
   switch (variant) {
     case 'default':
       return '100px';
@@ -69,7 +69,7 @@ const borderRadius = (variant: Button) => {
   }
 };
 
-const height = (variant: Button, width?: string, size?: string) => {
+const height = (variant: ButtonVariant, width?: string, size?: string) => {
   if (size === 'small') {
     return '39px';
   }

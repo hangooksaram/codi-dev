@@ -1,5 +1,11 @@
 import Search from '@icons/common/search.svg';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+} from 'react';
 import Dropdown from '@/ui/atoms/Dropdown';
 import IconInputContainer from '@/ui/molecules/Input/IconInput';
 import FlexBox from '@/ui/atoms/FlexBox';
@@ -89,7 +95,9 @@ function MentorSearch({
             <Input
               id="search-mentor"
               value={query.keyword}
-              onChange={(e) => setQuery({ ...query, keyword: e.target.value })}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setQuery({ ...query, keyword: e.target.value })
+              }
               outline
             />
           </IconInputContainer>

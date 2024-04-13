@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { FlexBox } from '../../types/ui';
+import { FlexBoxProps } from '../../types/ui';
 
 const FlexBox = styled.div(
   ({
@@ -12,7 +12,7 @@ const FlexBox = styled.div(
     children,
     isWrap,
     ...rest
-  }: FlexBox) => ({
+  }: FlexBoxProps) => ({
     display: 'flex',
     width: width ?? '100%',
     flexDirection: direction ?? 'row',

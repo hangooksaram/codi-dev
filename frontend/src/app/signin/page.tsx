@@ -3,7 +3,7 @@
 import PrimaryLogo from '@icons/logo/logo-primary.svg';
 import SecondaryLogo from '@icons/logo/logo-secondary.svg';
 import Link from 'next/link';
-import { useRef, useState } from 'react';
+import { ChangeEvent, ChangeEventHandler, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import styled from '@emotion/styled';
 import Image from 'next/image';
@@ -73,13 +73,13 @@ function SignInPage() {
             {...{ margin: '40px 0px 32px 0px' }}
           >
             <SignInInput
-              onChange={(e) =>
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 setLoginInfo({ ...loginInfo, id: e.target.value })
               }
               placeholder="아이디를 입력해주세요"
             />
             <SignInInput
-              onChange={(e) =>
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 setLoginInfo({ ...loginInfo, password: e.target.value })
               }
               type="password"
