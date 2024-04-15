@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { updatePassword as patchUpdatePassword } from '@/api/accountApi';
 import { selectUser } from '@/features/user/userSlice';
@@ -63,7 +63,7 @@ function UpdateMyInfoPage() {
           <LabelBox text="현재 비밀번호">
             <Input
               value={passwordInfo.oldPassword as string}
-              onChange={(e) =>
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 setPasswordInfo({
                   ...passwordInfo,
                   oldPassword: e.target.value!,
@@ -74,7 +74,7 @@ function UpdateMyInfoPage() {
           <LabelBox text="새로운 비밀번호">
             <Input
               value={passwordInfo.newPassword as string}
-              onChange={(e) =>
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 setPasswordInfo({
                   ...passwordInfo,
                   newPassword: e.target.value!,
