@@ -44,14 +44,14 @@ export interface InputProps {
   invalid?: boolean | undefined;
 }
 
-export interface Textarea {
+export interface TextareaProps {
   width?: string;
   outline?: boolean;
   invalid?: boolean | undefined;
 }
 
-export type Button = 'default' | 'square' | 'round' | undefined;
-export interface FlexBox {
+export type ButtonVariant = 'default' | 'square' | 'round' | undefined;
+export interface FlexBoxProps {
   width?: string;
   direction?: 'row' | 'column';
   justifyContent?: 'center' | 'flex-start' | 'flex-end' | 'space-between';
@@ -62,7 +62,7 @@ export interface FlexBox {
   isWrap?: boolean | undefined;
 }
 
-export interface Card {
+export interface CardProps {
   width?: string;
   height?: string;
   color?: string;
@@ -80,7 +80,7 @@ export interface TypographyProps {
   children: string | number;
 }
 
-export interface Dropdown {
+export interface DropdownProps {
   id?: string;
   width?: string;
   title?: string;

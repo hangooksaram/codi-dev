@@ -32,7 +32,7 @@ export interface Mentor extends MenteeProfile {
   futureScheduleCount?:number;
 }
 
-export interface ProfileCard extends Mentor {
+export interface ProfileCardProps extends Mentor {
   width?: string;
   height?: string;
   mentorId?: number;
