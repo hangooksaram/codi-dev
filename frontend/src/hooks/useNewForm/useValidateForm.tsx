@@ -31,6 +31,7 @@ const useValidateForm = <T extends { [key: string]: any }>(
       return copied;
     });
   };
+
   return { validate, validateAll, errors, isInvalid };
 };
 

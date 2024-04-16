@@ -52,7 +52,6 @@ const useNewForm = <T extends { [key: string]: any }>(
     validateAll,
     isInvalid,
   };
-
 };
 
 export default useNewForm;

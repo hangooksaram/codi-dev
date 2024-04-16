@@ -36,7 +36,7 @@ import LabelBox from '@/ui/molecules/LabelBox';
 import SinglePageLayout from '@/components/Layout/SinglePageLayout';
 import useNewForm from '@/hooks/useNewForm/useNewForm';
 import { ValidateSchema } from '@/types/validate';
-
+//test
 function ProfileFormPage() {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -97,7 +97,7 @@ function ProfileFormPage() {
       },
     },
   };
-  console.log(data);
+
   const { form, handleFormValueChange, errors, validateAll, isInvalid } =
     useNewForm(initFormValues, validationSchema, data!);
 
