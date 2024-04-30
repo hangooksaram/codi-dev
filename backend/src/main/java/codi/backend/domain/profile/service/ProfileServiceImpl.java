@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class ProfileServiceImpl implements ProfileService {
-    private static final String DEFAULT_IMAGE_URL = "https://codi-image-bucket.s3.ap-northeast-2.amazonaws.com/profile/codi-profile-image.jpg";
+    private static final String DEFAULT_IMAGE_URL = "https://codi-image-bucket.s3.ap-northeast-2.amazonaws.com/profile/codi-profile-image.png";
     private final ProfileRepository profileRepository;
     private final MemberService memberService;
     private final S3Service s3Service;
