@@ -1,0 +1,40 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  height: 100vh;
+  max-height: 100vh;
+  overflow-x: hidden;
+  font-size: 18px;
+}
+
+input:focus {
+  outline: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.calendar-today {
+  border-radius: 50px;
+  background: #ecf1f6 !important;
+}
+
+.calendar-selected {
+  border-radius: 50px;
+  background: #334259 !important;
+  color: white;
+}
+
+.mentor-calendar-selected {
+  border-radius: 50px;
+  background: #4c9df8 !important;
+  color: white;
+}
