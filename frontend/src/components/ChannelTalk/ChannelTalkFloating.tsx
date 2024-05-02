@@ -12,7 +12,7 @@ const ChannelTalkFloating = () => {
       hoverDisabled
       id="channelTalk"
     >
-      문의하기
+      의견 보내기
     </S>
   );
 };
