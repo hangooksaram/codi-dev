@@ -1,51 +1,48 @@
-import { SetState } from '@/index';
-import { FormPropertyType, FormType } from './useNewForm';
-import { ValidType, ValidateConditions, invalid } from '@/utils/validate';
+import { useEffect } from 'react';
+import useFormErrors from './useFormErrors';
+import { invalid } from './validate';
+import { ValidateSchema, ValidateSchemaValue } from '@/types/validate';
 
-const useValidateForm = (
-  form: FormType,
-  setForm: SetState<FormType>,
-  setIsSubmitted: SetState<boolean>,
+const useValidateForm = <T extends { [key: string]: any }>(
+  form: T,
+  validateSchema: ValidateSchema,
 ) => {
-  const validateFormValue = <T,>(
-    formName: keyof typeof form,
-    formValue: FormPropertyType<T>,
-  ) => {
-    const isValid = setIsValid(formValue.value!, formValue.validCondition);
-    setForm((prevForm) => {
-      return {
-        ...prevForm,
-        [formName]: {
-          ...form[formName],
-          isValid,
-        } as FormPropertyType<T>,
-      };
+  const copied = { ...validateSchema };
+  const { errors, setErrors, isInvalid } = useFormErrors(form);
+  const validateAll = () => {
+    const results: boolean[] = [];
+    Object.keys(copied).forEach((k: string) => {
+      const result = validate(k, form[k]);
+      results.push(result);
     });
 
-    return isValid;
+    if (results.some((r) => !r)) {
+      return false;
+    }
+
+    return true;
   };
 
-  const validateAllFormValues = () => {
-    const isValid: ValidType[] = [];
-    Object.entries(form).forEach((item) => {
-      const [formName, formValue] = item;
-      isValid.push(
-        validateFormValue<typeof formValue.value>(
-          formName as keyof typeof form,
-          formValue,
-        ),
-      );
+  const validate = (k: string, value: any) => {
+    const schema = validateSchema[k];
+    const errorMessage = invalid(value, schema as ValidateSchemaValue);
+
+    if (errorMessage) {
+      setErrors((prev) => ({ ...prev!, [k as string]: errorMessage! }));
+
+      return false;
+    }
+
+    setErrors((prev) => {
+      const copied = { ...prev };
+      delete copied[k];
+      return copied;
     });
-    setIsSubmitted(true);
 
-    return !isValid.includes('invalid');
+    return true;
   };
 
-  const setIsValid = <T,>(value: T, validCondition: ValidateConditions) => {
-    return invalid(value, validCondition) ? 'invalid' : 'valid';
-  };
-
-  return { validateAllFormValues, validateFormValue, setIsValid };
+  return { validate, validateAll, errors, isInvalid };
 };
 
 export default useValidateForm;

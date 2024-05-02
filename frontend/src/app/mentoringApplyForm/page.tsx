@@ -2,7 +2,6 @@
 
 import { FormEventHandler, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useSelector } from 'react-redux';
 import CalendarContainer from '@/components/Container/CalendarContainer';
 import FlexBox from '@/ui/atoms/FlexBox';
 import LabelBox from '@/ui/molecules/LabelBox';
@@ -13,29 +12,58 @@ import useDailySchedulesQuery, {
 import { formattedDate, formattedMonth } from '@/utils/dateFormat';
 import Button from '@/ui/atoms/Button';
 import Textarea from '@/ui/atoms/Textarea';
-import ContainerWithBackground from '@/ui/molecules/Container/ContainerWithBackground';
 import Typography from '@/ui/atoms/Typography';
-import useForm from '@/hooks/useForm';
 import ChipButton from '@/ui/atoms/ChipButton';
-import { selectUser } from '@/features/user/userSlice';
 import { useApplyMentoringMutation } from '@/queries/mentoring/menteeMentoringQuery';
-import { ApplyMentoringBody } from '@/types/api/mentoring';
 import Label from '@/ui/atoms/Label';
-import ConfirmModal from '@/ui/molecules/Modal/ConfirmModal';
 import { useDispatch } from 'react-redux';
 import { setCurrentModal, setModalState } from '@/features/modal/modalSlice';
-import { createPortal } from 'react-dom';
 import SinglePageLayout from '@/components/Layout/SinglePageLayout';
 import Card from '@/ui/atoms/Card';
-
-const initialForm: ApplyMentoringBody = {
-  date: '',
-  time: '',
-  applicationReason: '',
-};
+import { ApplyMentoringBody } from '@/types/api/mentoring';
+import { ValidateSchema } from '@/types/validate';
+import useNewForm from '@/hooks/useNewForm/useNewForm';
+import FormTextarea from '@/ui/molecules/Form/FormTextarea';
+import FormErrorContainer from '@/ui/molecules/Form/FormErrorContainer';
 
 function MentoringApplyFormPage() {
-  const { setForm, form } = useForm<ApplyMentoringBody>(initialForm);
+  const initialFormValues = {
+    applicationReason: '',
+    date: '',
+    time: '',
+  };
+
+  const validationSchema: ValidateSchema = {
+    applicationReason: {
+      required: {
+        message: '신청 사유를 입력해주세요.',
+      },
+      minLength: {
+        message: '50자 이상 입력해주세요.',
+        value: 50,
+      },
+    },
+    date: {
+      required: {
+        message: '일자를 입력해주세요.',
+      },
+    },
+    time: {
+      required: {
+        message: '시간을 입력해주세요.',
+      },
+    },
+  };
+
+  const {
+    form,
+    handleFormValueChange,
+    validateAll,
+    setIsFormSubmitted,
+    isInvalid,
+    errors,
+    isFormSubmitted,
+  } = useNewForm(initialFormValues, validationSchema);
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [month, setMonth] = useState<string>();
   const param = useSearchParams();
@@ -45,9 +73,10 @@ function MentoringApplyFormPage() {
     parseInt(param.get('mentorId')!),
     () => {
       dispatch(
-        setCurrentModal(
-          <ConfirmModal>멘토링 신청이 성공되었습니다.</ConfirmModal>,
-        ),
+        setCurrentModal({
+          type: 'confirm',
+          text: '멘토링 신청이 성공되었습니다.',
+        }),
       );
       dispatch(setModalState(true));
       router.push('/mentorsMain');
@@ -66,12 +95,26 @@ function MentoringApplyFormPage() {
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    mutation.mutate(form!);
+    const isValid = validateAll();
+    setIsFormSubmitted(true);
+
+    if (isValid) {
+      mutation.mutate(form!);
+      return;
+    }
+
+    dispatch(
+      setCurrentModal({
+        type: 'confirm',
+        text: '신청 날짜 와 시간 을 입력해주세요',
+      }),
+    );
+    dispatch(setModalState(true));
   };
 
   useEffect(() => {
     if (date) {
-      setForm({ ...form, date: formattedDate(date) });
+      handleFormValueChange({ name: 'date', value: formattedDate(date) });
     }
   }, [date]);
 
@@ -120,7 +163,9 @@ function MentoringApplyFormPage() {
                     return (
                       <ChipButton
                         type="button"
-                        onClick={() => setForm({ ...form, time })}
+                        onClick={() =>
+                          handleFormValueChange({ name: 'time', value: time })
+                        }
                         variant="default"
                         size="small"
                         color={
@@ -148,22 +193,17 @@ function MentoringApplyFormPage() {
               htmlFor="applicationReason"
               text="하고싶은 말 (최소 50 글자)"
             />
-            <Textarea
+            <FormTextarea
               id="applicationReason"
               minLength={50}
               value={form.applicationReason}
-              onChange={(e) =>
-                setForm({ ...form, applicationReason: e.target.value })
-              }
+              name="applicationReason"
+              onChange={handleFormValueChange}
+              invalid={isInvalid('applicationReason')}
+              errorMessage={errors?.applicationReason}
             />
           </LabelBox>
-          <Button
-            disabled={
-              form.applicationReason.length < 50 || !form.date || !form.time
-            }
-            type="submit"
-            variant="square"
-          >
+          <Button type="submit" variant="square">
             멘토링 신청하기
           </Button>
         </FlexBox>

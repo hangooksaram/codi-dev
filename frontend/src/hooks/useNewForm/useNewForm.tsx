@@ -1,31 +1,38 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import { ValidType, ValidateConditions, invalid } from '../../utils/validate';
-import { getFormattedFormValues } from './utils';
-import useInitializeForm from './useInitializeForm';
 import useValidateForm from './useValidateForm';
+import { ValidateSchema } from '@/types/validate';
 
-const useNewForm = (initialFormValues: FormType, serverData?: object) => {
-  const [form, setForm] = useState<FormType>(
-    getFormattedFormValues(initialFormValues),
+const useNewForm = <T extends { [key: string]: any }>(
+  initialValues: T,
+  validationSchema?: ValidateSchema,
+  serverData?: object,
+) => {
+  const [form, setForm] = useState(initialValues);
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+  const { errors, validateAll, validate, isInvalid } = useValidateForm(
+    form,
+    validationSchema!,
   );
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  useInitializeForm(form, setForm, serverData);
-
-  const convertToFormData = () => {
+  /** Form 초기화 */
+  const setFormFromServerData = (data: object) => {
     const formValues = { ...form };
-    const formData = {};
-    Object.keys(formValues).forEach((key) => {
-      const formValue = formValues[key];
-      Object.assign(formData, {
-        ...formData,
-        [key]: formValue.value,
-      });
+    Object.keys(data).forEach((key) => {
+      if (Object.hasOwn(form, key)) {
+        Object.assign(formValues, {
+          ...formValues,
+          [key]: data[key as keyof typeof data],
+        });
+      }
     });
-
-    return formData;
+    return formValues;
   };
+  useEffect(() => {
+    if (serverData) {
+      setForm(setFormFromServerData(serverData!));
+    }
+  }, [serverData]);
 
-  /** input 태그 를 사용하지 않을 시, 타입 지정 필요 */
+  /** form value handler */
   const handleFormValueChange = <T,>(
     e:
       | ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -34,41 +41,24 @@ const useNewForm = (initialFormValues: FormType, serverData?: object) => {
     const target = 'target' in e ? e.target : e;
     const { name, value } = target;
 
-    setForm((prevForm) => {
-      return {
-        ...prevForm,
-        [name]: {
-          ...form[name],
-          value,
-          isValid:
-            isSubmitted && setIsValid<T>(value as T, form[name].validCondition),
-        } as FormPropertyType<T>,
-      };
-    });
-  };
+    setForm((prev) => ({ ...prev, [name]: value }));
 
-  const { validateAllFormValues, validateFormValue, setIsValid } =
-    useValidateForm(form, setForm, setIsSubmitted);
+    if (isFormSubmitted) {
+      validate(name!, value);
+    }
+  };
 
   return {
     form,
+    setForm,
     handleFormValueChange,
-    validateAllFormValues,
-    validateFormValue,
-    setIsSubmitted,
-    convertToFormData,
+    errors,
+    validate,
+    validateAll,
+    isInvalid,
+    setIsFormSubmitted,
+    isFormSubmitted,
   };
 };
-
-export interface FormPropertyType<T> {
-  initialValue?: T;
-  value?: T;
-  validCondition: ValidateConditions;
-  isValid?: ValidType;
-}
-
-export interface FormType {
-  [key: string]: FormPropertyType<any>;
-}
 
 export default useNewForm;

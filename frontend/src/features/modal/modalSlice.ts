@@ -4,8 +4,12 @@ import type { RootState } from '../../store/store';
 
 const initialState = {
   open:false,
-  currentModal : null
+  currentModalType : null,
+  text: null,
+  isConfirmed : null,
+  isCanceled:null,
 };
+
 
 export const modalSlice = createSlice({
   name: 'user',
@@ -20,11 +24,10 @@ export const modalSlice = createSlice({
 
     setCurrentModal :(state,action)=> {
       const { payload } = action;
-      const newState = { ...state, currentModal:payload };
-      
-      return newState;
+      const newState = { ...state,  ...payload};
 
-    }
+      return newState;
+    },
   },
 });
 

@@ -8,8 +8,9 @@ import NotificationDropdown, {
 } from './NotificationDropdown';
 import Typography from '@/ui/atoms/Typography';
 import theme from '@/ui/theme';
-import { useMentoringApplies } from '@/queries/mentoring/mentorMentoringQuery';
+import { useGetMentoringAppliesQuery } from '@/queries/mentoring/mentorMentoringQuery';
 import { useRouter } from 'next/navigation';
+import useMentoringApplies from '@/hooks/mentorings/useMentoringApplies';
 
 interface Notification {
   userName: string;
@@ -17,27 +18,39 @@ interface Notification {
   date: string;
   profileId: number;
   mentoringId: number;
+  datePassed: boolean;
+  mentoringStatus: string;
 }
 
 function Notification() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
-  const { data, isSuccess } = useMentoringApplies();
+  const { applies } = useMentoringApplies();
   const router = useRouter();
 
   useEffect(() => {
-    if (data)
+    if (applies)
       setNotifications([
-        ...data!.data.map(({ menteeInfo, applicationDate, mentoringId }) => {
-          return {
-            profileId: menteeInfo.profileId,
-            userName: menteeInfo.name,
-            content: `께서 멘토링을 신청했습니다.`,
-            date: applicationDate,
+        ...applies.map(
+          ({
+            menteeInfo,
+            applicationDate,
             mentoringId,
-          };
-        }),
+            mentoringStatus,
+            datePassed,
+          }) => {
+            return {
+              profileId: menteeInfo.profileId,
+              userName: menteeInfo.name,
+              content: `께서 멘토링을 신청했습니다.`,
+              date: applicationDate,
+              mentoringId,
+              mentoringStatus: mentoringStatus!,
+              datePassed: datePassed!,
+            };
+          },
+        ),
       ]);
-  }, [data]);
+  }, [applies]);
 
   return (
     <StyledNotificationIcon id="notification-icon" tabIndex={1}>

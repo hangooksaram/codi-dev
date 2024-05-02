@@ -1,5 +1,5 @@
 import { StaticImageData } from 'next/image';
-import { ComponentProps, ReactNode } from 'react';
+import { ComponentProps, HTMLInputTypeAttribute, InputHTMLAttributes, ReactNode } from 'react';
 import { SetState } from '..';
 
 export type gray = {
@@ -38,20 +38,20 @@ export type ThemeColors =
 export type ThemeFontSize = 'xl' | 'lg' | 'md' | 'sm' | 'xs';
 export type ThemeFontWeight = 'black' | 'extraBold' | 'bold' | 'regular';
 
-export interface Input {
+export interface InputProps {
   width?: string;
   outline?: boolean;
   invalid?: boolean | undefined;
 }
 
-export interface Textarea {
+export interface TextareaProps {
   width?: string;
   outline?: boolean;
   invalid?: boolean | undefined;
 }
 
-export type Button = 'default' | 'square' | 'round' | undefined;
-export interface FlexBox {
+export type ButtonVariant = 'default' | 'square' | 'round' | undefined;
+export interface FlexBoxProps {
   width?: string;
   direction?: 'row' | 'column';
   justifyContent?: 'center' | 'flex-start' | 'flex-end' | 'space-between';
@@ -62,14 +62,14 @@ export interface FlexBox {
   isWrap?: boolean | undefined;
 }
 
-export interface Card {
+export interface CardProps {
   width?: string;
   height?: string;
   color?: string;
   padding?: string;
 }
 
-export interface Typography {
+export interface TypographyProps {
   variant: 'div' | 'span' | 'h1' | 'h2' | 'h3' | 'label';
   size?: string;
   weight?: number;
@@ -77,10 +77,10 @@ export interface Typography {
   align?: 'left' | 'right' | 'center';
   wordBreak?: 'keep-all' | 'initial' | 'break-all';
   lineHeight?:string;
-  children: string | number;
+  children: ReactNode;
 }
 
-export interface Dropdown {
+export interface DropdownProps {
   id?: string;
   width?: string;
   title?: string;

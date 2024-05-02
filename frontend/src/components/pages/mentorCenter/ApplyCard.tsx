@@ -41,9 +41,10 @@ function MentorCenterApplyCard({
   const onSuccess = (type: ResponseMentoringType) => {
     const modalMessage = type === 'accept' ? '수락' : '거절';
     dispatch(
-      setCurrentModal(
-        <ConfirmModal>멘토링을 {modalMessage}하였습니다.</ConfirmModal>,
-      ),
+      setCurrentModal({
+        type: 'confirm',
+        text: `멘토링을 ${modalMessage}하였습니다.`,
+      }),
     );
     dispatch(setModalState(true));
     setApplies((prev) => prev!.filter((p) => p.mentoringId !== mentoringId));

@@ -5,17 +5,16 @@ import ImageComponent from '@/ui/atoms/ImageComponent';
 
 export function BackgroundImage({
   image,
-  style,
   children,
+  ...rest
 }: {
   image: LocalImagePropsType;
-  style: CSSProperties;
   children: ReactNode;
 }) {
   const { width, height } = image;
 
   return (
-    <BackgroundImageContainer width={width} height={height} style={style}>
+    <BackgroundImageContainer width={width} height={height} {...rest}>
       <ImageComponent {...image} />
       <Content>{children}</Content>
     </BackgroundImageContainer>
@@ -23,10 +22,20 @@ export function BackgroundImage({
 }
 
 const BackgroundImageContainer = styled.div(
-  ({ width, height }: { width?: string; height?: string }) => ({
+  ({
+    width,
+    height,
+    children,
+    ...rest
+  }: {
+    width?: string;
+    height?: string;
+    children: ReactNode;
+  }) => ({
     position: 'relative',
     width,
     height,
+    ...rest,
   }),
 );
 

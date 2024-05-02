@@ -15,6 +15,9 @@ import { BackgroundImage } from '@/ui/molecules/Image/BackgroundImage';
 import Footer from '@/components/pages/main/Footer';
 import Container from '@/ui/atoms/Container';
 import styled from '@emotion/styled';
+import MobileAppBar from '@/components/NavBar/AppBar/MobileAppBar';
+
+/**deployment test .*/
 
 function MainLandingPage() {
   const router = useRouter();
@@ -22,6 +25,7 @@ function MainLandingPage() {
 
   return (
     <MainContainer width="100%">
+      <MobileAppBar />
       <FlexBox direction="column" rowGap="20px" justifyContent="flex-start">
         <BackgroundImage
           image={{
@@ -30,12 +34,18 @@ function MainLandingPage() {
             alt: '나와 같은 어려움을 겪고 있는 멘티의 멘토가 되어주세요.',
             src: landingBanner,
           }}
-          style={{
+          {...{
             display: 'flex',
             minHeight: '200px',
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
+
+            [device('mobile')]: {
+              img: {
+                display: 'none',
+              },
+            },
           }}
         >
           <FlexBox
@@ -76,7 +86,7 @@ function MainLandingPage() {
               {...{
                 marginBottom: '40px',
                 [device('tablet')]: {
-                  marginBottom: '0px',
+                  marginBottom: '10px',
                 },
               }}
             >

@@ -13,6 +13,8 @@ import {
   GetRecommendationMentorsParameters,
 } from '@/types/api/mentor';
 import { Mentor } from '@/types/profile';
+import { useSelector } from 'react-redux';
+import { selectUser } from '@/features/user/userSlice';
 
 export const GET_MENTORS_KEY = ['mentors'];
 export const GET_RECOMMENDATION_MENTORS_KEY = ['mentors/recommendation'];
@@ -66,12 +68,15 @@ export const useGetRecommendationMentorsQuery = (
   );
 
 export const useGetFavoriteMentorsQuery = () => {
+  const {id} =useSelector(selectUser);
   const { data, isSuccess } = useQuery<Mentor[]>(
     GET_FAVORITE_MENTORS_KEY,
     () => getFavoriteMentors(),
     {
       staleTime: STALE_TIME.OFTEN,
+      enabled:id !== undefined
     },
+    
   );
   const favoriteIds = data?.map(({ mentorId }) => mentorId!);
 
@@ -84,6 +89,7 @@ export const useGetMentorQuery = (mentorId?: number) => {
     () => getMentor(mentorId),
     {
       staleTime: STALE_TIME.VERY_OFTEN,
+      retry : 1
     },
   );
 

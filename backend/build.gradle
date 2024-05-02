@@ -1,0 +1,95 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.12'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10'
+}
+
+group = 'codi'
+version = '0.0.1-SNAPSHOT-' + new Date().format("yyyyMMdd-HH")
+
+java {
+	sourceCompatibility = '11'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	// jwt
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+	runtimeOnly	'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+	// querydsl
+	implementation 'com.querydsl:querydsl-jpa:5.0.0'
+	annotationProcessor 'com.querydsl:querydsl-apt:5.0.0'
+
+	// email
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+	// mysql
+	implementation 'mysql:mysql-connector-java:8.0.32'
+
+	// h2
+	runtimeOnly 'com.h2database:h2'
+
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
+
+	// aws - 보안 취약점 이슈로 버전 변경
+	implementation 'com.amazonaws:aws-java-sdk-s3:1.12.13'
+
+	runtimeOnly 'com.mysql:mysql-connector-j'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	// Swagger 3.0
+	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0'
+	implementation 'com.fasterxml:classmate:1.5.1'
+
+	// csv
+	implementation 'com.opencsv:opencsv:5.5.2'
+
+	// spring actuator
+//	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+// querydsl
+//def querydslSrcDir = 'src/main/generated'
+def querydslSrcDir = '$buildDir/generated/querydsl'
+
+querydsl {
+	jpa = true
+	querydslSourcesDir = querydslSrcDir
+}
+
+sourceSets {
+	main.java.srcDir querydslSrcDir
+}
+
+configurations {
+	querydsl.extendsFrom compileClasspath
+}
+
+compileQuerydsl {
+	options.annotationProcessorPath = configurations.querydsl
+}

@@ -2,6 +2,7 @@ import Home from '@icons/mobile/appbar/home.svg';
 import MentorPage from '@icons/mobile/appbar/mentor-page.svg';
 import MenteeCenter from '@icons/mobile/appbar/mentee-center.svg';
 import MyInfo from '@icons/mobile/appbar/my-info.svg';
+import { RedirectRoutes } from './types/redirect';
 
 export const HOMEPAGE_URL =
   'http://codi-frontend.s3-website-ap-northeast-1.amazonaws.com/';
@@ -28,36 +29,43 @@ export const SEVERITIES = ['중증', '경증'];
 
 export const CATEGORIZED_JOBS = [
   {
-    category: '생산직',
+    category: '사무・행정',
     jobs: [
-      '건설/채굴직',
-      '금속/재료 설치/정비/생산직(판금/단조/주조/용접/도장 등)',
-      '기계 설치/정비/생산직',
-      '섬유/의복 생산직',
-      '식품 가공/생산직',
-      '인쇄/목재/공예 및 기타 설치/정비/생산직',
-      '전기/전자 설치/정비/생산직',
-      '제조 단순직',
-      '화학/한경 설치/정비/생산직',
+      '경영・기획',
+      '영업・제휴',
+      '서비스・고객지원',
+      '인사・총무',
+      '마케팅・광고',
+      '금융',
+      '공공・복지'
     ],
   },
 
   {
-    category: '사무직',
-    jobs: ['경영/행정/사무직', '금융/보험직', '관리직(임원/부서장)', '법률직'],
+    category: '기술・연구',
+    jobs: [
+      'IT개발・데이터',
+      '엔지니어링・연구・R&D',
+      '의료・바이오・제약'
+    ],
   },
   {
-    category: '연구기술직',
-    jobs: [''],
+    category: '건설・생산・운송',
+    jobs: ['건설・건축,',
+      '생산・제조',
+      '운전・운송',
+      '유통・무역',
+      '농림・어업직'],
   },
   {
-    category: '서비스직',
-    jobs: [''],
+    category: '문화・디자인・전문직',
+    jobs: ['미디어・문화・스포츠',
+      '디자인',
+      '법률・법무',
+      '전문・특수',
+      '교육']
   },
-  {
-    category: '기타',
-    jobs: [''],
-  },
+
 ];
 
 export const JOBS = [
@@ -100,7 +108,7 @@ export const DATE = {
   YEARS: [
     1970, 1971, 1972, 1973, 1974, 1975, 1976, 1977, 1978, 1979, 1980, 1981,
     1982, 1983, 1984, 1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993,
-    1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003,
+    1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005
   ],
   MONTHS: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
   DAYS: [
@@ -150,6 +158,7 @@ export const SCHEDULE_TIME_TABLE = [
 export const EMPLOYMENT_STATUSES = [
   '학생',
   '취업 준비생',
+  '재직중',
   '이직 준비중',
   '표시하지 않음(멘티로 표시)',
 ];
@@ -157,6 +166,7 @@ export const EMPLOYMENT_STATUSES = [
 export const EMPLOYMENT_STATUSES_VALUE = new Map();
 EMPLOYMENT_STATUSES_VALUE.set('학생', 'STUDENT');
 EMPLOYMENT_STATUSES_VALUE.set('취업 준비생', 'JOBSEEKER');
+EMPLOYMENT_STATUSES_VALUE.set('재직중', 'EMPLOYED');
 EMPLOYMENT_STATUSES_VALUE.set('이직 준비중', 'PREPARINGCHANGEJOB');
 EMPLOYMENT_STATUSES_VALUE.set('표시하지 않음(멘티로 표시)', 'MENTEE');
 
@@ -175,7 +185,7 @@ export const APPBAR_NOT_SHOWING_PAGES = [
   '/account/findPw',
 ];
 
-export const MOBILE_APPBAR_LINKS = [
+export const MOBILE_NAVIGATIONS = [
   {
     icon: Home,
     text: '홈',
@@ -199,3 +209,42 @@ export const MOBILE_APPBAR_LINKS = [
 ];
 
 export const MAXIMUM_FILE_SIZE = 10 * 1024 * 1024;
+
+export const REDIRECT_ROUTES: RedirectRoutes[] = [
+  {
+    currentRoute: '/mentorRegisterForm',
+    redirectRoute: '/signin',
+    allowed: 'user',
+    message: '로그인이 필요해요. 로그인 페이지로 이동하시겠습니까?',
+  },
+  {
+    currentRoute: '/profileForm',
+    redirectRoute: '/signin',
+    allowed: 'user',
+    message: '로그인이 필요해요. 로그인 페이지로 이동하시겠습니까?',
+  },
+  {
+    currentRoute: '/mentoringApplyForm',
+    redirectRoute: '/signin',
+    allowed: 'user',
+    message: '로그인이 필요해요. 로그인 페이지로 이동하시겠습니까?',
+  },
+  {
+    currentRoute: '/mentorRegisterForm',
+    redirectRoute: '/profileForm',
+    allowed: 'profile',
+    message: '프로필 작성이 필요해요. 프로필 작성 페이지로 이동하시겠습니까?',
+  },
+  {
+    currentRoute: '/mentoringApplyForm',
+    redirectRoute: '/profileForm',
+    allowed: 'profile',
+    message: '프로필 작성이 필요해요. 프로필 작성 페이지로 이동하시겠습니까?',
+  },
+  {
+    currentRoute: '/menteeCenter',
+    redirectRoute: '/signin',
+    allowed: 'user',
+    message: '로그인이 필요해요. 로그인 페이지로 이동하시겠습니까?',
+  },
+];

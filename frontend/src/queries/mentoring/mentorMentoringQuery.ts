@@ -12,7 +12,7 @@ export const GET_MENTORING_APPLIES = ['mentoringApplies'];
 export const ACCEPT_MENTORING = ['acceptMentoring'];
 export const REJECT_MENTORING = ['rejectMentoring'];
 
-export const useMentoringApplies = () => {
+export const useGetMentoringAppliesQuery = () => {
   const { isMentor } = useSelector(selectUser);
 
   return useQuery<GetMentoringAppliesResponse>(

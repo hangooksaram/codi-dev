@@ -1,8 +1,8 @@
 import { ReactNode, RefObject, forwardRef } from 'react';
 import styled from '@emotion/styled';
 import OpenDropdown from '@icons/common/expand-open.svg';
-import theme from '@/ui/theme';
-import { Dropdown } from '@/types/ui';
+import theme, { device } from '@/ui/theme';
+import { DropdownProps } from '@/types/ui';
 import Button from './Button';
 import { useDropdown } from '@/hooks/dropdown/useDropdown';
 import useClickOutOfInput from '@/hooks/dropdown/useClickOutOfInput';
@@ -20,7 +20,7 @@ function Dropdown({
   setSelectedCategory,
   isReset,
   ...rest
-}: Dropdown) {
+}: DropdownProps) {
   const { open, setOpen, ref, setCategory, setDropdownContentPosition } =
     useDropdown(selectedCategory, setSelectedCategory, id);
 
@@ -51,11 +51,11 @@ function Dropdown({
           role="tab"
           hoverDisabled
         >
-          {selectedCategory || title}
+          <Truncate>{selectedCategory || title}</Truncate>
+
           <OpenDropdown />
         </DropdownButton>
       )}
-
       {open && (
         <DropdownContentContainer
           ref={ref! as RefObject<HTMLUListElement>}
@@ -66,6 +66,14 @@ function Dropdown({
     </DropdownContainer>
   );
 }
+
+const Truncate = styled.div({
+  width: '90%',
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  textAlign: 'left',
+});
 
 interface DropdownContentProps {
   categories: string[] | number[];
@@ -97,6 +105,10 @@ export const DropdownContainer = styled.div(
       minWidth: 'fit-content',
       position: 'relative',
       ...rest,
+
+      [device('tablet')]: {
+        minWidth: 'auto',
+      },
     };
   },
 );
