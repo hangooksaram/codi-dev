@@ -1,13 +1,20 @@
 import { ReactNode, Suspense } from 'react';
 import RootLayoutWrapper from '@/components/RootLayoutWrapper';
+import GoogleTagManager from '@/components/GoogleAnalytics/GoogleTagManager';
 import GoogleAnalytics from '@/components/GoogleAnalytics/GoogleAnalytics';
+import Head from 'next/head';
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="ko">
       <Suspense>
-        <GoogleAnalytics />
+        <GoogleTagManager />
       </Suspense>
+      <Head>
+        <GoogleAnalytics
+          GA_TRACKING_ID={process.env.NEXT_PUBLIC_GA_ID as string}
+        />
+      </Head>
       <RootLayoutWrapper>{children}</RootLayoutWrapper>
     </html>
   );
