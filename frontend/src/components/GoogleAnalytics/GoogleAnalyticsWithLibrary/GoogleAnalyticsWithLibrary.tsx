@@ -9,11 +9,12 @@ type WindowWithGA = Window & {
 
 declare const window: WindowWithGA;
 
-export default function useGoogleAnalyticsWithLibrary() {
+export default function GoogleAnalyticsWithLibrary() {
   useEffect(() => {
     if (!window.GA_INITIALIZED) {
       initializeGA();
       window.GA_INITIALIZED = true;
     }
   }, []);
+  return <></>;
 }
