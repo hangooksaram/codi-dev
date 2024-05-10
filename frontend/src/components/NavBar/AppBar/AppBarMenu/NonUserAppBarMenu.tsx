@@ -4,8 +4,6 @@ import FlexBox from '@/ui/atoms/FlexBox';
 import StyledLink from '@/ui/atoms/Link';
 import Typography from '@/ui/atoms/Typography';
 import theme, { device } from '@/ui/theme';
-import { sendGAEvent } from '@next/third-parties/google';
-import { trackGAEvent } from '@/components/GoogleAnalytics/GoogleAnalyticsWithLibrary/googlaAnalytics';
 
 function NonUserAppBarMenu() {
   const router = useRouter();
@@ -20,12 +18,7 @@ function NonUserAppBarMenu() {
         },
       }}
     >
-      <StyledLink
-        href="/signup"
-        onClick={() => {
-          trackGAEvent('My Category', 'My Action', 'My Label');
-        }}
-      >
+      <StyledLink href="/signup">
         아이디가 없으신가요?
         <Typography
           variant="span"
