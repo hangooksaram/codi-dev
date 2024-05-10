@@ -31,6 +31,7 @@ import Button from '@/ui/atoms/Button';
 import { SetState } from '@/index';
 import { MOBILE_NAVIGATION_HEIGHT } from '@/constants';
 import { StyledFloating } from '@/ui/atoms/Floating';
+import { trackGAEvent } from '../GoogleAnalytics/GoogleAnalyticsWithLibrary/googlaAnalytics';
 
 function AccessibilityFloating() {
   const path = usePathname();
@@ -41,7 +42,11 @@ function AccessibilityFloating() {
   return (
     <>
       <AccessibilityFloatingButton
-        onClick={() => setOpen((prev) => !prev)}
+        id="accessibility-button"
+        onClick={() => {
+          setOpen((prev) => !prev);
+          trackGAEvent('클릭', '접근성 버튼 클릭', '접근성');
+        }}
         variant="round"
         width="110px"
         color={theme.colors.primary.main}
