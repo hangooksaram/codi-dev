@@ -6,12 +6,7 @@ import GoogleAnalyticsWithLibrary from '@/components/GoogleAnalytics/GoogleAnaly
 import { Metadata } from 'next';
 import { OpenGraph } from 'next/dist/lib/metadata/types/opengraph-types';
 
-interface CustomMetadata extends Metadata {
-  title: string | undefined;
-  openGraph: OpenGraph;
-}
-
-const metadata: CustomMetadata = {
+export const metaData: Metadata = {
   title: 'CODI',
   description: '장애인 1:1 멘토링 플랫폼',
   openGraph: {
@@ -19,19 +14,12 @@ const metadata: CustomMetadata = {
     description: '장애인 1:1 멘토링 플랫폼',
     url: 'https://www.codisabled.com/',
   },
+  metadataBase: new URL('https://www.codisabled.com/'),
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="ko">
-      <Head>
-        <title>{metadata.title!}</title>
-        <meta name="description" content={metadata.description!} />
-        <meta property="og:title" content={metadata.title!} />
-        <meta property="og:description" content={metadata.description!} />
-        <meta property="og:url" content={metadata.openGraph.url! as string} />
-      </Head>
-
       <GoogleAnalyticsWithLibrary />
       <Suspense>
         <GoogleTagManager />
