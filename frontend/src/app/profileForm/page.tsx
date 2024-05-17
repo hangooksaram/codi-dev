@@ -2,7 +2,7 @@
 
 import ProfileImage from '@icons/common/profile-image.svg';
 import Search from '@icons/common/search.svg';
-import { FormEvent, Suspense, useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useSelector, useDispatch } from 'react-redux';
 import { FormContainer } from '@/ui/atoms/Container';
@@ -203,249 +203,247 @@ function ProfileFormPage() {
   }, []);
 
   return (
-    <Suspense>
-      <SinglePageLayout background={theme.colors.white}>
-        <FormContainer>
-          <Typography
-            variant="h1"
-            size={theme.fonts.size.lg}
-            weight={theme.fonts.weight.black}
-            align="center"
-            {...{ marginBottom: '80px' }}
-          >
-            {isEdit ? '프로필 수정하기' : '프로필 작성하기'}
-          </Typography>
-          <form onSubmit={(e) => handleProfileSubmit(e)}>
-            <FlexBox direction="column" rowGap="50px">
-              <LabelBox text="프로필 사진" helpText="(선택)">
-                <FlexBox justifyContent="space-between">
-                  <IconInputContainer iconComponent={<ProfileImage />}>
-                    <Input outline disabled value={file.name} />
-                    <div style={{ display: 'none' }}>
-                      <Input
-                        id="profileImage"
-                        name="profileImage"
-                        type="file"
-                        accept="image/*"
-                        onChange={onUploadFile}
-                      />
-                    </div>
-                  </IconInputContainer>
-                  <Label
-                    htmlFor="profileImage"
-                    text="프로필 사진 등록 (선택사항입니다)"
-                  />
-                  <Button
-                    id="profileImage"
-                    width="30%"
-                    variant="square"
-                    type="button"
-                    onClick={() =>
-                      document.getElementById('profileImage')?.click()
-                    }
-                    {...{ marginLeft: '10px' }}
-                  >
-                    {isEdit && data?.imgUrl ? '수정하기' : '등록하기'}
-                  </Button>
-                </FlexBox>
-              </LabelBox>
-              <LabelBox text="장애 분류">
-                <FlexBox direction="column" rowGap="10px">
-                  <FlexBox columnGap="10px">
-                    <Label htmlFor="disability" text="장애 분류" />
-                    <FormErrorContainer errorMessage={errors?.disability!}>
-                      <Dropdown
-                        id="disability"
-                        invalid={isInvalid('disability')}
-                        width="100%"
-                        type="form"
-                        title="소분류"
-                        categories={DISABILITIES}
-                        selectedCategory={form.disability!}
-                        setSelectedCategory={(disability) =>
-                          handleFormValueChange<string>({
-                            name: 'disability',
-                            value: disability,
-                          })
-                        }
-                      />
-                    </FormErrorContainer>
-                  </FlexBox>
-                </FlexBox>
-              </LabelBox>
-              <LabelBox text="중증도">
-                <FlexBox justifyContent="space-between">
-                  {SEVERITIES.map((severity) => (
-                    <Button
-                      id={severity}
-                      key={severity}
-                      width="50%"
-                      type="button"
-                      color={
-                        form.severity === severity
-                          ? theme.colors.primary.main
-                          : theme.colors.white
-                      }
-                      variant="square"
-                      outline
-                      {...{
-                        ':first-child': {
-                          marginRight: '10px',
-                        },
-                      }}
-                      onClick={() =>
-                        handleFormValueChange({
-                          name: 'severity',
-                          value: severity,
+    <SinglePageLayout background={theme.colors.white}>
+      <FormContainer>
+        <Typography
+          variant="h1"
+          size={theme.fonts.size.lg}
+          weight={theme.fonts.weight.black}
+          align="center"
+          {...{ marginBottom: '80px' }}
+        >
+          {isEdit ? '프로필 수정하기' : '프로필 작성하기'}
+        </Typography>
+        <form onSubmit={(e) => handleProfileSubmit(e)}>
+          <FlexBox direction="column" rowGap="50px">
+            <LabelBox text="프로필 사진" helpText="(선택)">
+              <FlexBox justifyContent="space-between">
+                <IconInputContainer iconComponent={<ProfileImage />}>
+                  <Input outline disabled value={file.name} />
+                  <div style={{ display: 'none' }}>
+                    <Input
+                      id="profileImage"
+                      name="profileImage"
+                      type="file"
+                      accept="image/*"
+                      onChange={onUploadFile}
+                    />
+                  </div>
+                </IconInputContainer>
+                <Label
+                  htmlFor="profileImage"
+                  text="프로필 사진 등록 (선택사항입니다)"
+                />
+                <Button
+                  id="profileImage"
+                  width="30%"
+                  variant="square"
+                  type="button"
+                  onClick={() =>
+                    document.getElementById('profileImage')?.click()
+                  }
+                  {...{ marginLeft: '10px' }}
+                >
+                  {isEdit && data?.imgUrl ? '수정하기' : '등록하기'}
+                </Button>
+              </FlexBox>
+            </LabelBox>
+            <LabelBox text="장애 분류">
+              <FlexBox direction="column" rowGap="10px">
+                <FlexBox columnGap="10px">
+                  <Label htmlFor="disability" text="장애 분류" />
+                  <FormErrorContainer errorMessage={errors?.disability!}>
+                    <Dropdown
+                      id="disability"
+                      invalid={isInvalid('disability')}
+                      width="100%"
+                      type="form"
+                      title="소분류"
+                      categories={DISABILITIES}
+                      selectedCategory={form.disability!}
+                      setSelectedCategory={(disability) =>
+                        handleFormValueChange<string>({
+                          name: 'disability',
+                          value: disability,
                         })
                       }
-                    >
-                      {severity}
-                    </Button>
-                  ))}
-                </FlexBox>
-              </LabelBox>
-              <LabelBox text="학력" helpText="(선택)">
-                <FlexBox columnGap="10px">
-                  <Label
-                    htmlFor="bigEducation"
-                    text="최종 학력 (선택사항입니다)"
-                  />
-                  <Dropdown
-                    id="bigEducation"
-                    width="40%"
-                    type="form"
-                    title="최종 학력"
-                    selectedCategory={bigEducationCategory}
-                    setSelectedCategory={(bigEducation) =>
-                      setBigEducationCategory(bigEducation)
-                    }
-                    categories={['초등학교', '중학교', '고등학교', '대학교']}
-                  />
-                  <IconInputContainer iconComponent={<Search />}>
-                    <Label htmlFor="education" text="대학교 입력" />
-                    <Input
-                      disabled={bigEducationCategory !== '대학교'}
-                      id="education"
-                      name="education"
-                      placeholder="학교명 검색"
-                      value={form.education}
-                      outline
-                      onChange={handleFormValueChange}
-                    />
-                  </IconInputContainer>
-                </FlexBox>
-              </LabelBox>
-              <LabelBox text="희망 직무">
-                <FlexBox
-                  columnGap="10px"
-                  {...{
-                    [device('tablet')]: {
-                      flexDirection: 'column',
-                      rowGap: '10px',
-                    },
-                  }}
-                >
-                  <Label htmlFor="job" text="직무 분류" />
-                  <FormErrorContainer errorMessage={errors?.job!}>
-                    <JobSelector
-                      id="job"
-                      invalid={isInvalid('job')}
-                      selected={form.job}
-                      setSelected={(job) =>
-                        handleFormValueChange({ name: 'job', value: job })
-                      }
-                      open={openJobSelector}
-                      setOpen={setOpenJobSelector}
-                      width="100%"
                     />
                   </FormErrorContainer>
-                  <Label htmlFor="desiredJob" text="희망 직무" />
-                  <FormInput
-                    id="desiredJob"
-                    name="desiredJob"
-                    value={form.desiredJob}
+                </FlexBox>
+              </FlexBox>
+            </LabelBox>
+            <LabelBox text="중증도">
+              <FlexBox justifyContent="space-between">
+                {SEVERITIES.map((severity) => (
+                  <Button
+                    id={severity}
+                    key={severity}
+                    width="50%"
+                    type="button"
+                    color={
+                      form.severity === severity
+                        ? theme.colors.primary.main
+                        : theme.colors.white
+                    }
+                    variant="square"
                     outline
-                    maxLength={10}
-                    width="100%"
-                    placeholder="정확한 직무를 입력해주세요. 10자 내외."
-                    onChange={handleFormValueChange}
-                    invalid={isInvalid('desiredJob')}
                     {...{
-                      [device('tablet')]: {
-                        width: '100%',
+                      ':first-child': {
+                        marginRight: '10px',
                       },
                     }}
-                    errorMessage={errors?.desiredJob}
-                  />
-                </FlexBox>
-              </LabelBox>
-              <LabelBox text="취업 상태">
-                <Label htmlFor="employmentStatus" text="취업 상태" />
-                <FormErrorContainer errorMessage={errors?.employmentStatus!}>
-                  <Dropdown
-                    id="employmentStatus"
-                    width="40%"
-                    type="form"
-                    title="선택"
-                    selectedCategory={form.employmentStatus!}
-                    setSelectedCategory={(employmentStatus) =>
+                    onClick={() =>
                       handleFormValueChange({
-                        name: 'employmentStatus',
-                        value: employmentStatus,
+                        name: 'severity',
+                        value: severity,
                       })
                     }
-                    invalid={isInvalid('employmentStatus')}
-                    categories={EMPLOYMENT_STATUSES}
+                  >
+                    {severity}
+                  </Button>
+                ))}
+              </FlexBox>
+            </LabelBox>
+            <LabelBox text="학력" helpText="(선택)">
+              <FlexBox columnGap="10px">
+                <Label
+                  htmlFor="bigEducation"
+                  text="최종 학력 (선택사항입니다)"
+                />
+                <Dropdown
+                  id="bigEducation"
+                  width="40%"
+                  type="form"
+                  title="최종 학력"
+                  selectedCategory={bigEducationCategory}
+                  setSelectedCategory={(bigEducation) =>
+                    setBigEducationCategory(bigEducation)
+                  }
+                  categories={['초등학교', '중학교', '고등학교', '대학교']}
+                />
+                <IconInputContainer iconComponent={<Search />}>
+                  <Label htmlFor="education" text="대학교 입력" />
+                  <Input
+                    disabled={bigEducationCategory !== '대학교'}
+                    id="education"
+                    name="education"
+                    placeholder="학교명 검색"
+                    value={form.education}
+                    outline
+                    onChange={handleFormValueChange}
+                  />
+                </IconInputContainer>
+              </FlexBox>
+            </LabelBox>
+            <LabelBox text="희망 직무">
+              <FlexBox
+                columnGap="10px"
+                {...{
+                  [device('tablet')]: {
+                    flexDirection: 'column',
+                    rowGap: '10px',
+                  },
+                }}
+              >
+                <Label htmlFor="job" text="직무 분류" />
+                <FormErrorContainer errorMessage={errors?.job!}>
+                  <JobSelector
+                    id="job"
+                    invalid={isInvalid('job')}
+                    selected={form.job}
+                    setSelected={(job) =>
+                      handleFormValueChange({ name: 'job', value: job })
+                    }
+                    open={openJobSelector}
+                    setOpen={setOpenJobSelector}
+                    width="100%"
                   />
                 </FormErrorContainer>
-              </LabelBox>
-              <LabelBox text="자기 소개">
-                <Label htmlFor="introduction" text="자기 소개" />
-                <FormTextarea
-                  id="introduction"
-                  name="introduction"
-                  placeholder="최소 50 글자"
-                  value={form.introduction}
+                <Label htmlFor="desiredJob" text="희망 직무" />
+                <FormInput
+                  id="desiredJob"
+                  name="desiredJob"
+                  value={form.desiredJob}
+                  outline
+                  maxLength={10}
+                  width="100%"
+                  placeholder="정확한 직무를 입력해주세요. 10자 내외."
                   onChange={handleFormValueChange}
-                  invalid={isInvalid('introduction')}
-                  errorMessage={errors?.introduction!}
+                  invalid={isInvalid('desiredJob')}
+                  {...{
+                    [device('tablet')]: {
+                      width: '100%',
+                    },
+                  }}
+                  errorMessage={errors?.desiredJob}
                 />
-              </LabelBox>
-              <FlexBox
-                direction="column"
-                justifyContent="center"
-                alignItems="center"
-                rowGap="16px"
+              </FlexBox>
+            </LabelBox>
+            <LabelBox text="취업 상태">
+              <Label htmlFor="employmentStatus" text="취업 상태" />
+              <FormErrorContainer errorMessage={errors?.employmentStatus!}>
+                <Dropdown
+                  id="employmentStatus"
+                  width="40%"
+                  type="form"
+                  title="선택"
+                  selectedCategory={form.employmentStatus!}
+                  setSelectedCategory={(employmentStatus) =>
+                    handleFormValueChange({
+                      name: 'employmentStatus',
+                      value: employmentStatus,
+                    })
+                  }
+                  invalid={isInvalid('employmentStatus')}
+                  categories={EMPLOYMENT_STATUSES}
+                />
+              </FormErrorContainer>
+            </LabelBox>
+            <LabelBox text="자기 소개">
+              <Label htmlFor="introduction" text="자기 소개" />
+              <FormTextarea
+                id="introduction"
+                name="introduction"
+                placeholder="최소 50 글자"
+                value={form.introduction}
+                onChange={handleFormValueChange}
+                invalid={isInvalid('introduction')}
+                errorMessage={errors?.introduction!}
+              />
+            </LabelBox>
+            <FlexBox
+              direction="column"
+              justifyContent="center"
+              alignItems="center"
+              rowGap="16px"
+            >
+              <Button
+                onClick={() => {
+                  setSubmitType('complete');
+                }}
+                width="100%"
+                type="submit"
+                variant="square"
               >
+                작성완료
+              </Button>
+              {!isEdit && (
                 <Button
                   onClick={() => {
-                    setSubmitType('complete');
+                    setSubmitType('complete-apply');
                   }}
                   width="100%"
                   type="submit"
                   variant="square"
                 >
-                  작성완료
+                  작성하고 멘토 신청하러 가기
                 </Button>
-                {!isEdit && (
-                  <Button
-                    onClick={() => {
-                      setSubmitType('complete-apply');
-                    }}
-                    width="100%"
-                    type="submit"
-                    variant="square"
-                  >
-                    작성하고 멘토 신청하러 가기
-                  </Button>
-                )}
-              </FlexBox>
+              )}
             </FlexBox>
-          </form>
-        </FormContainer>
-      </SinglePageLayout>
-    </Suspense>
+          </FlexBox>
+        </form>
+      </FormContainer>
+    </SinglePageLayout>
   );
 }
 

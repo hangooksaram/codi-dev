@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Logo from '@icons/logo/recommend-icon.svg';
 import JobRank from '@/components/Job/JobRank';
@@ -24,22 +24,20 @@ function MentorsPage() {
   }, []);
 
   return (
-    <Suspense>
-      <main style={{ backgroundColor: theme.colors.background }}>
-        <FlexBox direction="column" rowGap="20px">
-          {/* <MentorsBanner goToMentorsPage={goToMentorsPage} /> */}
-          <JobRank />
+    <main style={{ backgroundColor: theme.colors.background }}>
+      <FlexBox direction="column" rowGap="20px">
+        {/* <MentorsBanner goToMentorsPage={goToMentorsPage} /> */}
+        <JobRank />
 
-          <Recommendation />
-          <PageComponentLayout>
-            <div ref={ref}>
-              <TitleSection title="멘토리스트" logo={<Logo />} />
-              <Mentors />
-            </div>
-          </PageComponentLayout>
-        </FlexBox>
-      </main>
-    </Suspense>
+        <Recommendation />
+        <PageComponentLayout>
+          <div ref={ref}>
+            <TitleSection title="멘토리스트" logo={<Logo />} />
+            <Mentors />
+          </div>
+        </PageComponentLayout>
+      </FlexBox>
+    </main>
   );
 }
 
