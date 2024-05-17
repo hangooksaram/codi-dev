@@ -22,10 +22,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="ko">
       <GoogleAnalyticsWithLibrary />
-      <Suspense>
-        <GoogleTagManager />
-      </Suspense>
-
+      <GoogleTagManager />
       <RootLayoutWrapper>{children}</RootLayoutWrapper>
     </html>
   );
