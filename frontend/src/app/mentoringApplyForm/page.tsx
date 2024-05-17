@@ -1,6 +1,6 @@
 'use client';
 
-import { FormEventHandler, useEffect, useState } from 'react';
+import { FormEventHandler, Suspense, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import CalendarContainer from '@/components/Container/CalendarContainer';
 import FlexBox from '@/ui/atoms/FlexBox';
@@ -119,96 +119,98 @@ function MentoringApplyFormPage() {
   }, [date]);
 
   return (
-    <SinglePageLayout background={theme.colors.white}>
-      <Typography
-        align="center"
-        size={theme.fonts.size.lg}
-        variant="h1"
-        {...{ marginBottom: '80px' }}
-      >
-        멘토링 신청하기
-      </Typography>
-      <form onSubmit={handleSubmit}>
-        <FlexBox direction="column" rowGap="60px">
-          <LabelBox
-            text="멘토링 시간 선택"
-            helpText="원하는 시간과 멘토링 분야를 선택해주세요."
-          >
-            <CalendarContainer
-              date={date}
-              setDate={setDate}
-              setMonth={setMonth}
-              schedules={monthlySchedules?.days.map(({ date }) => date)!}
-              type="mentee"
+    <Suspense>
+      <SinglePageLayout background={theme.colors.white}>
+        <Typography
+          align="center"
+          size={theme.fonts.size.lg}
+          variant="h1"
+          {...{ marginBottom: '80px' }}
+        >
+          멘토링 신청하기
+        </Typography>
+        <form onSubmit={handleSubmit}>
+          <FlexBox direction="column" rowGap="60px">
+            <LabelBox
+              text="멘토링 시간 선택"
+              helpText="원하는 시간과 멘토링 분야를 선택해주세요."
             >
-              <Card padding="40px">
-                {data?.times.length! > 0 ? (
-                  <Typography variant="div" {...{ marginBottom: '15px' }}>
-                    멘토링 가능 시간
-                  </Typography>
-                ) : (
-                  <Typography variant="div" {...{ marginBottom: '15px' }}>
-                    등록된 멘토링 가능 시간이 없습니다
-                  </Typography>
-                )}
+              <CalendarContainer
+                date={date}
+                setDate={setDate}
+                setMonth={setMonth}
+                schedules={monthlySchedules?.days.map(({ date }) => date)!}
+                type="mentee"
+              >
+                <Card padding="40px">
+                  {data?.times.length! > 0 ? (
+                    <Typography variant="div" {...{ marginBottom: '15px' }}>
+                      멘토링 가능 시간
+                    </Typography>
+                  ) : (
+                    <Typography variant="div" {...{ marginBottom: '15px' }}>
+                      등록된 멘토링 가능 시간이 없습니다
+                    </Typography>
+                  )}
 
-                <FlexBox
-                  isWrap
-                  justifyContent="flex-start"
-                  columnGap="15px"
-                  rowGap="15px"
-                >
-                  {data?.times.map(({ time, enabled }, index) => {
-                    const scheduled = status === 'ACCEPTED';
-                    return (
-                      <ChipButton
-                        type="button"
-                        onClick={() =>
-                          handleFormValueChange({ name: 'time', value: time })
-                        }
-                        variant="default"
-                        size="small"
-                        color={
-                          scheduled
-                            ? theme.colors.white
-                            : time === form.time
-                              ? theme.colors.primary.main
-                              : theme.colors.background
-                        }
-                        key={index}
-                        outline={!enabled}
-                        disabled={!enabled}
-                        hoverDisabled
-                      >
-                        {time}
-                      </ChipButton>
-                    );
-                  })}
-                </FlexBox>
-              </Card>
-            </CalendarContainer>
-          </LabelBox>
-          <LabelBox text="하고싶은 말" helpText="(최소 50 글자)">
-            <Label
-              htmlFor="applicationReason"
-              text="하고싶은 말 (최소 50 글자)"
-            />
-            <FormTextarea
-              id="applicationReason"
-              minLength={50}
-              value={form.applicationReason}
-              name="applicationReason"
-              onChange={handleFormValueChange}
-              invalid={isInvalid('applicationReason')}
-              errorMessage={errors?.applicationReason}
-            />
-          </LabelBox>
-          <Button type="submit" variant="square">
-            멘토링 신청하기
-          </Button>
-        </FlexBox>
-      </form>
-    </SinglePageLayout>
+                  <FlexBox
+                    isWrap
+                    justifyContent="flex-start"
+                    columnGap="15px"
+                    rowGap="15px"
+                  >
+                    {data?.times.map(({ time, enabled }, index) => {
+                      const scheduled = status === 'ACCEPTED';
+                      return (
+                        <ChipButton
+                          type="button"
+                          onClick={() =>
+                            handleFormValueChange({ name: 'time', value: time })
+                          }
+                          variant="default"
+                          size="small"
+                          color={
+                            scheduled
+                              ? theme.colors.white
+                              : time === form.time
+                                ? theme.colors.primary.main
+                                : theme.colors.background
+                          }
+                          key={index}
+                          outline={!enabled}
+                          disabled={!enabled}
+                          hoverDisabled
+                        >
+                          {time}
+                        </ChipButton>
+                      );
+                    })}
+                  </FlexBox>
+                </Card>
+              </CalendarContainer>
+            </LabelBox>
+            <LabelBox text="하고싶은 말" helpText="(최소 50 글자)">
+              <Label
+                htmlFor="applicationReason"
+                text="하고싶은 말 (최소 50 글자)"
+              />
+              <FormTextarea
+                id="applicationReason"
+                minLength={50}
+                value={form.applicationReason}
+                name="applicationReason"
+                onChange={handleFormValueChange}
+                invalid={isInvalid('applicationReason')}
+                errorMessage={errors?.applicationReason}
+              />
+            </LabelBox>
+            <Button type="submit" variant="square">
+              멘토링 신청하기
+            </Button>
+          </FlexBox>
+        </form>
+      </SinglePageLayout>
+    </Suspense>
   );
 }
 

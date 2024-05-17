@@ -8,6 +8,7 @@ import Content from '@/components/Profile/ProfileCard/Content';
 import { useGetMentorQuery } from '@/queries/mentorQuery';
 import Button from '@/ui/atoms/Button';
 import theme, { device } from '@/ui/theme';
+import { Suspense } from 'react';
 
 function MentorProfilePage() {
   const router = useRouter();
@@ -19,37 +20,42 @@ function MentorProfilePage() {
   const { data: mentor, isSuccess } = useGetMentorQuery(mentorId);
   return (
     isSuccess && (
-      <SinglePageLayout>
-        <MentorProfile mentor={mentor!}>
-          <ProfileCard width="322px">
-            <Content.Container>
-              <Content.Avatar src={mentor?.imgUrl} />
-              <Content.Name name={mentor?.name!} />
-              <Content.Job job={mentor?.job!} />
-              <Content.Rating star={mentor?.star!} mentees={mentor?.mentees!} />
-              <Content.Tags
-                career={mentor?.career}
-                disability={mentor?.disability!}
-                severity={mentor?.severity!}
-              />
-            </Content.Container>
-            {!isMentoringApplied && (
-              <Button
-                disabled={mentor?.futureScheduleCount === 0}
-                onClick={() =>
-                  router.push(`/mentoringApplyForm?mentorId=${mentorId}`)
-                }
-                size="small"
-                variant="default"
-                color={theme.colors.secondary.main}
-                {...{ marginTop: '20px' }}
-              >
-                멘토링 신청하기
-              </Button>
-            )}
-          </ProfileCard>
-        </MentorProfile>
-      </SinglePageLayout>
+      <Suspense>
+        <SinglePageLayout>
+          <MentorProfile mentor={mentor!}>
+            <ProfileCard width="322px">
+              <Content.Container>
+                <Content.Avatar src={mentor?.imgUrl} />
+                <Content.Name name={mentor?.name!} />
+                <Content.Job job={mentor?.job!} />
+                <Content.Rating
+                  star={mentor?.star!}
+                  mentees={mentor?.mentees!}
+                />
+                <Content.Tags
+                  career={mentor?.career}
+                  disability={mentor?.disability!}
+                  severity={mentor?.severity!}
+                />
+              </Content.Container>
+              {!isMentoringApplied && (
+                <Button
+                  disabled={mentor?.futureScheduleCount === 0}
+                  onClick={() =>
+                    router.push(`/mentoringApplyForm?mentorId=${mentorId}`)
+                  }
+                  size="small"
+                  variant="default"
+                  color={theme.colors.secondary.main}
+                  {...{ marginTop: '20px' }}
+                >
+                  멘토링 신청하기
+                </Button>
+              )}
+            </ProfileCard>
+          </MentorProfile>
+        </SinglePageLayout>
+      </Suspense>
     )
   );
 }
