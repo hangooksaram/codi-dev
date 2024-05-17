@@ -6,7 +6,7 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import Script from 'next/script';
 import { Suspense, useEffect } from 'react';
 
-export default function GoogleTagManager() {
+const GoogleTagManagerPageView = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -21,7 +21,7 @@ export default function GoogleTagManager() {
   }
 
   return (
-    <Suspense>
+    <>
       <noscript>
         <iframe
           src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
@@ -43,6 +43,14 @@ export default function GoogleTagManager() {
   `,
         }}
       />
+    </>
+  );
+};
+
+export default function GoogleTagManager() {
+  return (
+    <Suspense>
+      <GoogleTagManagerPageView />
     </Suspense>
   );
 }
