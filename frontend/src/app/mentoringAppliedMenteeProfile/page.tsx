@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import SinglePageLayout from '@/components/Layout/SinglePageLayout';
 import MentoringPlatformModal from '@/components/Mentoring/MentoringPlatformModal';
 import MenteeProfile from '@/components/Profile/MenteeProfile/MenteeProfile';
@@ -44,36 +44,38 @@ function MentoringAppliedMenteeProfilePage() {
   );
 
   return (
-    <SinglePageLayout>
-      <MenteeProfile profile={profile}>
-        <ProfileCard width="322px" height="477px">
-          <Content.Container>
-            <Content.Avatar src={profile?.imgUrl} />
-            <Content.Name name={profile?.name!} />
-            <Content.EmploymentStatus
-              employmentStatus={profile?.employmentStatus!}
-            />
-            <Content.Job job={profile?.job!} />
-            <Content.Tags
-              disability={profile?.disability!}
-              severity={profile?.severity!}
-            />
-          </Content.Container>
-          <Footer.Container>
-            <Button
-              onClick={() => {
-                acceptMutation.mutate();
-              }}
-              size="small"
-              variant="default"
-              color={theme.colors.secondary.main}
-            >
-              멘토링 수락 하기
-            </Button>
-          </Footer.Container>
-        </ProfileCard>
-      </MenteeProfile>
-    </SinglePageLayout>
+    <Suspense>
+      <SinglePageLayout>
+        <MenteeProfile profile={profile}>
+          <ProfileCard width="322px" height="477px">
+            <Content.Container>
+              <Content.Avatar src={profile?.imgUrl} />
+              <Content.Name name={profile?.name!} />
+              <Content.EmploymentStatus
+                employmentStatus={profile?.employmentStatus!}
+              />
+              <Content.Job job={profile?.job!} />
+              <Content.Tags
+                disability={profile?.disability!}
+                severity={profile?.severity!}
+              />
+            </Content.Container>
+            <Footer.Container>
+              <Button
+                onClick={() => {
+                  acceptMutation.mutate();
+                }}
+                size="small"
+                variant="default"
+                color={theme.colors.secondary.main}
+              >
+                멘토링 수락 하기
+              </Button>
+            </Footer.Container>
+          </ProfileCard>
+        </MenteeProfile>
+      </SinglePageLayout>
+    </Suspense>
   );
 }
 
