@@ -33,7 +33,7 @@ export const StyledFloating = {
     position: 'absolute',
     zIndex: '105',
     width: '390px',
-    height: '666px',
+    height: '605px',
     bottom: '150px',
     padding: '24px',
     right: '20px',

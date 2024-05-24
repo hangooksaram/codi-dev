@@ -13,19 +13,21 @@ export interface AccessibilityState {
     color: string | null;
     size : number;
   },
-  accessibilityOption: AccessibilityOption
+  accessibilityOption: AccessibilityOption,
 }
 interface AccessibilityOption {
   retinal:ActivatedOption;
   visual : ActivatedOption;
   achromatopsia:ActivatedOption;
   impreciseMovement:ActivatedOption;
-  attentionDisorder:ActivatedOption
+  attentionDisorder:ActivatedOption;
+  dyslexia:ActivatedOption;
 }
 
 interface ActivatedOption {
     severity :string | null; 
     isActivated:boolean;
+    data?:string;
 }
 
 interface UpdateDisabilityState {
@@ -65,8 +67,12 @@ const initialState: AccessibilityState = {
     attentionDisorder:{
       severity:null,
       isActivated:false
-    }
-    
+    },
+    dyslexia:{
+      severity:null,
+      isActivated:false,
+      data:""
+    },
   }
  
 };
@@ -83,6 +89,11 @@ export const accessibilitySlice = createSlice({
       state.letterSpacing = 'initial';
       state.lineHeight = 1;
       state.zoom = 1;
+      state.accessibilityOption.retinal.isActivated  = false;
+      state.accessibilityOption.visual.isActivated  = false;     
+      state.accessibilityOption.achromatopsia.isActivated  = false;
+      state.accessibilityOption.attentionDisorder.isActivated  = false;     
+      state.accessibilityOption.impreciseMovement.isActivated  = false;     
     },
     setZoom: (state, action) => {
       state.zoom = action.payload;
@@ -112,8 +123,10 @@ export const accessibilitySlice = createSlice({
       if (state.accessibilityOption.hasOwnProperty(key)) {
         state.accessibilityOption[key].isActivated = isActivated!;
       }
-      
     },
+    setDyslexiaData: (state, action)=> {
+      state.accessibilityOption.dyslexia.data = action.payload;
+    }
   },
 });
 
@@ -125,7 +138,8 @@ export const {
   setFocused,
   toggleFontSize,
   initializeAll,
-  setActivatedAccessibilityOption
+  setActivatedAccessibilityOption,
+  setDyslexiaData
 } = accessibilitySlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

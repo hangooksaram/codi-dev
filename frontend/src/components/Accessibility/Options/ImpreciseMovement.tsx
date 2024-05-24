@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import Toggle from 'react-toggle';
 import OptionTypography from '../OptionTypography';
+import ImpreciseIcon from '@icons/accessibility/imprecision-icon.svg';
 
 export default function ImpreciseMovementOption() {
   const dispatch = useDispatch();
@@ -16,11 +17,14 @@ export default function ImpreciseMovementOption() {
   return (
     <div>
       <FlexBox justifyContent="space-between" {...{ marginBottom: '24px' }}>
-        <OptionTypography variant="div" color={theme.colors.white}>
-          손 떨림
-        </OptionTypography>
+        <FlexBox justifyContent="flex-start" columnGap="8px">
+          <ImpreciseIcon />
+          <OptionTypography variant="div" color={theme.colors.white} size={20}>
+            손 떨림
+          </OptionTypography>
+        </FlexBox>
         <Toggle
-          defaultChecked={impreciseMovement.isActivated}
+          checked={impreciseMovement.isActivated}
           onChange={(e) => {
             if (e.target.checked) {
               dispatch(

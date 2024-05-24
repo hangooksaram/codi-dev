@@ -1,5 +1,6 @@
 import {
   selectAccessibilityOption,
+  setActivatedAccessibilityOption,
   toggleFontSize,
 } from '@/features/accessibility/accessibilitySlice';
 import FlexBox from '@/ui/atoms/FlexBox';
@@ -8,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import Toggle from 'react-toggle';
 import OptionTypography from '../OptionTypography';
+import VisualIcon from '@icons/accessibility/visual-icon.svg';
 
 export default function VisualOption() {
   const dispatch = useDispatch();
@@ -20,16 +22,31 @@ export default function VisualOption() {
         justifyContent="space-between"
         {...{ marginBottom: '24px' }}
       >
-        <OptionTypography variant="div" color={theme.colors.white}>
-          시각장애
-        </OptionTypography>
+        <FlexBox justifyContent="flex-start" columnGap="8px">
+          <VisualIcon />
+          <OptionTypography variant="div" color={theme.colors.white} size={20}>
+            시각장애
+          </OptionTypography>
+        </FlexBox>
         <Toggle
-          defaultChecked={visual.isActivated}
+          checked={visual.isActivated}
           onChange={(e) => {
             if (e.target.checked) {
+              dispatch(
+                setActivatedAccessibilityOption({
+                  key: 'visual',
+                  isActivated: true,
+                }),
+              );
               dispatch(toggleFontSize('increase'));
             }
             if (!e.target.checked) {
+              dispatch(
+                setActivatedAccessibilityOption({
+                  key: 'visual',
+                  isActivated: false,
+                }),
+              );
               dispatch(toggleFontSize('decrease'));
             }
           }}

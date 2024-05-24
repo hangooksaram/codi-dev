@@ -1,30 +1,13 @@
 import {
-  toggleFontSize,
   initializeAll,
-  selectFocused,
-  selectHighlight,
-  selectLetterSpacing,
-  selectLineHeight,
-  selectZoom,
-  setFocused,
-  setHighlight,
-  setLetterSpacing,
-  setLineHeight,
-  setZoom,
+  selectAccessibilityOption,
+  toggleFontSize,
 } from '@/features/accessibility/accessibilitySlice';
 import FlexBox from '@/ui/atoms/FlexBox';
 import { StyledFloating } from '@/ui/atoms/Floating';
-import ImageComponent from '@/ui/atoms/ImageComponent';
-import Typography from '@/ui/atoms/Typography';
 import theme from '@/ui/theme';
-import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import highlightImage from '@images/accessibility/highlight.png';
-import focusingboxImage from '@images/accessibility/focusingbox.png';
 import { SetState } from '@/index';
-import Button from '@/ui/atoms/Button';
-import Toggle from 'react-toggle';
-import { useEffect, useState } from 'react';
 import 'react-toggle/style.css';
 import VisualOption from './Options/Visual';
 import RetinalOption from './Options/Retinal';
@@ -32,27 +15,20 @@ import ImpreciseMovementOption from './Options/ImpreciseMovement';
 import AttentionDisorderOption from './Options/AttentionDisorder';
 import OptionBox from './OptionBox';
 import OptionTypography from './OptionTypography';
+import { useSelector } from 'react-redux';
 
-type OptionState = 'on' | 'off' | 'initial';
-
-export default function AccessibilityMenu({
-  setOpen,
-}: {
-  setOpen: SetState<boolean>;
-}) {
+export default function AccessibilityMenu() {
   const dispatch = useDispatch();
-  const highlight = useSelector(selectHighlight);
-  const focused = useSelector(selectFocused);
-  const applyOption = (type: string) => {
-    if (type === '하이라이터') {
-      dispatch(setHighlight());
-      return;
-    }
-    dispatch(setFocused());
-  };
+  const { visual, retinal } = useSelector(selectAccessibilityOption);
 
   const initializeOption = () => {
     dispatch(initializeAll());
+    if (visual.isActivated) {
+      dispatch(toggleFontSize('decrease'));
+    }
+    if (retinal.isActivated) {
+      dispatch(toggleFontSize('decrease'));
+    }
   };
 
   return (
@@ -76,6 +52,9 @@ export default function AccessibilityMenu({
         </StyledFloating.InitializeButton>
 
         <StyledFloating.OptionContainer>
+          {/* <OptionBox>
+            <DyslexiaOption />
+          </OptionBox> */}
           <OptionBox>
             <VisualOption />
           </OptionBox>

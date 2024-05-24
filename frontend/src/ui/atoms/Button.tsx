@@ -22,7 +22,7 @@ const Button = styled.button(
   }: ButtonProps) => {
     const { size: globalFontSize } = useSelector(selectFont);
     const { impreciseMovement } = useSelector(selectAccessibilityOption);
-    console.log(children, height(variant, width, size));
+
     return {
       width: width ?? 'fit-content',
       maxWidth: width ?? 'fit-content',

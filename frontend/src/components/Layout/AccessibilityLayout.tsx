@@ -15,6 +15,7 @@ import {
 import Highlight from '../Accessibility/Highlight';
 import myFont from '@/ui/font';
 import theme from '@/ui/theme';
+import { useEffect } from 'react';
 
 type StyledLayoutProps = {
   zoom: number;
@@ -65,9 +66,31 @@ function AccessibilityLayout({ children }: { children: React.ReactNode }) {
   const lineHeight = useSelector(selectLineHeight);
   const focused = useSelector(selectFocused);
   const font = useSelector(selectFont);
-  const { impreciseMovement, attentionDisorder } = useSelector(
+  const { impreciseMovement, attentionDisorder, dyslexia } = useSelector(
     selectAccessibilityOption,
   );
+
+  useEffect(() => {
+    if (dyslexia.data) {
+      findDataRecursively(document.body.children);
+    }
+  }, [dyslexia]);
+
+  const findDataRecursively = (children: HTMLCollection) => {
+    if (!children) {
+      return;
+    }
+    Array.from(children).forEach((n) => {
+      findDataRecursively(n.children);
+      if (n.textContent?.includes(dyslexia.data!) && n.children.length === 0) {
+        // console.log(n);
+        // n.classList.add('pointer');
+        const a = n.textContent.split(dyslexia.data!);
+
+        console.log(n.textContent);
+      }
+    });
+  };
 
   return (
     <StyledLayout

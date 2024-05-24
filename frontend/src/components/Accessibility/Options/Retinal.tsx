@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import Toggle from 'react-toggle';
 import OptionTypography from '../OptionTypography';
+import RetinalIcon from '@icons/accessibility/retinal-icon.svg';
 
 export default function RetinalOption() {
   const dispatch = useDispatch();
@@ -16,11 +17,14 @@ export default function RetinalOption() {
   return (
     <div>
       <FlexBox justifyContent="space-between" {...{ marginBottom: '24px' }}>
-        <OptionTypography variant="div" color={theme.colors.white}>
-          망막 편두통
-        </OptionTypography>
+        <FlexBox justifyContent="flex-start" columnGap="8px">
+          <RetinalIcon />
+          <OptionTypography variant="div" color={theme.colors.white} size={20}>
+            망막 편두통
+          </OptionTypography>
+        </FlexBox>
         <Toggle
-          defaultChecked={retinal.isActivated}
+          checked={retinal.isActivated}
           onChange={(e) => {
             if (e.target.checked) {
               dispatch(

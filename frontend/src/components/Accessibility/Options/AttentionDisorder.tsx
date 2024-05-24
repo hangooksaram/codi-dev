@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import Toggle from 'react-toggle';
 import OptionTypography from '../OptionTypography';
+import AttentionIcon from '@icons/accessibility/attention-icon.svg';
 
 export default function AttentionDisorderOption() {
   const dispatch = useDispatch();
@@ -20,11 +21,14 @@ export default function AttentionDisorderOption() {
         justifyContent="space-between"
         {...{ marginBottom: '24px' }}
       >
-        <OptionTypography variant="div" color={theme.colors.white}>
-          주의력 부족
-        </OptionTypography>
+        <FlexBox justifyContent="flex-start" columnGap="8px">
+          <AttentionIcon />
+          <OptionTypography variant="div" color={theme.colors.white} size={20}>
+            주의력 부족
+          </OptionTypography>
+        </FlexBox>
         <Toggle
-          defaultChecked={attentionDisorder.isActivated}
+          checked={attentionDisorder.isActivated}
           onChange={(e) => {
             if (e.target.checked) {
               dispatch(

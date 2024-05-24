@@ -9,6 +9,8 @@ import theme, { device } from '@/ui/theme';
 import { StyledFloating } from '@/ui/atoms/Floating';
 import { trackGAEvent } from '../GoogleAnalytics/GoogleAnalyticsWithLibrary/googlaAnalytics';
 import AccessibilityMenu from './AccessibilityMenu';
+import OptionTypography from './OptionTypography';
+import FlexBox from '@/ui/atoms/FlexBox';
 
 function AccessibilityFloating() {
   const path = usePathname();
@@ -29,7 +31,12 @@ function AccessibilityFloating() {
         color={theme.colors.primary.normal}
         hoverDisabled
       >
-        <FloatIcon />
+        <FlexBox direction="column" rowGap="4px">
+          <FloatIcon />
+          <OptionTypography variant="div" color="white">
+            접근성 기능
+          </OptionTypography>
+        </FlexBox>
       </AccessibilityFloatingButton>
       {open && (
         <FloatingOverlay
@@ -38,7 +45,7 @@ function AccessibilityFloating() {
           }}
         />
       )}
-      {open && <AccessibilityMenu setOpen={setOpen} />}
+      {open && <AccessibilityMenu />}
     </>
   );
 }
