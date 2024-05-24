@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { ReactNode } from 'react';
 import theme, { device } from '../theme';
-import { ButtonVariant, ThemeFontSize } from '../../types/ui';
+import { ButtonProps, ButtonVariant, ThemeFontSize } from '../../types/ui';
 import { selectFont } from '@/features/webAccessibility/webAccessibilitySlice';
 import { useSelector } from 'react-redux';
 
@@ -16,50 +16,44 @@ const Button = styled.button(
     outline,
     hoverDisabled,
     ...rest
-  }: {
-    variant: ButtonVariant;
-    width?: string;
-    color?: string;
-    size?: string;
-    children?: ReactNode;
-    fontSize?: ThemeFontSize;
-    outline?: boolean;
-    hoverDisabled?: boolean;
-  }) => ({
-    width: width ?? 'fit-content',
-    maxWidth: width ?? 'fit-content',
-    minWidth: '39px',
-    backgroundColor: color ?? theme.colors.primary.main,
-    borderRadius: borderRadius(variant),
-    height: height(variant, width, size),
-    color: fontColor(color),
-    fontWeight: fontWeight(size),
-    border: outline
-      ? `1px solid ${theme.colors.gray.main}`
-      : '2px solid transparent',
-    padding: variant === 'round' ? '0px' : '0px 20px',
-    fontSize: fontSize
-      ? `${theme.fonts.size[fontSize] + useSelector(selectFont).size}px`
-      : `${theme.fonts.size.sm + useSelector(selectFont).size}px`,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    cursor: 'pointer',
-    outline: 'none',
-    ':disabled': {
-      backgroundColor: theme.colors.white,
-      color: theme.colors.gray.light,
-      borderColor: theme.colors.gray.light,
-      cursor: 'default',
-    },
-    ':hover:enabled': !hoverDisabled ? hover(size) : {},
-    [device('mobile')]: {
-      fontSize: theme.fonts.size.xs,
-      padding: variant === 'round' ? '0px' : '0px 12px',
-    },
-    lineHeight: 1,
-    ...rest,
-  }),
+  }: ButtonProps) => {
+    const { size: globalFontSize } = useSelector(selectFont);
+    return {
+      width: width ?? 'fit-content',
+      maxWidth: width ?? 'fit-content',
+      minWidth: '39px',
+      backgroundColor: color ?? theme.colors.primary.main,
+      borderRadius: borderRadius(variant),
+      height: height(variant, width, size),
+      color: fontColor(color),
+      fontWeight: fontWeight(size),
+      border: outline
+        ? `1px solid ${theme.colors.gray.main}`
+        : '2px solid transparent',
+      padding: variant === 'round' ? '0px' : '0px 20px',
+      fontSize: fontSize
+        ? `${theme.fonts.size[fontSize] + globalFontSize}px`
+        : `${theme.fonts.size.sm + globalFontSize}px`,
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      cursor: 'pointer',
+      outline: 'none',
+      ':disabled': {
+        backgroundColor: theme.colors.white,
+        color: theme.colors.gray.light,
+        borderColor: theme.colors.gray.light,
+        cursor: 'default',
+      },
+      ':hover:enabled': !hoverDisabled ? hover(size) : {},
+      [device('mobile')]: {
+        fontSize: theme.fonts.size.xs,
+        padding: variant === 'round' ? '0px' : '0px 12px',
+      },
+      lineHeight: 1,
+      ...rest,
+    };
+  },
 );
 
 const borderRadius = (variant: ButtonVariant) => {

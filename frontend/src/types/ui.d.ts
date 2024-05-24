@@ -51,6 +51,16 @@ export interface TextareaProps {
 }
 
 export type ButtonVariant = 'default' | 'square' | 'round' | undefined;
+export interface ButtonProps{
+    variant: ButtonVariant;
+    width?: string;
+    color?: string;
+    size?: string;
+    children?: ReactNode;
+    fontSize?: ThemeFontSize;
+    outline?: boolean;
+    hoverDisabled?: boolean;
+}
 export interface FlexBoxProps {
   width?: string;
   direction?: 'row' | 'column';
