@@ -19,5 +19,7 @@ export default function dynamicColor (color:string){
             }
             return color;
         }
+
+        default :return color;
     }
 }

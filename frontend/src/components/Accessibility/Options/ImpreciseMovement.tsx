@@ -4,11 +4,11 @@ import {
   toggleFontSize,
 } from '@/features/accessibility/accessibilitySlice';
 import FlexBox from '@/ui/atoms/FlexBox';
-import Typography from '@/ui/atoms/Typography';
 import theme from '@/ui/theme';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import Toggle from 'react-toggle';
+import OptionTypography from '../OptionTypography';
 
 export default function ImpreciseMovementOption() {
   const dispatch = useDispatch();
@@ -16,9 +16,9 @@ export default function ImpreciseMovementOption() {
   return (
     <div>
       <FlexBox justifyContent="space-between" {...{ marginBottom: '24px' }}>
-        <Typography variant="div" color={theme.colors.white}>
+        <OptionTypography variant="div" color={theme.colors.white}>
           손 떨림
-        </Typography>
+        </OptionTypography>
         <Toggle
           defaultChecked={impreciseMovement.isActivated}
           onChange={(e) => {
@@ -41,9 +41,9 @@ export default function ImpreciseMovementOption() {
           }}
         />
       </FlexBox>
-      <Typography variant="div" color="white">
+      <OptionTypography variant="div" color="white">
         버튼의 크기가 커지고, 마우스를 올리면 버튼에 사각박스가 표시됩니다.
-      </Typography>
+      </OptionTypography>
     </div>
   );
 }
