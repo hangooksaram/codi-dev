@@ -28,6 +28,7 @@ import { useEffect, useState } from 'react';
 import 'react-toggle/style.css';
 import VisualOption from './Options/Visual';
 import RetinalOption from './Options/Retinal';
+import ImpreciseMovementOption from './Options/ImpreciseMovement';
 
 type OptionState = 'on' | 'off' | 'initial';
 
@@ -123,6 +124,7 @@ export default function AccessibilityMenu({
         <>
           <VisualOption />
           <RetinalOption />
+          <ImpreciseMovementOption />
           <Typography variant="div" color={theme.colors.primary.text}>
             가독성
           </Typography>

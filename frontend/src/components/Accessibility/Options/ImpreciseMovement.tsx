@@ -10,42 +10,39 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import Toggle from 'react-toggle';
 
-export default function RetinalOption() {
+export default function ImpreciseMovementOption() {
   const dispatch = useDispatch();
-  const { retinal } = useSelector(selectDisabilityOption);
+  const { impreciseMovement } = useSelector(selectDisabilityOption);
   return (
     <div>
       <FlexBox justifyContent="space-between" {...{ marginBottom: '24px' }}>
         <Typography variant="div" color={theme.colors.white}>
-          망막 편두통
+          손 떨림
         </Typography>
         <Toggle
-          defaultChecked={retinal.isActivated}
+          defaultChecked={impreciseMovement.isActivated}
           onChange={(e) => {
             if (e.target.checked) {
               dispatch(
                 setActivatedDisabilityOption({
-                  key: 'retinal',
+                  key: 'impreciseMovement',
                   isActivated: true,
                 }),
               );
-              dispatch(toggleFontSize('increase'));
             }
             if (!e.target.checked) {
               dispatch(
                 setActivatedDisabilityOption({
-                  key: 'retinal',
+                  key: 'impreciseMovement',
                   isActivated: false,
                 }),
               );
-              dispatch(toggleFontSize('decrease'));
             }
           }}
         />
       </FlexBox>
       <Typography variant="div" color="white">
-        글자 크기를 키우고 배경색은 어둡게, 글자색은 밝게 변경됩니다. 전체적인
-        색상을 부드럽게 합니다.
+        버튼의 크기가 커지고, 마우스를 올리면 버튼에 사각박스가 표시됩니다.
       </Typography>
     </div>
   );

@@ -3,6 +3,7 @@
 import styled from '@emotion/styled';
 import { useSelector } from 'react-redux';
 import {
+  selectDisabilityOption,
   selectFocused,
   selectFont,
   selectHighlight,
@@ -21,29 +22,36 @@ type StyledLayoutProps = {
   lineHeight: number;
   focused: boolean;
   font: {
-    color: string;
+    color: string | null;
     size: number;
   };
+  impreciseMovement: boolean;
 };
 
 const StyledLayout = styled.div(
-  ({ zoom, letterSpacing, lineHeight, focused, font }: StyledLayoutProps) => ({
+  ({
+    zoom,
+    letterSpacing,
+    lineHeight,
+    focused,
+    font,
+    impreciseMovement,
+  }: StyledLayoutProps) => ({
     zoom,
     letterSpacing,
     lineHeight,
     fontSize: `${font.size}px`,
-
-    input: {
-      ':hover': {
-        border: focused
-          ? `4px solid ${theme.colors.secondary.normal} !important`
-          : '',
-      },
-    },
+    // input: {
+    //   ':hover': {
+    //     border: focused
+    //       ? `4px solid ${theme.colors.secondary.normal} !important`
+    //       : '',
+    //   },
+    // },
     button: {
       ':hover': {
-        border: focused
-          ? `4px solid ${theme.colors.secondary.normal} !important`
+        border: impreciseMovement
+          ? `4px solid ${theme.colors.assist.normal} !important`
           : '',
       },
     },
@@ -57,6 +65,7 @@ function AccessibilityLayout({ children }: { children: React.ReactNode }) {
   const lineHeight = useSelector(selectLineHeight);
   const focused = useSelector(selectFocused);
   const font = useSelector(selectFont);
+  const { impreciseMovement } = useSelector(selectDisabilityOption);
 
   return (
     <StyledLayout
@@ -66,6 +75,7 @@ function AccessibilityLayout({ children }: { children: React.ReactNode }) {
       focused={focused}
       font={font}
       className={myFont.className}
+      impreciseMovement={impreciseMovement.isActivated}
     >
       {highlight && <Highlight />}
       {children}

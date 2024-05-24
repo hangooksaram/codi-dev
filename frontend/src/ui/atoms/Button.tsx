@@ -2,7 +2,10 @@ import styled from '@emotion/styled';
 import { ReactNode } from 'react';
 import theme, { device } from '../theme';
 import { ButtonProps, ButtonVariant, ThemeFontSize } from '../../types/ui';
-import { selectFont } from '@/features/webAccessibility/webAccessibilitySlice';
+import {
+  selectDisabilityOption,
+  selectFont,
+} from '@/features/webAccessibility/webAccessibilitySlice';
 import { useSelector } from 'react-redux';
 
 const Button = styled.button(
@@ -18,19 +21,21 @@ const Button = styled.button(
     ...rest
   }: ButtonProps) => {
     const { size: globalFontSize } = useSelector(selectFont);
+    const { impreciseMovement } = useSelector(selectDisabilityOption);
+    console.log(children, height(variant, width, size));
     return {
       width: width ?? 'fit-content',
       maxWidth: width ?? 'fit-content',
       minWidth: '39px',
       backgroundColor: color ?? theme.colors.primary.normal,
       borderRadius: borderRadius(variant),
-      height: height(variant, width, size),
+      height: `${height(variant, width, size) + (impreciseMovement.isActivated ? 2 : 0)}px`,
       color: fontColor(color),
       fontWeight: fontWeight(size),
       border: outline
         ? `1px solid ${theme.colors.gray.main}`
         : '2px solid transparent',
-      padding: variant === 'round' ? '0px' : '0px 20px',
+      padding: padding(variant, impreciseMovement.isActivated),
       fontSize: fontSize
         ? `${theme.fonts.size[fontSize] + globalFontSize}px`
         : `${theme.fonts.size.sm + globalFontSize}px`,
@@ -56,6 +61,17 @@ const Button = styled.button(
   },
 );
 
+const padding = (
+  variant: ButtonVariant,
+  isOptionActivated: boolean,
+): string => {
+  if (variant === 'round') {
+    return `${0 + (isOptionActivated ? 2 : 0)}px ${0 + (isOptionActivated ? 8 : 0)}px`;
+  }
+
+  return `${0 + (isOptionActivated ? 2 : 0)}px ${20 + (isOptionActivated ? 8 : 0)}px`;
+};
+
 const borderRadius = (variant: ButtonVariant) => {
   switch (variant) {
     case 'default':
@@ -69,16 +85,20 @@ const borderRadius = (variant: ButtonVariant) => {
 
 const height = (variant: ButtonVariant, width?: string, size?: string) => {
   if (size === 'small') {
-    return '39px';
+    return 39;
   }
-  if (size === 'big') return '70px';
+  if (size === 'big') {
+    return 70;
+  }
   switch (variant) {
     case 'default':
-      return '50px';
+      return 50;
     case 'square':
-      return '50px';
+      return 50;
     case 'round':
-      return width;
+      return parseInt(width!);
+    default:
+      return 39;
   }
 };
 

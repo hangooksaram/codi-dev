@@ -19,6 +19,7 @@ interface DisabilityOption {
   retinal:ActivatedOption;
   visual : ActivatedOption;
   achromatopsia:ActivatedOption;
+  impreciseMovement:ActivatedOption;
 }
 
 interface ActivatedOption {
@@ -55,7 +56,12 @@ const initialState: WebAccessibilityState = {
     achromatopsia:{
       severity:null,
       isActivated:false
-    }
+    },
+    impreciseMovement:{
+      severity:null,
+      isActivated:false
+    },
+    
   }
  
 };
