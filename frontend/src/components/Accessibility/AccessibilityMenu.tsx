@@ -59,7 +59,7 @@ export default function AccessibilityMenu({
       <FlexBox direction="column" rowGap="40px" alignItems="flex-start">
         <Typography
           variant="div"
-          color={theme.colors.white}
+          color={theme.colors.primary.text}
           size={theme.fonts.size.md}
           weight={theme.fonts.weight.extraBold}
         >
@@ -77,7 +77,7 @@ export default function AccessibilityMenu({
         <>
           <Typography
             variant="div"
-            color={theme.colors.white}
+            color={theme.colors.primary.text}
             size={theme.fonts.size.sm}
           >
             강조 표시 및 포커스
@@ -87,7 +87,9 @@ export default function AccessibilityMenu({
             <StyledFloating.Button
               variant="default"
               color={
-                highlight ? theme.colors.white : theme.colors.primary.normal
+                highlight
+                  ? theme.colors.primary.text
+                  : theme.colors.primary.normal
               }
               onClick={() => applyOption('하이라이터')}
             >
@@ -101,7 +103,11 @@ export default function AccessibilityMenu({
             </StyledFloating.Button>
             <StyledFloating.Button
               variant="default"
-              color={focused ? theme.colors.white : theme.colors.primary.normal}
+              color={
+                focused
+                  ? theme.colors.primary.text
+                  : theme.colors.primary.normal
+              }
               onClick={() => applyOption('포커싱박스')}
             >
               <ImageComponent
@@ -117,14 +123,14 @@ export default function AccessibilityMenu({
         <>
           <VisualOption />
           <RetinalOption />
-          <Typography variant="div" color={theme.colors.white}>
+          <Typography variant="div" color={theme.colors.primary.text}>
             가독성
           </Typography>
           <FlexBox direction="column" rowGap="20px">
             <FlexBox justifyContent="flex-start" columnGap="10px">
               <Typography
                 variant="div"
-                color={theme.colors.white}
+                color={theme.colors.primary.text}
                 {...{ minWidth: '90px' }}
               >
                 자간
@@ -135,7 +141,7 @@ export default function AccessibilityMenu({
                 size="small"
                 color={
                   letterSpacing === 'initial'
-                    ? theme.colors.white
+                    ? theme.colors.primary.text
                     : theme.colors.primary.normal
                 }
                 onClick={() => dispatch(setLetterSpacing('initial'))}
@@ -147,7 +153,7 @@ export default function AccessibilityMenu({
                 size="small"
                 color={
                   letterSpacing === '1px'
-                    ? theme.colors.white
+                    ? theme.colors.primary.text
                     : theme.colors.primary.normal
                 }
                 onClick={() => dispatch(setLetterSpacing('1px'))}
@@ -159,7 +165,7 @@ export default function AccessibilityMenu({
             <FlexBox justifyContent="flex-start" columnGap="10px">
               <Typography
                 variant="div"
-                color={theme.colors.white}
+                color={theme.colors.primary.text}
                 {...{ minWidth: '90px' }}
               >
                 행간
@@ -169,7 +175,7 @@ export default function AccessibilityMenu({
                 size="small"
                 color={
                   lineHeight === 1
-                    ? theme.colors.white
+                    ? theme.colors.primary.text
                     : theme.colors.primary.normal
                 }
                 onClick={() => dispatch(setLineHeight(1))}
@@ -182,7 +188,7 @@ export default function AccessibilityMenu({
                 size="small"
                 color={
                   lineHeight !== 1
-                    ? theme.colors.white
+                    ? theme.colors.primary.text
                     : theme.colors.primary.normal
                 }
                 onClick={() => dispatch(setLineHeight(1.2))}
@@ -194,7 +200,7 @@ export default function AccessibilityMenu({
             <FlexBox justifyContent="flex-start" columnGap="10px">
               <Typography
                 variant="div"
-                color={theme.colors.white}
+                color={theme.colors.primary.text}
                 {...{ minWidth: '90px' }}
               >
                 페이지확대
@@ -203,7 +209,9 @@ export default function AccessibilityMenu({
                 outline
                 size="small"
                 color={
-                  zoom === 1 ? theme.colors.white : theme.colors.primary.normal
+                  zoom === 1
+                    ? theme.colors.primary.text
+                    : theme.colors.primary.normal
                 }
                 onClick={() => dispatch(setZoom(1))}
                 variant="default"
@@ -215,7 +223,7 @@ export default function AccessibilityMenu({
                 size="small"
                 color={
                   zoom === 1.1
-                    ? theme.colors.white
+                    ? theme.colors.primary.text
                     : theme.colors.primary.normal
                 }
                 onClick={() => dispatch(setZoom(1.1))}
@@ -228,7 +236,7 @@ export default function AccessibilityMenu({
                 size="small"
                 color={
                   zoom === 1.2
-                    ? theme.colors.white
+                    ? theme.colors.primary.text
                     : theme.colors.primary.normal
                 }
                 onClick={() => dispatch(setZoom(1.2))}
@@ -240,7 +248,7 @@ export default function AccessibilityMenu({
             <StyledFloating.CloseButton
               variant="default"
               width="100%"
-              color={theme.colors.white}
+              color={theme.colors.primary.text}
               onClick={() => {
                 setOpen(false);
               }}

@@ -51,7 +51,8 @@ const theme = {
     primary: {
       normal: '#334259',
       strong: '#2f3b4e',
-      heavy :'#2b3543'
+      heavy :'#2b3543',
+      text:'#fcfcfc'
     },
     secondary: {
       normal: '#4C9DF8',
