@@ -1,8 +1,8 @@
 import {
-  selectDisabilityOption,
-  setActivatedDisabilityOption,
+  selectAccessibilityOption,
+  setActivatedAccessibilityOption,
   toggleFontSize,
-} from '@/features/webAccessibility/webAccessibilitySlice';
+} from '@/features/accessibility/accessibilitySlice';
 import FlexBox from '@/ui/atoms/FlexBox';
 import Typography from '@/ui/atoms/Typography';
 import theme from '@/ui/theme';
@@ -12,7 +12,7 @@ import Toggle from 'react-toggle';
 
 export default function RetinalOption() {
   const dispatch = useDispatch();
-  const { retinal } = useSelector(selectDisabilityOption);
+  const { retinal } = useSelector(selectAccessibilityOption);
   return (
     <div>
       <FlexBox justifyContent="space-between" {...{ marginBottom: '24px' }}>
@@ -24,7 +24,7 @@ export default function RetinalOption() {
           onChange={(e) => {
             if (e.target.checked) {
               dispatch(
-                setActivatedDisabilityOption({
+                setActivatedAccessibilityOption({
                   key: 'retinal',
                   isActivated: true,
                 }),
@@ -33,7 +33,7 @@ export default function RetinalOption() {
             }
             if (!e.target.checked) {
               dispatch(
-                setActivatedDisabilityOption({
+                setActivatedAccessibilityOption({
                   key: 'retinal',
                   isActivated: false,
                 }),

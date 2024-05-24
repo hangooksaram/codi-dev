@@ -1,7 +1,7 @@
 import {
-  selectDisabilityOption,
+  selectAccessibilityOption,
   toggleFontSize,
-} from '@/features/webAccessibility/webAccessibilitySlice';
+} from '@/features/accessibility/accessibilitySlice';
 import FlexBox from '@/ui/atoms/FlexBox';
 import Typography from '@/ui/atoms/Typography';
 import theme from '@/ui/theme';
@@ -11,7 +11,7 @@ import Toggle from 'react-toggle';
 
 export default function VisualOption() {
   const dispatch = useDispatch();
-  const { visual } = useSelector(selectDisabilityOption);
+  const { visual } = useSelector(selectAccessibilityOption);
 
   return (
     <div>

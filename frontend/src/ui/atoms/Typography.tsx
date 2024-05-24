@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import theme from '../theme';
 import { TypographyProps } from '../../types/ui';
 import { useSelector } from 'react-redux';
-import { selectFont } from '@/features/webAccessibility/webAccessibilitySlice';
+import { selectFont } from '@/features/accessibility/accessibilitySlice';
 import dynamicColor from '../dynamicColor';
 
 function Typography({

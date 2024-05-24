@@ -3,7 +3,7 @@
 import styled from '@emotion/styled';
 import { useSelector } from 'react-redux';
 import {
-  selectDisabilityOption,
+  selectAccessibilityOption,
   selectFocused,
   selectFont,
   selectHighlight,
@@ -11,7 +11,7 @@ import {
   selectLineHeight,
   selectZoom,
   setHighlight,
-} from '@/features/webAccessibility/webAccessibilitySlice';
+} from '@/features/accessibility/accessibilitySlice';
 import Highlight from '../Accessibility/Highlight';
 import myFont from '@/ui/font';
 import theme from '@/ui/theme';
@@ -65,7 +65,7 @@ function AccessibilityLayout({ children }: { children: React.ReactNode }) {
   const lineHeight = useSelector(selectLineHeight);
   const focused = useSelector(selectFocused);
   const font = useSelector(selectFont);
-  const { impreciseMovement } = useSelector(selectDisabilityOption);
+  const { impreciseMovement } = useSelector(selectAccessibilityOption);
 
   return (
     <StyledLayout

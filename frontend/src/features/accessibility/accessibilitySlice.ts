@@ -3,7 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../../store/store';
 
 // Define a type for the slice state
-export interface WebAccessibilityState {
+export interface AccessibilityState {
   zoom: number;
   highlight: boolean;
   letterSpacing: string;
@@ -13,9 +13,9 @@ export interface WebAccessibilityState {
     color: string | null;
     size : number;
   },
-  disabilityOption: DisabilityOption
+  accessibilityOption: AccessibilityOption
 }
-interface DisabilityOption {
+interface AccessibilityOption {
   retinal:ActivatedOption;
   visual : ActivatedOption;
   achromatopsia:ActivatedOption;
@@ -28,13 +28,13 @@ interface ActivatedOption {
 }
 
 interface UpdateDisabilityState {
-  key: keyof DisabilityOption;
+  key: keyof AccessibilityOption;
   isActivated: boolean;
 }
 
 
 // Define the initial state using that type
-const initialState: WebAccessibilityState = {
+const initialState: AccessibilityState = {
   zoom: 1,
   highlight: false,
   letterSpacing: 'initial',
@@ -44,7 +44,7 @@ const initialState: WebAccessibilityState = {
     color : null,
     size : 0
   },
-  disabilityOption:{
+  accessibilityOption:{
     retinal:{
       severity:null,
       isActivated:false
@@ -68,8 +68,8 @@ const initialState: WebAccessibilityState = {
 
 
 
-export const webAccessibilitySlice = createSlice({
-  name: 'webAccessibility',
+export const accessibilitySlice = createSlice({
+  name: 'accessibility',
   initialState,
   reducers: {
     initializeAll: (state) => {
@@ -101,11 +101,11 @@ export const webAccessibilitySlice = createSlice({
       }
       state.font.size = state.font!.size - 2;
     },
-    setActivatedDisabilityOption:(state,action: PayloadAction<UpdateDisabilityState>)=> {
+    setActivatedAccessibilityOption:(state,action: PayloadAction<UpdateDisabilityState>)=> {
       const { key, isActivated } = action.payload
 
-      if (state.disabilityOption.hasOwnProperty(key)) {
-        state.disabilityOption[key].isActivated = isActivated!;
+      if (state.accessibilityOption.hasOwnProperty(key)) {
+        state.accessibilityOption[key].isActivated = isActivated!;
       }
       
     },
@@ -120,22 +120,22 @@ export const {
   setFocused,
   toggleFontSize,
   initializeAll,
-  setActivatedDisabilityOption
-} = webAccessibilitySlice.actions;
+  setActivatedAccessibilityOption
+} = accessibilitySlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectZoom = (state: RootState) => state.webAccessibility.zoom;
+export const selectZoom = (state: RootState) => state.accessibility.zoom;
 export const selectHighlight = (state: RootState) =>
-  state.webAccessibility.highlight;
+  state.accessibility.highlight;
 export const selectLetterSpacing = (state: RootState) =>
-  state.webAccessibility.letterSpacing;
+  state.accessibility.letterSpacing;
 export const selectLineHeight = (state: RootState) =>
-  state.webAccessibility.lineHeight;
+  state.accessibility.lineHeight;
 export const selectFocused = (state: RootState) =>
-  state.webAccessibility.focused;
+  state.accessibility.focused;
 export const selectFont = (state: RootState) =>
-  state.webAccessibility.font;
-export const selectDisabilityOption = (state: RootState) =>
-  state.webAccessibility.disabilityOption;
+  state.accessibility.font;
+export const selectAccessibilityOption = (state: RootState) =>
+  state.accessibility.accessibilityOption;
 
-export default webAccessibilitySlice.reducer;
+export default accessibilitySlice.reducer;

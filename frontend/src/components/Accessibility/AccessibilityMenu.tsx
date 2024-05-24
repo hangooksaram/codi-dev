@@ -11,7 +11,7 @@ import {
   setLetterSpacing,
   setLineHeight,
   setZoom,
-} from '@/features/webAccessibility/webAccessibilitySlice';
+} from '@/features/accessibility/accessibilitySlice';
 import FlexBox from '@/ui/atoms/FlexBox';
 import { StyledFloating } from '@/ui/atoms/Floating';
 import ImageComponent from '@/ui/atoms/ImageComponent';
@@ -19,8 +19,8 @@ import Typography from '@/ui/atoms/Typography';
 import theme from '@/ui/theme';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import highlightImage from '@images/webAccessibility/highlight.png';
-import focusingboxImage from '@images/webAccessibility/focusingbox.png';
+import highlightImage from '@images/accessibility/highlight.png';
+import focusingboxImage from '@images/accessibility/focusingbox.png';
 import { SetState } from '@/index';
 import Button from '@/ui/atoms/Button';
 import Toggle from 'react-toggle';

@@ -1,8 +1,8 @@
 import {
-  selectDisabilityOption,
-  setActivatedDisabilityOption,
+  selectAccessibilityOption,
+  setActivatedAccessibilityOption,
   toggleFontSize,
-} from '@/features/webAccessibility/webAccessibilitySlice';
+} from '@/features/accessibility/accessibilitySlice';
 import FlexBox from '@/ui/atoms/FlexBox';
 import Typography from '@/ui/atoms/Typography';
 import theme from '@/ui/theme';
@@ -12,7 +12,7 @@ import Toggle from 'react-toggle';
 
 export default function ImpreciseMovementOption() {
   const dispatch = useDispatch();
-  const { impreciseMovement } = useSelector(selectDisabilityOption);
+  const { impreciseMovement } = useSelector(selectAccessibilityOption);
   return (
     <div>
       <FlexBox justifyContent="space-between" {...{ marginBottom: '24px' }}>
@@ -24,7 +24,7 @@ export default function ImpreciseMovementOption() {
           onChange={(e) => {
             if (e.target.checked) {
               dispatch(
-                setActivatedDisabilityOption({
+                setActivatedAccessibilityOption({
                   key: 'impreciseMovement',
                   isActivated: true,
                 }),
@@ -32,7 +32,7 @@ export default function ImpreciseMovementOption() {
             }
             if (!e.target.checked) {
               dispatch(
-                setActivatedDisabilityOption({
+                setActivatedAccessibilityOption({
                   key: 'impreciseMovement',
                   isActivated: false,
                 }),

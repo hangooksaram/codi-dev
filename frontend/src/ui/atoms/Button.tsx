@@ -3,9 +3,9 @@ import { ReactNode } from 'react';
 import theme, { device } from '../theme';
 import { ButtonProps, ButtonVariant, ThemeFontSize } from '../../types/ui';
 import {
-  selectDisabilityOption,
+  selectAccessibilityOption,
   selectFont,
-} from '@/features/webAccessibility/webAccessibilitySlice';
+} from '@/features/accessibility/accessibilitySlice';
 import { useSelector } from 'react-redux';
 
 const Button = styled.button(
@@ -21,7 +21,7 @@ const Button = styled.button(
     ...rest
   }: ButtonProps) => {
     const { size: globalFontSize } = useSelector(selectFont);
-    const { impreciseMovement } = useSelector(selectDisabilityOption);
+    const { impreciseMovement } = useSelector(selectAccessibilityOption);
     console.log(children, height(variant, width, size));
     return {
       width: width ?? 'fit-content',
