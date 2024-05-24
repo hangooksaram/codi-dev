@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import { useSelector } from 'react-redux';
 import {
   selectFocused,
+  selectFont,
   selectHighlight,
   selectLetterSpacing,
   selectLineHeight,
@@ -19,13 +20,18 @@ type StyledLayoutProps = {
   letterSpacing: string;
   lineHeight: number;
   focused: boolean;
+  font: {
+    color: string;
+    size: number;
+  };
 };
 
 const StyledLayout = styled.div(
-  ({ zoom, letterSpacing, lineHeight, focused }: StyledLayoutProps) => ({
+  ({ zoom, letterSpacing, lineHeight, focused, font }: StyledLayoutProps) => ({
     zoom,
     letterSpacing,
     lineHeight,
+    fontSize: `${font.size}px`,
 
     input: {
       ':hover': {
@@ -50,6 +56,7 @@ function AccessibilityLayout({ children }: { children: React.ReactNode }) {
   const letterSpacing = useSelector(selectLetterSpacing);
   const lineHeight = useSelector(selectLineHeight);
   const focused = useSelector(selectFocused);
+  const font = useSelector(selectFont);
 
   return (
     <StyledLayout
@@ -57,6 +64,7 @@ function AccessibilityLayout({ children }: { children: React.ReactNode }) {
       letterSpacing={letterSpacing}
       lineHeight={lineHeight}
       focused={focused}
+      font={font}
       className={myFont.className}
     >
       {highlight && <Highlight />}

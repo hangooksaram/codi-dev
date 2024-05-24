@@ -9,7 +9,13 @@ export interface WebAccessibilityState {
   letterSpacing: string;
   lineHeight: number;
   focused: boolean;
+  font: {
+    color: string;
+    size : number;
+  }
 }
+
+
 
 // Define the initial state using that type
 const initialState: WebAccessibilityState = {
@@ -18,6 +24,10 @@ const initialState: WebAccessibilityState = {
   letterSpacing: 'initial',
   lineHeight: 1,
   focused: false,
+  font: {
+    color:"",
+    size:0
+  }
 };
 
 export const webAccessibilitySlice = createSlice({
@@ -46,6 +56,9 @@ export const webAccessibilitySlice = createSlice({
     setFocused: (state) => {
       state.focused = !state.focused;
     },
+    increaseFontSize:(state, action)=> {
+      state.font.size = state.font!.size + action.payload;
+    }
   },
 });
 
@@ -55,6 +68,7 @@ export const {
   setLetterSpacing,
   setLineHeight,
   setFocused,
+  increaseFontSize,
   initializeAll,
 } = webAccessibilitySlice.actions;
 
@@ -68,5 +82,7 @@ export const selectLineHeight = (state: RootState) =>
   state.webAccessibility.lineHeight;
 export const selectFocused = (state: RootState) =>
   state.webAccessibility.focused;
+export const selectFont = (state: RootState) =>
+  state.webAccessibility.font;
 
 export default webAccessibilitySlice.reducer;
