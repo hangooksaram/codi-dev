@@ -24,7 +24,7 @@ const Input = styled.input(
     background: 'var(--white, #fcfcfc)',
     boxShadow: '0px 2px 6px 0px rgba(0, 0, 0, 0.04)',
     paddingLeft: '30px',
-    fontSize: theme.fonts.size.sm,
+    fontSize: `${theme.fonts.size.sm}px`,
     '::placeholder': {
       color: theme.colors.gray.dark,
     },

@@ -5,8 +5,6 @@ import { findId } from '@/api/accountApi';
 import Button from '@/ui/atoms/Button';
 import Container from '@/ui/atoms/Container';
 import FlexBox from '@/ui/atoms/FlexBox';
-import Input from '@/ui/atoms/Input';
-import StyledLink from '@/ui/atoms/Link';
 import Typography from '@/ui/atoms/Typography';
 import theme from '@/ui/theme';
 import {
@@ -18,6 +16,7 @@ import { ValidateSchema } from '@/types/validate';
 import useNewForm from '@/hooks/useNewForm/useNewForm';
 import FormError from '@/ui/molecules/Typography/FormError';
 import FormInput from '@/ui/molecules/Form/FormInput';
+import Link from 'next/link';
 
 function FindIdPage() {
   interface FindIdForm {
@@ -117,9 +116,11 @@ function FindIdPage() {
                 아이디 찾기
               </Button>
             </FlexBox>
-            <StyledLink href="/account/findPw">
-              {'비밀번호가 기억이 안나시나요? >'}
-            </StyledLink>
+            <Link href="/account/findPw">
+              <Typography variant="div">
+                비밀번호가 기억이 안나시나요?
+              </Typography>
+            </Link>
           </AccountFormContainer>
         </form>
       </Container>

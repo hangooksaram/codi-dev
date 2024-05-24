@@ -8,11 +8,11 @@ width: 100%;
 height: 300px;
 padding: 20px;
 border: 1px solid ${theme.colors.gray.main};
-color: ${theme.colors.black};
+color: ${theme.colors.text.strong};
 ::placeholder {
   color: ${theme.colors.gray.dark};
 }
-font-size: ${theme.fonts.size.sm};
+font-size: ${theme.fonts.size.sm}px;
 font-weight: ${theme.fonts.weight.regular};
 resize: none;
 border-radius: 10px;

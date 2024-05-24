@@ -3,9 +3,12 @@ import Logo from '@icons/logo/logo-primary.svg';
 import { usePathname } from 'next/navigation';
 import { TopNavigator } from '@/ui/atoms/Navigator';
 import FlexBox from '@/ui/atoms/FlexBox';
+import Typography from '@/ui/atoms/Typography';
+import theme from '@/ui/theme';
 
 function AppBarTab() {
   const path = usePathname();
+
   return (
     <FlexBox
       justifyContent="space-between"
@@ -16,13 +19,31 @@ function AppBarTab() {
       </Link>
 
       <TopNavigator current={path.includes('/mentorsMain')} href="/mentorsMain">
-        멘토 찾기
+        <Typography
+          color={
+            path.includes('/mentorsMain')
+              ? theme.colors.white
+              : theme.colors.text.strong
+          }
+          variant="div"
+        >
+          멘토 찾기
+        </Typography>
       </TopNavigator>
       <TopNavigator
         current={path.includes('/menteeCenter')}
         href="/menteeCenter"
       >
-        멘티 센터
+        <Typography
+          variant="div"
+          color={
+            path.includes('/menteeCenter')
+              ? theme.colors.white
+              : theme.colors.text.strong
+          }
+        >
+          멘티 센터
+        </Typography>
       </TopNavigator>
     </FlexBox>
   );

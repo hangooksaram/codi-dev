@@ -32,12 +32,11 @@ export const StyledFloating = {
   Menu: styled(Card)({
     position: 'absolute',
     zIndex: '105',
-    width: '420px',
-    height: 'auto',
+    width: '390px',
+    height: '605px',
     bottom: '150px',
-    padding: '30px',
+    padding: '24px',
     right: '20px',
-    overflow: 'auto',
     [device('tablet')]: {
       position: 'fixed',
       width: '100%',
@@ -48,6 +47,10 @@ export const StyledFloating = {
       borderRadius: 0,
     },
   }),
+  OptionContainer: styled.div(() => ({
+    maxHeight: '100%',
+    overflow: 'auto',
+  })),
   Button: styled(Button)({
     width: '96px',
     height: '96px',
@@ -59,13 +62,13 @@ export const StyledFloating = {
     alignItems: 'center',
     justifyContent: 'center',
     [device('mobile')]: {
-      fontSize: theme.fonts.size.xs,
+      fontSize: `${theme.fonts.size.xs}px`,
     },
   }),
   InitializeButton: styled(Button)({
     position: 'absolute',
     top: '20px',
     right: '30px',
-    color: theme.colors.black,
+    color: theme.colors.text.strong,
   }),
 };

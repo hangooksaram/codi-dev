@@ -49,7 +49,7 @@ function MentoringMenteeProfilePage({}) {
                   onClick={() => setOpen(true)}
                   size="small"
                   variant="default"
-                  color={theme.colors.secondary.main}
+                  color={theme.colors.secondary.normal}
                   {...{ marginTop: '16px' }}
                 >
                   멘토링 링크 수정

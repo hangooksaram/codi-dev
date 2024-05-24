@@ -55,12 +55,12 @@ export const LabelTextAdorement = styled.div(
     height: '21px',
     borderRadius: '2px',
     marginRight: '15px',
-    backgroundColor: color ?? theme.colors.primary.main,
+    backgroundColor: color ?? theme.colors.primary.normal,
   }),
 );
 
 export const StyledLabelText = styled.div`
   min-width: fit-content;
-  font-size: ${theme.fonts.size.md};
+  font-size: ${theme.fonts.size.md}px;
   font-weight: ${theme.fonts.weight.extraBold};
 `;

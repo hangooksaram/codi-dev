@@ -45,7 +45,7 @@ function Pagination({
           variant="square"
           key={page}
           color={
-            page === current ? theme.colors.primary.main : theme.colors.white
+            page === current ? theme.colors.primary.normal : theme.colors.white
           }
           onClick={() => {
             setCurrent(page);

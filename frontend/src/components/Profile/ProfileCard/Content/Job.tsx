@@ -6,7 +6,7 @@ function Job({ job }: { job: string }) {
     <Typography
       variant="div"
       size={theme.fonts.size.xs}
-      color={theme.colors.black}
+      color={theme.colors.text.strong}
       {...{ marginTop: '6px' }}
     >
       {job!}

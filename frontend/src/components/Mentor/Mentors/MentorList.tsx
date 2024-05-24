@@ -13,6 +13,7 @@ import { useGetFavoriteMentorsQuery } from '@/queries/mentorQuery';
 import Header from '@/components/Profile/ProfileCard/Header';
 import Content from '@/components/Profile/ProfileCard/Content';
 import Footer from '@/components/Profile/ProfileCard/Footer';
+import dynamicColor from '@/ui/dynamicColor';
 
 function MentorList({ mentors }: { mentors: Mentor[] }) {
   const router = useRouter();
@@ -75,7 +76,7 @@ function MentorList({ mentors }: { mentors: Mentor[] }) {
                 }
                 size="small"
                 variant="default"
-                color={theme.colors.secondary.main}
+                color={dynamicColor(theme.colors.secondary.normal)}
               >
                 멘토프로필 보기
               </Button>

@@ -33,7 +33,7 @@ function MyInfoPage() {
               onClick={() => router.push('/profileForm?edit=true')}
               size="small"
               variant="default"
-              color={theme.colors.secondary.main}
+              color={theme.colors.secondary.normal}
             >
               프로필 수정하기
             </Button>

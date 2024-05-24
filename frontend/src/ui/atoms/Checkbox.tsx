@@ -31,7 +31,7 @@ function Checkbox({
     >
       <div style={{ width: '24px', height: '24px' }}>
         {checked ? (
-          <FileedCheckbox fill={theme.colors.black} />
+          <FileedCheckbox fill={theme.colors.text.strong} />
         ) : (
           <EmptyCheckbox fill={theme.colors.gray.dark} />
         )}

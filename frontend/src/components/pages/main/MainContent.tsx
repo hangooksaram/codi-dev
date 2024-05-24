@@ -70,7 +70,7 @@ function MainContent() {
                 [device('tablet')]: {
                   minWidth: 'fit-content',
                   width: 'auto',
-                  fontSize: `${theme.fonts.size.lg}`,
+                  fontSize: `${theme.fonts.size.lg}px`,
                   marginBottom: '10px',
                 },
               }}

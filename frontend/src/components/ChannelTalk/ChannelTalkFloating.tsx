@@ -8,7 +8,7 @@ const ChannelTalkFloating = () => {
     <S
       variant="round"
       width="110px"
-      color={theme.colors.info.main}
+      color={theme.colors.assist.normal}
       hoverDisabled
       id="channelTalk"
     >

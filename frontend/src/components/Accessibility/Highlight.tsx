@@ -66,10 +66,10 @@ const DarkSection = styled.div(
     screenHeight: number;
     position: string;
   }) => ({
-    top: position === 'top' ? '0' : `${(cursorPosition / screenHeight) * 100}%`,
+    top: position === 'top' ? '0' : `${(cursorPosition / screenHeight) * 120}%`,
     height:
       position === 'top'
-        ? `${(cursorPosition / screenHeight) * 100 - 5}%`
+        ? `${(cursorPosition / screenHeight) * 100 - 15}%`
         : '100vh',
   }),
 );
