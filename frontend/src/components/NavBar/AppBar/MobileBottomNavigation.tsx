@@ -26,7 +26,9 @@ function MobileBottomNavigation() {
               >
                 <Icon
                   fill={
-                    current ? theme.colors.primary.main : theme.colors.gray.main
+                    current
+                      ? theme.colors.primary.normal
+                      : theme.colors.gray.main
                   }
                 />
                 {text}
@@ -70,8 +72,8 @@ const MobileMenuButton = styled(Button)(
     borderRadius: '20px',
     background: selected ? theme.colors.background : theme.colors.white,
     border: 'none',
-    color: selected ? theme.colors.primary.main : theme.colors.gray.main,
-    fontSize: theme.fonts.size.xs,
+    color: selected ? theme.colors.primary.normal : theme.colors.gray.main,
+    fontSize: `${theme.fonts.size.xs}px`,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',

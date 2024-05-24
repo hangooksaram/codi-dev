@@ -1,6 +1,12 @@
 import styled from '@emotion/styled';
 import theme from '../theme';
 import { TypographyProps } from '../../types/ui';
+import { useSelector } from 'react-redux';
+import {
+  selectAccessibilityOption,
+  selectFont,
+} from '@/features/accessibility/accessibilitySlice';
+import dynamicColor from '../dynamicColor';
 
 function Typography({
   variant,
@@ -12,11 +18,17 @@ function Typography({
   wordBreak,
   ...rest
 }: TypographyProps) {
+  const { size: globalFontSize } = useSelector(selectFont);
+  const { impreciseMovement, attentionDisorder, dyslexia } = useSelector(
+    selectAccessibilityOption,
+  );
   const StyledTypography = styled
     .div(() => ({
       minWidth: 'fit-content',
-      fontSize: size ?? '16px',
-      color: color ?? theme.colors.black,
+      fontSize: size
+        ? `${size + globalFontSize}px`
+        : `${theme.fonts.size.sm + globalFontSize}px`,
+      color: color ? dynamicColor(color!) : theme.colors.text.strong,
       textAlign: align ?? 'left',
       height: 'fit-content',
       fontWeight: weight ?? theme.fonts.weight.regular,

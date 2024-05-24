@@ -278,7 +278,7 @@ function SignUpPage() {
                   variant="square"
                   color={
                     genderType.name === gender.name
-                      ? theme.colors.primary.main
+                      ? theme.colors.primary.normal
                       : theme.colors.white
                   }
                   type="button"

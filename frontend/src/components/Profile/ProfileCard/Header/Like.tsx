@@ -49,7 +49,7 @@ function Like({
       variant="round"
       width="48px"
       color={
-        localFavoriteState ? theme.colors.secondary.main : theme.colors.white
+        localFavoriteState ? theme.colors.secondary.normal : theme.colors.white
       }
       localFavoriteState={localFavoriteState}
       hoverDisabled

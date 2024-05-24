@@ -282,7 +282,7 @@ function ProfileFormPage() {
                     type="button"
                     color={
                       form.severity === severity
-                        ? theme.colors.primary.main
+                        ? theme.colors.primary.normal
                         : theme.colors.white
                     }
                     variant="square"

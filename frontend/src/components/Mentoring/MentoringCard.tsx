@@ -120,7 +120,7 @@ function MentoringCard({
           color={
             platform === 'No Selection.'
               ? theme.colors.gray.main
-              : theme.colors.primary.main
+              : theme.colors.primary.normal
           }
         >
           <Link fill={theme.colors.white} />
@@ -135,7 +135,7 @@ const StyledCard = styled(Card)({
   maxWidth: '237px',
   maxHeight: '130px',
   padding: '10px',
-  border: `1px solid ${theme.colors.primary.main}`,
+  border: `1px solid ${theme.colors.primary.normal}`,
 
   [device('tablet')]: {
     minWidth: '210px',
@@ -149,7 +149,7 @@ const Header = styled.div(({ today = false }: { today: boolean }) => ({
   justifyㅊontent: 'space-between',
   alignItems: 'center',
   borderRadius: '20px',
-  backgroundColor: today ? theme.colors.primary.main : theme.colors.gray.main,
+  backgroundColor: today ? theme.colors.primary.normal : theme.colors.gray.main,
   color: theme.colors.white,
   marginBottom: '13px',
 }));

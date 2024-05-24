@@ -20,10 +20,10 @@ const MonthlyMentorings = ({
       >
         <Chip
           color={
-            today(date) ? theme.colors.primary.main : theme.colors.gray.main
+            today(date) ? theme.colors.primary.normal : theme.colors.gray.main
           }
           fontColor={
-            today(date) ? theme.colors.white : theme.colors.primary.main
+            today(date) ? theme.colors.white : theme.colors.primary.normal
           }
         >
           {date}

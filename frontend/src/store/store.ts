@@ -1,14 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authSlice from '@/features/auth/authSlice';
 import userSlice from '@/features/user/userSlice';
-import webAccessibilitySlice from '@/features/webAccessibility/webAccessibilitySlice';
+import accessibilitySlice from '@/features/accessibility/accessibilitySlice';
 import modalSlice from '@/features/modal/modalSlice';
 
 // ...
 
 export const store = configureStore({
   reducer: {
-    webAccessibility: webAccessibilitySlice,
+    accessibility: accessibilitySlice,
     user: userSlice,
     auth: authSlice,
     modal:modalSlice

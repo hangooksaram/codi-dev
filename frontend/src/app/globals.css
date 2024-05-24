@@ -38,3 +38,8 @@ a {
   background: #4c9df8 !important;
   color: white;
 }
+
+.pointer {
+  background-color: #edf5fe !important;
+  font-weight: 900;
+}

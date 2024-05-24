@@ -34,7 +34,7 @@ export function CustomDayContent({
           fill={
             date.getDate() === selected?.getDate()
               ? theme.colors.white
-              : theme.colors.primary.main
+              : theme.colors.primary.normal
           }
         />
       );

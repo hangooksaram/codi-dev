@@ -62,7 +62,7 @@ function MentoringAppliedMenteeProfilePage() {
               }}
               size="small"
               variant="default"
-              color={theme.colors.secondary.main}
+              color={theme.colors.secondary.normal}
             >
               멘토링 수락 하기
             </Button>

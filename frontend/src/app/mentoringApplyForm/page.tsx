@@ -172,7 +172,7 @@ function MentoringApplyFormPage() {
                           scheduled
                             ? theme.colors.white
                             : time === form.time
-                              ? theme.colors.primary.main
+                              ? theme.colors.primary.normal
                               : theme.colors.background
                         }
                         key={index}

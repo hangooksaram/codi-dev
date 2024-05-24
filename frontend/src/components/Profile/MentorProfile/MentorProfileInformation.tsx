@@ -52,7 +52,7 @@ function MentorProfileInformation({ mentor }: { mentor: Mentor }) {
               mentor?.mentoringCategories?.find((c) => c === category.text),
             ).map(({ text, iconComponent: IconComponent }) => (
               <MentorCategoryButton variant="default" key={text} hoverDisabled>
-                <IconComponent fill={theme.colors.primary.main} />
+                <IconComponent fill={theme.colors.primary.normal} />
                 {text}
               </MentorCategoryButton>
             ))}

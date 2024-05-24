@@ -19,7 +19,7 @@ const ProfileStatusCard = ({
       <Typography
         variant="div"
         size={theme.fonts.size.md}
-        color={theme.colors.primary.main}
+        color={theme.colors.primary.normal}
         weight={theme.fonts.weight.extraBold}
       >
         {value}

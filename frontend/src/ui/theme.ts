@@ -44,22 +44,28 @@ export interface CustomTheme {
 
 const theme = {
   colors: {
-    black: '#161718',
+    text:{
+      normal: '#2d2e2f',
+      strong : '#161718'
+    },
+    primary: {
+      normal: '#334259',
+      strong: '#2f3b4e',
+      heavy :'#2b3543',
+      text:'#fcfcfc'
+    },
     secondary: {
-      main: '#4C9DF8',
+      normal: '#4C9DF8',
+      strong:'#4384cd',
+      heavy :'#3a6ba2',
       light: '#8DC1FA',
       lighter: '#4C9DF8',
       lightest: '#F8FBFF',
     },
-    primary: {
-      main: '#334259',
-      light: '#7D8695',
-    },
-    info: {
-      main: '#F7C863',
-      light: '#FADC9B',
-      lighter: '#FDF1D8',
-      lightest: '#FFFDF9',
+    assist: {
+      normal: '#F7C863',
+      strong:'#cca656',
+      heavy:'#a18549'
     },
     error: '#E0291D',
     gray: {
@@ -73,11 +79,11 @@ const theme = {
   },
   fonts: {
     size: {
-      xl: '50px',
-      lg: '32px',
-      md: '22px',
-      sm: '16px',
-      xs: '14px',
+      xl: 50,
+      lg: 32,
+      md: 22,
+      sm: 16,
+      xs: 14,
     },
     weight: {
       black: 900,

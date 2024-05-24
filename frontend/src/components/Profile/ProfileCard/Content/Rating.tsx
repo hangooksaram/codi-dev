@@ -10,7 +10,7 @@ function Rating({ star, mentees }: { star: number; mentees: number }) {
       <Typography
         variant="span"
         size={theme.fonts.size.sm}
-        color={theme.colors.black}
+        color={theme.colors.text.strong}
         {...{ margin: '0px 10px 0px 5px' }}
       >
         {`(${star?.toString()}/5)`}
@@ -19,7 +19,7 @@ function Rating({ star, mentees }: { star: number; mentees: number }) {
       <Typography
         variant="span"
         size={theme.fonts.size.sm}
-        color={theme.colors.black}
+        color={theme.colors.text.strong}
       >
         {`(${mentees?.toString()}명의 멘티)`}
       </Typography>

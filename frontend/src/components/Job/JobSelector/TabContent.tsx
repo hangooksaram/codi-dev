@@ -24,7 +24,9 @@ function TabContent({
             outline
             key={index}
             color={
-              selected === name ? theme.colors.info.main : theme.colors.white
+              selected === name
+                ? theme.colors.assist.normal
+                : theme.colors.white
             }
             hoverDisabled
           >

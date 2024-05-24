@@ -107,7 +107,7 @@ function MentorSearch({
             setSearched(JSON.stringify(query));
           }}
           width="40%"
-          color={theme.colors.primary.main}
+          color={theme.colors.primary.normal}
           variant="square"
         >
           검색

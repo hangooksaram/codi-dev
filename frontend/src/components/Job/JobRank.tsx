@@ -60,7 +60,7 @@ function JobRank() {
                       size={
                         index === 0 ? theme.fonts.size.md : theme.fonts.size.sm
                       }
-                      color={theme.colors.black}
+                      color={theme.colors.text.strong}
                       variant="div"
                     >
                       {`${ranking}위 ${job}`}
@@ -69,7 +69,7 @@ function JobRank() {
                       size={
                         index === 0 ? theme.fonts.size.md : theme.fonts.size.sm
                       }
-                      color={theme.colors.black}
+                      color={theme.colors.text.strong}
                       variant="div"
                     >{`${ratio.toString()}%`}</Typography>
                   </FlexBox>
@@ -85,7 +85,7 @@ function JobRank() {
 const Bar = styled.div(({ first }: { first: boolean }) => ({
   width: first ? '771px' : '709px',
   height: first ? '56px' : '39px',
-  backgroundColor: first ? theme.colors.info.main : theme.colors.white,
+  backgroundColor: first ? theme.colors.assist.normal : theme.colors.white,
   display: 'flex',
   alignItems: 'center',
   borderRadius: '43px',
