@@ -2,6 +2,8 @@ import styled from '@emotion/styled';
 import { ReactNode } from 'react';
 import theme, { device } from '../theme';
 import { ButtonVariant, ThemeFontSize } from '../../types/ui';
+import { selectFont } from '@/features/webAccessibility/webAccessibilitySlice';
+import { useSelector } from 'react-redux';
 
 const Button = styled.button(
   ({
@@ -36,7 +38,9 @@ const Button = styled.button(
       ? `1px solid ${theme.colors.gray.main}`
       : '2px solid transparent',
     padding: variant === 'round' ? '0px' : '0px 20px',
-    fontSize: fontSize ? theme.fonts.size[fontSize] : theme.fonts.size.sm,
+    fontSize: fontSize
+      ? `${theme.fonts.size[fontSize] + useSelector(selectFont).size}px`
+      : `${theme.fonts.size.sm + useSelector(selectFont).size}px`,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

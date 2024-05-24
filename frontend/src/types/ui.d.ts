@@ -71,7 +71,7 @@ export interface CardProps {
 
 export interface TypographyProps {
   variant: 'div' | 'span' | 'h1' | 'h2' | 'h3' | 'label';
-  size?: string;
+  size?: number;
   weight?: number;
   color?: string;
   align?: 'left' | 'right' | 'center';

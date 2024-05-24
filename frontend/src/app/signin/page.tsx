@@ -10,7 +10,6 @@ import Image from 'next/image';
 import { useDispatch } from 'react-redux';
 import theme, { device } from '@/ui/theme';
 import Button from '@/ui/atoms/Button';
-import StyledLink from '@/ui/atoms/Link';
 import FlexBox from '@/ui/atoms/FlexBox';
 import Typography from '@/ui/atoms/Typography';
 import Container from '@/ui/atoms/Container';
@@ -97,13 +96,17 @@ function SignInPage() {
           </FlexBox>
           <FlexBox justifyContent="space-between" {...{ marginBottom: '80px' }}>
             <FlexBox width="60%" columnGap="20px" justifyContent="flex-start">
-              <StyledLink color={theme.colors.gray.dark} href="/account/findId">
-                아이디 찾기
-              </StyledLink>
+              <Link href="/account/findId">
+                <Typography variant="div" color={theme.colors.gray.dark}>
+                  아이디 찾기
+                </Typography>
+              </Link>
               <div style={{ color: theme.colors.gray.dark }}>|</div>
-              <StyledLink color={theme.colors.gray.dark} href="/account/findPw">
-                비밀번호 찾기
-              </StyledLink>
+              <Link href="/account/findPw">
+                <Typography variant="div" color={theme.colors.gray.dark}>
+                  비밀번호 찾기
+                </Typography>
+              </Link>
             </FlexBox>
             {/* <SignInTextButton variant="default">로그인 유지</SignInTextButton> */}
           </FlexBox>
@@ -126,7 +129,7 @@ function SignInPage() {
 const SignInInput = styled(Input)`
   height: 70px;
   background-color: ${theme.colors.gray.light};
-  font-size: ${theme.fonts.size.md};
+  font-size: ${theme.fonts.size.md}px;
 `;
 
 export default SignInPage;

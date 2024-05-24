@@ -25,8 +25,8 @@ const initialState: WebAccessibilityState = {
   lineHeight: 1,
   focused: false,
   font: {
-    color:"",
-    size:0
+    color : "",
+    size : 0
   }
 };
 
@@ -56,8 +56,12 @@ export const webAccessibilitySlice = createSlice({
     setFocused: (state) => {
       state.focused = !state.focused;
     },
-    increaseFontSize:(state, action)=> {
-      state.font.size = state.font!.size + action.payload;
+    toggleFontSize:(state, action)=> {
+      if(action.payload === 'increase'){
+        state.font.size = state.font!.size + 2;
+        return;
+      }
+      state.font.size = state.font!.size - 2;
     }
   },
 });
@@ -68,7 +72,7 @@ export const {
   setLetterSpacing,
   setLineHeight,
   setFocused,
-  increaseFontSize,
+  toggleFontSize,
   initializeAll,
 } = webAccessibilitySlice.actions;
 

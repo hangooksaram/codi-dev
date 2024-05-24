@@ -59,7 +59,7 @@ export const StyledFloating = {
     alignItems: 'center',
     justifyContent: 'center',
     [device('mobile')]: {
-      fontSize: theme.fonts.size.xs,
+      fontSize: `${theme.fonts.size.xs}px`,
     },
   }),
   InitializeButton: styled(Button)({

@@ -5,10 +5,10 @@ import signUpCompleteImage from '@images/sign-up-complete.png';
 import Container from '@/ui/atoms/Container';
 import Typography from '@/ui/atoms/Typography';
 import Button from '@/ui/atoms/Button';
-import StyledLink from '@/ui/atoms/Link';
 import theme from '@/ui/theme';
 import FlexBox from '@/ui/atoms/FlexBox';
 import ImageComponent from '@/ui/atoms/ImageComponent';
+import Link from 'next/link';
 
 function CompletePage() {
   const router = useRouter();
@@ -40,7 +40,9 @@ function CompletePage() {
         >
           프로필 작성하기
         </Button>
-        <StyledLink href="/">나중에 할게요</StyledLink>
+        <Link href="/">
+          <Typography variant="div">나중에 할게요</Typography>
+        </Link>
       </FlexBox>
     </Container>
   );

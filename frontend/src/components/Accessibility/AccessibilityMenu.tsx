@@ -1,5 +1,5 @@
 import {
-  increaseFontSize,
+  toggleFontSize,
   initializeAll,
   selectFocused,
   selectHighlight,
@@ -26,6 +26,9 @@ import Button from '@/ui/atoms/Button';
 import Toggle from 'react-toggle';
 import { useEffect, useState } from 'react';
 import 'react-toggle/style.css';
+import VisualOption from './Options/Visual';
+
+type OptionState = 'on' | 'off' | 'initial';
 
 export default function AccessibilityMenu({
   setOpen,
@@ -49,14 +52,6 @@ export default function AccessibilityMenu({
   const initializeOption = () => {
     dispatch(initializeAll());
   };
-
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    if (visible) {
-      dispatch(increaseFontSize(2));
-    }
-  }, [visible]);
 
   return (
     <StyledFloating.Menu color={theme.colors.primary.main}>
@@ -117,13 +112,7 @@ export default function AccessibilityMenu({
           </FlexBox>
         </>
         <>
-          <Typography variant="div" color={theme.colors.white}>
-            시각장애
-          </Typography>
-          <Toggle
-            defaultChecked={visible}
-            onChange={(e) => setVisible(e.target.checked)}
-          />
+          <VisualOption />
           <Typography variant="div" color={theme.colors.white}>
             가독성
           </Typography>

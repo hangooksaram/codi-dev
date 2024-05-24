@@ -17,7 +17,7 @@ const Chip = styled.div(
     justifyContent: 'center',
     alignItems: 'center',
     height: size === 'small' ? '29px' : '39px',
-    fontSize: theme.fonts.size.xs,
+    fontSize: `${theme.fonts.size.xs}px`,
     backgroundColor: color ?? theme.colors.background,
     color: fontColor ?? theme.colors.primary.main,
     padding: size === 'small' ? '0px 12px' : '0px 20px',

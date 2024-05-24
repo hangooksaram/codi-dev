@@ -1,9 +1,9 @@
 import { useRouter } from 'next/navigation';
 import Button from '@/ui/atoms/Button';
 import FlexBox from '@/ui/atoms/FlexBox';
-import StyledLink from '@/ui/atoms/Link';
 import Typography from '@/ui/atoms/Typography';
 import theme, { device } from '@/ui/theme';
+import Link from 'next/link';
 
 function NonUserAppBarMenu() {
   const router = useRouter();
@@ -18,8 +18,8 @@ function NonUserAppBarMenu() {
         },
       }}
     >
-      <StyledLink href="/signup">
-        아이디가 없으신가요?
+      <Link href="/signup">
+        <Typography variant="span">아이디가 없으신가요?</Typography>
         <Typography
           variant="span"
           size={theme.fonts.size.sm}
@@ -28,7 +28,7 @@ function NonUserAppBarMenu() {
         >
           회원가입
         </Typography>
-      </StyledLink>
+      </Link>
       <Button
         size="small"
         variant="default"

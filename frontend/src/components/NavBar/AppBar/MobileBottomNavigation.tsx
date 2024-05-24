@@ -71,7 +71,7 @@ const MobileMenuButton = styled(Button)(
     background: selected ? theme.colors.background : theme.colors.white,
     border: 'none',
     color: selected ? theme.colors.primary.main : theme.colors.gray.main,
-    fontSize: theme.fonts.size.xs,
+    fontSize: `${theme.fonts.size.xs}px`,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',

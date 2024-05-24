@@ -12,7 +12,7 @@ color: ${theme.colors.black};
 ::placeholder {
   color: ${theme.colors.gray.dark};
 }
-font-size: ${theme.fonts.size.sm};
+font-size: ${theme.fonts.size.sm}px;
 font-weight: ${theme.fonts.weight.regular};
 resize: none;
 border-radius: 10px;

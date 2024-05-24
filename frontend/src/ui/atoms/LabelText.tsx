@@ -61,6 +61,6 @@ export const LabelTextAdorement = styled.div(
 
 export const StyledLabelText = styled.div`
   min-width: fit-content;
-  font-size: ${theme.fonts.size.md};
+  font-size: ${theme.fonts.size.md}px;
   font-weight: ${theme.fonts.weight.extraBold};
 `;

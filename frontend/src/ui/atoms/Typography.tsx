@@ -1,6 +1,8 @@
 import styled from '@emotion/styled';
 import theme from '../theme';
 import { TypographyProps } from '../../types/ui';
+import { useSelector } from 'react-redux';
+import { selectFont } from '@/features/webAccessibility/webAccessibilitySlice';
 
 function Typography({
   variant,
@@ -12,10 +14,13 @@ function Typography({
   wordBreak,
   ...rest
 }: TypographyProps) {
+  const { size: globalFontSize } = useSelector(selectFont);
   const StyledTypography = styled
     .div(() => ({
       minWidth: 'fit-content',
-      fontSize: size ?? '16px',
+      fontSize: size
+        ? `${size + globalFontSize}px`
+        : `${theme.fonts.size.sm + globalFontSize}px`,
       color: color ?? theme.colors.black,
       textAlign: align ?? 'left',
       height: 'fit-content',

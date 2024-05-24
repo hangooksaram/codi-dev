@@ -73,11 +73,11 @@ const theme = {
   },
   fonts: {
     size: {
-      xl: '50px',
-      lg: '32px',
-      md: '22px',
-      sm: '16px',
-      xs: '14px',
+      xl: 50,
+      lg: 32,
+      md: 22,
+      sm: 16,
+      xs: 14,
     },
     weight: {
       black: 900,

@@ -86,7 +86,7 @@ export const NotificationDropdownItem = styled.button`
   width: 100%;
   min-width: 320px;
   color: ${theme.colors.black};
-  font-size: ${theme.fonts.size.sm};
+  font-size: ${theme.fonts.size.sm}px;
   font-weight: ${theme.fonts.weight.regular};
   background-color: ${theme.colors.white};
   border: none;
