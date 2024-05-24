@@ -65,7 +65,9 @@ function AccessibilityLayout({ children }: { children: React.ReactNode }) {
   const lineHeight = useSelector(selectLineHeight);
   const focused = useSelector(selectFocused);
   const font = useSelector(selectFont);
-  const { impreciseMovement } = useSelector(selectAccessibilityOption);
+  const { impreciseMovement, attentionDisorder } = useSelector(
+    selectAccessibilityOption,
+  );
 
   return (
     <StyledLayout
@@ -77,7 +79,7 @@ function AccessibilityLayout({ children }: { children: React.ReactNode }) {
       className={myFont.className}
       impreciseMovement={impreciseMovement.isActivated}
     >
-      {highlight && <Highlight />}
+      {attentionDisorder.isActivated && <Highlight />}
       {children}
     </StyledLayout>
   );

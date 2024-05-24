@@ -20,6 +20,7 @@ interface AccessibilityOption {
   visual : ActivatedOption;
   achromatopsia:ActivatedOption;
   impreciseMovement:ActivatedOption;
+  attentionDisorder:ActivatedOption
 }
 
 interface ActivatedOption {
@@ -61,6 +62,10 @@ const initialState: AccessibilityState = {
       severity:null,
       isActivated:false
     },
+    attentionDisorder:{
+      severity:null,
+      isActivated:false
+    }
     
   }
  

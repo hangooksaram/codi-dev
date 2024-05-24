@@ -29,6 +29,7 @@ import 'react-toggle/style.css';
 import VisualOption from './Options/Visual';
 import RetinalOption from './Options/Retinal';
 import ImpreciseMovementOption from './Options/ImpreciseMovement';
+import AttentionDisorderOption from './Options/AttentionDisorder';
 
 type OptionState = 'on' | 'off' | 'initial';
 
@@ -125,6 +126,7 @@ export default function AccessibilityMenu({
           <VisualOption />
           <RetinalOption />
           <ImpreciseMovementOption />
+          <AttentionDisorderOption />
           <Typography variant="div" color={theme.colors.primary.text}>
             가독성
           </Typography>
