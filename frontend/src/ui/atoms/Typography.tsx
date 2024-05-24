@@ -3,6 +3,7 @@ import theme from '../theme';
 import { TypographyProps } from '../../types/ui';
 import { useSelector } from 'react-redux';
 import { selectFont } from '@/features/webAccessibility/webAccessibilitySlice';
+import dynamicColor from '../dynamicColor';
 
 function Typography({
   variant,
@@ -21,7 +22,7 @@ function Typography({
       fontSize: size
         ? `${size + globalFontSize}px`
         : `${theme.fonts.size.sm + globalFontSize}px`,
-      color: color ?? theme.colors.black,
+      color: color ? dynamicColor(color!) : theme.colors.text.strong,
       textAlign: align ?? 'left',
       height: 'fit-content',
       fontWeight: weight ?? theme.fonts.weight.regular,
@@ -31,5 +32,12 @@ function Typography({
     .withComponent(variant);
   return <StyledTypography>{children}</StyledTypography>;
 }
+
+const typographyColor = (color: string | undefined) => {
+  const { color: globalColor } = useSelector(selectFont);
+  if (color && !globalColor) return color;
+  if (globalColor) return globalColor;
+  return theme.colors.text.strong;
+};
 
 export default Typography;
