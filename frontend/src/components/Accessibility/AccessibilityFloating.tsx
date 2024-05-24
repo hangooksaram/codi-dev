@@ -26,7 +26,7 @@ function AccessibilityFloating() {
         }}
         variant="round"
         width="110px"
-        color={theme.colors.primary.main}
+        color={theme.colors.primary.normal}
         hoverDisabled
       >
         <FloatIcon />

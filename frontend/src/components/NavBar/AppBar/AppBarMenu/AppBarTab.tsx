@@ -23,7 +23,7 @@ function AppBarTab() {
           color={
             path.includes('/mentorsMain')
               ? theme.colors.white
-              : theme.colors.black
+              : theme.colors.text.strong
           }
           variant="div"
         >
@@ -39,7 +39,7 @@ function AppBarTab() {
           color={
             path.includes('/menteeCenter')
               ? theme.colors.white
-              : theme.colors.black
+              : theme.colors.text.strong
           }
         >
           멘티 센터

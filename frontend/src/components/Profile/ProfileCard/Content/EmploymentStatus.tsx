@@ -5,7 +5,7 @@ function EmploymentStatus({ employmentStatus }: { employmentStatus: string }) {
   return (
     <Typography
       variant="div"
-      color={theme.colors.black}
+      color={theme.colors.text.strong}
       {...{ marginTop: '6px' }}
     >
       {employmentStatus!}

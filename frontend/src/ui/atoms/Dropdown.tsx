@@ -153,7 +153,7 @@ const DropdownItem = styled.button`
   padding: 0px 20px;
   width: 100%;
   min-width: 130px;
-  color: ${theme.colors.black};
+  color: ${theme.colors.text.strong};
   font-size: ${theme.fonts.size.sm}px;
   font-weight: ${theme.fonts.weight.regular};
   background-color: ${theme.colors.white};
@@ -163,7 +163,7 @@ const DropdownItem = styled.button`
     background-color: ${theme.colors.background};
   }
   :focus {
-    background-color: ${theme.colors.primary.main};
+    background-color: ${theme.colors.primary.normal};
     color: ${theme.colors.white};
   }
 `;

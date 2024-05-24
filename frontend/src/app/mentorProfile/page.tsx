@@ -41,7 +41,7 @@ function MentorProfilePage() {
                 }
                 size="small"
                 variant="default"
-                color={theme.colors.secondary.main}
+                color={theme.colors.secondary.normal}
                 {...{ marginTop: '20px' }}
               >
                 멘토링 신청하기

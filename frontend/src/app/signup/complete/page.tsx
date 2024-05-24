@@ -36,7 +36,7 @@ function CompletePage() {
             router.replace('/profileForm');
           }}
           variant="default"
-          color={theme.colors.primary.main}
+          color={theme.colors.primary.normal}
         >
           프로필 작성하기
         </Button>

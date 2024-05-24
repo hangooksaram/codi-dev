@@ -66,6 +66,6 @@ export const StyledFloating = {
     position: 'absolute',
     top: '20px',
     right: '30px',
-    color: theme.colors.black,
+    color: theme.colors.text.strong,
   }),
 };

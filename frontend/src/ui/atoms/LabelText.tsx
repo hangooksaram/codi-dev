@@ -55,7 +55,7 @@ export const LabelTextAdorement = styled.div(
     height: '21px',
     borderRadius: '2px',
     marginRight: '15px',
-    backgroundColor: color ?? theme.colors.primary.main,
+    backgroundColor: color ?? theme.colors.primary.normal,
   }),
 );
 

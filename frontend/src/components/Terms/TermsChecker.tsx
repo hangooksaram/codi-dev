@@ -58,7 +58,7 @@ const TermsCheckerCard = styled(Card)(
     borderRadius: '5px',
     padding: '20px',
     borderColor: !checked && submitted ? theme.colors.error : '',
-    backgroundColor: checked ? theme.colors.primary.main : theme.colors.white,
+    backgroundColor: checked ? theme.colors.primary.normal : theme.colors.white,
   }),
 );
 

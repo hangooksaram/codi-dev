@@ -6,7 +6,7 @@ function Name({ name }: { name: string }) {
     <Typography
       variant="div"
       size={theme.fonts.size.lg}
-      color={theme.colors.black}
+      color={theme.colors.text.strong}
       {...{ marginTop: '22px' }}
       weight={theme.fonts.weight.black}
     >

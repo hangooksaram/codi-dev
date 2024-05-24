@@ -27,6 +27,7 @@ import Toggle from 'react-toggle';
 import { useEffect, useState } from 'react';
 import 'react-toggle/style.css';
 import VisualOption from './Options/Visual';
+import RetinalOption from './Options/Retinal';
 
 type OptionState = 'on' | 'off' | 'initial';
 
@@ -54,7 +55,7 @@ export default function AccessibilityMenu({
   };
 
   return (
-    <StyledFloating.Menu color={theme.colors.primary.main}>
+    <StyledFloating.Menu color={theme.colors.primary.normal}>
       <FlexBox direction="column" rowGap="40px" alignItems="flex-start">
         <Typography
           variant="div"
@@ -85,7 +86,9 @@ export default function AccessibilityMenu({
           <FlexBox columnGap="21px">
             <StyledFloating.Button
               variant="default"
-              color={highlight ? theme.colors.white : theme.colors.primary.main}
+              color={
+                highlight ? theme.colors.white : theme.colors.primary.normal
+              }
               onClick={() => applyOption('하이라이터')}
             >
               <ImageComponent
@@ -98,7 +101,7 @@ export default function AccessibilityMenu({
             </StyledFloating.Button>
             <StyledFloating.Button
               variant="default"
-              color={focused ? theme.colors.white : theme.colors.primary.main}
+              color={focused ? theme.colors.white : theme.colors.primary.normal}
               onClick={() => applyOption('포커싱박스')}
             >
               <ImageComponent
@@ -113,6 +116,7 @@ export default function AccessibilityMenu({
         </>
         <>
           <VisualOption />
+          <RetinalOption />
           <Typography variant="div" color={theme.colors.white}>
             가독성
           </Typography>
@@ -132,7 +136,7 @@ export default function AccessibilityMenu({
                 color={
                   letterSpacing === 'initial'
                     ? theme.colors.white
-                    : theme.colors.primary.main
+                    : theme.colors.primary.normal
                 }
                 onClick={() => dispatch(setLetterSpacing('initial'))}
               >
@@ -144,7 +148,7 @@ export default function AccessibilityMenu({
                 color={
                   letterSpacing === '1px'
                     ? theme.colors.white
-                    : theme.colors.primary.main
+                    : theme.colors.primary.normal
                 }
                 onClick={() => dispatch(setLetterSpacing('1px'))}
                 variant="default"
@@ -166,7 +170,7 @@ export default function AccessibilityMenu({
                 color={
                   lineHeight === 1
                     ? theme.colors.white
-                    : theme.colors.primary.main
+                    : theme.colors.primary.normal
                 }
                 onClick={() => dispatch(setLineHeight(1))}
                 variant="default"
@@ -179,7 +183,7 @@ export default function AccessibilityMenu({
                 color={
                   lineHeight !== 1
                     ? theme.colors.white
-                    : theme.colors.primary.main
+                    : theme.colors.primary.normal
                 }
                 onClick={() => dispatch(setLineHeight(1.2))}
                 variant="default"
@@ -199,7 +203,7 @@ export default function AccessibilityMenu({
                 outline
                 size="small"
                 color={
-                  zoom === 1 ? theme.colors.white : theme.colors.primary.main
+                  zoom === 1 ? theme.colors.white : theme.colors.primary.normal
                 }
                 onClick={() => dispatch(setZoom(1))}
                 variant="default"
@@ -210,7 +214,9 @@ export default function AccessibilityMenu({
                 outline
                 size="small"
                 color={
-                  zoom === 1.1 ? theme.colors.white : theme.colors.primary.main
+                  zoom === 1.1
+                    ? theme.colors.white
+                    : theme.colors.primary.normal
                 }
                 onClick={() => dispatch(setZoom(1.1))}
                 variant="default"
@@ -221,7 +227,9 @@ export default function AccessibilityMenu({
                 outline
                 size="small"
                 color={
-                  zoom === 1.2 ? theme.colors.white : theme.colors.primary.main
+                  zoom === 1.2
+                    ? theme.colors.white
+                    : theme.colors.primary.normal
                 }
                 onClick={() => dispatch(setZoom(1.2))}
                 variant="default"

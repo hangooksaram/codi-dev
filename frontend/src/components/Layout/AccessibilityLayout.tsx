@@ -36,14 +36,14 @@ const StyledLayout = styled.div(
     input: {
       ':hover': {
         border: focused
-          ? `4px solid ${theme.colors.secondary.main} !important`
+          ? `4px solid ${theme.colors.secondary.normal} !important`
           : '',
       },
     },
     button: {
       ':hover': {
         border: focused
-          ? `4px solid ${theme.colors.secondary.main} !important`
+          ? `4px solid ${theme.colors.secondary.normal} !important`
           : '',
       },
     },

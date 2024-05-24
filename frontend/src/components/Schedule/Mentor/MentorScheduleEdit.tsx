@@ -97,7 +97,9 @@ function MentorScheduleEdit({
             <Button
               onClick={() => handleClickTime(time)}
               color={
-                selected(time) ? theme.colors.primary.main : theme.colors.white
+                selected(time)
+                  ? theme.colors.primary.normal
+                  : theme.colors.white
               }
               variant="default"
               size="small"

@@ -32,7 +32,7 @@ function NonUserAppBarMenu() {
       <Button
         size="small"
         variant="default"
-        color={theme.colors.primary.main}
+        color={theme.colors.primary.normal}
         {...{ height: '39px' }}
         onClick={() => router.push('/signin')}
       >

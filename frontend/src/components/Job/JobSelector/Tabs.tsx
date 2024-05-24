@@ -31,7 +31,7 @@ function Tabs({
             key={index}
             color={
               selectedTab === index
-                ? theme.colors.primary.main
+                ? theme.colors.primary.normal
                 : theme.colors.white
             }
             width="25%"
@@ -57,7 +57,7 @@ const TabButton = styled(Button)(({}) => ({
   borderRadius: '10px',
   borderBottomLeftRadius: '0px',
   borderBottomRightRadius: '0px',
-  borderBottom: `2px solid ${theme.colors.primary.main}`,
+  borderBottom: `2px solid ${theme.colors.primary.normal}`,
 }));
 
 export default Tabs;

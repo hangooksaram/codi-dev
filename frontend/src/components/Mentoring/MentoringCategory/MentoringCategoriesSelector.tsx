@@ -73,7 +73,7 @@ function MentorCategoriesSelector({
                     ? theme.colors.gray.light
                     : mentoringCategories?.includes(text)
                       ? theme.colors.white
-                      : theme.colors.primary.main
+                      : theme.colors.primary.normal
                 }
               />
               {text}

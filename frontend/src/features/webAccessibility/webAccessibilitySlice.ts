@@ -10,11 +10,26 @@ export interface WebAccessibilityState {
   lineHeight: number;
   focused: boolean;
   font: {
-    color: string;
+    color: string | null;
     size : number;
-  }
+  },
+  disabilityOption: DisabilityOption
+}
+interface DisabilityOption {
+  retinal:ActivatedOption;
+  visual : ActivatedOption;
+  achromatopsia:ActivatedOption;
 }
 
+interface ActivatedOption {
+    severity :string | null; 
+    isActivated:boolean;
+}
+
+interface UpdateDisabilityState {
+  key: keyof DisabilityOption;
+  isActivated: boolean;
+}
 
 
 // Define the initial state using that type
@@ -25,10 +40,27 @@ const initialState: WebAccessibilityState = {
   lineHeight: 1,
   focused: false,
   font: {
-    color : "",
+    color : null,
     size : 0
+  },
+  disabilityOption:{
+    retinal:{
+      severity:null,
+      isActivated:false
+    },
+    visual:{
+      severity:null,
+      isActivated:false
+    },
+    achromatopsia:{
+      severity:null,
+      isActivated:false
+    }
   }
+ 
 };
+
+
 
 export const webAccessibilitySlice = createSlice({
   name: 'webAccessibility',
@@ -62,7 +94,15 @@ export const webAccessibilitySlice = createSlice({
         return;
       }
       state.font.size = state.font!.size - 2;
-    }
+    },
+    setActivatedDisabilityOption:(state,action: PayloadAction<UpdateDisabilityState>)=> {
+      const { key, isActivated } = action.payload
+
+      if (state.disabilityOption.hasOwnProperty(key)) {
+        state.disabilityOption[key].isActivated = isActivated!;
+      }
+      
+    },
   },
 });
 
@@ -74,6 +114,7 @@ export const {
   setFocused,
   toggleFontSize,
   initializeAll,
+  setActivatedDisabilityOption
 } = webAccessibilitySlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
@@ -88,5 +129,7 @@ export const selectFocused = (state: RootState) =>
   state.webAccessibility.focused;
 export const selectFont = (state: RootState) =>
   state.webAccessibility.font;
+export const selectDisabilityOption = (state: RootState) =>
+  state.webAccessibility.disabilityOption;
 
 export default webAccessibilitySlice.reducer;

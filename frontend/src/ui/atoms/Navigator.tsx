@@ -4,12 +4,12 @@ import theme from '../theme';
 import { ReactNode } from 'react';
 
 const NavigatorContainer = styled.div(({ current }: { current: boolean }) => ({
-  backgroundColor: current ? theme.colors.primary.main : theme.colors.white,
+  backgroundColor: current ? theme.colors.primary.normal : theme.colors.white,
 
   ':hover': !current
     ? {
         backgroundColor: theme.colors.background,
-        color: theme.colors.primary.main,
+        color: theme.colors.primary.normal,
       }
     : {},
 }));
@@ -37,7 +37,7 @@ export const Navigator = ({
 
 const TopNavigatorContainer = styled(NavigatorContainer)(
   ({ current }: { current: boolean }) => ({
-    color: current ? theme.colors.white : theme.colors.black,
+    color: current ? theme.colors.white : theme.colors.text.strong,
     height: '100%',
   }),
 );
@@ -74,7 +74,7 @@ export const SideNavigatorContainer = styled(NavigatorContainer)(
   }) => ({
     paddingLeft: nested ? `${40 * nested}px` : '40px',
     color: nestedParent
-      ? theme.colors.primary.main
+      ? theme.colors.primary.normal
       : current
         ? theme.colors.white
         : theme.colors.gray.main,

@@ -6,7 +6,7 @@ import theme from '@/ui/theme';
 function Edit() {
   return (
     <Link href="/profileForm?edit=true">
-      <Button variant="round" width="48px" color={theme.colors.info.main}>
+      <Button variant="round" width="48px" color={theme.colors.assist.normal}>
         <EditIcon />
       </Button>
     </Link>

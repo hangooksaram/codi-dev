@@ -125,7 +125,7 @@ function MentorCenterApplyCard({
           >
             <Button
               size="small"
-              color={theme.colors.info.main}
+              color={theme.colors.assist.normal}
               variant="default"
               onClick={() =>
                 router.push(
@@ -151,7 +151,7 @@ function MentorCenterApplyCard({
             >
               <Button
                 size="small"
-                color={theme.colors.primary.main}
+                color={theme.colors.primary.normal}
                 variant="default"
                 {...{
                   marginRight: '24px',
