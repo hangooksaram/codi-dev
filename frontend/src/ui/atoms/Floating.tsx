@@ -48,7 +48,7 @@ export const StyledFloating = {
     },
   }),
   OptionContainer: styled.div(() => ({
-    maxHeight: '100%',
+    height: `calc(100vh - ${MOBILE_NAVIGATION_HEIGHT + 100}px);`,
     overflow: 'auto',
   })),
   Button: styled(Button)({
