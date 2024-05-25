@@ -33,7 +33,11 @@ function AccessibilityFloating() {
       >
         <FlexBox direction="column" rowGap="4px">
           <FloatIcon />
-          <OptionTypography variant="div" color="white">
+          <OptionTypography
+            variant="div"
+            color="white"
+            {...{ [device('mobile')]: { display: 'none' } }}
+          >
             접근성 기능
           </OptionTypography>
         </FlexBox>
@@ -45,7 +49,7 @@ function AccessibilityFloating() {
           }}
         />
       )}
-      {open && <AccessibilityMenu />}
+      {open && <AccessibilityMenu setOpen={setOpen} />}
     </>
   );
 }
@@ -55,9 +59,9 @@ const FloatingOverlay = styled(Overlay)`
 `;
 
 const AccessibilityFloatingButton = styled(StyledFloating.OpenButton)(() => ({
-  [device('mobile')]: {
-    display: 'none',
-  },
+  // [device('mobile')]: {
+  //   display: 'none',
+  // },
 }));
 
 export default AccessibilityFloating;
