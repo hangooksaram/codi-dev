@@ -31,7 +31,7 @@ export const StyledFloating = {
 
   Menu: styled(Card)({
     position: 'absolute',
-    zIndex: '105',
+    zIndex: '1001',
     width: '390px',
     height: '605px',
     bottom: '150px',
@@ -66,9 +66,9 @@ export const StyledFloating = {
     },
   }),
   InitializeButton: styled(Button)({
-    position: 'absolute',
-    top: '20px',
-    right: '30px',
+    // position: 'absolute',
+    // top: '20px',
+    // right: '30px',
     color: theme.colors.text.strong,
   }),
 };
