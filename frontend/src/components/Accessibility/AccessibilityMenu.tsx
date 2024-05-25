@@ -17,7 +17,11 @@ import OptionBox from './OptionBox';
 import OptionTypography from './OptionTypography';
 import { useSelector } from 'react-redux';
 
-export default function AccessibilityMenu() {
+export default function AccessibilityMenu({
+  setOpen,
+}: {
+  setOpen: SetState<boolean>;
+}) {
   const dispatch = useDispatch();
   const { visual, retinal } = useSelector(selectAccessibilityOption);
 
@@ -33,23 +37,37 @@ export default function AccessibilityMenu() {
 
   return (
     <StyledFloating.Menu color={theme.colors.primary.normal}>
-      <FlexBox direction="column" rowGap="40px" alignItems="flex-start">
-        <OptionTypography
-          variant="div"
-          color={theme.colors.primary.text}
-          size={theme.fonts.size.md}
-          weight={theme.fonts.weight.extraBold}
+      <FlexBox direction="column" rowGap="20px" alignItems="flex-start">
+        <FlexBox
+          justifyContent="space-between"
+          alignItems="center"
+          {...{ height: '39px' }}
         >
-          사용성 옵션
-        </OptionTypography>
-        <StyledFloating.InitializeButton
-          size="small"
-          variant="default"
-          onClick={initializeOption}
-          color={theme.colors.gray.main}
-        >
-          초기화
-        </StyledFloating.InitializeButton>
+          <OptionTypography
+            variant="div"
+            color={theme.colors.primary.text}
+            size={theme.fonts.size.md}
+            weight={theme.fonts.weight.extraBold}
+          >
+            사용성 옵션
+          </OptionTypography>
+          <StyledFloating.InitializeButton
+            size="small"
+            variant="default"
+            onClick={initializeOption}
+            color={theme.colors.white}
+          >
+            초기화
+          </StyledFloating.InitializeButton>
+          <StyledFloating.CloseButton
+            size="small"
+            variant="default"
+            onClick={() => setOpen(false)}
+            color={theme.colors.white}
+          >
+            닫기
+          </StyledFloating.CloseButton>
+        </FlexBox>
 
         <StyledFloating.OptionContainer>
           {/* <OptionBox>
