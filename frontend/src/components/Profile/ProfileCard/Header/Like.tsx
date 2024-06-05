@@ -53,6 +53,7 @@ function Like({
       }
       localFavoriteState={localFavoriteState}
       hoverDisabled
+      aria-label="좋아요"
     >
       {localFavoriteState ? <FilledLike /> : <EmptyLike />}
     </StyledLikeButton>

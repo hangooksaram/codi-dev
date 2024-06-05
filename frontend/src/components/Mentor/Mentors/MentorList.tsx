@@ -56,7 +56,10 @@ function MentorList({ mentors }: { mentors: Mentor[] }) {
               <Header.Like mentorId={mentorId} favorites={favoriteIds} />
             </Header.Container>
             <Content.Container>
-              <Content.Avatar src={mentor.imgUrl} />
+              <Content.Avatar
+                src={mentor.imgUrl}
+                alt={`${mentor.name}님의 프로필 이미지`}
+              />
               <Content.Name name={mentor.name!} />
               <Content.Job job={mentor.job!} />
               <Content.Rating star={mentor.star!} mentees={mentor.mentees!} />
