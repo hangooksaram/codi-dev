@@ -14,7 +14,7 @@ import Header from '@/components/Profile/ProfileCard/Header';
 import Content from '@/components/Profile/ProfileCard/Content';
 import Footer from '@/components/Profile/ProfileCard/Footer';
 import dynamicColor from '@/ui/dynamicColor';
-import Label from '@/ui/atoms/Label';
+import InvisibleLabel from '@/ui/atoms/InvisibleLabel';
 
 function MentorList({ mentors }: { mentors: Mentor[] }) {
   const router = useRouter();
@@ -76,7 +76,7 @@ function MentorList({ mentors }: { mentors: Mentor[] }) {
             </Content.Container>
 
             <Footer.Container>
-              <Label
+              <InvisibleLabel
                 htmlFor={mentor.id!.toString()}
                 text={`${mentor.name!} 멘토, 별점 ${mentor.star}개, ${mentor.job}, ${mentor.disability}, ${mentor.severity}, ${mentor.career} 프로필 보기`}
               />

@@ -7,7 +7,7 @@ import Label from '@/ui/atoms/Label';
 function Edit() {
   return (
     <Link href="/profileForm?edit=true">
-      <Label htmlFor="disability" text="장애 분류" />
+      <InvisibleLabel htmlFor="disability" text="장애 분류" />
       <Button
         variant="round"
         width="48px"

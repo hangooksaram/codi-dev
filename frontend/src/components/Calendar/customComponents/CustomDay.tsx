@@ -25,7 +25,7 @@ export function CustomDay(props: DayProps) {
 
   return (
     <>
-      <Label htmlFor={id} text={accessibleFormattedDate(props.date)} />
+      <InvisibleLabel htmlFor={id} text={accessibleFormattedDate(props.date)} />
       <Button
         id={id}
         {...dayRender.buttonProps}

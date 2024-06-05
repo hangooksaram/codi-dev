@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import Label from './Label';
+import InvisibleLabel from './InvisibleLabel';
 
 function Labeled({
   id,
@@ -12,7 +12,7 @@ function Labeled({
 }) {
   return (
     <>
-      <Label htmlFor={id} text={text} />
+      <InvisibleLabel htmlFor={id} text={text} />
       {children}
     </>
   );

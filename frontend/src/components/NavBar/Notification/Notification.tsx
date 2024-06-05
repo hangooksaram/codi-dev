@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
 import NewNotificationBadge from '@/components/Badge/NewNotificationBadge';
-import Label from '@/ui/atoms/Label';
+import InvisibleLabel from '@/ui/atoms/InvisibleLabel';
 import NotificationDropdown, {
   Divider,
   NotificationDropdownItem,
@@ -56,14 +56,14 @@ function Notification() {
     <StyledNotificationIcon>
       {notifications.length > 0 ? (
         <>
-          <Label
+          <InvisibleLabel
             htmlFor="mentoring-notification"
             text="읽지 않은 새로운 알림이 있습니다. 알림 확인하기"
           />
           <NewNotificationBadge />
         </>
       ) : (
-        <Label
+        <InvisibleLabel
           htmlFor="mentoring-notification"
           text="새로운 알림이 없습니다. 알림 확인하기 "
         />

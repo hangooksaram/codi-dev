@@ -10,7 +10,7 @@ const MobileBackButton = () => {
   const router = useRouter();
   return (
     <StyledMobileBackButton id="mobileBackButton" onClick={() => router.back()}>
-      <Label htmlFor="mobileBackButton" text="뒤로가기" />
+      <InvisibleLabel htmlFor="mobileBackButton" text="뒤로가기" />
       <Back />
     </StyledMobileBackButton>
   );
