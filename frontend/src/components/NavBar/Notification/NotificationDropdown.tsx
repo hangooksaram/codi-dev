@@ -12,16 +12,15 @@ function NotificationDropdown({ children }: { children: ReactNode }) {
   return (
     <NotificationDropdownContainer width="100%">
       <NotificationButton
-        id="notification"
+        id="mentoring-notification"
         width="100%"
         color={theme.colors.white}
         onClick={() => setOpen((prev) => !prev)}
         variant="square"
         type="button"
-        role="tab"
         hoverDisabled
       >
-        <Alarm id="notification" />
+        <Alarm id="notification-icon" />
       </NotificationButton>
 
       {open && (

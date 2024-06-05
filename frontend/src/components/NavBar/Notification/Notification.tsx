@@ -57,13 +57,16 @@ function Notification() {
       {notifications.length > 0 ? (
         <>
           <Label
-            htmlFor="notification-icon"
+            htmlFor="mentoring-notification"
             text="읽지 않은 새로운 알림이 있습니다. 알림 확인하기"
           />
           <NewNotificationBadge />
         </>
       ) : (
-        <Label htmlFor="notification-icon" text="알림 확인하기" />
+        <Label
+          htmlFor="mentoring-notification"
+          text="새로운 알림이 없습니다. 알림 확인하기 "
+        />
       )}
 
       <NotificationDropdown>
