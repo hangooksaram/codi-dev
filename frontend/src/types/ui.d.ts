@@ -105,3 +105,10 @@ export interface DropdownProps {
   isReset?:boolean;
   setSelectedCategory: (category: T) => void;
 }
+
+export interface LabelProps { htmlFor: string; text: string }
+
+export interface FormLabelProps extends LabelProps {
+  helpText?:string;
+  labelColor?:string;
+}

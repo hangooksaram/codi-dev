@@ -1,3 +1,4 @@
+import { LabelProps } from '@/types/ui';
 import styled from '@emotion/styled';
 
 const StyledInvisibleLabel = styled.label(() => ({
@@ -6,7 +7,7 @@ const StyledInvisibleLabel = styled.label(() => ({
   opacity: '0',
 }));
 
-function InvisibleLabel({ htmlFor, text }: { htmlFor: string; text: string }) {
+function InvisibleLabel({ htmlFor, text }: LabelProps) {
   return <StyledInvisibleLabel htmlFor={htmlFor}> {text}</StyledInvisibleLabel>;
 }
 
