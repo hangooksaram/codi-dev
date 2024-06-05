@@ -5,10 +5,16 @@ import theme, { device } from '@/ui/theme';
 import useClickOutOfInput from '@/hooks/dropdown/useClickOutOfInput';
 import Button from '@/ui/atoms/Button';
 
-function NotificationDropdown({ children }: { children: ReactNode }) {
+function NotificationDropdown({
+  ariaLabelText,
+  children,
+}: {
+  ariaLabelText?: string;
+  children: ReactNode;
+}) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLUListElement>(null);
-  useClickOutOfInput('notification', setOpen);
+  useClickOutOfInput('mentoring-notification', setOpen);
   return (
     <NotificationDropdownContainer width="100%">
       <NotificationButton
@@ -19,6 +25,7 @@ function NotificationDropdown({ children }: { children: ReactNode }) {
         variant="square"
         type="button"
         hoverDisabled
+        aria-label={ariaLabelText}
       >
         <Alarm id="notification-icon" />
       </NotificationButton>

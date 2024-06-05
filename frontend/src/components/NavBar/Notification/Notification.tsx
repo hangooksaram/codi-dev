@@ -53,7 +53,7 @@ function Notification() {
   }, [applies]);
 
   return (
-    <StyledNotificationIcon id="notification-icon" tabIndex={1}>
+    <StyledNotificationIcon>
       {notifications.length > 0 ? (
         <>
           <Label
@@ -69,7 +69,13 @@ function Notification() {
         />
       )}
 
-      <NotificationDropdown>
+      <NotificationDropdown
+        ariaLabelText={
+          notifications.length > 0
+            ? '읽지 않은 새로운 알림이 있습니다. 알림 확인하기'
+            : '새로운 알림이 없습니다. 알림 확인하기 '
+        }
+      >
         {notifications.length > 0 ? (
           notifications.map(
             ({ userName, content, date, profileId, mentoringId }, index) => (
