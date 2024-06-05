@@ -1,6 +1,6 @@
 'use client';
 
-import Label from '@/ui/atoms/Label';
+import InvisibleLabel from '@/ui/atoms/InvisibleLabel';
 import { device } from '@/ui/theme';
 import styled from '@emotion/styled';
 import Back from '@icons/mobile/appbar/back.svg';

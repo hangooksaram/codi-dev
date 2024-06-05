@@ -2,7 +2,7 @@ import Link from 'next/link';
 import EditIcon from '@icons/common/edit.svg';
 import Button from '@/ui/atoms/Button';
 import theme from '@/ui/theme';
-import Label from '@/ui/atoms/Label';
+import InvisibleLabel from '@/ui/atoms/InvisibleLabel';
 
 function Edit() {
   return (
