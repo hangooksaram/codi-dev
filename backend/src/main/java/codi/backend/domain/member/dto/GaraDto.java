@@ -4,7 +4,6 @@ import lombok.*;
 
 import java.util.List;
 
-
 public class GaraDto {
     @Getter
     public static class LoginDto {

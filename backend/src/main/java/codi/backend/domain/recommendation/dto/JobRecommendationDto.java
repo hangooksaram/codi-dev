@@ -1,7 +1,9 @@
 package codi.backend.domain.recommendation.dto;
 
-import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 
 import java.util.List;
 
@@ -9,10 +11,10 @@ public class JobRecommendationDto {
     @Getter
     @Builder
     public static class Response {
-        @ApiModelProperty(example = "장애 유형")
+        @Schema(example = "장애 유형")
         private String disability;
 
-        @ApiModelProperty(example = "추천 랭킹 순위 정보")
+        @Schema(example = "추천 랭킹 순위 정보")
         private List<Info> infos;
     }
 
@@ -20,13 +22,13 @@ public class JobRecommendationDto {
     @AllArgsConstructor
     @Builder
     public static class Info {
-        @ApiModelProperty(example = "순위(숫자)")
+        @Schema(example = "순위(숫자)")
         private Integer ranking;
 
-        @ApiModelProperty(example = "직무")
+        @Schema(example = "직무")
         private String job;
 
-        @ApiModelProperty(example = "차지하는 비율")
+        @Schema(example = "차지하는 비율")
         private Double ratio;
     }
 }

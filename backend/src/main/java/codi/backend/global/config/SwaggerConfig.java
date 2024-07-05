@@ -1,25 +1,14 @@
 package codi.backend.global.config;
 
-import codi.backend.global.pageable.CustomPageable;
-import com.fasterxml.classmate.TypeResolver;
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
+import org.springdoc.core.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.domain.Pageable;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.schema.AlternateTypeRules;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.ApiKey;
-import springfox.documentation.service.AuthorizationScope;
-import springfox.documentation.service.SecurityReference;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spi.service.contexts.SecurityContext;
-import springfox.documentation.spring.web.plugins.Docket;
-
-import java.lang.reflect.Type;
-import java.util.Arrays;
-import java.util.List;
 
 @Configuration
 public class SwaggerConfig {
@@ -28,43 +17,44 @@ public class SwaggerConfig {
     private static final String API_DESCRIPTION = "장애인들의 직무 상담을 위한 멘토링 플랫폼, CODI API 명세서";
 
     @Bean
-    public Docket api() {
-        Type pageableType = new TypeResolver().resolve(Pageable.class);
-        Type customPageableType = new TypeResolver().resolve(CustomPageable.class);
-
-        return new Docket(DocumentationType.OAS_30)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("codi.backend"))
-                .paths(PathSelectors.any())
-                .build()
-                .apiInfo(apiInfo())
-                .alternateTypeRules(AlternateTypeRules.newRule(pageableType, customPageableType))
-                .securityContexts(Arrays.asList(securityContext()))
-                .securitySchemes(Arrays.asList(apiKey()));
-    }
-
-    private SecurityContext securityContext() {
-        return SecurityContext.builder()
-                .securityReferences(defaultAuth())
+    public GroupedOpenApi api() {
+        return GroupedOpenApi.builder()
+                .group("codi")
+                .pathsToMatch("/**")
+                // add  openApiCustomiser
                 .build();
     }
 
-    private List<SecurityReference> defaultAuth() {
-        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
-        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
-        authorizationScopes[0] = authorizationScope;
-        return Arrays.asList(new SecurityReference("Authorization", authorizationScopes));
+    @Bean
+    public OpenAPI apiInfo() {
+        return new OpenAPI()
+                .addServersItem(new Server().url("/"))
+                .info(new Info()
+                        .title(API_NAME)
+                        .version(API_VERSION)
+                        .description(API_DESCRIPTION))
+                .addSecurityItem(new SecurityRequirement().addList("Authorization"))
+                .components(new Components().addSecuritySchemes("Authorization",
+                        new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")));
     }
 
-    private ApiKey apiKey() {
-        return new ApiKey("Authorization", "Authorization", "header");
-    }
-
-    public ApiInfo apiInfo() {
-        return new ApiInfoBuilder()
-                .title(API_NAME)
-                .version(API_VERSION)
-                .description(API_DESCRIPTION)
-                .build();
-    }
+//    private OpenApiCustomiser openApiCustomiser() {
+//        return openApi -> openApi.getComponents()
+//                .addSchemas("Pageable", )
+//                .addSchemas("CustomPageable", customPageableSchema());
+//    }
+//
+//    private Map<String, Schema> pageableSchema() {
+//        Map<String, Schema> pageableSchema = new LinkedHashMap<>();
+//        pageableSchema.put("page", new IntegerSchema().description("페이지 번호"));
+//        pageableSchema.put("size", new IntegerSchema().description("페이지 사이즈"));
+//        pageableSchema.put("sort", new StringSchema().description("오름차순 또는 내림차순(기본 설정은 오름차순): asc or desc"));
+//        return pageableSchema;
+//    }
+//
+//    private Map<String, Schema> customPageableSchema() {
+//        Map<String, Schema> customPageableSchema = new LinkedHashMap<>();
+//        customPageableSchema.putAll(pageableSchema());
+//        return customPageableSchema;
+//    }
 }

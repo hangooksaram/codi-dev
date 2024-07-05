@@ -1,12 +1,11 @@
 package codi.backend.domain.schedule.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,11 +20,11 @@ public class ScheduleDto {
     public static class Put {
         @NotBlank(message = "날짜를 입력해주세요.")
         @Pattern(regexp = "^[0-9]{4}/[0-9]{2}/[0-9]{2}$", message = "날짜는 다음과 같은 형태만 가능합니다: yyyy/mm/dd")
-        @ApiModelProperty(example = "날짜 yyyy/mm/dd")
+        @Schema(example = "날짜 yyyy/mm/dd")
         private String date;
 
         @Valid
-        @ApiModelProperty(example = "시간을 리스트 형태로 입력해야 합니다. \"times\": [ ]")
+        @Schema(example = "시간을 리스트 형태로 입력해야 합니다. \"times\": [ ]")
         private List<TimeConstraint> times;
     }
 
@@ -34,7 +33,7 @@ public class ScheduleDto {
     public static class TimeConstraint {
         @NotBlank(message = "시간을 입력해주세요.")
         @Pattern(regexp = "^[0-9]{2}:[0-9]{2} - [0-9]{2}:[0-9]{2}$", message = "시간은 다음과 같은 형태만 가능합니다: hh:mm - hh:mm")
-        @ApiModelProperty(example = "시간 { \"time\": \"hh:mm - hh:mm\" }, ...")
+        @Schema(example = "시간 { \"time\": \"hh:mm - hh:mm\" }, ...")
         private String time;
     }
 
@@ -43,7 +42,7 @@ public class ScheduleDto {
     public static class DailyRequest {
         @NotBlank(message = "날짜를 입력해주세요.")
         @Pattern(regexp = "^[0-9]{4}/[0-9]{2}/[0-9]{2}$", message = "날짜는 다음과 같은 형태만 가능합니다: yyyy/mm/dd")
-        @ApiModelProperty(example = "날짜 yyyy/mm/dd")
+        @Schema(example = "날짜 yyyy/mm/dd")
         private String date;
     }
 
@@ -52,7 +51,7 @@ public class ScheduleDto {
     public static class MonthlyRequest {
         @NotBlank(message = "년, 월을 입력해주세요.")
         @Pattern(regexp = "^[0-9]{4}/[0-9]{2}$", message = "년, 월은 다음과 같은 형태만 가능합니다: yyyy/mm")
-        @ApiModelProperty(example = "날짜 yyyy/mm")
+        @Schema(example = "날짜 yyyy/mm")
         private String month;
     }
 

@@ -6,10 +6,9 @@ import codi.backend.domain.mentor.dto.MentorDto;
 import codi.backend.domain.mentor.entity.Mentor;
 import codi.backend.domain.mentor.mapper.MentorMapper;
 import codi.backend.domain.mentor.service.MentorService;
-import codi.backend.domain.profile.service.ProfileService;
 import codi.backend.global.response.MultiResponseDto;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,7 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.util.List;
 
-@Api(tags = { "Mentor" })
+@Tag(name = "Mentor", description = "멘토 API")
 @RestController
 @RequestMapping("/api/v1/mentors")
 @Validated
@@ -42,7 +41,7 @@ public class MentorController {
     }
 
     // 멘토 등록
-    @ApiOperation(value = "멘토 등록", notes = "직업 증명 파일(재직증명서, 경력기술서), 직무, 회사 이름, 멘토 소개를 작성해서 멘토가 될 수 있다. 생성 성공시 Access Token을 새로 발급하기 때문에 헤더에 있는 Authorization을 새로 저장해주어야 한다.")
+    @Operation(summary = "멘토 등록", description = "직업 증명 파일(재직증명서, 경력기술서), 직무, 회사 이름, 멘토 소개를 작성해서 멘토가 될 수 있다. 생성 성공시 Access Token을 새로 발급하기 때문에 헤더에 있는 Authorization을 새로 저장해주어야 한다.")
     @PostMapping
     public ResponseEntity createMentor(@AuthenticationPrincipal CustomUserDetails principal,
                                        @Valid @RequestPart(value = "mentor") MentorDto.MentorPost mentorPostDto,
@@ -59,7 +58,7 @@ public class MentorController {
     }
 
     // 멘토 정보 수정
-    @ApiOperation(value = "멘토 정보 수정", notes = "직업 증명 파일(재직증명서, 경력기술서), 직무, 회사, 소개를 선택해서 수정할 수 있다.")
+    @Operation(summary = "멘토 정보 수정", description = "직업 증명 파일(재직증명서, 경력기술서), 직무, 회사, 소개를 선택해서 수정할 수 있다.")
     @PatchMapping
     public ResponseEntity updateMentor(@AuthenticationPrincipal CustomUserDetails principal,
                                        @Valid @RequestPart(value = "mentor") MentorDto.MentorPatch mentorPatchDto,
@@ -70,7 +69,7 @@ public class MentorController {
     }
 
     // 멘토 등록시 멘토 정보 조회
-    @ApiOperation(value = "Mentor 프로필 조회", notes = "Mentor를 신청하면서 입력한 정보를 조회할 수 있다.")
+    @Operation(summary = "Mentor 프로필 조회", description = "Mentor를 신청하면서 입력한 정보를 조회할 수 있다.")
     @GetMapping
     public ResponseEntity getMyMentorDetails(@AuthenticationPrincipal CustomUserDetails principal) {
         MentorDto.MentorResponse mentor = mentorMapper.mentorToMentorResponse(mentorService.findMentor(principal.getMentorId()));
@@ -81,7 +80,7 @@ public class MentorController {
     }
 
     // TODO 다른 멘토의 정보 보는 API - Response에서 표시할 정보 수정하기
-    @ApiOperation(value = "타 Mentor 프로필 조회", notes = "타 Mentor의 정보를 조회할 수 있다.")
+    @Operation(summary = "타 Mentor 프로필 조회", description = "타 Mentor의 정보를 조회할 수 있다.")
     @GetMapping("/{mentor-id}")
     public ResponseEntity getMentorDetails(@PathVariable("mentor-id") Long mentorId) {
         MentorDto.MentorResponse mentor = mentorMapper.mentorToMentorResponse(mentorService.findMentor(mentorId));
@@ -92,7 +91,7 @@ public class MentorController {
     }
 
     // TODO 추후 RequestParam을 Dto에 넣어서 넘기는 방법 사용
-    @ApiOperation(value = "Mentor 필터링", notes = "Mentor 정보를 필터링한 결과를 표시한다. \n" +
+    @Operation(summary = "Mentor 필터링", description = "Mentor 정보를 필터링한 결과를 표시한다. \n" +
             "페이지 당 표시할 contents의 개수, example = \"20\"\n" +
             "확인하고 싶은 결과 페이지 번호 (0..N), example = \"0\"\n" +
             "오름차순 및 내림차순 정렬 (asc or desc), example = \"desc\"" +
@@ -112,7 +111,7 @@ public class MentorController {
     }
 
     // 멘토 추천
-    @ApiOperation(value = "Mentor 추천", notes = "직무 추천 데이터를 Request에 입력하여 유사한 직무, 장애구분, 중증도를 기준으로 동작한다.")
+    @Operation(summary = "Mentor 추천", description = "직무 추천 데이터를 Request에 입력하여 유사한 직무, 장애구분, 중증도를 기준으로 동작한다.")
     @GetMapping("/recommend")
     public ResponseEntity recommendMentors(MentorDto.RecommendationMentorRequest recommendationMentorRequest) {
         List<MentorDto.SearchMentorResponse> responses = mentorService.recommendMentors(recommendationMentorRequest);

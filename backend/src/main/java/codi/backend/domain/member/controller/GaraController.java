@@ -2,7 +2,6 @@ package codi.backend.domain.member.controller;
 
 import codi.backend.domain.member.dto.GaraDto;
 import codi.backend.domain.member.service.MemberService;
-import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Api(tags = { "가라 로그인" })
 @RestController
 @RequestMapping("/api/v1/signin")
 @Validated
