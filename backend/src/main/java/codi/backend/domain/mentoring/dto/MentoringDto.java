@@ -2,9 +2,8 @@ package codi.backend.domain.mentoring.dto;
 
 import codi.backend.domain.mentor.dto.MentorDto;
 import codi.backend.domain.mentoring.entity.Mentoring;
-import codi.backend.domain.schedule.dto.ScheduleDto;
 import com.querydsl.core.annotations.QueryProjection;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import javax.validation.constraints.*;
@@ -16,49 +15,49 @@ public class MentoringDto {
     public static class MentoringPost {
         @NotBlank(message = "멘토링 신청 날짜는 공백일 수 없습니다.")
         @Pattern(regexp = "^\\d{4}/(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])$", message = "멘토링 날짜의 형식은 yyyy/mm/dd 이어야 합니다.")
-        @ApiModelProperty(example = "날짜: yyyy/mm/dd")
+        @Schema(example = "날짜: yyyy/mm/dd")
         private String date;
 
         @NotBlank(message = "멘토링 신청 시간은 공백일 수 없습니다.")
         @Pattern(regexp = "^([01]\\d|2[0-3]):([0-5]\\d) - ([01]\\d|2[0-3]):([0-5]\\d)$", message = "멘토링 시간의 형식은 hh:mm - hh:mm 이어야 합니다.")
-        @ApiModelProperty(example = "시간: hh:mm - hh:mm")
+        @Schema(example = "시간: hh:mm - hh:mm")
         private String time;
 
         @NotBlank(message = "멘토링 신청 사유를 최소 50자 이상 필수로 작성해야 합니다. ")
         @Size(min = 50)
-        @ApiModelProperty(example = "신청 사유")
+        @Schema(example = "신청 사유")
         private String applicationReason;
     }
 
     @Getter
     public static class RateMentorRequest {
         @NotNull
-        @ApiModelProperty(example = "프로필 ID")
+        @Schema(example = "프로필 ID")
         private Long profileId;
 
         @NotNull
-        @ApiModelProperty(example = "멘토링 ID")
+        @Schema(example = "멘토링 ID")
         private Long mentoringId;
 
         @NotNull
-        @ApiModelProperty(example = "멘토 ID")
+        @Schema(example = "멘토 ID")
         private Long mentorId;
 
         @NotNull
         @DecimalMax(value = "5.0")
         @DecimalMin(value = "0.0")
-        @ApiModelProperty(example = "별점")
+        @Schema(example = "별점")
         private Double star;
     }
 
     @Getter
     public static class MentoringLinkRequest {
         @NotNull
-        @ApiModelProperty(example = "링크")
+        @Schema(example = "링크")
         private String link;
 
         @NotNull
-        @ApiModelProperty(example = "멘토링 플랫폼")
+        @Schema(example = "멘토링 플랫폼")
         private String platform;
     }
 
@@ -67,7 +66,7 @@ public class MentoringDto {
     public static class DailyRequest {
         @NotBlank(message = "날짜를 입력해주세요.")
         @Pattern(regexp = "^[0-9]{4}/[0-9]{2}/[0-9]{2}$", message = "날짜는 다음과 같은 형태만 가능합니다: yyyy/mm/dd")
-        @ApiModelProperty(example = "날짜 yyyy/mm/dd")
+        @Schema(example = "날짜 yyyy/mm/dd")
         private String date;
     }
 

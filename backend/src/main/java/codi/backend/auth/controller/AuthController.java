@@ -2,14 +2,14 @@ package codi.backend.auth.controller;
 
 import codi.backend.auth.dto.AuthDto;
 import codi.backend.auth.service.AuthService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-@Api(tags = { "Auth" })
+@Tag(name = "Auth", description = "인증 API")
 @RestController
 @RequestMapping("/api/v1/auth")
 @Validated
