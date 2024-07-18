@@ -3,6 +3,7 @@ package codi.backend.auth.userdetails;
 import codi.backend.auth.utils.CustomAuthorityUtils;
 import codi.backend.domain.member.entity.Member;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -11,14 +12,18 @@ import java.util.List;
 
 @Getter
 public final class CustomUserDetails extends Member implements UserDetails {
-    private String id;
+    private Long id;
+    private String email;
     private String password;
     private List<String> roles;
+    @Setter
     private Long profileId;
+    @Setter
     private Long mentorId;
 
     public CustomUserDetails(Member member) {
         this.id = member.getId();
+        this.email = member.getEmail();
         this.password = member.getPassword();
         this.roles = member.getRoles();
         if (member.getProfile() != null) {
@@ -29,18 +34,11 @@ public final class CustomUserDetails extends Member implements UserDetails {
         }
     }
 
-    public CustomUserDetails(String id, List<String> roles, Long profileId, Long mentorId) {
+    public CustomUserDetails(Long id, String email, List<String> roles, Long profileId, Long mentorId) {
         this.id = id;
+        this.email = email;
         this.roles = roles;
         this.profileId = profileId;
-        this.mentorId = mentorId;
-    }
-
-    public void setProfileId(Long profileId) {
-        this.profileId = profileId;
-    }
-
-    public void setMentorId(Long mentorId) {
         this.mentorId = mentorId;
     }
 
@@ -51,7 +49,7 @@ public final class CustomUserDetails extends Member implements UserDetails {
 
     @Override
     public String getUsername() {
-        return getId();
+        return getEmail();
     }
 
     @Override

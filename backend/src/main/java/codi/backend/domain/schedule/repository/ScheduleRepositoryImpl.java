@@ -25,7 +25,6 @@ public class ScheduleRepositoryImpl implements ScheduleRepositoryCustom {
     private final JPAQueryFactory queryFactory;
     private final QSchedule schedule = QSchedule.schedule;
 
-    // TODO EntityManager와 QueryFactory에 대해서 더 공부해봐야 함
     public ScheduleRepositoryImpl(JPAQueryFactory queryFactory) {
         this.queryFactory = queryFactory;
     }
@@ -100,7 +99,7 @@ public class ScheduleRepositoryImpl implements ScheduleRepositoryCustom {
     }
 
     @Override
-    public long deleteAllByMentorAndDate(Mentor mentor, LocalDate date) {
+    public Long deleteAllByMentorAndDate(Mentor mentor, LocalDate date) {
         return queryFactory
                 .delete(schedule)
                 .where(schedule.mentor.eq(mentor),

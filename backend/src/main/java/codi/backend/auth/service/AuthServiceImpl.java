@@ -10,6 +10,7 @@ import codi.backend.global.exception.BusinessLogicException;
 import codi.backend.global.exception.ExceptionCode;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -17,19 +18,27 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
+@Slf4j
 public class AuthServiceImpl implements AuthService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final JwtTokenizer jwtTokenizer;
+//    private final MemberService memberService;
     private final MemberRepository memberRepository;
 
     public AuthServiceImpl(RefreshTokenRepository refreshTokenRepository, JwtTokenizer jwtTokenizer, MemberRepository memberRepository) {
         this.refreshTokenRepository = refreshTokenRepository;
         this.jwtTokenizer = jwtTokenizer;
+//        this.memberService = memberService;
         this.memberRepository = memberRepository;
     }
 
     @Override
     public void login(RefreshToken refresh) {
+        log.info("---------------------refresh token info---------------------");
+        log.info("id: {}", refresh.getMemberId());
+        log.info("email: {}", refresh.getEmail());
+        log.info("refreshtoken: {}", refresh.getRefreshToken());
+        log.info("expiry date: {}", refresh.getExpiryDate());
         refreshTokenRepository.save(refresh);
     }
 
@@ -64,9 +73,9 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public String reissueAccessTokenByMemberId(String memberId) {
+    public String reissueAccessTokenByEmail(String email) {
         // username으로 refresh token을 찾는다.
-        RefreshToken refresh = refreshTokenRepository.findByMemberId(memberId)
+        RefreshToken refresh = refreshTokenRepository.findByEmail(email)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.REFRESH_TOKEN_NOT_FOUND));
 
         // 토큰의 유효기간이 유효한지 확인
@@ -81,15 +90,17 @@ public class AuthServiceImpl implements AuthService {
     }
 
     private String generateAccessTokenFromRefreshToken(RefreshToken refreshToken) {
-        Member member = findMember(refreshToken.getMemberId());
+//        Member member = memberService.findMember(refreshToken.getEmail());
+        Member member = findMember(refreshToken.getEmail());
 
         Map<String, Object> claims = new HashMap<>();
-        claims.put("username", member.getId());
+        claims.put("id", member.getId());
+        claims.put("username", member.getEmail());
         claims.put("roles", member.getRoles());
         claims.put("profileId", member.getProfile() != null ? member.getProfile().getId() : null);
         claims.put("mentorId", member.getMentor() != null ? member.getMentor().getId() : null);
 
-        String subject = member.getId();
+        String subject = member.getEmail();
         Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
 
@@ -98,8 +109,8 @@ public class AuthServiceImpl implements AuthService {
         return accessToken;
     }
 
-    private Member findMember(String memberId) {
-        return memberRepository.findById(memberId)
+    private Member findMember(String email) {
+        return memberRepository.findByEmail(email)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
     }
 
@@ -126,13 +137,16 @@ public class AuthServiceImpl implements AuthService {
 
         // claim에서 memberId 추출
         Jws<Claims> claims = jwtTokenizer.getClaims(jws, base64EncodedSecretKey);
+//        Member member = memberService.findMember(claims.getBody().getSubject());
         Member member = findMember(claims.getBody().getSubject());
 
         // 통과 했으면 정상적으로 객체 생성하기
         AuthDto.CheckLoginInfo checkLoginInfo = new AuthDto.CheckLoginInfo();
         checkLoginInfo.setId(member.getId());
+        checkLoginInfo.setEmail(member.getEmail());
         checkLoginInfo.setIsProfile(member.getProfile() != null);
         checkLoginInfo.setIsMentor(member.getMentor() != null);
+
         if (member.getProfile() != null) {
             checkLoginInfo.setProfileImageUrl(member.getProfile().getImgUrl());
         } else {

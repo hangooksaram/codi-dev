@@ -2,12 +2,13 @@ package codi.backend.domain.member.entity;
 
 import codi.backend.domain.mentor.entity.Mentor;
 import codi.backend.domain.profile.entity.Profile;
-import codi.backend.global.exception.BusinessLogicException;
-import codi.backend.global.exception.ExceptionCode;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,20 +16,12 @@ import java.util.List;
 @Getter
 @Entity
 @NoArgsConstructor
+@Table(name = "new_member")
 public class Member {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id", unique = true, updatable = false)
-    private String id;
-
-    @Column(nullable = false)
-    private String name;
-
-    @Column
-    private String birth;
-
-    @Enumerated(value = EnumType.STRING)
-    @Column(nullable = false)
-    private Gender gender;
+    private Long id;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -36,7 +29,17 @@ public class Member {
     @Column(nullable = false)
     private String password;
 
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    @Column(name = "last_login")
+    private LocalDateTime lastLogin;
+
     @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "new_member_roles")
     private List<String> roles = new ArrayList<>();
 
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
@@ -45,29 +48,6 @@ public class Member {
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     private Profile profile;
 
-    @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-    public enum Gender {
-        MAN("남자"),
-        NOT_CHECKED("선택안함"),
-        WOMAN("여자");
-
-        @Getter
-        private final String gender;
-
-        Gender(String gender) {
-            this.gender = gender;
-        }
-
-        public static Gender genderOf(String name) {
-            for (Gender gender : Gender.values()) {
-                if (gender.getGender().equals(name)) {
-                    return gender;
-                }
-            }
-            return null;
-        }
-    }
-
     public enum MemberRole {
         ADMIN,
         MENTOR,
@@ -75,11 +55,8 @@ public class Member {
     }
 
     @Builder
-    public Member(String id, String name, String birth, Gender gender, String email, String password, List<String> roles) {
+    public Member(Long id, String email, String password, List<String> roles) {
         this.id = id;
-        this.name = name;
-        this.birth = birth;
-        this.gender = gender;
         this.email = email;
         this.password = password;
         this.roles = roles;

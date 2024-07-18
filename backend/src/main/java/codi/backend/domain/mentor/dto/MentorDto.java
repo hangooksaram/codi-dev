@@ -1,6 +1,7 @@
 package codi.backend.domain.mentor.dto;
 
 import codi.backend.domain.mentor.entity.Mentor;
+import com.querydsl.core.annotations.QueryProjection;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
@@ -15,52 +16,31 @@ public class MentorDto {
     @Builder
     public static class MentorPost {
         @NotBlank
+        @Schema(example = "직무 경력")
+        private String career;
+
+        @NotBlank
         @Schema(example = "직무")
         private String job;
 
-        @NotBlank
-        @Schema(example = "회사 이름")
-        private String company;
-
-        @NotBlank
-        @Schema(example = "프로필에 표시될 직무명")
-        private String jobName;
-
-        @NotBlank
-        @Schema(example = "경력")
-        private String career;
-
-        @NotNull
-        @Schema(example = "재직중 여부")
-        private Boolean inOffice;
+        @Schema(example = "멘토 소개")
+        private String introduction;
 
         @NotNull
         @NotEmpty
         @Size(min = 1, max = 4)
         @Schema(example = "멘토링 분야")
         private List<Mentor.MentoringCategory> mentoringCategories;
-
-        @Schema(example = "멘토 소개")
-        private String introduction;
     }
 
     @Getter
     @Builder
     public static class MentorPatch {
-        @Schema(example = "직무")
-        private String job;
-
-        @Schema(example = "회사 이름")
-        private String company;
-
-        @Schema(example = "프로필에 표시될 직무명")
-        private String jobName;
-
-        @Schema(example = "경력")
+        @Schema(example = "직무 경력")
         private String career;
 
-        @Schema(example = "재직중 여부")
-        private Boolean inOffice;
+        @Schema(example = "직무")
+        private String job;
 
         @Schema(example = "멘토 소개")
         private String introduction;
@@ -78,11 +58,8 @@ public class MentorDto {
         @Schema(example = "멘토 아이디")
         private Long id;
 
-        @Schema(example = "이름")
-        private String name;
-
-        @Schema(example = "나이")
-        private Integer age;
+        @Schema(example = "별명")
+        private String nickname;
 
         @Schema(example = "프로필 이미지")
         private String imgUrl;
@@ -93,29 +70,11 @@ public class MentorDto {
         @Schema(example = "중증도")
         private String severity;
 
-        @Schema(example = "최종 학력")
-        private String education;
-
-        @Schema(example = "재직증명서 링크")
-        private String fileUrl;
-
-        @Schema(example = "재직증명서 제출 여부")
-        private Boolean isCertificate;
-
-        @Schema(example = "회사 이름")
-        private String company;
+        @Schema(example = "직무 경력")
+        private String career;
 
         @Schema(example = "직무")
         private String job;
-
-        @Schema(example = "경력")
-        private String career;
-
-        @Schema(example = "프로필에 표시될 직무명")
-        private String jobName;
-
-        @Schema(example = "재직중 여부")
-        private Boolean inOffice;
 
         @Schema(example = "멘토 소개")
         private String introduction;
@@ -129,10 +88,10 @@ public class MentorDto {
         @Schema(example = "멘토링 분야")
         private List<String> mentoringCategories;
 
-        @Schema(example = "0")
+        @Schema(example = "진행한 총 멘토링 수")
         private Integer mentoringCount;
 
-        @Schema(example = "0.0")
+        @Schema(example = "응답률")
         private Double responseRate;
 
         @Schema(name = "mentoringCount", example = "예정된 스케줄 수")
@@ -158,32 +117,20 @@ public class MentorDto {
     @Getter
     @AllArgsConstructor
     public static class IntermediateMentorResponse {
-        @Schema(example = "회원 ID")
-        private String id;
-
         @Schema(example = "멘토 ID")
         private Long mentorId;
+
+        @Schema(example = "별명")
+        private String nickname;
 
         @Schema(example = "프로필 이미지")
         private String imgUrl;
 
-        @Schema(example = "재직증명서 제출 여부")
-        private Boolean isCertificate;
-
-        @Schema(example = "이름")
-        private String name;
+        @Schema(example = "직무 경력")
+        private String career;
 
         @Schema(example = "직무")
         private String job;
-
-        @Schema(example = "프로필에 표시될 직무명")
-        private String jobName;
-
-        @Schema(example = "재직중 표시")
-        private Boolean inOffice;
-
-        @Schema(example = "경력")
-        private String career;
 
         @Schema(example = "장애 구분")
         private String disability;
@@ -202,32 +149,22 @@ public class MentorDto {
     @Getter
     @Setter
     @NoArgsConstructor
-    @AllArgsConstructor
     @Builder
     public static class SearchMentorResponse {
-        @Schema(example = "회원 ID")
-        private String id;
-
         @Schema(example = "멘토 ID")
         private Long mentorId;
+
+        @Schema(example = "별명")
+        private String nickname;
 
         @Schema(example = "프로필 이미지")
         private String imgUrl;
 
-        @Schema(example = "재직증명서 제출 여부")
-        private Boolean isCertificate;
-
-        @Schema(example = "이름")
-        private String name;
-
-        @Schema(example = "직무")
-        private String job;
-
-        @Schema(example = "프로필에 표시될 직무명")
-        private String jobName;
-
-        @Schema(example = "경력")
+        @Schema(example = "직무 경력")
         private String career;
+
+        @Schema(example = "멘토의 현재 직무")
+        private String job;
 
         @Schema(example = "장애 구분")
         private String disability;
@@ -240,5 +177,18 @@ public class MentorDto {
 
         @Schema(example = "수강한 멘토 수")
         private Integer mentees;
+
+        @QueryProjection
+        public SearchMentorResponse(Long mentorId, String nickname, String imgUrl, String career, String job, String disability, String severity, Double star, Integer mentees) {
+            this.mentorId = mentorId;
+            this.nickname = nickname;
+            this.imgUrl = imgUrl;
+            this.career = career;
+            this.job = job;
+            this.disability = disability;
+            this.severity = severity;
+            this.star = star;
+            this.mentees = mentees;
+        }
     }
 }

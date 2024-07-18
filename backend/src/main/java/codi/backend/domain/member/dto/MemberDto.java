@@ -1,34 +1,19 @@
 package codi.backend.domain.member.dto;
 
-import codi.backend.domain.member.entity.Member;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 public class MemberDto {
     @Getter
     @Builder
     public static class MemberPost {
-        @NotBlank
-        @Pattern(regexp = "^[a-z0-9]{4,12}$", message = "ID는 최소 4글자 이상, 12글자 이하의 소문자와 숫자만 포함해야 합니다.")
-        @Schema(example = "회원 ID")
-        private String id;
-
-        @NotBlank
-        @Schema(example = "이름")
-        private String name;
-
-        @NotBlank
-        @Schema(example = "생년월일(yyyy-mm-dd)")
-        private String birth;
-
-        @NotNull
-        @Schema(example = "남자 또는 여자")
-        private Member.Gender gender;
-
         @Email
         @NotBlank
         @Schema(example = "email@address.com")
@@ -61,16 +46,7 @@ public class MemberDto {
     @Builder
     public static class MemberResponse {
         @Schema(example = "회원 ID")
-        private String id;
-
-        @Schema(example = "이름")
-        private String name;
-
-        @Schema(example = "생년월일(yyyy-mm-dd)")
-        private String birth;
-
-        @Schema(example = "남자 또는 여자")
-        private String gender;
+        private Long id;
 
         @Schema(example = "email@address.com")
         private String email;

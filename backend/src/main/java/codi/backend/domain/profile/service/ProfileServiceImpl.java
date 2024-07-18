@@ -39,11 +39,8 @@ public class ProfileServiceImpl implements ProfileService {
             throw new BusinessLogicException(ExceptionCode.PROFILE_EXIST);
         }
 
-        String imgUrl = Optional.ofNullable(file)
-                            .filter(f -> !f.isEmpty())
-                            .map(f -> s3Service.upload(f, "profile"))
-                            .orElse(DEFAULT_IMAGE_URL);
-
+        // 이미지 여부에 따라 업로드
+        String imgUrl = uploadImage(file);
         profile.setImgUrl(imgUrl);
 
         // member에 profile 1:1 연결
@@ -52,6 +49,14 @@ public class ProfileServiceImpl implements ProfileService {
 
         // profile DB 저장
         return profileRepository.save(profile);
+    }
+
+    private String uploadImage(MultipartFile file) {
+        if (file == null || file.isEmpty()) {
+            return DEFAULT_IMAGE_URL;
+        } else {
+            return s3Service.upload(file, "profile");
+        }
     }
 
     @Transactional(readOnly = true)
@@ -108,19 +113,14 @@ public class ProfileServiceImpl implements ProfileService {
         if (inputProfile == null) {
             throw new BusinessLogicException(ExceptionCode.PROFILE_NOT_FOUND);
         }
-
-        Optional.ofNullable(inputProfile.getJob())
-                .ifPresent(findProfile::setJob);
+        Optional.ofNullable(inputProfile.getNickname())
+                .ifPresent(findProfile::setNickname);
         Optional.ofNullable(inputProfile.getDesiredJob())
                 .ifPresent(findProfile::setDesiredJob);
-        Optional.ofNullable(inputProfile.getEducation())
-                .ifPresent(findProfile::setEducation);
         Optional.ofNullable(inputProfile.getDisability())
                 .ifPresent(findProfile::setDisability);
         Optional.ofNullable(inputProfile.getSeverity())
                 .ifPresent(findProfile::setSeverity);
-        Optional.ofNullable(inputProfile.getIntroduction())
-                .ifPresent(findProfile::setIntroduction);
         Optional.ofNullable(inputProfile.getEmploymentStatus())
                 .ifPresent(findProfile::setEmploymentStatus);
     }

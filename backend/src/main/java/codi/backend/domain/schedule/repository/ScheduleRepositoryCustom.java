@@ -13,5 +13,5 @@ public interface ScheduleRepositoryCustom {
     ScheduleDto.ScheduleMonthlyResponse findMonthlySchedules(Mentor mentor, LocalDate month);
     List<Schedule> findAllByMentorAndDate(Mentor mentor, LocalDate date);
     List<ScheduleDto.ScheduleInfo> findSchedulesOfMentor(Long mentorId, LocalDateTime currentTime);
-    long deleteAllByMentorAndDate(Mentor mentor, LocalDate date);
+    Long deleteAllByMentorAndDate(Mentor mentor, LocalDate date);
 }

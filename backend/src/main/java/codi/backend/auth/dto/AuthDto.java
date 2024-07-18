@@ -13,7 +13,8 @@ public class AuthDto {
     @Getter
     @Setter
     public static class CheckLoginInfo {
-        private String id;
+        private Long id;
+        private String email;
         private Boolean isProfile;
         private Boolean isMentor;
         private String profileImageUrl;

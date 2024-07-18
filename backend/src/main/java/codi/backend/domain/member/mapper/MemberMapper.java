@@ -10,12 +10,7 @@ public interface MemberMapper {
         if (memberPostDto == null) {
             return null;
         }
-
         return Member.builder()
-                .id(memberPostDto.getId())
-                .name(memberPostDto.getName())
-                .birth(memberPostDto.getBirth())
-                .gender(memberPostDto.getGender())
                 .email(memberPostDto.getEmail())
                 .password(memberPostDto.getPassword())
                 .build();
@@ -24,12 +19,8 @@ public interface MemberMapper {
         if (member == null) {
             return null;
         }
-
         return MemberDto.MemberResponse.builder()
                 .id(member.getId())
-                .name(member.getName())
-                .birth(member.getBirth())
-                .gender(member.getGender().getGender())
                 .email(member.getEmail())
                 .roles(member.getRoles())
                 .build();

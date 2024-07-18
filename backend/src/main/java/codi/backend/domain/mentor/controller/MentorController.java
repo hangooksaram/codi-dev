@@ -8,6 +8,11 @@ import codi.backend.domain.mentor.mapper.MentorMapper;
 import codi.backend.domain.mentor.service.MentorService;
 import codi.backend.global.response.MultiResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -42,6 +47,11 @@ public class MentorController {
 
     // 멘토 등록
     @Operation(summary = "멘토 등록", description = "직업 증명 파일(재직증명서, 경력기술서), 직무, 회사 이름, 멘토 소개를 작성해서 멘토가 될 수 있다. 생성 성공시 Access Token을 새로 발급하기 때문에 헤더에 있는 Authorization을 새로 저장해주어야 한다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "멘토 프로필 생성 성공", content =
+                    { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = MentorDto.MentorResponse.class))})
+    })
     @PostMapping
     public ResponseEntity createMentor(@AuthenticationPrincipal CustomUserDetails principal,
                                        @Valid @RequestPart(value = "mentor") MentorDto.MentorPost mentorPostDto,
@@ -49,7 +59,7 @@ public class MentorController {
         Mentor mentor = mentorService.becomeMentor(principal.getUsername(), mentorMapper.mentorPostDtoToMentor(mentorPostDto), file);
         MentorDto.MentorResponse response = mentorMapper.mentorToMentorResponse(mentor);
 
-        String newAccessToken = authService.reissueAccessTokenByMemberId(principal.getUsername());
+        String newAccessToken = authService.reissueAccessTokenByEmail(principal.getUsername());
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + newAccessToken);
@@ -59,6 +69,11 @@ public class MentorController {
 
     // 멘토 정보 수정
     @Operation(summary = "멘토 정보 수정", description = "직업 증명 파일(재직증명서, 경력기술서), 직무, 회사, 소개를 선택해서 수정할 수 있다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "멘토 프로필 수정", content =
+                    { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = MentorDto.MentorResponse.class))})
+    })
     @PatchMapping
     public ResponseEntity updateMentor(@AuthenticationPrincipal CustomUserDetails principal,
                                        @Valid @RequestPart(value = "mentor") MentorDto.MentorPatch mentorPatchDto,
@@ -70,6 +85,11 @@ public class MentorController {
 
     // 멘토 등록시 멘토 정보 조회
     @Operation(summary = "Mentor 프로필 조회", description = "Mentor를 신청하면서 입력한 정보를 조회할 수 있다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "자기 자신의 멘토 프로필 조회", content =
+                    { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = MentorDto.MentorResponse.class))})
+    })
     @GetMapping
     public ResponseEntity getMyMentorDetails(@AuthenticationPrincipal CustomUserDetails principal) {
         MentorDto.MentorResponse mentor = mentorMapper.mentorToMentorResponse(mentorService.findMentor(principal.getMentorId()));
@@ -81,6 +101,11 @@ public class MentorController {
 
     // TODO 다른 멘토의 정보 보는 API - Response에서 표시할 정보 수정하기
     @Operation(summary = "타 Mentor 프로필 조회", description = "타 Mentor의 정보를 조회할 수 있다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "타 멘토 프로필 조회", content =
+                    { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = MentorDto.MentorResponse.class))})
+    })
     @GetMapping("/{mentor-id}")
     public ResponseEntity getMentorDetails(@PathVariable("mentor-id") Long mentorId) {
         MentorDto.MentorResponse mentor = mentorMapper.mentorToMentorResponse(mentorService.findMentor(mentorId));
@@ -96,6 +121,34 @@ public class MentorController {
             "확인하고 싶은 결과 페이지 번호 (0..N), example = \"0\"\n" +
             "오름차순 및 내림차순 정렬 (asc or desc), example = \"desc\"" +
             "page 기본값 = 1, size 기본값 = 12")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "멘토 검색 및 조회", content =
+                    { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = MultiResponseDto.class),
+                            examples = @ExampleObject(name = "멘토 검색 및 조회 example",
+                                    value = "{\n" +
+                                            "    \"data\": [\n" +
+                                            "        {\n" +
+                                            "            \"mentorId\": 0,\n" +
+                                            "            \"nickname\": \"별명\",\n" +
+                                            "            \"imgUrl\": \"프로필 이미지\",\n" +
+                                            "            \"career\": \"경력\",\n" +
+                                            "            \"job\": \"직무\",\n" +
+                                            "            \"disability\": \"장애 유형\",\n" +
+                                            "            \"severity\": \"중증도\",\n" +
+                                            "            \"star\": 0.0,\n" +
+                                            "            \"mentees\": 0\n" +
+                                            "        }\n" +
+                                            "    ],\n" +
+                                            "    \"pageInfo\": {\n" +
+                                            "        \"page\": 0,\n" +
+                                            "        \"size\": 0,\n" +
+                                            "        \"totalElements\": 0,\n" +
+                                            "        \"totalPages\": 0\n" +
+                                            "    }\n" +
+                                            "}"
+                    ))})
+    })
     @GetMapping("/search")
     public ResponseEntity searchMentors(
             @RequestParam(name = "job", required = false) String job,
@@ -112,6 +165,11 @@ public class MentorController {
 
     // 멘토 추천
     @Operation(summary = "Mentor 추천", description = "직무 추천 데이터를 Request에 입력하여 유사한 직무, 장애구분, 중증도를 기준으로 동작한다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "멘토 추천", content =
+                    { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = MentorDto.SearchMentorResponse.class))})
+    })
     @GetMapping("/recommend")
     public ResponseEntity recommendMentors(MentorDto.RecommendationMentorRequest recommendationMentorRequest) {
         List<MentorDto.SearchMentorResponse> responses = mentorService.recommendMentors(recommendationMentorRequest);

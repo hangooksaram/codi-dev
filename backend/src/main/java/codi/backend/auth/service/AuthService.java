@@ -7,7 +7,7 @@ public interface AuthService {
     void login(RefreshToken refreshToken);
     void logout(String refreshToken);
     String reissueAccessToken(String refreshToken);
-    String reissueAccessTokenByMemberId(String memberId);
+    String reissueAccessTokenByEmail(String email);
     AuthDto.CheckToken checkAccessToken(String accessToken);
     AuthDto.CheckLoginInfo checkLoginInfo(String accessToken);
 }

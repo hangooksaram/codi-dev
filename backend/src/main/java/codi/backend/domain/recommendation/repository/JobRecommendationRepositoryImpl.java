@@ -21,16 +21,12 @@ public class JobRecommendationRepositoryImpl implements JobRecommendationReposit
     }
 
     @Override
-    public JobRecommendationDto.Response findTop3JobCategories(String disability, String severity, int age) {
-        int ageStart = (age / 10) * 10;
-        int ageEnd = ageStart + 10;
-
+    public JobRecommendationDto.JobRecommendationResponse findTop3JobCategories(String disability, String severity) {
         // 전체 카운트 가져오기
         long totalCount = queryFactory
                 .from(jobRecommendation)
                 .where(jobRecommendation.disability.eq(disability)
-                        .and(jobRecommendation.severity.eq(severity))
-                        .and(jobRecommendation.age.between(ageStart, ageEnd)))
+                        .and(jobRecommendation.severity.eq(severity)))
                 .stream()
                 .count();
 
@@ -40,28 +36,27 @@ public class JobRecommendationRepositoryImpl implements JobRecommendationReposit
                 .select(jobRecommendation.job, countExpression)
                 .from(jobRecommendation)
                 .where(jobRecommendation.disability.eq(disability)
-                        .and(jobRecommendation.severity.eq(severity))
-                        .and(jobRecommendation.age.between(ageStart, ageEnd)))
+                        .and(jobRecommendation.severity.eq(severity)))
                 .groupBy(jobRecommendation.job)
                 .orderBy(jobRecommendation.count().desc())
                 .limit(3)
                 .fetch();
 
-        return JobRecommendationDto.Response.builder()
+        return JobRecommendationDto.JobRecommendationResponse.builder()
                 .disability(disability)
-                .infos(mapToJobRecommendationResponse(totalCount, countExpression, results))
+                .jobRecommendationInfos(mapToJobRecommendationResponse(totalCount, countExpression, results))
                 .build();
     }
 
-    private List<JobRecommendationDto.Info> mapToJobRecommendationResponse(long totalCount, Expression<Long> countExpression, List<Tuple> results) {
-        List<JobRecommendationDto.Info> responses = new ArrayList<>();
+    private List<JobRecommendationDto.JobRecommendationInfo> mapToJobRecommendationResponse(long totalCount, Expression<Long> countExpression, List<Tuple> results) {
+        List<JobRecommendationDto.JobRecommendationInfo> responses = new ArrayList<>();
 
         int rank = 1;
         for (Tuple result : results) {
             String job = result.get(jobRecommendation.job);
             long count = Optional.ofNullable(result.get(countExpression)).orElse(0L);
             double ratio = Math.round(((double) count / totalCount * 100) * 100) / 100.0; // 차지하는 비율
-            responses.add(new JobRecommendationDto.Info(rank, job, ratio));
+            responses.add(new JobRecommendationDto.JobRecommendationInfo(rank, job, ratio));
             rank++;
         }
 

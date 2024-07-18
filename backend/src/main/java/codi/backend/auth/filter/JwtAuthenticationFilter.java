@@ -40,7 +40,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @SneakyThrows
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        log.info("attempting Authentication...");
+        log.info("[Login] attempting Authentication...");
 
         ObjectMapper objectMapper = new ObjectMapper();
         LoginDto loginDto = objectMapper.readValue(request.getInputStream(), LoginDto.class);
@@ -71,6 +71,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     private String delegateAccessToken(CustomUserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
+        claims.put("id", userDetails.getId());
         claims.put("username", userDetails.getUsername());
         claims.put("roles", userDetails.getRoles());
         claims.put("profileId", userDetails.getProfileId());
@@ -101,7 +102,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         Jws<Claims> claims = jwtTokenizer.getClaims(accessToken, base64EncodedSecretKey);
 
         RefreshToken refresh = new RefreshToken();
-        refresh.setMemberId(userDetails.getUsername());
+        refresh.setMemberId(userDetails.getId());
+        refresh.setEmail(userDetails.getEmail());
         refresh.setRefreshToken(refreshToken);
         refresh.setExpiryDate(claims.getBody().getExpiration());
 

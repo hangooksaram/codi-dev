@@ -10,18 +10,18 @@ import java.util.List;
 public class JobRecommendationDto {
     @Getter
     @Builder
-    public static class Response {
+    public static class JobRecommendationResponse {
         @Schema(example = "장애 유형")
         private String disability;
 
         @Schema(example = "추천 랭킹 순위 정보")
-        private List<Info> infos;
+        private List<JobRecommendationInfo> jobRecommendationInfos;
     }
 
     @Getter
     @AllArgsConstructor
     @Builder
-    public static class Info {
+    public static class JobRecommendationInfo {
         @Schema(example = "순위(숫자)")
         private Integer ranking;
 
