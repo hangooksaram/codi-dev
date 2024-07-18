@@ -2,6 +2,7 @@ package codi.backend.global.exception;
 
 import lombok.Getter;
 
+@Getter
 public enum ExceptionCode {
     // Member, Account
     MEMBER_NOT_FOUND(404, "Member not found."),
@@ -56,10 +57,8 @@ public enum ExceptionCode {
     REFRESH_TOKEN_EXPIRED(401, "Refresh Token expired."),
     ACCESS_TOKEN_EXPIRED(401, "Access Token expired");
 
-    @Getter
     private final int status;
 
-    @Getter
     private final String message;
 
     ExceptionCode(int status, String message) {

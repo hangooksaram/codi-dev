@@ -11,20 +11,27 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class ScheduleDto {
-
     @Getter
     @Setter
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
-    public static class Put {
+    public static class SchedulePut {
         @NotBlank(message = "날짜를 입력해주세요.")
         @Pattern(regexp = "^[0-9]{4}/[0-9]{2}/[0-9]{2}$", message = "날짜는 다음과 같은 형태만 가능합니다: yyyy/mm/dd")
-        @Schema(example = "날짜 yyyy/mm/dd")
+        @Schema(example = "yyyy/mm/dd")
         private String date;
 
         @Valid
-        @Schema(example = "시간을 리스트 형태로 입력해야 합니다. \"times\": [ ]")
+        @Schema(example =
+                "{\n" +
+                "    \"date\": \"yyyy/mm//dd\",\n" +
+                "    \"times\": [\n" +
+                "        {\n" +
+                "            \"time\": \"hh:mm - hh:mm\"\n" +
+                "        }\n" +
+                "    ]\n" +
+                "}")
         private List<TimeConstraint> times;
     }
 
@@ -42,7 +49,7 @@ public class ScheduleDto {
     public static class DailyRequest {
         @NotBlank(message = "날짜를 입력해주세요.")
         @Pattern(regexp = "^[0-9]{4}/[0-9]{2}/[0-9]{2}$", message = "날짜는 다음과 같은 형태만 가능합니다: yyyy/mm/dd")
-        @Schema(example = "날짜 yyyy/mm/dd")
+        @Schema(example = "yyyy/mm/dd")
         private String date;
     }
 
@@ -51,21 +58,25 @@ public class ScheduleDto {
     public static class MonthlyRequest {
         @NotBlank(message = "년, 월을 입력해주세요.")
         @Pattern(regexp = "^[0-9]{4}/[0-9]{2}$", message = "년, 월은 다음과 같은 형태만 가능합니다: yyyy/mm")
-        @Schema(example = "날짜 yyyy/mm")
+        @Schema(example = "yyyy/mm")
         private String month;
     }
 
     @Getter
     @Builder
     public static class ScheduleMonthlyResponse {
+        @Schema(example = "yyyy/mm")
         private String month;
+
         private List<ScheduleDailyResponse> days;
     }
 
     @Getter
     @Builder
     public static class ScheduleDailyResponse {
+        @Schema(example = "yyyy/mm/dd")
         private String date;
+
         private List<ScheduleTimeResponse> times;
     }
 
@@ -73,7 +84,10 @@ public class ScheduleDto {
     @AllArgsConstructor
     @Builder
     public static class ScheduleTimeResponse {
+        @Schema(example = "hh:mm - hh:mm")
         private String time;
+
+        @Schema(example = "이용 가능 여부")
         private Boolean enabled;
     }
 

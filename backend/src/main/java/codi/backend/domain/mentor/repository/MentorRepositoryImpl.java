@@ -6,7 +6,6 @@ import codi.backend.domain.mentor.entity.QMentor;
 import codi.backend.domain.profile.entity.QProfile;
 import codi.backend.domain.schedule.entity.QSchedule;
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
@@ -16,10 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Repository
 public class MentorRepositoryImpl implements MentorRepositoryCustom {
@@ -39,17 +35,12 @@ public class MentorRepositoryImpl implements MentorRepositoryCustom {
         if (StringUtils.hasText(disability)) {
             builder.and(profile.disability.eq(disability));
         }
-        if (StringUtils.hasText(job)) {
-            builder.and(mentor.job.eq(job));
-        }
         if (StringUtils.hasText(career)) {
             builder.and(mentor.career.eq(career));
         }
         if (StringUtils.hasText(keyword)) {
-            builder.and(mentor.company.contains(keyword)
-                    .or(mentor.introduction.contains(keyword))
-                    .or(mentor.jobName.contains(keyword))
-                    .or(member.name.contains(keyword)));
+            builder.and(mentor.introduction.contains(keyword))
+                    .or(mentor.job.contains(keyword));
         }
 
         Pageable pageableDown = PageRequest.of(pageable.getPageNumber() - 1, pageable.getPageSize(), pageable.getSort());
@@ -57,16 +48,13 @@ public class MentorRepositoryImpl implements MentorRepositoryCustom {
         List<MentorDto.SearchMentorResponse> content = queryFactory
                 .select(Projections.bean(
                         MentorDto.SearchMentorResponse.class,
-                        member.id.as("id"),
-                        member.name.as("name"),
+                        mentor.id.as("mentorId"),
+                        profile.nickname.as("nickname"),
                         profile.imgUrl.as("imgUrl"),
+                        mentor.career.as("career"),
+                        mentor.job.as("job"),
                         profile.disability.as("disability"),
                         profile.severity.as("severity"),
-                        mentor.id.as("mentorId"),
-                        mentor.job.as("job"),
-                        mentor.jobName.as("jobName"),
-                        mentor.career.as("career"),
-                        mentor.isCertificate.as("isCertificate"),
                         mentor.star.as("star"),
                         mentor.mentees.as("mentees")))
                 .from(mentor)
@@ -107,15 +95,11 @@ public class MentorRepositoryImpl implements MentorRepositoryCustom {
         }
 
         return queryFactory.select(Projections.constructor(MentorDto.IntermediateMentorResponse.class,
-                        mentor.member.id,
                         mentor.id,
+                        mentor.member.profile.nickname,
                         mentor.member.profile.imgUrl,
-                        mentor.isCertificate,
-                        mentor.member.name,
-                        mentor.job,
-                        mentor.jobName,
-                        mentor.inOffice,
                         mentor.career,
+                        mentor.job,
                         mentor.member.profile.disability,
                         mentor.member.profile.severity,
                         mentor.star,

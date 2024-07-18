@@ -2,13 +2,8 @@ package codi.backend.domain.mentor.mapper;
 
 import codi.backend.domain.mentor.dto.MentorDto;
 import codi.backend.domain.mentor.entity.Mentor;
-import codi.backend.domain.profile.entity.Profile;
 import org.mapstruct.Mapper;
 
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
@@ -18,16 +13,11 @@ public interface MentorMapper {
         if (mentorPostDto == null) {
             return null;
         }
-
         return Mentor.builder()
-                .company(mentorPostDto.getCompany())
-                .job(mentorPostDto.getJob())
                 .career(mentorPostDto.getCareer())
-                .jobName(mentorPostDto.getJobName())
-                .inOffice(mentorPostDto.getInOffice() != null ? mentorPostDto.getInOffice() : false)
+                .job(mentorPostDto.getJob())
                 .introduction(mentorPostDto.getIntroduction())
                 .mentoringCategories(mentorPostDto.getMentoringCategories())
-                .isCertificate(false)
                 .star(0.0)
                 .mentees(0)
                 .build();
@@ -37,13 +27,9 @@ public interface MentorMapper {
         if (mentorPatchDto == null) {
             return null;
         }
-
         return Mentor.builder()
-                .company(mentorPatchDto.getCompany())
-                .job(mentorPatchDto.getJob())
                 .career(mentorPatchDto.getCareer())
-                .jobName(mentorPatchDto.getJobName())
-                .inOffice(mentorPatchDto.getInOffice())
+                .job(mentorPatchDto.getJob())
                 .introduction(mentorPatchDto.getIntroduction())
                 .mentoringCategories(mentorPatchDto.getMentoringCategories())
                 .build();
@@ -54,34 +40,20 @@ public interface MentorMapper {
         if (mentor == null) {
             return null;
         }
-
-        // 이름, 나이
-        String name = mentor.getMember().getName();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-        LocalDate birthDate = LocalDate.parse(mentor.getMember().getBirth(), formatter);
-        Integer age = Period.between(birthDate, LocalDate.now()).getYears();
-
-        // 이미지, 학력
+        // 별명
+        String nickname = mentor.getMember().getProfile().getNickname();
         String imgUrl = mentor.getMember().getProfile().getImgUrl();
         String disability = mentor.getMember().getProfile().getDisability();
         String severity = mentor.getMember().getProfile().getSeverity();
-        String education = mentor.getMember().getProfile().getEducation();
 
         return MentorDto.MentorResponse.builder()
                 .id(mentor.getId())
-                .name(name)
-                .age(age)
+                .nickname(nickname)
                 .imgUrl(imgUrl)
                 .disability(disability)
                 .severity(severity)
-                .fileUrl(mentor.getFileUrl())
-                .isCertificate(mentor.getIsCertificate())
-                .education(education)
-                .company(mentor.getCompany())
-                .job(mentor.getJob())
                 .career(mentor.getCareer())
-                .jobName(mentor.getJobName())
-                .inOffice(mentor.getInOffice())
+                .job(mentor.getJob())
                 .introduction(mentor.getIntroduction())
                 .star(mentor.getStar())
                 .mentees(mentor.getMentees())

@@ -24,13 +24,8 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-    public boolean checkIdDuplication(String id) {
-        return memberRepository.existsById(id);
-    }
-
-    @Override
     public boolean checkEmailDuplication(String email) {
-        return memberRepository.existsByEmail(email);
+        return memberRepository.existsByEmail(email); // MemberService에서 DI 고려
     }
 
     @Transactional
@@ -39,23 +34,16 @@ public class AccountServiceImpl implements AccountService{
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
-        String maskedId = maskId(member.getId());
         String subject = "[Codi] Codi ID 찾기";
-        String message = "ID: " + maskedId;
+        String message = "ID: " + member.getEmail() + "님, 비밀번호를 잊어버리셨다면 임시 비밀번호를 발급 받아보세요.";
 
         emailService.sendSimpleMessage(email, subject, message);
     }
 
-    private String maskId(String id) {
-        int length = id.length();
-        String mask = "*".repeat(3);
-        return id.substring(0, length - 3) + mask;
-    }
-
     @Transactional
     @Override
-    public void findPw(String id, String email) {
-        Member member = memberRepository.findByIdAndEmail(id, email)
+    public void findPw(String email) {
+        Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
         String temporaryPassword = generateTemporaryPassword();

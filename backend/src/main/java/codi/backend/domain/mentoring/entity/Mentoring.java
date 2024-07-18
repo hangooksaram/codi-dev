@@ -15,6 +15,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
+@Table(name = "new_mentoring")
 public class Mentoring {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

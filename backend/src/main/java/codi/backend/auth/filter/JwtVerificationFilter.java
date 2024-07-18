@@ -9,7 +9,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -55,12 +54,13 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     }
 
     private void setAuthenticationToContext(Map<String, Object> claims) {
+        Long id = ((Number) claims.get("id")).longValue();
         String username = (String) claims.get("username");
         List<String> roles = (List<String>) claims.get("roles");
         Long profileId = claims.containsKey("profileId") ? ((Number) claims.get("profileId")).longValue() : null;
         Long mentorId = claims.containsKey("mentorId") ? ((Number) claims.get("mentorId")).longValue() : null;
 
-        CustomUserDetails customUserDetails = new CustomUserDetails(username, roles, profileId, mentorId);
+        CustomUserDetails customUserDetails = new CustomUserDetails(id, username, roles, profileId, mentorId);
         List<GrantedAuthority> authorities = CustomAuthorityUtils.createAuthorities((List<String>) claims.get("roles"));
         Authentication authentication = new UsernamePasswordAuthenticationToken(customUserDetails, null, authorities);
         SecurityContextHolder.getContext().setAuthentication(authentication);

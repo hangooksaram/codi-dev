@@ -36,15 +36,15 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Transactional
     @Override
-    public void updateSchedule(Long mentorId, ScheduleDto.Put putDto) {
+    public void updateSchedule(Long mentorId, ScheduleDto.SchedulePut schedulePutDto) {
         Mentor mentor = mentorService.findMentor(mentorId);
-        LocalDate localDate = LocalDate.parse(putDto.getDate(), DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+        LocalDate localDate = LocalDate.parse(schedulePutDto.getDate(), DateTimeFormatter.ofPattern("yyyy/MM/dd"));
 
-        if (putDto.getTimes().isEmpty()) { // 스케줄이 아예 안넘어온 경우
+        if (schedulePutDto.getTimes().isEmpty()) { // 스케줄이 아예 안넘어온 경우
             scheduleRepository.deleteAllByMentorAndDate(mentor, localDate); // 필요시 long 타입 반환받아서 로그 찍기
             log.info("날짜: " + localDate + "\n해당 날짜의 스케줄 전체 삭제가 완료됐습니다.");
         } else {
-            List<Schedule> newSchedules = convertToSchedules(mentor, putDto.getDate(), putDto.getTimes());
+            List<Schedule> newSchedules = convertToSchedules(mentor, schedulePutDto.getDate(), schedulePutDto.getTimes());
             List<Schedule> existingSchedules = scheduleRepository.findAllByMentorAndDate(mentor, localDate);
 
             // 기존 스케줄을 시작시간-종료시간으로 맵에 저장

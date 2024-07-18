@@ -5,9 +5,6 @@ import codi.backend.domain.profile.dto.ProfileDto;
 import codi.backend.domain.profile.entity.Profile;
 import org.mapstruct.Mapper;
 
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.format.DateTimeFormatter;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -17,14 +14,11 @@ public interface ProfileMapper {
         if (profilePostDto == null) {
             return null;
         }
-
         return Profile.builder()
-                .job(profilePostDto.getJob())
+                .nickname(profilePostDto.getNickname())
                 .desiredJob(profilePostDto.getDesiredJob())
-                .education(profilePostDto.getEducation())
                 .disability(profilePostDto.getDisability())
                 .severity(profilePostDto.getSeverity())
-                .introduction(profilePostDto.getIntroduction())
                 .employmentStatus(profilePostDto.getEmploymentStatus())
                 .build();
     }
@@ -33,14 +27,11 @@ public interface ProfileMapper {
         if (profilePatchDto == null) {
             return null;
         }
-
         return Profile.builder()
-                .job(profilePatchDto.getJob())
+                .nickname(profilePatchDto.getNickname())
                 .desiredJob(profilePatchDto.getDesiredJob())
-                .education(profilePatchDto.getEducation())
                 .disability(profilePatchDto.getDisability())
                 .severity(profilePatchDto.getSeverity())
-                .introduction(profilePatchDto.getIntroduction())
                 .employmentStatus(profilePatchDto.getEmploymentStatus())
                 .build();
     }
@@ -49,29 +40,17 @@ public interface ProfileMapper {
         if (profile == null) {
             return null;
         }
-
-        // TODO 추후 날짜 관련 Util 만들어서 처리
-        // 이름, 나이
-        String name = profile.getMember().getName();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-        LocalDate birthDate = LocalDate.parse(profile.getMember().getBirth(), formatter);
-        Integer age = Period.between(birthDate, LocalDate.now()).getYears();
-
         Set<FavoriteDto.FavoriteResponse> favorites = profile.getFavorites().stream()
                 .map(FavoriteDto.FavoriteResponse::of)
                 .collect(Collectors.toSet());
 
         return ProfileDto.ProfileResponse.builder()
                 .id(profile.getId())
-                .name(name)
-                .age(age)
+                .nickname(profile.getNickname())
                 .imgUrl(profile.getImgUrl())
-                .job(profile.getJob())
                 .desiredJob(profile.getDesiredJob())
-                .education(profile.getEducation())
                 .disability(profile.getDisability())
                 .severity(profile.getSeverity())
-                .introduction(profile.getIntroduction())
                 .employmentStatus(profile.getEmploymentStatus().getEmploymentStatus())
                 .favorites(favorites)
                 .build();
