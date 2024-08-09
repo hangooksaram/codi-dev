@@ -99,14 +99,14 @@ public class FavoriteServiceImpl implements FavoriteService{
     }
 
     @Override
-    public List<MentorDto.SearchMentorResponse> getFavoriteMentors(Long profileId) {
+    public List<MentorDto.MentorProfileResponse> getFavoriteMentors(Long profileId) {
         Profile profile = profileService.findProfile(profileId);
         List<Favorite> favorites = favoriteRepository.findByProfile(profile);
 
         return favorites.stream()
                 .map(fav -> {
                     Mentor mentor = fav.getMentor();
-                    return MentorDto.SearchMentorResponse.builder()
+                    return MentorDto.MentorProfileResponse.builder()
                             .mentorId(mentor.getId())
                             .nickname(mentor.getMember().getProfile().getNickname())
                             .imgUrl(mentor.getMember().getProfile().getImgUrl())

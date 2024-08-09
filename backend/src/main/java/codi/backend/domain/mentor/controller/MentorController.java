@@ -151,15 +151,12 @@ public class MentorController {
     })
     @GetMapping("/search")
     public ResponseEntity searchMentors(
-            @RequestParam(name = "job", required = false) String job,
-            @RequestParam(name = "career", required = false) String career,
-            @RequestParam(name = "disability", required = false) String disability,
-            @RequestParam(name = "keyword", required = false) String keyword,
+            MentorDto.SearchMentorRequest searchMentorRequest,
             @RequestParam(name = "size", required = false, defaultValue = "12") int size,
             @RequestParam(name = "page", required = false, defaultValue = "1") int page) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<MentorDto.SearchMentorResponse> mentorsPage = mentorService.searchMentors(job, career, disability, keyword, pageable);
-        List<MentorDto.SearchMentorResponse> mentorsList = mentorsPage.getContent();
+        Page<MentorDto.MentorProfileResponse> mentorsPage = mentorService.searchMentors(searchMentorRequest, pageable);
+        List<MentorDto.MentorProfileResponse> mentorsList = mentorsPage.getContent();
         return new ResponseEntity<>(new MultiResponseDto<>(mentorsList, mentorsPage), HttpStatus.OK);
     }
 
@@ -168,11 +165,11 @@ public class MentorController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "멘토 추천", content =
                     { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = MentorDto.SearchMentorResponse.class))})
+                            schema = @Schema(implementation = MentorDto.MentorProfileResponse.class))})
     })
     @GetMapping("/recommend")
     public ResponseEntity recommendMentors(MentorDto.RecommendationMentorRequest recommendationMentorRequest) {
-        List<MentorDto.SearchMentorResponse> responses = mentorService.recommendMentors(recommendationMentorRequest);
+        List<MentorDto.MentorProfileResponse> responses = mentorService.recommendMentors(recommendationMentorRequest);
         return new ResponseEntity<>(responses, HttpStatus.OK);
     }
 }

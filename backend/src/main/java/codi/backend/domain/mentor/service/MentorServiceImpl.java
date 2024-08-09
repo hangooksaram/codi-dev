@@ -12,6 +12,7 @@ import codi.backend.domain.schedule.dto.ScheduleDto;
 import codi.backend.domain.schedule.repository.ScheduleRepository;
 import codi.backend.global.exception.BusinessLogicException;
 import codi.backend.global.exception.ExceptionCode;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,11 +20,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class MentorServiceImpl implements MentorService{
     private final MentorRepository mentorRepository;
     private final MemberService memberService;
@@ -132,56 +136,42 @@ public class MentorServiceImpl implements MentorService{
 
     @Transactional(readOnly = true)
     @Override
-    public Page<MentorDto.SearchMentorResponse> searchMentors(String job, String career, String disability, String keyword, Pageable pageable) {
-        return mentorRepository.search(job, career, disability, keyword, pageable);
+    public Page<MentorDto.MentorProfileResponse> searchMentors(MentorDto.SearchMentorRequest searchMentorRequest, Pageable pageable) {
+        return mentorRepository.search(searchMentorRequest, pageable);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public List<MentorDto.SearchMentorResponse> recommendMentors(MentorDto.RecommendationMentorRequest request) {
-        List<MentorDto.IntermediateMentorResponse> recommendedMentors = mentorRepository.getMentorsByRanking(request);
+    public List<MentorDto.MentorProfileResponse> recommendMentors(MentorDto.RecommendationMentorRequest recommendationMentorRequest) {
+        List<MentorDto.MentorProfileResponse> recommendedMentors = mentorRepository.getMentorsByRanking(recommendationMentorRequest);
 
-        // TODO 추후 리팩토링 필요
         if (recommendedMentors.isEmpty()) {
-            recommendedMentors = mentorRepository.getMentorsByRanking(MentorDto.RecommendationMentorRequest.builder().build());
+            return mentorRepository.getTop4Mentors();
         }
 
-        recommendedMentors.sort((mentor1, mentor2) -> {
-            int score1 = calculateScore(mentor1, request);
-            int score2 = calculateScore(mentor2, request);
-            return score2 - score1; // 점수 높은 순서대로 정렬
-        });
-
-        // 상위 4명의 MentorResponse 객체 가져오기
-        List<MentorDto.IntermediateMentorResponse> top4Mentors = recommendedMentors.subList(0, Math.min(recommendedMentors.size(), 4));
-
-        return top4Mentors.stream()
-                .map(this::convertToSearchMentorResponse)
+        return recommendedMentors.stream()
+                .sorted(Comparator.comparingInt(mentor -> calculateScore((MentorDto.MentorProfileResponse) mentor, recommendationMentorRequest)).reversed()) // calculateScore 메서드의 매개변수가 한 개가 아니라 직접 캐스팅 필요
                 .collect(Collectors.toList());
     }
 
-    // TODO 배점 관련 논의 필요함
-    private int calculateScore(MentorDto.IntermediateMentorResponse mentor, MentorDto.RecommendationMentorRequest request) {
+    private int calculateScore(MentorDto.MentorProfileResponse mentor, MentorDto.RecommendationMentorRequest request) {
         int score = 0;
-        if (mentor.getDisability().equals(request.getDisability())) score += 100;
-        if (mentor.getJob().equals(request.getFirstJob())) score += 50;
-        if (mentor.getJob().equals(request.getSecondJob())) score += 30;
-        if (mentor.getJob().equals(request.getThirdJob())) score += 10;
-        score += mentor.getStar(); // 별점을 점수로 사용
+
+        // 직무 가중치 계산
+        score += getJobWeight(mentor.getJob(), request.getFirstJob(), 100);
+        score += getJobWeight(mentor.getJob(), request.getSecondJob(), 50);
+        score += getJobWeight(mentor.getJob(), request.getThirdJob(), 25);
+
+        // 장애 유형 가중치 계산
+        if (mentor.getDisability().equals(request.getDisability())) score += 20;
+
+        // 별점을 점수로 사용
+        score += mentor.getStar().intValue();
+
         return score;
     }
 
-    private MentorDto.SearchMentorResponse convertToSearchMentorResponse(MentorDto.IntermediateMentorResponse mentorResponse) {
-        return MentorDto.SearchMentorResponse.builder()
-                .mentorId(mentorResponse.getMentorId())
-                .nickname(mentorResponse.getNickname())
-                .imgUrl(mentorResponse.getImgUrl())
-                .career(mentorResponse.getCareer())
-                .job(mentorResponse.getJob())
-                .disability(mentorResponse.getDisability())
-                .severity(mentorResponse.getSeverity())
-                .star(mentorResponse.getStar())
-                .mentees(mentorResponse.getMentees())
-                .build();
+    private int getJobWeight(String mentorJob, String requestJob, int weight) {
+        return mentorJob.equals(requestJob) ? weight : 0;
     }
 }
