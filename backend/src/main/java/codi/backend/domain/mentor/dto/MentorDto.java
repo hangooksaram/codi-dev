@@ -100,6 +100,22 @@ public class MentorDto {
 
     @Getter
     @Builder
+    public static class SearchMentorRequest {
+        @Schema(example = "장애 구분")
+        private String disability;
+
+        @Schema(example = "직무")
+        private String job;
+
+        @Schema(example = "직무 경력")
+        private String career;
+
+        @Schema(example = "키워드(직무, 소개)")
+        private String keyword;
+    }
+
+    @Getter
+    @Builder
     public static class RecommendationMentorRequest {
         @Schema(example = "장애 구분")
         private String disability;
@@ -115,7 +131,9 @@ public class MentorDto {
     }
 
     @Getter
-    @AllArgsConstructor
+    @Setter
+    @NoArgsConstructor
+    @Builder
     public static class IntermediateMentorResponse {
         @Schema(example = "멘토 ID")
         private Long mentorId;
@@ -143,6 +161,19 @@ public class MentorDto {
 
         @Schema(example = "수강한 멘토 수")
         private Integer mentees;
+
+        @QueryProjection
+        public IntermediateMentorResponse(Long mentorId, String nickname, String imgUrl, String career, String job, String disability, String severity, Double star, Integer mentees) {
+            this.mentorId = mentorId;
+            this.nickname = nickname;
+            this.imgUrl = imgUrl;
+            this.career = career;
+            this.job = job;
+            this.disability = disability;
+            this.severity = severity;
+            this.star = star;
+            this.mentees = mentees;
+        }
     }
 
     @Schema(description = "멘토 검색 결과 응답 DTO")
@@ -150,7 +181,7 @@ public class MentorDto {
     @Setter
     @NoArgsConstructor
     @Builder
-    public static class SearchMentorResponse {
+    public static class MentorProfileResponse {
         @Schema(example = "멘토 ID")
         private Long mentorId;
 
@@ -179,7 +210,7 @@ public class MentorDto {
         private Integer mentees;
 
         @QueryProjection
-        public SearchMentorResponse(Long mentorId, String nickname, String imgUrl, String career, String job, String disability, String severity, Double star, Integer mentees) {
+        public MentorProfileResponse(Long mentorId, String nickname, String imgUrl, String career, String job, String disability, String severity, Double star, Integer mentees) {
             this.mentorId = mentorId;
             this.nickname = nickname;
             this.imgUrl = imgUrl;

@@ -332,7 +332,7 @@ public class MentoringRepositoryImpl implements MentoringRepositoryCustom {
         Mentor mentor = m.getMentor();
         Profile mentorProfile = m.getMentor().getMember().getProfile();
 
-        MentorDto.SearchMentorResponse searchMentorResponse = MentorDto.SearchMentorResponse.builder()
+        MentorDto.MentorProfileResponse mentorProfileResponse = MentorDto.MentorProfileResponse.builder()
                 .mentorId(mentor.getId())
                 .nickname(mentorProfile.getNickname())
                 .imgUrl(mentorProfile.getImgUrl())
@@ -346,7 +346,7 @@ public class MentoringRepositoryImpl implements MentoringRepositoryCustom {
 
         return MentoringDto.TodayMentoringInfoResponse.builder()
                 .applicationDate(applicationDate)
-                .mentorInfo(searchMentorResponse)
+                .mentorInfo(mentorProfileResponse)
                 .build();
     }
 

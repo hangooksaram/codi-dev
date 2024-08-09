@@ -13,8 +13,8 @@ public interface MentorService {
     Mentor becomeMentor(String memberId, Mentor mentor, MultipartFile file);
     Mentor updateMentorInformation(Long mentorId, Mentor mentor, MultipartFile file);
     Mentor findMentor(Long mentorId);
-    Page<MentorDto.SearchMentorResponse> searchMentors(String job, String career, String disability, String keyword, Pageable pageable);
-    List<MentorDto.SearchMentorResponse> recommendMentors(MentorDto.RecommendationMentorRequest request);
+    Page<MentorDto.MentorProfileResponse> searchMentors(MentorDto.SearchMentorRequest searchMentorRequest, Pageable pageable);
+    List<MentorDto.MentorProfileResponse> recommendMentors(MentorDto.RecommendationMentorRequest request);
     Integer getNumberOfCompletedMentorings(Long mentorId);
     Double calculateResponseRate(Long mentorId);
     Integer getNumberOfSchedules(Long mentorId);

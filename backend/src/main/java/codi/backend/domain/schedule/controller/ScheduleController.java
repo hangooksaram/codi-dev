@@ -55,7 +55,8 @@ public class ScheduleController {
     })
     @GetMapping(value = {"/daily", "/daily/{mentor-id}"})
     public ResponseEntity getDailySchedule(@AuthenticationPrincipal CustomUserDetails principal,
-                                           @PathVariable(name = "mentor-id", required = false) Long mentorId, @Valid ScheduleDto.DailyRequest dailyRequest) {
+                                           @PathVariable(name = "mentor-id", required = false) Long mentorId,
+                                           @Valid ScheduleDto.DailyRequest dailyRequest) {
         Long curMentorId = validateAndGetMentorId(principal, mentorId);
         ScheduleDto.ScheduleDailyResponse response = scheduleService.findDailySchedules(principal.getProfileId(), curMentorId, dailyRequest.getDate());
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -70,7 +71,8 @@ public class ScheduleController {
     })
     @GetMapping(value = {"/monthly", "/monthly/{mentor-id}"})
     public ResponseEntity getMonthlySchedule(@AuthenticationPrincipal CustomUserDetails principal,
-                                             @PathVariable(name = "mentor-id", required = false) Long mentorId, @Valid ScheduleDto.MonthlyRequest monthlyRequest) {
+                                             @PathVariable(name = "mentor-id", required = false) Long mentorId,
+                                             @Valid ScheduleDto.MonthlyRequest monthlyRequest) {
         Long curMentorId = validateAndGetMentorId(principal, mentorId);
         ScheduleDto.ScheduleMonthlyResponse response = scheduleService.findMonthlySchedules(principal.getProfileId(), curMentorId, monthlyRequest.getMonth());
         return new ResponseEntity<>(response, HttpStatus.OK);

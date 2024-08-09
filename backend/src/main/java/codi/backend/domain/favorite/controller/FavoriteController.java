@@ -65,11 +65,11 @@ public class FavoriteController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "관심 멘토 목록을 불러온다.", content =
                     { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = MentorDto.SearchMentorResponse.class))})
+                            schema = @Schema(implementation = MentorDto.MentorProfileResponse.class))})
     })
     @GetMapping
     public ResponseEntity getFavoriteMentors(@AuthenticationPrincipal CustomUserDetails principal) {
-        List<MentorDto.SearchMentorResponse> favorites = favoriteService.getFavoriteMentors(principal.getProfileId());
+        List<MentorDto.MentorProfileResponse> favorites = favoriteService.getFavoriteMentors(principal.getProfileId());
         return new ResponseEntity<>(favorites, HttpStatus.OK);
     }
 }

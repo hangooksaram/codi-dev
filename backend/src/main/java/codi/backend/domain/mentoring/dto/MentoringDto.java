@@ -235,7 +235,7 @@ public class MentoringDto {
         @Schema(example = "yyyy/mm/dd (요일) hh:mm - hh:mm")
         private String applicationDate;
 
-        private MentorDto.SearchMentorResponse mentorInfo;
+        private MentorDto.MentorProfileResponse mentorInfo;
     }
 
     @Getter

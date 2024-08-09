@@ -9,5 +9,5 @@ public interface FavoriteService {
     void addFavorite(Long profileId, Long mentorId);
     void removeFavorite(Long profileId, Long mentorId);
     FavoriteDto.FavoriteListResponse findFavorites(Long profileId);
-    List<MentorDto.SearchMentorResponse> getFavoriteMentors(Long profileId);
+    List<MentorDto.MentorProfileResponse> getFavoriteMentors(Long profileId);
 }
