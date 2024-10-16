@@ -56,16 +56,16 @@ function MentorList({ mentors }: { mentors: Mentor[] }) {
             <Header.Container>
               <Header.Like
                 mentorId={mentorId}
-                mentorName={mentor.name}
+                mentorName={mentor.nickname}
                 favorites={favoriteIds}
               />
             </Header.Container>
             <Content.Container>
               <Content.Avatar
                 src={mentor.imgUrl}
-                alt={`${mentor.name} 멘토 의 프로필 이미지`}
+                alt={`${mentor.nickname} 멘토 의 프로필 이미지`}
               />
-              <Content.Name name={mentor.name!} />
+              <Content.Name name={mentor.nickname!} />
               <Content.Job job={mentor.job!} />
               <Content.Rating star={mentor.star!} mentees={mentor.mentees!} />
               <Content.Tags
@@ -77,11 +77,11 @@ function MentorList({ mentors }: { mentors: Mentor[] }) {
 
             <Footer.Container>
               <InvisibleLabel
-                htmlFor={mentor.id!.toString()}
-                text={`${mentor.name!} 멘토, 별점 ${mentor.star}개, ${mentor.job}, ${mentor.disability}, ${mentor.severity}, ${mentor.career} 프로필 보기`}
+                htmlFor={mentorId!.toString()}
+                text={`${mentor.nickname!} 멘토, 별점 ${mentor.star}개, ${mentor.job}, ${mentor.disability}, ${mentor.severity}, ${mentor.career} 프로필 보기`}
               />
               <Button
-                id={mentor.id!.toString()}
+                id={mentorId!.toString()}
                 onClick={() =>
                   router.push(
                     `/mentorProfile?mentorId=${mentorId!}&mentoringApply=${true}`,

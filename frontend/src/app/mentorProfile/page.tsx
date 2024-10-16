@@ -16,7 +16,7 @@ function MentorProfilePage() {
   const mentorId = parseInt(param.get('mentorId')!);
   const isMentoringApplied = param.get('mentoringId');
 
-  const { data: mentor, isSuccess } = useGetMentorQuery(mentorId);
+  const { data: mentor, isSuccess } = useGetMentorQuery({ mentorId });
   return (
     isSuccess && (
       <SinglePageLayout>
@@ -24,7 +24,7 @@ function MentorProfilePage() {
           <ProfileCard width="322px">
             <Content.Container>
               <Content.Avatar src={mentor?.imgUrl} />
-              <Content.Name name={mentor?.name!} />
+              <Content.Name name={mentor?.nickname!} />
               <Content.Job job={mentor?.job!} />
               <Content.Rating star={mentor?.star!} mentees={mentor?.mentees!} />
               <Content.Tags
