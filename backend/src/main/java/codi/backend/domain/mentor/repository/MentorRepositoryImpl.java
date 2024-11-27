@@ -5,7 +5,6 @@ import static codi.backend.domain.profile.entity.QProfile.*;
 import static codi.backend.domain.mentor.entity.QMentor.*;
 
 import codi.backend.domain.mentor.dto.MentorDto;
-import codi.backend.domain.mentor.dto.QMentorDto_IntermediateMentorResponse;
 import codi.backend.domain.mentor.dto.QMentorDto_MentorProfileResponse;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -97,25 +96,7 @@ public class MentorRepositoryImpl implements MentorRepositoryCustom {
     @Override
     public List<MentorDto.MentorProfileResponse> getMentorsByRanking(MentorDto.RecommendationMentorRequest request) {
         // NPE 방지를 위해 BooleanBuilder 사용
-        BooleanBuilder expression = new BooleanBuilder();
-
-        // 직무 추가
-        BooleanBuilder jobCondition = new BooleanBuilder();
-        jobCondition.or(isEqualJob(request.getFirstJob()));
-        jobCondition.or(isEqualJob(request.getSecondJob()));
-        jobCondition.or(isEqualJob(request.getThirdJob()));
-
-        // 장애 유형 추가
-        BooleanExpression disabilityExpression = isEqualDisability(request.getDisability());
-
-        // 조건 추가
-        if (jobCondition.hasValue()) {
-            expression.or(jobCondition);
-        }
-
-        if (disabilityExpression != null) {
-            expression.or(disabilityExpression);
-        }
+        BooleanBuilder conditions = buildRankingConditions(request);
 
         return queryFactory
                 .select(new QMentorDto_MentorProfileResponse(
@@ -132,8 +113,32 @@ public class MentorRepositoryImpl implements MentorRepositoryCustom {
                 .from(mentor)
                 .innerJoin(mentor.member, member)
                 .innerJoin(member.profile, profile)
-                .where(expression)
+                .where(conditions)
                 .fetch();
+    }
+
+    private BooleanBuilder buildRankingConditions(MentorDto.RecommendationMentorRequest request) {
+        BooleanBuilder builder = new BooleanBuilder();
+
+        // 직무 추가
+        BooleanBuilder jobCondition = new BooleanBuilder();
+        jobCondition.or(isEqualJob(request.getFirstJob()));
+        jobCondition.or(isEqualJob(request.getSecondJob()));
+        jobCondition.or(isEqualJob(request.getThirdJob()));
+
+        // 장애 유형 추가
+        BooleanExpression disabilityExpression = isEqualDisability(request.getDisability());
+
+        // 조건 추가
+        if (jobCondition.hasValue()) {
+            builder.or(jobCondition);
+        }
+
+        if (disabilityExpression != null) {
+            builder.or(disabilityExpression);
+        }
+
+        return builder;
     }
 
     @Override

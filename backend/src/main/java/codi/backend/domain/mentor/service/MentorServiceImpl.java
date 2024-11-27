@@ -29,6 +29,9 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 public class MentorServiceImpl implements MentorService{
+    private static final int FIRST_JOB_WEIGHT = 100;
+    private static final int SECOND_JOB_WEIGHT = 50;
+    private static final int THIRD_JOB_WEIGHT = 25;
     private final MentorRepository mentorRepository;
     private final MemberService memberService;
     private final CustomAuthorityUtils authorityUtils;
@@ -70,6 +73,7 @@ public class MentorServiceImpl implements MentorService{
     @Transactional(readOnly = true)
     @Override
     public Mentor findMentor(Long mentorId) {
+        // TODO: 추가 데이터 서비스 로직에서 처리하기
         return verifyMentor(mentorId);
     }
 
@@ -158,9 +162,9 @@ public class MentorServiceImpl implements MentorService{
         int score = 0;
 
         // 직무 가중치 계산
-        score += getJobWeight(mentor.getJob(), request.getFirstJob(), 100);
-        score += getJobWeight(mentor.getJob(), request.getSecondJob(), 50);
-        score += getJobWeight(mentor.getJob(), request.getThirdJob(), 25);
+        score += getJobWeight(mentor.getJob(), request.getFirstJob(), FIRST_JOB_WEIGHT);
+        score += getJobWeight(mentor.getJob(), request.getSecondJob(), SECOND_JOB_WEIGHT);
+        score += getJobWeight(mentor.getJob(), request.getThirdJob(), THIRD_JOB_WEIGHT);
 
         // 장애 유형 가중치 계산
         if (mentor.getDisability().equals(request.getDisability())) score += 20;

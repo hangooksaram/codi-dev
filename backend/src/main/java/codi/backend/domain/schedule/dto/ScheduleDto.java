@@ -63,12 +63,19 @@ public class ScheduleDto {
     }
 
     @Getter
+    @NoArgsConstructor
     @Builder
     public static class ScheduleMonthlyResponse {
         @Schema(example = "yyyy/mm")
         private String month;
 
         private List<ScheduleDailyResponse> days;
+
+        @QueryProjection
+        public ScheduleMonthlyResponse(String month, List<ScheduleDailyResponse> days) {
+            this.month = month;
+            this.days = days;
+        }
     }
 
     @Getter
@@ -78,10 +85,15 @@ public class ScheduleDto {
         private String date;
 
         private List<ScheduleTimeResponse> times;
+
+        @QueryProjection
+        public ScheduleDailyResponse(String date, List<ScheduleTimeResponse> times) {
+            this.date = date;
+            this.times = times;
+        }
     }
 
     @Getter
-    @AllArgsConstructor
     @Builder
     public static class ScheduleTimeResponse {
         @Schema(example = "hh:mm - hh:mm")
@@ -89,6 +101,27 @@ public class ScheduleDto {
 
         @Schema(example = "이용 가능 여부")
         private Boolean enabled;
+
+        @QueryProjection
+        public ScheduleTimeResponse(String time, Boolean enabled) {
+            this.time = time;
+            this.enabled = enabled;
+        }
+    }
+
+    @Getter
+    @Builder
+    public static class ScheduleTempInfo {
+        private LocalDateTime startDateTime;
+        private LocalDateTime endDateTime;
+        private Boolean enabled;
+
+        @QueryProjection
+        public ScheduleTempInfo(LocalDateTime startDateTime, LocalDateTime endDateTime, Boolean enabled) {
+            this.startDateTime = startDateTime;
+            this.endDateTime = endDateTime;
+            this.enabled = enabled;
+        }
     }
 
     @Getter

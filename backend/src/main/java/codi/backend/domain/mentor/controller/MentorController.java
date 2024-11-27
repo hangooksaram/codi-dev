@@ -115,7 +115,6 @@ public class MentorController {
         return new ResponseEntity<>(mentor, HttpStatus.OK);
     }
 
-    // TODO 추후 RequestParam을 Dto에 넣어서 넘기는 방법 사용
     @Operation(summary = "Mentor 필터링", description = "Mentor 정보를 필터링한 결과를 표시한다. \n" +
             "페이지 당 표시할 contents의 개수, example = \"20\"\n" +
             "확인하고 싶은 결과 페이지 번호 (0..N), example = \"0\"\n" +
