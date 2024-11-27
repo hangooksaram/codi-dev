@@ -40,8 +40,8 @@ public class ScheduleController {
                     { @Content(mediaType = "application/json")})
     })
     @PutMapping
-    public ResponseEntity postSchedule(@AuthenticationPrincipal CustomUserDetails principal,
-                                       @Valid @RequestBody ScheduleDto.SchedulePut schedulePutDto) {
+    public ResponseEntity putSchedule(@AuthenticationPrincipal CustomUserDetails principal,
+                                      @Valid @RequestBody ScheduleDto.SchedulePut schedulePutDto) {
         scheduleService.updateSchedule(principal.getMentorId(), schedulePutDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }

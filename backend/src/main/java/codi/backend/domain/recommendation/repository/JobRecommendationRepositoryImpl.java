@@ -1,39 +1,42 @@
 package codi.backend.domain.recommendation.repository;
 
+import static codi.backend.domain.recommendation.entity.QJobRecommendation.*;
+
 import codi.backend.domain.recommendation.dto.JobRecommendationDto;
-import codi.backend.domain.recommendation.entity.QJobRecommendation;
-import com.querydsl.core.Tuple;
-import com.querydsl.core.types.Expression;
+import codi.backend.domain.recommendation.dto.QJobRecommendationDto_JobRecommendationInfo;
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.NumberTemplate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
 public class JobRecommendationRepositoryImpl implements JobRecommendationRepositoryCustom {
     private final JPAQueryFactory queryFactory;
-    private final QJobRecommendation jobRecommendation = QJobRecommendation.jobRecommendation;
+    private final JdbcTemplate jdbcTemplate;
 
-    public JobRecommendationRepositoryImpl(JPAQueryFactory queryFactory) {
+    public JobRecommendationRepositoryImpl(JPAQueryFactory queryFactory, JdbcTemplate jdbcTemplate) {
         this.queryFactory = queryFactory;
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
-    public JobRecommendationDto.JobRecommendationResponse findTop3JobCategories(String disability, String severity) {
-        // 전체 카운트 가져오기
-        long totalCount = queryFactory
-                .from(jobRecommendation)
-                .where(jobRecommendation.disability.eq(disability)
-                        .and(jobRecommendation.severity.eq(severity)))
-                .stream()
-                .count();
+    public List<JobRecommendationDto.JobRecommendationInfo> findTop3JobCategories(String disability, String severity) {
+        // 장애 유형과 중증도에 겹치는 카운트 가져오기
+        long filteredJobCount = getFilteredJobCount(disability, severity);
 
-        Expression<Long> countExpression = jobRecommendation.count().as("count");
+        // 소수점 반올림한 비율 구하기
+        NumberTemplate<Double> ratioExpression = getRatioTemplate(filteredJobCount);
 
-        List<Tuple> results = queryFactory
-                .select(jobRecommendation.job, countExpression)
+        return queryFactory
+                .select(new QJobRecommendationDto_JobRecommendationInfo(
+                        jobRecommendation.id.multiply(0L).intValue(),
+                        jobRecommendation.job,
+                        ratioExpression
+                ))
                 .from(jobRecommendation)
                 .where(jobRecommendation.disability.eq(disability)
                         .and(jobRecommendation.severity.eq(severity)))
@@ -41,25 +44,27 @@ public class JobRecommendationRepositoryImpl implements JobRecommendationReposit
                 .orderBy(jobRecommendation.count().desc())
                 .limit(3)
                 .fetch();
-
-        return JobRecommendationDto.JobRecommendationResponse.builder()
-                .disability(disability)
-                .jobRecommendationInfos(mapToJobRecommendationResponse(totalCount, countExpression, results))
-                .build();
     }
 
-    private List<JobRecommendationDto.JobRecommendationInfo> mapToJobRecommendationResponse(long totalCount, Expression<Long> countExpression, List<Tuple> results) {
-        List<JobRecommendationDto.JobRecommendationInfo> responses = new ArrayList<>();
+    // 장애 유형 및 중증도 기반의 Count 쿼리
+    private long getFilteredJobCount(String disability, String severity) {
+        String sql = "SELECT COUNT(*) " +
+                "FROM job_recommendation " +
+                "WHERE disability = ? AND severity = ?";
 
-        int rank = 1;
-        for (Tuple result : results) {
-            String job = result.get(jobRecommendation.job);
-            long count = Optional.ofNullable(result.get(countExpression)).orElse(0L);
-            double ratio = Math.round(((double) count / totalCount * 100) * 100) / 100.0; // 차지하는 비율
-            responses.add(new JobRecommendationDto.JobRecommendationInfo(rank, job, ratio));
-            rank++;
+        return Optional.ofNullable(
+                jdbcTemplate.queryForObject(sql, Long.class, disability, severity))
+                .orElse(0L);
+    }
+
+    // 비율 계산 SQL -> QueryDSL
+    private NumberTemplate<Double> getRatioTemplate(long filteredJobCount) {
+        if (filteredJobCount == 0) { // 0인 경우 0.0 던지기
+            return Expressions.numberTemplate(Double.class, "0.0");
         }
 
-        return responses;
+        return Expressions.numberTemplate(Double.class,
+                "ROUND({0}, 2)",
+                jobRecommendation.job.count().doubleValue().divide(filteredJobCount).multiply(100));
     }
 }

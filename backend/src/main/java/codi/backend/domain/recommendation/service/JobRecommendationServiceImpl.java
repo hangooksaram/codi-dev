@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class JobRecommendationServiceImpl implements JobRecommendationService {
@@ -30,8 +32,23 @@ public class JobRecommendationServiceImpl implements JobRecommendationService {
         }
 
         Profile profile = profileService.findProfile(profileId);
+        List<JobRecommendationDto.JobRecommendationInfo> results = jobRecommendationRepository.findTop3JobCategories(profile.getDisability(), profile.getSeverity());
 
-        return jobRecommendationRepository.findTop3JobCategories(profile.getDisability(), profile.getSeverity());
+        return buildJobRecommendationResponse(setRankingNumber(results), profile.getDisability());
+    }
+
+    private List<JobRecommendationDto.JobRecommendationInfo> setRankingNumber(List<JobRecommendationDto.JobRecommendationInfo> results) {
+        for (int i = 0; i < results.size(); i++) {
+            results.get(i).setRanking(i + 1);
+        }
+        return results;
+    }
+
+    private JobRecommendationDto.JobRecommendationResponse buildJobRecommendationResponse(List<JobRecommendationDto.JobRecommendationInfo> results, String disability) {
+        return JobRecommendationDto.JobRecommendationResponse.builder()
+                .disability(disability)
+                .jobRecommendationInfos(results)
+                .build();
     }
 
     // 나이 계산 메서드 - 사용 X

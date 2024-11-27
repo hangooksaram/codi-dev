@@ -60,6 +60,7 @@ public class JobRecommendationController {
     })
     @GetMapping
     public ResponseEntity getJobRecommendations(@AuthenticationPrincipal CustomUserDetails principal) {
+        // TODO principal이 null인 경우에 Interceptor 등을 통해 사전 처리
         JobRecommendationDto.JobRecommendationResponse jobRecommendation = jobRecommendationService.recommendJobs(principal.getProfileId());
         return new ResponseEntity<>(jobRecommendation, HttpStatus.OK);
     }
