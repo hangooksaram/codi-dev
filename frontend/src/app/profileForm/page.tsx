@@ -50,7 +50,6 @@ function ProfileFormPage() {
   const initFormValues = {
     nickname: '',
     desiredJob: '',
-    education: '',
     disability: '',
     employmentStatus: '',
     severity: '중증',
@@ -89,27 +88,10 @@ function ProfileFormPage() {
   } = useNewForm(initFormValues, validationSchema, data!);
 
   const { file, onUploadFile } = useUploadFile();
-  const [bigEducationCategory, setBigEducationCategory] = useState('');
-  const [job, setJob] = useState('');
   const [openJobSelector, setOpenJobSelector] = useState(false);
   const [submitType, setSubmitType] = useState<string>('');
 
-  useEffect(() => {
-    if (isEdit && data) {
-      const { job, education } = data;
-      setJob(job!);
-      if (education !== '대학교') {
-        setBigEducationCategory(education!);
-        form.education = '';
-      }
-    }
-  }, [isFetching]);
-
   const processData = () => {
-    if (bigEducationCategory !== '대학교' && bigEducationCategory) {
-      form.education = bigEducationCategory;
-    }
-
     form.employmentStatus = EMPLOYMENT_STATUSES_VALUE.get(
       form.employmentStatus,
     );

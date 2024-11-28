@@ -45,11 +45,10 @@ function MentoringAppliedMenteeProfilePage() {
         <ProfileCard width="322px" height="477px">
           <Content.Container>
             <Content.Avatar src={profile?.imgUrl} />
-            <Content.Name name={profile?.name!} />
+            <Content.Name name={profile?.nickname!} />
             <Content.EmploymentStatus
               employmentStatus={profile?.employmentStatus!}
             />
-            <Content.Job job={profile?.job!} />
             <Content.Tags
               disability={profile?.disability!}
               severity={profile?.severity!}
