@@ -81,8 +81,6 @@ function MentorRegisterForm() {
 
   const { data } = useGetMentorQuery({ isMentor });
 
-  const isCertificate = data?.fileUrl;
-
   const {
     form,
     handleFormValueChange,
@@ -243,7 +241,7 @@ function MentorRegisterForm() {
               </FlexBox>
             </LabelBox>
 
-            <LabelBox
+            {/* <LabelBox
               text="재직증명서 제출"
               helpText="(선택)"
               labelColor={theme.colors.secondary.normal}
@@ -271,7 +269,7 @@ function MentorRegisterForm() {
                   {isCertificate ? '수정하기' : '등록하기'}
                 </Button>
               </FlexBox>
-            </LabelBox>
+            </LabelBox> */}
             <LabelBox text="멘토링분야" helpText="(1 - 4개)">
               <MentoringCategoriesSelector
                 id="mentoringCategories"
