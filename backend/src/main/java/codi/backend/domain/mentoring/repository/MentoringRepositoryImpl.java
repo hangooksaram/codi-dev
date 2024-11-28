@@ -22,6 +22,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
@@ -132,7 +133,7 @@ public class MentoringRepositoryImpl implements MentoringRepositoryCustom {
                         m.getId(),
                         m.getProfile().getId(),
                         m.getSchedule().getStartDateTime().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")) + " - " + m.getSchedule().getEndDateTime().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")),
-                        m.getProfile().getMember().getName(),
+                        m.getProfile().getNickname(),
                         m.getProfile().getImgUrl(),
                         m.getProfile().getDesiredJob(),
                         m.getLink(),
@@ -236,9 +237,9 @@ public class MentoringRepositoryImpl implements MentoringRepositoryCustom {
                         m.getId(),
                         m.getMentor().getId(),
                         m.getSchedule().getStartDateTime().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")) + " - " + m.getSchedule().getEndDateTime().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")),
-                        m.getMentor().getMember().getName(),
+                        m.getMentor().getMember().getProfile().getNickname(),
                         m.getMentor().getMember().getProfile().getImgUrl(),
-                        m.getMentor().getJobName(),
+                        m.getMentor().getJob(),
                         m.getLink(),
                         m.getMentoringPlatform() == null ? "No Selection." : m.getMentoringPlatform().getPlatform()
                 ))
@@ -285,7 +286,7 @@ public class MentoringRepositoryImpl implements MentoringRepositoryCustom {
         MentoringDto.MentoringApplicationMenteeInfoResponse menteeInfo = MentoringDto.MentoringApplicationMenteeInfoResponse
                 .builder()
                 .profileId(profile.getId())
-                .name(profile.getMember().getName())
+                .nickname(profile.getNickname())
                 .imgUrl(profile.getImgUrl())
                 .employmentStatus(profile.getEmploymentStatus().getEmploymentStatus())
                 .desiredJob(profile.getDesiredJob())
@@ -305,7 +306,11 @@ public class MentoringRepositoryImpl implements MentoringRepositoryCustom {
 
     @Override
     public List<MentoringDto.TodayMentoringInfoResponse> findTodayMentoringSchedules(Profile profile) {
-        BooleanExpression todayCondition = mentoring.schedule.startDateTime.after(LocalDateTime.now());
+        LocalDate today = LocalDateTime.now().toLocalDate();
+        LocalDateTime startOfDay = LocalDateTime.of(today, LocalTime.MIN);
+        LocalDateTime endOfDay = LocalDateTime.of(today, LocalTime.MAX);
+
+        BooleanExpression todayCondition = mentoring.schedule.startDateTime.between(startOfDay, endOfDay);
         BooleanExpression statusCondition = mentoring.mentoringStatus.eq(Mentoring.MentoringStatus.ACCEPTED);
 
         return queryFactory.selectFrom(mentoring)
@@ -327,15 +332,12 @@ public class MentoringRepositoryImpl implements MentoringRepositoryCustom {
         Mentor mentor = m.getMentor();
         Profile mentorProfile = m.getMentor().getMember().getProfile();
 
-        MentorDto.SearchMentorResponse searchMentorResponse = MentorDto.SearchMentorResponse.builder()
-                .id(mentorMember.getId())
+        MentorDto.MentorProfileResponse mentorProfileResponse = MentorDto.MentorProfileResponse.builder()
                 .mentorId(mentor.getId())
+                .nickname(mentorProfile.getNickname())
                 .imgUrl(mentorProfile.getImgUrl())
-                .isCertificate(mentor.getIsCertificate())
-                .name(mentorMember.getName())
-                .job(mentor.getJob())
-                .jobName(mentor.getJobName())
                 .career(mentor.getCareer())
+                .job(mentor.getJob())
                 .disability(mentorProfile.getDisability())
                 .severity(mentorProfile.getSeverity())
                 .star(mentor.getStar())
@@ -344,7 +346,7 @@ public class MentoringRepositoryImpl implements MentoringRepositoryCustom {
 
         return MentoringDto.TodayMentoringInfoResponse.builder()
                 .applicationDate(applicationDate)
-                .mentorInfo(searchMentorResponse)
+                .mentorInfo(mentorProfileResponse)
                 .build();
     }
 

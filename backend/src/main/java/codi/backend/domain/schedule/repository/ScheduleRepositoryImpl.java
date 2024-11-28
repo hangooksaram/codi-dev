@@ -1,99 +1,76 @@
 package codi.backend.domain.schedule.repository;
 
 import codi.backend.domain.mentor.entity.Mentor;
-import codi.backend.domain.mentor.entity.QMentor;
-import codi.backend.domain.mentoring.entity.QMentoring;
-import codi.backend.domain.schedule.dto.QScheduleDto_ScheduleInfo;
-import codi.backend.domain.schedule.dto.ScheduleDto;
-import codi.backend.domain.schedule.entity.QSchedule;
+import codi.backend.domain.schedule.dto.*;
 import codi.backend.domain.schedule.entity.Schedule;
-import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.*;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+
+import static codi.backend.domain.mentoring.entity.QMentoring.mentoring;
+import static codi.backend.domain.schedule.entity.QSchedule.*;
+import static codi.backend.domain.mentor.entity.QMentor.*;
 
 @Repository
+@Slf4j
 public class ScheduleRepositoryImpl implements ScheduleRepositoryCustom {
     private final JPAQueryFactory queryFactory;
-    private final QSchedule schedule = QSchedule.schedule;
 
-    // TODO EntityManager와 QueryFactory에 대해서 더 공부해봐야 함
     public ScheduleRepositoryImpl(JPAQueryFactory queryFactory) {
         this.queryFactory = queryFactory;
     }
 
     @Override
-    public ScheduleDto.ScheduleDailyResponse findDailySchedules(Mentor mentor, LocalDate date) {
-        List<Schedule> schedules = queryFactory.selectFrom(schedule)
-                .where(schedule.mentor.eq(mentor)
-                        .and(schedule.startDateTime.goe(date.atStartOfDay())
-                                .and(schedule.endDateTime.lt(date.plusDays(1).atStartOfDay()))))
+    public List<ScheduleDto.ScheduleTempInfo> findDailySchedules(Mentor findMentor, LocalDate date) {
+        return queryFactory
+                .select(new QScheduleDto_ScheduleTempInfo(
+                        schedule.startDateTime,
+                        schedule.endDateTime,
+                        schedule.mentoring.isNull()
+                ))
+                .from(schedule)
+                .where(isEqualMentor(findMentor)
+                        .and(isWithinSameDay(date)))
                 .fetch();
+    }
 
-        List<ScheduleDto.ScheduleTimeResponse> scheduleTimeResponses = mapToTimeResponses(schedules);
+    private BooleanExpression isWithinSameDay(LocalDate date) {
+        return schedule.startDateTime.goe(date.atStartOfDay())
+                .and(schedule.endDateTime.lt(date.plusDays(1).atStartOfDay()));
+    }
 
-        return ScheduleDto.ScheduleDailyResponse.builder()
-                .date(date.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")))
-                .times(scheduleTimeResponses)
-                .build();
+    private BooleanExpression isEqualMentor(Mentor mentor) {
+        return schedule.mentor.eq(mentor);
     }
 
     @Override
-    public ScheduleDto.ScheduleMonthlyResponse findMonthlySchedules(Mentor mentor, LocalDate month) {
-        LocalDate startOfMonth = month.withDayOfMonth(1);
-        LocalDate endOfMonth = month.withDayOfMonth(month.lengthOfMonth());
-
-        List<Schedule> monthlySchedules = queryFactory.selectFrom(schedule)
-                .where(schedule.mentor.eq(mentor)
-                        .and(schedule.startDateTime.goe(startOfMonth.atStartOfDay())
-                                .and(schedule.endDateTime.lt(endOfMonth.plusDays(1).atStartOfDay()))))
+    public List<ScheduleDto.ScheduleTempInfo> findMonthlySchedules(Mentor findMentor, LocalDate startDayOfMonth, LocalDate endDayOfMonth) {
+        return queryFactory
+                .select(new QScheduleDto_ScheduleTempInfo(
+                        schedule.startDateTime,
+                        schedule.endDateTime,
+                        schedule.mentoring.isNull()
+                ))
+                .from(schedule)
+                .where(isEqualMentor(findMentor)
+                        .and(isWithinSameMonth(startDayOfMonth, endDayOfMonth)))
                 .fetch();
-
-        Map<LocalDate, List<Schedule>> groupedByDate = monthlySchedules.stream()
-                .collect(Collectors.groupingBy(s -> s.getStartDateTime().toLocalDate()));
-
-        List<ScheduleDto.ScheduleDailyResponse> dailyResponses = groupedByDate.entrySet().stream()
-                .sorted(Map.Entry.comparingByKey())
-                .map(entry -> {
-                    LocalDate date = entry.getKey();
-                    List<Schedule> dailySchedules = entry.getValue();
-
-                    List<ScheduleDto.ScheduleTimeResponse> scheduleTimeResponses = mapToTimeResponses(dailySchedules);
-
-                    return ScheduleDto.ScheduleDailyResponse.builder()
-                            .date(date.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")))
-                            .times(scheduleTimeResponses)
-                            .build();
-                })
-                .collect(Collectors.toList());
-
-        return ScheduleDto.ScheduleMonthlyResponse.builder()
-                .month(month.format(DateTimeFormatter.ofPattern("yyyy/MM")))
-                .days(dailyResponses)
-                .build();
     }
 
-    private List<ScheduleDto.ScheduleTimeResponse> mapToTimeResponses(List<Schedule> schedules) {
-        return schedules.stream()
-                .sorted(Comparator.comparing(Schedule::getStartDateTime))
-                .map(s -> new ScheduleDto.ScheduleTimeResponse(
-                        s.getStartDateTime().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")) + " - " + s.getEndDateTime().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")),
-                        s.getMentoring() == null))
-                .collect(Collectors.toList());
+    private BooleanExpression isWithinSameMonth(LocalDate startDayOfMonth, LocalDate endDayOfMonth) {
+        return schedule.startDateTime.goe(startDayOfMonth.atStartOfDay())
+                .and(schedule.endDateTime.lt(endDayOfMonth.plusDays(1).atStartOfDay()));
     }
 
     @Override
     public List<Schedule> findAllByMentorAndDate(Mentor mentor, LocalDate date) {
         return queryFactory.selectFrom(schedule)
-                .where(schedule.mentor.eq(mentor),
+                .where(isEqualMentor(mentor),
                         startDateTimeGoe(date),
                         endDateTimeLt(date.plusDays(1)))
                 .fetch();
@@ -101,12 +78,13 @@ public class ScheduleRepositoryImpl implements ScheduleRepositoryCustom {
 
     @Override
     public long deleteAllByMentorAndDate(Mentor mentor, LocalDate date) {
-        return queryFactory
+        queryFactory
                 .delete(schedule)
-                .where(schedule.mentor.eq(mentor),
+                .where(isEqualMentor(mentor),
                         startDateTimeGoe(date),
                         endDateTimeLt(date.plusDays(1)))
                 .execute();
+        return 0;
     }
 
     private BooleanExpression startDateTimeGoe(LocalDate date) {
@@ -119,9 +97,6 @@ public class ScheduleRepositoryImpl implements ScheduleRepositoryCustom {
 
     @Override
     public List<ScheduleDto.ScheduleInfo> findSchedulesOfMentor(Long mentorId, LocalDateTime currentTime) {
-        QMentor mentor = QMentor.mentor;
-        QMentoring mentoring = QMentoring.mentoring;
-
         return queryFactory
                 .select(new QScheduleDto_ScheduleInfo(
                         schedule.id,
@@ -131,7 +106,7 @@ public class ScheduleRepositoryImpl implements ScheduleRepositoryCustom {
                         schedule.mentoring.id
                 ))
                 .from(schedule)
-                .leftJoin(schedule.mentor, mentor)
+                .innerJoin(schedule.mentor, mentor)
                 .leftJoin(schedule.mentoring, mentoring)
                 .where(mentorScheduleMatches(mentorId)
                         .and(startTimeAfterNow(currentTime)))

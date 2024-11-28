@@ -1,6 +1,7 @@
 package codi.backend.domain.recommendation.dto;
 
-import io.swagger.annotations.ApiModelProperty;
+import com.querydsl.core.annotations.QueryProjection;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import java.util.List;
@@ -8,25 +9,33 @@ import java.util.List;
 public class JobRecommendationDto {
     @Getter
     @Builder
-    public static class Response {
-        @ApiModelProperty(example = "장애 유형")
+    public static class JobRecommendationResponse {
+        @Schema(example = "장애 유형")
         private String disability;
 
-        @ApiModelProperty(example = "추천 랭킹 순위 정보")
-        private List<Info> infos;
+        @Schema(example = "추천 랭킹 순위 정보")
+        private List<JobRecommendationInfo> jobRecommendationInfos;
     }
 
     @Getter
-    @AllArgsConstructor
+    @Setter
+    @NoArgsConstructor
     @Builder
-    public static class Info {
-        @ApiModelProperty(example = "순위(숫자)")
+    public static class JobRecommendationInfo {
+        @Schema(example = "순위(숫자)")
         private Integer ranking;
 
-        @ApiModelProperty(example = "직무")
+        @Schema(example = "직무")
         private String job;
 
-        @ApiModelProperty(example = "차지하는 비율")
+        @Schema(example = "차지하는 비율")
         private Double ratio;
+
+        @QueryProjection
+        public JobRecommendationInfo(Integer ranking, String job, Double ratio) {
+            this.ranking = ranking;
+            this.job = job;
+            this.ratio = ratio;
+        }
     }
 }

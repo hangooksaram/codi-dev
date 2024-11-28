@@ -1,8 +1,8 @@
 package codi.backend.domain.mentor.service;
 
+import codi.backend.auth.utils.CustomAuthorityUtils;
 import codi.backend.domain.member.entity.Member;
 import codi.backend.domain.member.service.MemberService;
-import codi.backend.auth.utils.CustomAuthorityUtils;
 import codi.backend.domain.mentor.dto.MentorDto;
 import codi.backend.domain.mentor.entity.Mentor;
 import codi.backend.domain.mentor.repository.MentorRepository;
@@ -12,7 +12,7 @@ import codi.backend.domain.schedule.dto.ScheduleDto;
 import codi.backend.domain.schedule.repository.ScheduleRepository;
 import codi.backend.global.exception.BusinessLogicException;
 import codi.backend.global.exception.ExceptionCode;
-import codi.backend.global.file.S3Service;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,23 +20,27 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class MentorServiceImpl implements MentorService{
+    private static final int FIRST_JOB_WEIGHT = 100;
+    private static final int SECOND_JOB_WEIGHT = 50;
+    private static final int THIRD_JOB_WEIGHT = 25;
     private final MentorRepository mentorRepository;
     private final MemberService memberService;
-    private final S3Service s3Service;
     private final CustomAuthorityUtils authorityUtils;
     private final MentoringRepository mentoringRepository;
     private final ScheduleRepository scheduleRepository;
 
-    public MentorServiceImpl(MentorRepository mentorRepository, MemberService memberService, S3Service s3Service, CustomAuthorityUtils authorityUtils, MentoringRepository mentoringRepository, ScheduleRepository scheduleRepository) {
+    public MentorServiceImpl(MentorRepository mentorRepository, MemberService memberService, CustomAuthorityUtils authorityUtils, MentoringRepository mentoringRepository, ScheduleRepository scheduleRepository) {
         this.mentorRepository = mentorRepository;
         this.memberService = memberService;
-        this.s3Service = s3Service;
         this.authorityUtils = authorityUtils;
         this.mentoringRepository = mentoringRepository;
         this.scheduleRepository = scheduleRepository;
@@ -55,14 +59,6 @@ public class MentorServiceImpl implements MentorService{
             throw new BusinessLogicException(ExceptionCode.MENTOR_EXIST);
         }
 
-        Optional.ofNullable(file)
-                .filter(f -> !f.isEmpty())
-                .map(f -> s3Service.upload(f, "mentor"))
-                .ifPresentOrElse(mentor::setFileUrl, () -> mentor.setFileUrl(null));
-
-        // 파일이 null이 아닌 경우에만 isCertificate를 true로 설정
-        mentor.setIsCertificate(Optional.ofNullable(file).isPresent());
-
         // member : mentor 1:1 연결
         member.setMentor(mentor);
         mentor.setMember(member);
@@ -77,6 +73,7 @@ public class MentorServiceImpl implements MentorService{
     @Transactional(readOnly = true)
     @Override
     public Mentor findMentor(Long mentorId) {
+        // TODO: 추가 데이터 서비스 로직에서 처리하기
         return verifyMentor(mentorId);
     }
 
@@ -119,9 +116,6 @@ public class MentorServiceImpl implements MentorService{
     public Mentor updateMentorInformation(Long mentorId, Mentor mentor, MultipartFile file) {
         Mentor findMentor = findMentor(mentorId);
 
-        // Mentor file 수정
-        updateMentorFile(findMentor, file);
-
         // Mentor field 수정
         if (mentor != null) {
             updateMentorFields(mentor, findMentor);
@@ -130,44 +124,14 @@ public class MentorServiceImpl implements MentorService{
         return mentorRepository.save(findMentor);
     }
 
-    // TODO S3Service에 넣어두고 값만 다르게 넘기면 될 듯 Mentor 부분을 Object로??
-    private void updateMentorFile(Mentor findMentor, MultipartFile file) {
-        String previousFileUrl = findMentor.getFileUrl();
-
-        try {
-            if (file != null && !file.isEmpty()) {
-                // 파일을 업로드하고 기존 파일이 있으면 삭제합니다.
-                String newFileUrl = s3Service.upload(file, "mentor");
-                findMentor.setFileUrl(newFileUrl);
-
-                if (previousFileUrl != null) {
-                    s3Service.delete(previousFileUrl);
-                }
-            } else if (file != null && file.isEmpty() && previousFileUrl != null) {
-                // 파일 파라미터가 비어 있고 기존 파일이 있는 경우, 기존 파일을 삭제합니다.
-                s3Service.delete(previousFileUrl);
-                findMentor.setFileUrl(null);
-            }
-        } catch (Exception e) {
-            throw new BusinessLogicException(ExceptionCode.FILE_UPDATE_FAILED);
-        }
-    }
-
     private void updateMentorFields(Mentor inputMentor, Mentor findMentor) {
         if (inputMentor == null) {
             throw new BusinessLogicException(ExceptionCode.NOT_MENTOR_ERROR);
         }
-
-        Optional.ofNullable(inputMentor.getFileUrl())
-                .ifPresent(findMentor::setFileUrl);
-        Optional.ofNullable(inputMentor.getJob())
-                .ifPresent(findMentor::setJob);
         Optional.ofNullable(inputMentor.getCareer())
                 .ifPresent(findMentor::setCareer);
-        Optional.ofNullable(inputMentor.getCompany())
-                .ifPresent(findMentor::setCompany);
-        Optional.ofNullable(inputMentor.getInOffice())
-                .ifPresent(findMentor::setInOffice);
+        Optional.ofNullable(inputMentor.getJob())
+                .ifPresent(findMentor::setJob);
         Optional.ofNullable(inputMentor.getIntroduction())
                 .ifPresent(findMentor::setIntroduction);
         Optional.ofNullable(inputMentor.getMentoringCategories())
@@ -176,60 +140,42 @@ public class MentorServiceImpl implements MentorService{
 
     @Transactional(readOnly = true)
     @Override
-    public Page<MentorDto.SearchMentorResponse> searchMentors(String job, String career, String disability, String keyword, Pageable pageable) {
-        return mentorRepository.search(job, career, disability, keyword, pageable);
+    public Page<MentorDto.MentorProfileResponse> searchMentors(MentorDto.SearchMentorRequest searchMentorRequest, Pageable pageable) {
+        return mentorRepository.search(searchMentorRequest, pageable);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public List<MentorDto.SearchMentorResponse> recommendMentors(MentorDto.RecommendationMentorRequest request) {
-        List<MentorDto.IntermediateMentorResponse> recommendedMentors = mentorRepository.getMentorsByRanking(request);
+    public List<MentorDto.MentorProfileResponse> recommendMentors(MentorDto.RecommendationMentorRequest recommendationMentorRequest) {
+        List<MentorDto.MentorProfileResponse> recommendedMentors = mentorRepository.getMentorsByRanking(recommendationMentorRequest);
 
-        // TODO 추후 리팩토링 필요
         if (recommendedMentors.isEmpty()) {
-            recommendedMentors = mentorRepository.getMentorsByRanking(MentorDto.RecommendationMentorRequest.builder().build());
+            return mentorRepository.getTop4Mentors();
         }
 
-        recommendedMentors.sort((mentor1, mentor2) -> {
-            int score1 = calculateScore(mentor1, request);
-            int score2 = calculateScore(mentor2, request);
-            return score2 - score1; // 점수 높은 순서대로 정렬
-        });
-
-        // 상위 4명의 MentorResponse 객체 가져오기
-        List<MentorDto.IntermediateMentorResponse> top4Mentors = recommendedMentors.subList(0, Math.min(recommendedMentors.size(), 4));
-
-        return top4Mentors.stream()
-                .map(this::convertToSearchMentorResponse)
+        return recommendedMentors.stream()
+                .sorted(Comparator.comparingInt(mentor -> calculateScore((MentorDto.MentorProfileResponse) mentor, recommendationMentorRequest)).reversed()) // calculateScore 메서드의 매개변수가 한 개가 아니라 직접 캐스팅 필요
                 .collect(Collectors.toList());
     }
 
-    private int calculateScore(MentorDto.IntermediateMentorResponse mentor, MentorDto.RecommendationMentorRequest request) {
+    private int calculateScore(MentorDto.MentorProfileResponse mentor, MentorDto.RecommendationMentorRequest request) {
         int score = 0;
-        if (mentor.getDisability().equals(request.getDisability())) score += 100;
-        if (mentor.getJob().equals(request.getFirstJob())) score += 50;
-        if (mentor.getJob().equals(request.getSecondJob())) score += 30;
-        if (mentor.getJob().equals(request.getThirdJob())) score += 10;
-        if (mentor.getIsCertificate()) score += 5;
-        if (mentor.getInOffice()) score += 3; // 재직 상태를 점수로 반영
-        score += mentor.getStar(); // 별점을 점수로 사용
+
+        // 직무 가중치 계산
+        score += getJobWeight(mentor.getJob(), request.getFirstJob(), FIRST_JOB_WEIGHT);
+        score += getJobWeight(mentor.getJob(), request.getSecondJob(), SECOND_JOB_WEIGHT);
+        score += getJobWeight(mentor.getJob(), request.getThirdJob(), THIRD_JOB_WEIGHT);
+
+        // 장애 유형 가중치 계산
+        if (mentor.getDisability().equals(request.getDisability())) score += 20;
+
+        // 별점을 점수로 사용
+        score += mentor.getStar().intValue();
+
         return score;
     }
 
-    private MentorDto.SearchMentorResponse convertToSearchMentorResponse(MentorDto.IntermediateMentorResponse mentorResponse) {
-        return MentorDto.SearchMentorResponse.builder()
-                .id(mentorResponse.getId())
-                .mentorId(mentorResponse.getMentorId())
-                .imgUrl(mentorResponse.getImgUrl())
-                .isCertificate(mentorResponse.getIsCertificate())
-                .name(mentorResponse.getName())
-                .job(mentorResponse.getJob())
-                .jobName(mentorResponse.getJobName())
-                .career(mentorResponse.getCareer())
-                .disability(mentorResponse.getDisability())
-                .severity(mentorResponse.getSeverity())
-                .star(mentorResponse.getStar())
-                .mentees(mentorResponse.getMentees())
-                .build();
+    private int getJobWeight(String mentorJob, String requestJob, int weight) {
+        return mentorJob.equals(requestJob) ? weight : 0;
     }
 }

@@ -1,13 +1,13 @@
 package codi.backend.domain.mentor.repository;
 
-import codi.backend.domain.member.entity.QMember;
+import static codi.backend.domain.member.entity.QMember.*;
+import static codi.backend.domain.profile.entity.QProfile.*;
+import static codi.backend.domain.mentor.entity.QMentor.*;
+
 import codi.backend.domain.mentor.dto.MentorDto;
-import codi.backend.domain.mentor.entity.QMentor;
-import codi.backend.domain.profile.entity.QProfile;
-import codi.backend.domain.schedule.entity.QSchedule;
+import codi.backend.domain.mentor.dto.QMentorDto_MentorProfileResponse;
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.Tuple;
-import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -16,63 +16,43 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Repository
 public class MentorRepositoryImpl implements MentorRepositoryCustom {
     private final JPAQueryFactory queryFactory;
-    private final QMentor mentor = QMentor.mentor;
     public MentorRepositoryImpl(JPAQueryFactory queryFactory) {
         this.queryFactory = queryFactory;
     }
 
     @Override
-    public Page<MentorDto.SearchMentorResponse> search(String job, String career, String disability, String keyword, Pageable pageable) {
-        QMember member = QMember.member;
-        QProfile profile = QProfile.profile;
-        QSchedule schedule = QSchedule.schedule;
-
-        BooleanBuilder builder = new BooleanBuilder();
-        if (StringUtils.hasText(disability)) {
-            builder.and(profile.disability.eq(disability));
-        }
-        if (StringUtils.hasText(job)) {
-            builder.and(mentor.job.eq(job));
-        }
-        if (StringUtils.hasText(career)) {
-            builder.and(mentor.career.eq(career));
-        }
-        if (StringUtils.hasText(keyword)) {
-            builder.and(mentor.company.contains(keyword)
-                    .or(mentor.introduction.contains(keyword))
-                    .or(mentor.jobName.contains(keyword))
-                    .or(member.name.contains(keyword)));
-        }
+    public Page<MentorDto.MentorProfileResponse> search(MentorDto.SearchMentorRequest searchMentorRequest, Pageable pageable) {
+        String job = searchMentorRequest.getJob();
+        String career = searchMentorRequest.getCareer();
+        String disability = searchMentorRequest.getDisability();
+        String keyword = searchMentorRequest.getKeyword();
 
         Pageable pageableDown = PageRequest.of(pageable.getPageNumber() - 1, pageable.getPageSize(), pageable.getSort());
 
-        List<MentorDto.SearchMentorResponse> content = queryFactory
-                .select(Projections.bean(
-                        MentorDto.SearchMentorResponse.class,
-                        member.id.as("id"),
-                        member.name.as("name"),
-                        profile.imgUrl.as("imgUrl"),
-                        profile.disability.as("disability"),
-                        profile.severity.as("severity"),
-                        mentor.id.as("mentorId"),
-                        mentor.job.as("job"),
-                        mentor.jobName.as("jobName"),
-                        mentor.career.as("career"),
-                        mentor.isCertificate.as("isCertificate"),
-                        mentor.star.as("star"),
-                        mentor.mentees.as("mentees")))
+        List<MentorDto.MentorProfileResponse> content = queryFactory
+                .select(new QMentorDto_MentorProfileResponse(
+                        mentor.id,
+                        profile.nickname,
+                        profile.imgUrl,
+                        mentor.career,
+                        mentor.job,
+                        profile.disability,
+                        profile.severity,
+                        mentor.star,
+                        mentor.mentees
+                        ))
                 .from(mentor)
                 .innerJoin(mentor.member, member)
                 .innerJoin(member.profile, profile)
-                .where(builder)
+                .where(isEqualDisability(disability),
+                        isEqualJob(job),
+                        isEqualCareer(career),
+                        hasKeyword(keyword))
                 .offset(pageableDown.getOffset())
                 .limit(pageableDown.getPageSize())
                 .fetch();
@@ -82,48 +62,103 @@ public class MentorRepositoryImpl implements MentorRepositoryCustom {
                 .from(mentor)
                 .innerJoin(mentor.member, member)
                 .innerJoin(member.profile, profile)
-                .where(builder)
+                .where(isEqualDisability(disability),
+                        isEqualJob(job),
+                        isEqualCareer(career),
+                        hasKeyword(keyword))
                 .fetch()
                 .size();
 
         return new PageImpl<>(content, pageableDown, total);
     }
 
+    private BooleanExpression isEqualDisability(String disability) {
+        return StringUtils.hasText(disability) ? profile.disability.eq(disability) : null;
+    }
+
+    private BooleanExpression isEqualCareer(String career) {
+        return StringUtils.hasText(career) ? mentor.career.eq(career) : null;
+    }
+
+    private BooleanExpression isEqualJob(String job) {
+        return StringUtils.hasText(job) ? mentor.job.eq(job) : null;
+    }
+
+    private BooleanExpression hasKeyword(String keyword) {
+        if (StringUtils.hasText(keyword)) {
+            BooleanExpression introductionContains = mentor.introduction.contains(keyword);
+            BooleanExpression jobContains = mentor.job.contains(keyword);
+            return introductionContains.or(jobContains);
+        }
+        return null;
+    }
+
     @Override
-    public List<MentorDto.IntermediateMentorResponse> getMentorsByRanking(MentorDto.RecommendationMentorRequest request) {
-        QMentor mentor = QMentor.mentor;
+    public List<MentorDto.MentorProfileResponse> getMentorsByRanking(MentorDto.RecommendationMentorRequest request) {
+        // NPE 방지를 위해 BooleanBuilder 사용
+        BooleanBuilder conditions = buildRankingConditions(request);
 
-        BooleanBuilder jobExpression = new BooleanBuilder();
-        if (request.getFirstJob() != null) {
-            jobExpression.or(mentor.job.eq(request.getFirstJob()));
-        }
-
-        if (request.getSecondJob() != null) {
-            jobExpression.or(mentor.job.eq(request.getSecondJob()));
-        }
-
-        if (request.getThirdJob() != null) {
-            jobExpression.or(mentor.job.eq(request.getThirdJob()));
-        }
-
-        return queryFactory.select(Projections.constructor(MentorDto.IntermediateMentorResponse.class,
-                        mentor.member.id,
+        return queryFactory
+                .select(new QMentorDto_MentorProfileResponse(
                         mentor.id,
-                        mentor.member.profile.imgUrl,
-                        mentor.isCertificate,
-                        mentor.member.name,
-                        mentor.job,
-                        mentor.jobName,
-                        mentor.inOffice,
+                        profile.nickname,
+                        profile.imgUrl,
                         mentor.career,
-                        mentor.member.profile.disability,
-                        mentor.member.profile.severity,
+                        mentor.job,
+                        profile.disability,
+                        profile.severity,
                         mentor.star,
-                        mentor.mentees))
+                        mentor.mentees
+                ))
                 .from(mentor)
-                .innerJoin(mentor.member, QMember.member)
-                .innerJoin(mentor.member.profile, QProfile.profile)
-                .where(jobExpression)
+                .innerJoin(mentor.member, member)
+                .innerJoin(member.profile, profile)
+                .where(conditions)
+                .fetch();
+    }
+
+    private BooleanBuilder buildRankingConditions(MentorDto.RecommendationMentorRequest request) {
+        BooleanBuilder builder = new BooleanBuilder();
+
+        // 직무 추가
+        BooleanBuilder jobCondition = new BooleanBuilder();
+        jobCondition.or(isEqualJob(request.getFirstJob()));
+        jobCondition.or(isEqualJob(request.getSecondJob()));
+        jobCondition.or(isEqualJob(request.getThirdJob()));
+
+        // 장애 유형 추가
+        BooleanExpression disabilityExpression = isEqualDisability(request.getDisability());
+
+        // 조건 추가
+        if (jobCondition.hasValue()) {
+            builder.or(jobCondition);
+        }
+
+        if (disabilityExpression != null) {
+            builder.or(disabilityExpression);
+        }
+
+        return builder;
+    }
+
+    @Override
+    public List<MentorDto.MentorProfileResponse> getTop4Mentors() {
+        return queryFactory
+                .select(new QMentorDto_MentorProfileResponse(
+                        mentor.id,
+                        profile.nickname,
+                        profile.imgUrl,
+                        mentor.career,
+                        mentor.job,
+                        profile.disability,
+                        profile.severity,
+                        mentor.star,
+                        mentor.mentees
+                ))
+                .from(mentor)
+                .innerJoin(mentor.member, member)
+                .innerJoin(member.profile, profile)
+                .limit(4)
                 .fetch();
     }
 }

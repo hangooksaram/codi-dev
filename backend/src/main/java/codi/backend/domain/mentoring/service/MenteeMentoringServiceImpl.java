@@ -11,6 +11,7 @@ import codi.backend.domain.schedule.entity.Schedule;
 import codi.backend.domain.schedule.service.ScheduleService;
 import codi.backend.global.exception.BusinessLogicException;
 import codi.backend.global.exception.ExceptionCode;
+import codi.backend.global.utility.CustomDateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,10 +44,9 @@ public class MenteeMentoringServiceImpl implements MenteeMentoringService {
         Mentor mentor = mentorService.findMentor(mentorId);
         checkSelfApplication(profile, mentor);
 
-        LocalDateTime[] times = scheduleService.convertToStartAndEndTime(mentoringPostDto.getDate(), mentoringPostDto.getTime());
+        LocalDateTime[] times = CustomDateUtils.convertToStartAndEndTime(mentoringPostDto.getDate(), mentoringPostDto.getTime());
 
         Schedule schedule = scheduleService.findSchedule(mentor, times[0], times[1]);
-        scheduleService.checkScheduleMentoring(schedule);
 
         Mentoring mentoring = Mentoring.builder()
                 .mentoringStatus(Mentoring.MentoringStatus.APPLICATION)

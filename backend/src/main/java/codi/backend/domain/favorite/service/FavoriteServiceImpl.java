@@ -5,10 +5,8 @@ import codi.backend.domain.favorite.entity.Favorite;
 import codi.backend.domain.favorite.repository.FavoriteRepository;
 import codi.backend.domain.mentor.dto.MentorDto;
 import codi.backend.domain.mentor.entity.Mentor;
-import codi.backend.domain.mentor.repository.MentorRepository;
 import codi.backend.domain.mentor.service.MentorService;
 import codi.backend.domain.profile.entity.Profile;
-import codi.backend.domain.profile.repository.ProfileRepository;
 import codi.backend.domain.profile.service.ProfileService;
 import codi.backend.global.exception.BusinessLogicException;
 import codi.backend.global.exception.ExceptionCode;
@@ -36,8 +34,11 @@ public class FavoriteServiceImpl implements FavoriteService{
         Profile profile = profileService.findProfile(profileId);
         Mentor mentor = mentorService.findMentor(mentorId);
 
+        // 자기 자신을 관심 목록에 추가하는지 체크
         validateSelfFavorite(profile, mentor);
-        validateAlreadyFavorite(profileId, mentorId);
+
+        // 이미 추가된 멘토인지 확인
+        validateAlreadyFavorite(profile, mentor);
 
         Favorite favorite = createFavorite(profile, mentor);
 
@@ -64,8 +65,8 @@ public class FavoriteServiceImpl implements FavoriteService{
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.FAVORITE_NOT_FOUND));
     }
 
-    private void validateAlreadyFavorite(Long profileId, Long mentorId) {
-        if (favoriteRepository.findByProfileIdAndMentorId(profileId, mentorId).isPresent()) {
+    private void validateAlreadyFavorite(Profile profile, Mentor mentor) {
+        if (favoriteRepository.findByProfileIdAndMentorId(profile.getId(), mentor.getId()).isPresent()) {
             throw new BusinessLogicException(ExceptionCode.ALREADY_EXISTS);
         }
     }
@@ -98,22 +99,19 @@ public class FavoriteServiceImpl implements FavoriteService{
     }
 
     @Override
-    public List<MentorDto.SearchMentorResponse> getFavoriteMentors(Long profileId) {
+    public List<MentorDto.MentorProfileResponse> getFavoriteMentors(Long profileId) {
         Profile profile = profileService.findProfile(profileId);
         List<Favorite> favorites = favoriteRepository.findByProfile(profile);
 
         return favorites.stream()
                 .map(fav -> {
                     Mentor mentor = fav.getMentor();
-                    return MentorDto.SearchMentorResponse.builder()
-                            .id(mentor.getMember().getId())
+                    return MentorDto.MentorProfileResponse.builder()
                             .mentorId(mentor.getId())
+                            .nickname(mentor.getMember().getProfile().getNickname())
                             .imgUrl(mentor.getMember().getProfile().getImgUrl())
-                            .isCertificate(mentor.getIsCertificate())
-                            .name(mentor.getMember().getName())
-                            .job(mentor.getJob())
-                            .jobName(mentor.getJobName())
                             .career(mentor.getCareer())
+                            .job(mentor.getJob())
                             .disability(mentor.getMember().getProfile().getDisability())
                             .severity(mentor.getMember().getProfile().getSeverity())
                             .star(mentor.getStar())

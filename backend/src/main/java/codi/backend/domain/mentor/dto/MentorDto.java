@@ -1,11 +1,14 @@
 package codi.backend.domain.mentor.dto;
 
 import codi.backend.domain.mentor.entity.Mentor;
-import io.swagger.annotations.ApiModelProperty;
+import com.querydsl.core.annotations.QueryProjection;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 public class MentorDto {
@@ -13,58 +16,37 @@ public class MentorDto {
     @Builder
     public static class MentorPost {
         @NotBlank
-        @ApiModelProperty(example = "직무")
-        private String job;
-
-        @NotBlank
-        @ApiModelProperty(example = "회사 이름")
-        private String company;
-
-        @NotBlank
-        @ApiModelProperty(example = "프로필에 표시될 직무명")
-        private String jobName;
-
-        @NotBlank
-        @ApiModelProperty(example = "경력")
+        @Schema(example = "직무 경력")
         private String career;
 
-        @NotNull
-        @ApiModelProperty(example = "재직중 여부")
-        private Boolean inOffice;
+        @NotBlank
+        @Schema(example = "직무")
+        private String job;
+
+        @Schema(example = "멘토 소개")
+        private String introduction;
 
         @NotNull
         @NotEmpty
         @Size(min = 1, max = 4)
-        @ApiModelProperty(example = "멘토링 분야")
+        @Schema(example = "멘토링 분야")
         private List<Mentor.MentoringCategory> mentoringCategories;
-
-        @ApiModelProperty(example = "멘토 소개")
-        private String introduction;
     }
 
     @Getter
     @Builder
     public static class MentorPatch {
-        @ApiModelProperty(example = "직무")
-        private String job;
-
-        @ApiModelProperty(example = "회사 이름")
-        private String company;
-
-        @ApiModelProperty(example = "프로필에 표시될 직무명")
-        private String jobName;
-
-        @ApiModelProperty(example = "경력")
+        @Schema(example = "직무 경력")
         private String career;
 
-        @ApiModelProperty(example = "재직중 여부")
-        private Boolean inOffice;
+        @Schema(example = "직무")
+        private String job;
 
-        @ApiModelProperty(example = "멘토 소개")
+        @Schema(example = "멘토 소개")
         private String introduction;
 
         @Size(min = 1, max = 4)
-        @ApiModelProperty(example = "멘토링 분야")
+        @Schema(example = "멘토링 분야")
         private List<Mentor.MentoringCategory> mentoringCategories;
     }
 
@@ -73,170 +55,125 @@ public class MentorDto {
     @Setter
     @Builder
     public static class MentorResponse {
-        @ApiModelProperty(example = "멘토 아이디")
+        @Schema(example = "멘토 아이디")
         private Long id;
 
-        @ApiModelProperty(example = "이름")
-        private String name;
+        @Schema(example = "별명")
+        private String nickname;
 
-        @ApiModelProperty(example = "나이")
-        private Integer age;
-
-        @ApiModelProperty(example = "프로필 이미지")
+        @Schema(example = "프로필 이미지")
         private String imgUrl;
 
-        @ApiModelProperty(example = "장애 구분")
+        @Schema(example = "장애 구분")
         private String disability;
 
-        @ApiModelProperty(example = "중증도")
+        @Schema(example = "중증도")
         private String severity;
 
-        @ApiModelProperty(example = "최종 학력")
-        private String education;
-
-        @ApiModelProperty(example = "재직증명서 링크")
-        private String fileUrl;
-
-        @ApiModelProperty(example = "재직증명서 제출 여부")
-        private Boolean isCertificate;
-
-        @ApiModelProperty(example = "회사 이름")
-        private String company;
-
-        @ApiModelProperty(example = "직무")
-        private String job;
-
-        @ApiModelProperty(example = "경력")
+        @Schema(example = "직무 경력")
         private String career;
 
-        @ApiModelProperty(example = "프로필에 표시될 직무명")
-        private String jobName;
+        @Schema(example = "직무")
+        private String job;
 
-        @ApiModelProperty(example = "재직중 여부")
-        private Boolean inOffice;
-
-        @ApiModelProperty(example = "멘토 소개")
+        @Schema(example = "멘토 소개")
         private String introduction;
 
-        @ApiModelProperty(example = "별점")
+        @Schema(example = "별점")
         private Double star;
 
-        @ApiModelProperty(example = "수강한 멘토 수")
+        @Schema(example = "수강한 멘토 수")
         private Integer mentees;
 
-        @ApiModelProperty(example = "멘토링 분야")
+        @Schema(example = "멘토링 분야")
         private List<String> mentoringCategories;
 
-        @ApiModelProperty(example = "0")
+        @Schema(example = "진행한 총 멘토링 수")
         private Integer mentoringCount;
 
-        @ApiModelProperty(example = "0.0")
+        @Schema(example = "응답률")
         private Double responseRate;
 
-        @ApiModelProperty(value = "mentoringCount", example = "예정된 스케줄 수")
+        @Schema(name = "mentoringCount", example = "예정된 스케줄 수")
         private Integer futureScheduleCount;
     }
 
     @Getter
     @Builder
-    public static class RecommendationMentorRequest {
-        @ApiModelProperty(example = "장애 구분")
+    public static class SearchMentorRequest {
+        @Schema(example = "장애 구분")
         private String disability;
 
-        @ApiModelProperty(example = "직무 1위")
-        private String firstJob;
+        @Schema(example = "직무")
+        private String job;
 
-        @ApiModelProperty(example = "직무 2위")
-        private String secondJob;
+        @Schema(example = "직무 경력")
+        private String career;
 
-        @ApiModelProperty(example = "직무 3위")
-        private String thirdJob;
+        @Schema(example = "키워드(직무, 소개)")
+        private String keyword;
     }
 
     @Getter
-    @AllArgsConstructor
-    public static class IntermediateMentorResponse {
-        @ApiModelProperty(example = "회원 ID")
-        private String id;
-
-        @ApiModelProperty(example = "멘토 ID")
-        private Long mentorId;
-
-        @ApiModelProperty(example = "프로필 이미지")
-        private String imgUrl;
-
-        @ApiModelProperty(example = "재직증명서 제출 여부")
-        private Boolean isCertificate;
-
-        @ApiModelProperty(example = "이름")
-        private String name;
-
-        @ApiModelProperty(example = "직무")
-        private String job;
-
-        @ApiModelProperty(example = "프로필에 표시될 직무명")
-        private String jobName;
-
-        @ApiModelProperty(example = "재직중 표시")
-        private Boolean inOffice;
-
-        @ApiModelProperty(example = "경력")
-        private String career;
-
-        @ApiModelProperty(example = "장애 구분")
+    @Builder
+    public static class RecommendationMentorRequest {
+        @Schema(example = "장애 구분")
         private String disability;
 
-        @ApiModelProperty(example = "중증도")
-        private String severity;
+        @Schema(example = "직무 1위")
+        private String firstJob;
 
-        @ApiModelProperty(example = "별점")
-        private Double star;
+        @Schema(example = "직무 2위")
+        private String secondJob;
 
-        @ApiModelProperty(example = "수강한 멘토 수")
-        private Integer mentees;
+        @Schema(example = "직무 3위")
+        private String thirdJob;
     }
 
     @Schema(description = "멘토 검색 결과 응답 DTO")
     @Getter
     @Setter
     @NoArgsConstructor
-    @AllArgsConstructor
     @Builder
-    public static class SearchMentorResponse {
-        @ApiModelProperty(example = "회원 ID")
-        private String id;
-
-        @ApiModelProperty(example = "멘토 ID")
+    public static class MentorProfileResponse {
+        @Schema(example = "멘토 ID")
         private Long mentorId;
 
-        @ApiModelProperty(example = "프로필 이미지")
+        @Schema(example = "별명")
+        private String nickname;
+
+        @Schema(example = "프로필 이미지")
         private String imgUrl;
 
-        @ApiModelProperty(example = "재직증명서 제출 여부")
-        private Boolean isCertificate;
-
-        @ApiModelProperty(example = "이름")
-        private String name;
-
-        @ApiModelProperty(example = "직무")
-        private String job;
-
-        @ApiModelProperty(example = "프로필에 표시될 직무명")
-        private String jobName;
-
-        @ApiModelProperty(example = "경력")
+        @Schema(example = "직무 경력")
         private String career;
 
-        @ApiModelProperty(example = "장애 구분")
+        @Schema(example = "멘토의 현재 직무")
+        private String job;
+
+        @Schema(example = "장애 구분")
         private String disability;
 
-        @ApiModelProperty(example = "중증도")
+        @Schema(example = "중증도")
         private String severity;
 
-        @ApiModelProperty(example = "별점")
+        @Schema(example = "별점")
         private Double star;
 
-        @ApiModelProperty(example = "수강한 멘토 수")
+        @Schema(example = "수강한 멘토 수")
         private Integer mentees;
+
+        @QueryProjection
+        public MentorProfileResponse(Long mentorId, String nickname, String imgUrl, String career, String job, String disability, String severity, Double star, Integer mentees) {
+            this.mentorId = mentorId;
+            this.nickname = nickname;
+            this.imgUrl = imgUrl;
+            this.career = career;
+            this.job = job;
+            this.disability = disability;
+            this.severity = severity;
+            this.star = star;
+            this.mentees = mentees;
+        }
     }
 }

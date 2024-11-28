@@ -19,32 +19,27 @@ import java.util.Set;
 @Setter
 @Entity
 @NoArgsConstructor
+@Table(name = "new_profile")
 public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "profile_id")
     private Long id;
 
+    @Column(nullable = false, unique = true)
+    private String nickname;
+
     @Column
     private String imgUrl;
 
     @Column
-    private String job;
-
-    @Column
     private String desiredJob;
-
-    @Column
-    private String education;
 
     @Column
     private String disability;
 
     @Column
     private String severity;
-
-    @Column(length = 1200)
-    private String introduction;
 
     @Enumerated(value = EnumType.STRING)
     @Column
@@ -106,15 +101,13 @@ public class Profile {
     }
 
     @Builder
-    public Profile(Long id, String imgUrl, String job, String desiredJob, String education, String disability, String severity, String introduction, EmploymentStatus employmentStatus) {
+    public Profile(Long id, String nickname, String imgUrl, String desiredJob, String disability, String severity, EmploymentStatus employmentStatus) {
         this.id = id;
+        this.nickname = nickname;
         this.imgUrl = imgUrl;
-        this.job = job;
         this.desiredJob = desiredJob;
-        this.education = education;
         this.disability = disability;
         this.severity = severity;
-        this.introduction = introduction;
         this.employmentStatus = employmentStatus;
     }
 

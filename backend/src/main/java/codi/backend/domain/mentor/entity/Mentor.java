@@ -20,6 +20,7 @@ import java.util.Set;
 @Setter
 @Entity
 @NoArgsConstructor
+@Table(name = "new_mentor")
 public class Mentor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,25 +28,10 @@ public class Mentor {
     private Long id;
 
     @Column
-    private String fileUrl;
-
-    @Column
-    private Boolean isCertificate = false;
-
-    @Column
-    private String company;
-
-    @Column
-    private String job;
-
-    @Column
     private String career;
 
     @Column
-    private String jobName;
-
-    @Column
-    private Boolean inOffice = false;
+    private String job;
 
     @Column(length = 1200)
     private String introduction;
@@ -58,7 +44,7 @@ public class Mentor {
 
     @ElementCollection
     @Enumerated(EnumType.STRING)
-    @CollectionTable(name = "mentor_mentoring_category")
+    @CollectionTable(name = "new_mentor_mentoring_category")
     @Column(name = "mentoring_category")
     private List<MentoringCategory> mentoringCategories = new ArrayList<>(4);
 
@@ -141,15 +127,10 @@ public class Mentor {
     }
 
     @Builder
-    public Mentor(Long id, String fileUrl, Boolean isCertificate, String company, String job, String career, String jobName, Boolean inOffice, String introduction, Double star, Integer mentees, List<MentoringCategory> mentoringCategories) {
+    public Mentor(Long id, String career, String job, String introduction, Double star, Integer mentees, List<MentoringCategory> mentoringCategories) {
         this.id = id;
-        this.fileUrl = fileUrl;
-        this.isCertificate = isCertificate;
-        this.company = company;
-        this.job = job;
         this.career = career;
-        this.jobName = jobName;
-        this.inOffice = inOffice;
+        this.job = job;
         this.introduction = introduction;
         this.star = star;
         this.mentees = mentees;

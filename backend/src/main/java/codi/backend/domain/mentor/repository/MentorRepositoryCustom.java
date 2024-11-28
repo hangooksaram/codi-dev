@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface MentorRepositoryCustom {
-    Page<MentorDto.SearchMentorResponse> search(String job, String career, String disability, String keyword, Pageable pageable);
-    List<MentorDto.IntermediateMentorResponse> getMentorsByRanking(MentorDto.RecommendationMentorRequest request);
+    Page<MentorDto.MentorProfileResponse> search(MentorDto.SearchMentorRequest searchMentorRequest, Pageable pageable);
+    List<MentorDto.MentorProfileResponse> getMentorsByRanking(MentorDto.RecommendationMentorRequest request);
+    List<MentorDto.MentorProfileResponse> getTop4Mentors();
 }

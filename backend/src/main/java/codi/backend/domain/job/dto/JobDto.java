@@ -1,12 +1,9 @@
 package codi.backend.domain.job.dto;
 
 import codi.backend.domain.job.entity.Job;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
 
 @Getter
 @Setter
